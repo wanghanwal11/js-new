@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>新增地址</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+             #button2{
+                 /*position: absolute!important;
+                 top: 35rem!important;*/
+                margin-top:5rem;
+                 margin-left: 2% !important;
+                 margin-right: 2% !important;
+                 width:96% !important;
+             }
+             #button2 .button_a{
+                 background-color: #ffb401;
+                 border-radius: 6px !important;
+             }
+             #diqu{
+                 margin-bottom: 1px !important;
+             }
+             #city{
+                 margin-bottom: 1px !important;
+             }
+             input{
+                text-align: right;
+                color:#202227;
+            }
+            div[type=input] .icon {
+                width: 2.5rem;
+                height: auto;
+                background-repeat: no-repeat;
+                background-position: center!important;
+                background-size: 0.5rem!important;
+            }
+            div[type=input] .cell {
+                padding-right:0 !important;
+            }
+            div[type=input] .title {
+                color:#777777 !important;
+                padding-top:1rem !important;
+                padding-bottom:1rem !important;
+            }
+            #tag input{
+                margin-right:1rem;
+                padding-top:1rem !important;
+                padding-bottom:1rem !important;
+            }
+            #detailaddress{
+                margin-bottom:1rem !important;
+            }
+            #tag{
+                margin-bottom:1px !important;
+            }
+            #delbtn{
+                padding:0rem !important;
+            }
+            #delbtn .button_a {
+                  color:#f50101 !important;
+                  background-color: #ffffff !important;
+                  border-radius: 0rem !important;
+                 text-align: left !important;
+            }
+            #delbtn span{
+                  margin-left:1rem;
+            }
+            
+            #name{
+                margin-bottom:1px !important;
+            }
+            #name .input{
+                padding-right:1rem;
+                padding-top:1rem !important;
+                padding-bottom:1rem !important;
+            }
+            #phone{
+                margin-bottom:1rem !important;
+            }
+            #phone .input{
+                padding-right:1rem;
+                padding-top:1rem !important;
+                padding-bottom:1rem !important;
+            }
+        </style>
+    </head>
+    <script>
+          var isPageHide = false; 
+          window.addEventListener('pageshow', function () { 
+            if (isPageHide) { 
+              window.location.reload(); 
+            } 
+          }); 
+          window.addEventListener('pagehide', function () { 
+            isPageHide = true; 
+          }); 
+        start(function() {
+             lazy.isrefresh()
+           
+            var address1 = lazy.getParameter("address1")?lazy.getParameter("address1"):'';
+            var address2 = lazy.getParameter("address2")?lazy.getParameter("address2"):'';
+            var fulladdress = lazy.getParameter("fulladdress")?lazy.getParameter("fulladdress"):'';
+            var gps = lazy.getParameter("gps")?lazy.getParameter("gps"):'';
+            var id = lazy.getParameter("id")?lazy.getParameter("id"):'';
+            var name = lazy.getParameter("name")?lazy.getParameter("name"):'';
+            var mobile = lazy.getParameter("mobile")?lazy.getParameter("mobile"):'';
+            var tag = lazy.getParameter("tag")?lazy.getParameter("tag"):'';
+            var del = lazy.geturlstr("del")
+            var address1,address2,fulladdress,gps,id
+            var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+            var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+            
+            lazy.loadWxJs(function(){
+                 var json=[{
+                     
+                     "id":"tag",
+                     "type":"input",
+                     "title":"标签",
+                     "value":tag,
+                     "readOnly":false,
+                     "placeholder":"请填写标签",
+                     "icon":"",
+                     "key":"tag",
+                     "foc":function(){
+                     },
+                 },{
+                     
+                     "id":"name",
+                     "type":"input",
+                     "title":"姓名",
+                     //"value":lazy.getParameter("address")?lazy.getParameter("address").title:'',
+                     "value":name,
+                     "placeholder":"请输入您的姓名",
+                     "icon":"",
+                     "key":"name",
+                     "foc":function(){
+                     },
+                     "onclick":function(){
+                     }
+                 },{
+                     
+                     "id":"phone",
+                     "type":"input",
+                     "title":"手机号",
+                     //"value":lazy.getParameter("address")?lazy.getParameter("address").title:'',
+                     "value":mobile,
+                     "placeholder":"请输入您的手机号",
+                     "icon":"",
+                     "key":"mobile",
+                     "foc":function(){
+                     },
+                     "onclick":function(){
+                     }
+                 },{
+                     "id":"address",
+                     "type":"address",
+                     "address1":address1,
+                     "address2":address2,
+                     "placeholder":'定位中...',
+                     "onclick":function(){
+                         lazy.openWin("searchaddress.html?initid="+initid)
+                     }
+                 },{
+                    id:"detailaddress",
+                    type : 'input',
+                    placeholder : '请填写详细地址、门牌号',
+                    key:"fulladdress",
+                    inputtype : 'textarea',
+                    value:fulladdress,
+                },{
+                            id : 'map',
+                            type : 'map',
+                            showHide : 'hide',
+                            onclick : function(obj) {
+                                
+                            }
+                        }];
+                 var delbtn = {
+                          "id":"delbtn",
+                         "type":"button",
+                         "label":'删除地址',
+                         "onclick":function(){
+                                //lazy.openWin("searchaddress.html")
+                              delAddress(id)
+                         }
+                     }
+                 var savebtn = {
+                          "id":"button2",
+                         "type":"button",
+                         "label":'保存地址',
+                         "onclick":function(){
+                                //lazy.openWin("searchaddress.html")
+                              submit()
+                         }
+                     }
+                 if(del==1){
+                     json.push(delbtn);
+                     json.push(savebtn);
+                 }else{
+                     json.push(savebtn)
+                 }
+                setData(json,function(){
+                    if(!address1){
+                       setTimeout(function(){
+                           getData("address").addaddress1('123123');
+                                  getData("address").addaddress2('123123');
+                          if(lazy.getParameter('dw') == 1){
+                              lazy.alert2('定位失败')
+                              //getData("map_button").add('定位失败，请在此输入地址');
+                              //document.getElementById("map_button").getElementsByTagName('input')[0].placeholder = '定位失败，请切换网络'
+                          }else{
+                              if(lazy.getParameter('dwdata')){
+                                  var obj = lazy.getParameter('dwdata')
+                                  address1 = obj.address;
+                                  gps = obj.gps.lng+','+obj.gps.lat
+                                  address2 = obj.detailaddress;
+                                  lazy.setParameter("address1",address1)
+                                  lazy.setParameter("address2",address2)
+                                  lazy.setParameter("gps",gps)
+                                  getData("address").addaddress1(address1);
+                                  getData("address").addaddress2(address2);
+                                  
+                              }
+                          }
+                        },5000) 
+                    }
+                    
+                })
+            })//loadwxJs
+            function submit(){
+                var name = getData('name').getValue();
+                var phone = getData('phone').getValue();
+                var address = getData('address').getvalue1()+','+getData('address').getvalue2();
+                var fulladdress=getData('detailaddress').getValue();
+                var tag = getData('tag').getValue();
+                if(!name){
+                    lazy.alert2('请输入姓名'); 
+                    return;
+                }
+                if(!phone){
+                    lazy.alert2('请输入电话'); return;
+                }
+                if(!address){
+                    lazy.alert2('请选择所在地址'); return;
+                }
+                if(!tag){
+                    lazy.alert2('请输入标签'); return;
+                }
+                if(!fulladdress){
+                    lazy.alert2('请填写门牌号'); return;
+                }
+                var url = getIP()+'/wx/weixinUserAddress/weixinUserAddress/save?mobile='+phone+'&address='+address+'&fulladdress='+fulladdress+'&name='+name+'&tag='+tag+'&gps='+gps+'&openid='+openid+'&id='+id;
+                lazy.GET(url, function(data){
+                      lazy.alert2('保存地址成功')
+                      setTimeout(function(){
+                           lazy.goback(-1)
+                      },1500)
+                 },function(e){
+                     lazy.alert2(e);
+                 },3);
+            }
+            //删除地址
+            function delAddress(id){
+                var url = getIP()+'/wx/weixinUserAddress/weixinUserAddress/del?id='+id;
+                lazy.GET(url, function(data){
+                     lazy.alert2('删除成功')
+                     setTimeout(function(){
+                           lazy.goback(-1)
+                      },1500)
+                 },function(e){
+                     lazy.alert2(e);
+                 },3);
+            }
+            
+            
+        });
+    </script>
+</html>

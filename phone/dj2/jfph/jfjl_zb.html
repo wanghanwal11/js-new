@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            lazy.setHeader({
+                            "title":"积分记录"
+                        });
+            var json = [{
+                            "type" : "tuwen",
+                            "img":"../LazyUI/js/tuwen/tuwen.PNG",
+                            "h1":"快来组织活动     获得更多<span style='color:#f93d3d;font-size:1.2rem;'>积分</span>",
+                            "h2":"组织越多 , 积分越多",
+                            "style":{"margin-bottom":"1rem"}
+                         },{
+                             "id":"jfjl",
+                             "type":"jfjl",
+                             "table":[]
+                         }];
+            setData(json,function(){load()})
+            function load(){
+                lazy.URLRequest(djconfig.jfjl_zb+"rows=20&page="+page, function(data) {
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    for(var i=0;i<data.length;i++){
+                        var s={
+                                 "h1":data[i].type,
+                                 "h2":lazy.format(data[i].time,"yyyy-MM-dd")+"&nbsp;&nbsp;"+lazy.format(data[i].time,"HH:mm:ss"),
+                                 "right":"积分+"+data[i].score
+                             }
+                       getData("jfjl").one(s);
+                    }
+                    page++;
+                },function(){lazy.closeBounce();}, page>1?0:1)
+            }
+            lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

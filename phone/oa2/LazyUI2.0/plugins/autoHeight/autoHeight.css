@@ -1,0 +1,6 @@
+div[type=autoHeight]{
+	width:100%;
+	height:0.5rem;
+	position:relative;
+    overflow: hidden;
+}

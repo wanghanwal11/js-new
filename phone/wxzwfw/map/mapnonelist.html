@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>定位</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<script src="chinaProj.js"></script>
+	<script src="../LazyUI/js/admin.js"></script>
+    <style type="text/css">
+	body, html{margin:0;font-family:"微软雅黑"; background-color: #fff;}
+        .addressdiv {
+            width: 100%;
+            height: auto;
+            padding: 0.8rem;
+            -webkit-box-sizing:border-box;
+        }
+        .hang {
+           width: 100%;
+           height: 3rem;
+           border-bottom: 1px solid #dedede;
+        }
+        .h1 {
+            height: 1.5rem;
+            line-height: 2rem;
+        }
+        .h2 {
+            color: #888;
+            font-size: 0.6rem;
+            height: 1.5rem;
+            line-height: 1.5rem;
+        }
+        .load {
+        	
+            height: 3rem;
+            line-height: 3rem;
+            background-image: url(images/load.gif);
+            background-position: 0.8rem center;
+            background-size: 1rem 1rem;
+            background-repeat: no-repeat;
+            color: #888;
+            padding-left: 2rem;
+        }
+        
+	</style>
+</head>
+<body>
+   <div class="load">地址获取中...</div>
+   <div class="addressdiv">
+   </div>
+</body>
+<script type="text/javascript">
+
+    var load = document.getElementsByClassName("load")[0];
+    var addressdiv = document.getElementsByClassName("addressdiv")[0];
+    var contentarr = [];
+	//
+	function sethtml(rs) {
+		contentarr = [];
+		var _html = '';
+        var dz = rs.address;
+		var xy=L.chinaProj.bd09_To_Gps84(rs.point.lat,rs.point.lng);
+		var gps={
+			"lat":xy[0],
+			"lng":xy[1]
+		}
+        _html += '<div class="hang" onclick="hangdian('+0+')"><div class="h1">'+dz+'</div></div>';
+        contentarr.push({"address":dz,"point":gps,"title":dz,"city":rs.addressComponents.city});
+        var arr = rs.surroundingPois;
+        for(var i = 0; i < arr.length; i++) {
+            _html += '<div class="hang" index="'+i+'" onclick="hangdian('+(i+1)+')">';
+            _html += '  <div class="h1">'+arr[i].title+'</div>';
+            _html += '  <div class="h2">'+arr[i].address+'</div>';
+            _html += '</div>';
+            contentarr.push({"address":arr[i].address,"point":gps,"title":arr[i].title,"city":arr[i].city});
+        }
+        //_html += '<div class="edit">确定</div>';
+        load.style.display = "none";
+        addressdiv.innerHTML= _html;
+	}
+    //
+    function hangdian(i) {
+    	parent["fanhui"](contentarr[i]);
+    	
+        //parent["getgps1"](contentarr[i]);
+    }
+</script>
+</html>

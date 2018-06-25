@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>投诉</title>
+         <style>
+            div[type=process] .title{
+                display: none
+            }
+            div[type=button] .buttondiv{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                bottom: 2rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #3399fd!important;
+            }
+            div[type=process] .inputdiv  textarea{
+                height: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+        start(function() { 
+            lazy.setParameter("on","right");
+                var json = [{
+                            "id" : "sousuoinput1",
+                            "type" : "sousuoinput1"
+                                        // page = 1;
+                                        // getData("view").clean();
+                                        // if(val!=""){
+                                            // search = val;
+                                            // load(search);
+                                        // }
+//                                         
+//                                         
+                            // }
+                          
+                },{
+                    "type" : "tsjl",
+                    "table" : [{
+                        "title" : "某某问题某某问题某某问题某某问题某某问题某某问题某某问题某某问题某某问题",
+                        "status" : "F",
+                        "date" : "2016.09.21"
+                    },{
+                        "title" : "某某投诉某某投诉某某投诉某某投诉某某投诉某某投诉某某投诉某某问题某某问题",
+                        "status" : "T",
+                        "date" : "2016.09.21"
+                    },{
+                        "title" : "某某问题某某问题某某问题某某问题某某问题某某问题某某问题某某问题某某问题",
+                        "status" : "T",
+                        "date" : "2016.09.21"
+                    }],
+                    "onclick" : function(data){
+                       //lazy.openWin("tsxq.html");
+                       alert(11)
+                    }
+                }]
+            setData(json)
+        })
+        
+    </script>
+    </body>
+</html>

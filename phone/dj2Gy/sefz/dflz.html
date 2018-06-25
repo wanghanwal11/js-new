@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body{
+                background: white!important;
+            }
+            div[type=listbar] .tr{
+                line-height: 2rem;
+            }
+            div[type=listbar] .icon{
+                width: 2rem!important;
+                height: 2rem!important;
+                vertical-align: middle;
+            }
+            div[type=listbar] .titlespan{
+                font-size: 1rem!important;
+            }
+            div[type=listbar] .table{
+                padding: 1rem!important;
+            }
+            div[type=table9] .tr,div[type=table9] .td{
+                border: none!important;
+            }
+            div[type=table9] .icon{
+                width: 3.5rem!important;
+                height: 3.5rem!important;
+            }
+            div[type=div] .content{
+                padding: 0rem!important
+            }
+        </style>
+    </head>
+    <script>
+         start(function() { 
+             lazy.setHeader({"title": "干部监管"
+             });
+             /*var json = [{
+                 type:"listbar",
+                 table:[{
+                     icon:"../LazyUI/images/zhibu/dy.png",
+                     title:"单位管理",
+                     onclick:function(){
+                         lazy.openWin("dwph.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/lxr.png",
+                     title:"在职区管干部管理",
+                     onclick:function(){
+                          lazy.openWin("gblb.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/qz.png",
+                     title:"区管干部党风廉政建设管理",
+                     onclick:function(){
+                          lazy.openWin("gbjflb.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/df.png",
+                     title:"《白云区区管干部党风廉政建设“十二分制”监督管理办法（试行）》",
+                     onclick:function(){
+                          lazy.openWin("dflzxq.html")
+                     }
+                 }]
+             }]*/
+              lazy.URLRequest(getIP()+"/party/unitcadre/getmyscoredetail.ht",function(data){
+                  var renid=data.rows[0].id;
+                  var data=data.newPrimaryKeys.isadmincadre;
+                  lazy.setParameter("dbqx",data)
+                  var json=[{
+                      type:"div",
+                      text:'<div style="background:url(../LazyUI/images/zhibu/gbglbg.png) no-repeat;background-size: cover;color:red;height:12rem;"></div>'
+                  },{
+                        type:"table9",
+                        col:3,
+                        table:[{
+                            icon:"../LazyUI/images/zhibu/sefz.png",
+                            label:"制度文件",
+                            onclick:function(){
+                                  lazy.openWin("dflzxq.html")
+                             }
+                        },{
+                            icon:"../LazyUI/images/zhibu/wdjf.png",
+                            label:"我的积分",
+                             onclick:function(){
+                                 lazy.setParameter("renid",renid)
+                                  lazy.openWin("jfpm.html")
+                             }
+                        },{
+                            icon:"../LazyUI/images/zhibu/bmjf.png",
+                            label:"部门积分",
+                             onclick:function(){
+                                  lazy.openWin("dwph.html")
+                             }
+                        }]
+                    }]
+                    if(data=="1"){
+                        json[1].table.push({
+                                    icon:"../LazyUI/images/zhibu/gbjf.png",
+                                    label:"干部积分",
+                                     onclick:function(){
+                                          lazy.openWin("gbjflb.html")
+                                     }
+                                })
+                    }
+                   setData(json)   
+              })
+            
+        })
+        
+    </script>
+</html>

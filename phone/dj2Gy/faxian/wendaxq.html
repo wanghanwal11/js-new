@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=pinglist] .more{
+                display: none;
+            }
+            div[type=wendalist] .tr{
+                border-bottom: none!important;
+            }
+            div[type=wendalist] .h3{
+                border-top: none!important;
+            }
+            .alerttitle p{
+                margin: 0!important;
+            }
+            div[type=pinglist] .tr:nth-child(1){
+                border-top: 1px solid #cfcfcf;
+                margin-top: 0.3rem;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var id=lazy.geturlstr("id")?lazy.geturlstr("id"):lazy.getParameter("huodongid");
+            var data=lazy.geturlstr("objs")?lazy.geturlstr("objs"):lazy.getParameter("data");
+            if(lazy.geturlstr("objs")){
+                 data=JSON.parse(decodeURIComponent(data))
+            }else{
+                data=data
+            }
+             lazy.setHeader({
+                            "title":"问答详情"
+                        });
+            var page=1;
+                 var json=[{
+                            "id" : "wendalist",
+                            "type" : "wendalist",
+                            "table" : []
+                                 }]
+                  var s={
+                                "h2" : data.h2,
+                                "img":data.img,
+                                "people":data.people,
+                                "time":data.h3,
+                                "select":function(index,src){
+                                    src = src.replace(/\@.*/g,"");
+                                    src = lazy.getImagePx(src,720, 720, 1);
+                                    lazy.showImage(src)
+                                }
+                            }
+                  var huifu={
+                            "id" : "pinglist",
+                            "type" : "pinglist",
+                            "title" : "评论（"+data.pl+"）",
+                            "table" : []
+                        }
+                     json.push(huifu);
+                  var pllist={
+                           "type" : "commentbox",
+                           "pingclick":function(){
+                               lazy.setParameter("type","1");
+                               lazy.openWin("pllist.html?id="+id)
+                           }
+                       }
+                  json.push(pllist);
+                  setData(json,function(){ getData("wendalist").one(s);load()});
+            function load(){
+                lazy.URLRequest(djconfig.wendaxq+"activityid="+id+"&rows=20&page="+page, function(data1) {
+                    lazy.closeBounce();
+                     var comm=data1.rows;
+                     getData("pinglist").xiugai("评论（"+data1.total+"）")
+                     for(var j=0;j<comm.length;j++){
+                         var obj={};
+                         obj.icon= lazy.getImagePx(comm[j].userpicture,40, 40);
+                         obj.h1=comm[j].createuser;
+                         obj.h2=lazy.getFace(comm[j].content);
+                         obj.ids=comm[j].commentid;
+                         obj.h3=lazy.format(comm[j].createtime,"MM-dd")+"&nbsp;&nbsp;"+lazy.format(comm[j].createtime,"HH:mm");
+                         obj.isbest=comm[j].isbest;
+                         if(comm[j].isshow=="1"){
+                             if(comm[j].isbest=="1"){
+                                 obj.zuijia=[{"src":"../LazyUI/js/pinglist/zuijia1.png","text":"<span style='color:#fa3d3d'>最佳</span>"}];
+                             }else{
+                                 obj.zuijia=[{"src":"../LazyUI/js/pinglist/zuijia.png","text":"最佳"}];
+                             }
+                         }else{
+                              obj.zuijia=[];
+                         }
+                         obj.zj=function(o){
+                             lazy.alert("<p style='color:#fa3d3d;font-size:1rem'>亲</p><p style='color:#333333'>确定要选此条回答为最佳答案么？</p>",{"yestitle":"确定","notitle":"取消","yesfun":function(){
+                                 lazy.URLRequest(djconfig.updateIsbest+"commentid="+o.ids, function(data) {
+                                     lazy.refresh();
+                                 })
+                             }})
+                         }
+                         getData("pinglist").one(obj);
+                     }
+                     page++;
+                },function(){lazy.closeBounce();})
+            }
+             lazy.bounce({"up":function(){
+                load()
+               }});
+        })
+    </script>
+</html>

@@ -1,0 +1,42 @@
+div[type=newslist2]{
+	-webkit-box-sizing:border-box;
+	display: -webkit-box !important;
+	position:relative;
+	width: 100%;
+	height: auto;
+	background-color: #fff;
+	padding: 0 0.83rem;
+	-webkit-box-orient: vertical;
+}
+
+div[type=newslist2] .tr {
+    width:100%;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #cccccc;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+div[type=newslist2] .h {
+    -webkit-box-sizing:border-box;
+    width: 0;
+    padding: 0 0.83 0 0rem;
+    height: 2rem;
+}
+div[type=newslist2] .h1 {
+    height: 1.2rem;
+}
+div[type=newslist2] .h3 {
+    width: 5rem;
+    text-align: right;
+}
+div[type=newslist2] .h3 span{
+   font-size: 0.6rem;
+}
+div[type=newslist2] .h1 span{
+    font-size: 0.8rem;
+}
+div[type=newslist2] .h2 {
+    color: #7c7c7c; 
+}
+div[type=newslist2] .h2 span{
+    font-size: 0.7rem;
+}

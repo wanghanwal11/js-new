@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body{
+                background: white!important;
+            }
+            div[type=listbar] .tr{
+                line-height: 2rem;
+            }
+            div[type=listbar] .icon{
+                width: 2rem!important;
+                height: 2rem!important;
+                vertical-align: middle;
+            }
+            div[type=listbar] .titlespan{
+                font-size: 1rem!important;
+            }
+            div[type=listbar] .table{
+                padding: 1rem!important;
+            }
+        </style>
+    </head>
+    <script>
+         start(function() { 
+             lazy.setHeader({"title": "人才工作"
+             });
+             var json = [{
+                 type:"listbar",
+                 table:[{
+                     icon:"../LazyUI/images/zhibu/jf.png",
+                     title:"政策文件",
+                     onclick:function(){
+                         lazy.openWin("zcwj.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/qz.png",
+                     title:"信息发布",
+                     onclick:function(){
+                          lazy.openWin("xxfb.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/qz.png",
+                     title:"痛点征集",
+                     onclick:function(){
+                          lazy.openWin("tdzj.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/qz.png",
+                     title:"人才统计",
+                     onclick:function(){
+                          lazy.openWin("rctj.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/qz.png",
+                     title:"咨询服务",
+                     onclick:function(){
+                          lazy.openWin("zxfw.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/qz.png",
+                     title:"人才招聘",
+                     onclick:function(){
+                          lazy.openWin("dflb.html")
+                     }
+                 }]
+             }]
+           setData(json)   
+        })
+        
+    </script>
+</html>

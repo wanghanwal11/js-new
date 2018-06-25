@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="common/property.js"></script>
+        <script src="common/config.js"></script>
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+            html,body {
+                background: url(LazyUI/images/lxyz/qitabg.png) no-repeat!important;
+                background-size: 100%!important; 
+                height:auto!important;
+                background-color:#C8E0F1!important;
+            }
+            div[type=xinwen] .tr{
+                min-height: 3.2rem!important;
+                margin-top:0rem!important;
+                background: url(LazyUI/images/sx.png);
+                background-repeat: no-repeat;
+                background-position-x: 2.2rem;
+                background-size: 0.6rem 3.2rem;
+            }
+            div[type=xinwen] .tr:nth-last-child(1){
+                min-height: 2.2rem!important;
+            }
+            div[type=xinwen] .h{
+                height: 2.2rem!important;
+            }
+            div[type=xinwen] .icon{
+                height:1.8rem!important;
+                background: none!important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page=1;
+             var json = [{
+                            "type" : "yun",
+                            "src" : lazy.url+projectName1,
+                        },{
+                 "type":"label",
+                 "text":"消息",
+                     "style":{"padding":"0rem","text-align":"center","margin-top":"0.8rem","background":"#dce4e7","height":"1.6rem","line-height":"1.6rem"}
+               },{
+                   "id":"xinwen",
+                   "type":"xinwen",
+                   "style":{"margin-top":"0.5rem"},
+                   "content":[]
+               }];
+               setData(json,function(){
+                   xxlist()
+               });
+               function xxlist(){
+                   lazy.URLRequest(getIP()+"/party/DJ_HistoryPost/listForMobile.ht?rows=100"+"&page="+page, function(data) {
+                      lazy.closeBounce();
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                          var d={
+                            "icon" : " ",
+                            "h1" : "时间:"+(data[i].time.year+1990)+"/"+(data[i].time.month+1)+"/"+data[i].time.day,
+                            "h2" : "内容:"+data[i].title,
+                            "onclick" : function(data) {
+                            }
+                        }
+                          getData("xinwen").add(d);
+                      }
+                      page++;
+                  },function() {
+                      lazy.closeBounce();
+                  })     
+               }
+            this.addc=function(){
+               /* var mes=lazy.getParameter("mes");
+                if(mes.type = "gonggao"){
+                    lazy.URLRequest(config.tzggxqMobile+"id="+mes.id, function(data) {
+                       var data=data.rows[0];
+                       var tmp = {
+                           "id":data.id,
+                           "title":data.title,
+                           "time":data.time,
+                           "mes":data.content,
+                           "onclick":function(obj){
+                               lazy.setParameter("tzggid",obj.id);
+                               lazy.openWin("ggpt/tzggxq.html");
+                           }
+                       }
+                       getData("messagelist").add(tmp);
+                   })
+                }else{
+                    getData("messagelist").add(mes);
+                }*/
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,39 @@
+div[type=flow]{
+    width: 100%;
+    height: auto;
+    font-size: 0.9rem;
+    position: relative;
+    
+    -webkit-box-sizing: border-box;
+}
+div[type=flow] .table{
+    width: 100%;
+   
+}
+
+div[type=flow] .tr0 {
+
+    height:6.7rem;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=flow] .content {
+    height: 3rem;
+    margin-top:1.8rem;
+    margin-left:3rem;
+}
+div[type=flow] .content2 {
+    height: 3rem;
+    margin-top:2.8rem;
+    margin-left:3rem;
+}
+div[type=flow] .title {
+    font-size: 0.9rem;
+    color:#ffffff;
+}
+div[type=flow] .time {
+    font-size: 0.8rem;
+    color:#ffffff;
+    margin-top:0.5rem;
+}

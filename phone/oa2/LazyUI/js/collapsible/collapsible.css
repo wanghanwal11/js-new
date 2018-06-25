@@ -1,0 +1,72 @@
+/*××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+ * collapsible 可折叠菜单
+ */
+body[type=body] div[type=collapsible]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=collapsible] > .clickdiv > .tiao {
+	background-color:#fff;    
+}
+div[type=collapsible] > .clickdiv > .child > .clickdiv > .tiao{
+    background-color: #5c98f5;
+}
+div[type=collapsible] > .clickdiv > .child > .clickdiv > .child > .clickdiv > .tiao{
+    background-color: #ddd;
+}
+div[type=collapsible] .tiao {
+	border-bottom:1px solid #ccc;
+	-webkit-box-sizing:border-box;
+	display:-webkit-box;
+}
+div[type=collapsible] .tiao{
+	height:3rem;
+	line-height:3rem;
+}
+
+div[type=collapsible] .child_hide {
+	display:none !important;
+}
+div[type=collapsible] .title {
+	-webkit-box-flex:1;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+div[type=collapsible] .icon {
+	width:3rem;
+	height:100%;
+	background-image:url(images/1-1.png);
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:1.2rem 1.2rem;
+	
+}
+
+div[type=collapsible] .icon_checked {
+	background-image:url(images/1-2.png);
+}
+div[type=collapsible] .touxiang {
+	width:2.5rem;
+	height:100%;
+	
+}
+div[type=collapsible] .touxiang canvas{
+	margin-top:0.6rem;
+	
+}
+div[type=collapsible] .icon1 {
+	width:3rem;
+	height:100%;
+	background-image:url(images/2-1.png);
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:1rem 1rem;
+	
+}
+div[type=collapsible] .icon1_checked {
+	background-image:url(images/2-2.png);
+}

@@ -1,0 +1,48 @@
+div[type=news]{
+	width:100%;
+	position:relative;
+	padding:0.8rem;
+	-webkit-box-sizing:border-box;
+	overflow:hidden;
+}
+div[type=news] canvas {
+	margin-top:0.5rem;
+	margin-bottom:0.5rem;
+	display:block;
+}
+div[type=news] .title span {
+	font-size:1.2rem;
+}
+div[type=news] .title3 span {
+    font-size:0.8rem;
+}
+div[type=news] .title2 {
+	display: -webkit-box !important;
+	display:box;
+	position:relative;
+	height:2.5rem;
+	line-height:2.5rem;
+}
+
+div[type=news] .time span {
+	font-size:0.8rem;
+	color:#8c8c8c;
+	width:8em;
+	display:block;
+}
+div[type=news] .role span {
+	box-flex:1;
+	-webkit-box-flex:1;
+	font-size:0.8rem;
+	color:#6b88ac;
+	padding-left:10px;
+
+}
+div[type=news] .content {
+	font-size:0.9rem;
+	color#6a6a6a;
+	line-height: 1.1rem;
+}
+div[type=news] .content img{
+    width: 100%!important;
+}

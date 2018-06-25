@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>楼宇详情</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important;
+            }
+            div[type=geren] .title{
+                display: none;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var lyobj = lazy.getParameter("ly");
+            var url = config.lyxq+"id="+lyobj.id;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var json = [
+                        {
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '楼宇详情',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close();
+                                }
+                            }
+                        },
+                        {
+                            "type" : "process_xq",
+                            "icon" : "",
+                            "table" : [
+                                    {"title":"名称：","value":data.name},
+                                    {"title":"楼宇类型：","value":data.basebuildingtypename?data.basebuildingtypename:"无记录"},
+                                    {"title":"建筑类型：","value":data.basebuildtypename?data.basebuildtypename:"无记录"},
+                                    {"title":"楼宇结构：","value":data.basestructurename?data.basestructurename:"无记录"},
+                                    {"title":"楼群名称：","value":data.buildingname?data.buildingname:"无记录"},
+                                    {"title":"性质：","value":data.naturename?data.naturename:"无记录"},
+                                    {"title":"地址：","value":data.address?data.address:"无记录"}
+                            ]
+                        },
+                ];
+                setData(json)
+            })
+        });
+    </script>
+</html>

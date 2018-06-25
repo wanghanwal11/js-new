@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>随手拍</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+        body{
+            background: #EBEBEB!important;
+            
+        }
+        div[type=plugins]{
+            height: 100%!important;
+        }
+        #input1, #input2{
+            padding: 0.5rem 0.5rem;
+            background: white;
+            padding-left: 0.5rem;
+        }
+        #image span{
+            padding-left: 0.5rem
+        }
+        #process span{
+            padding-left: 0.5rem
+        }
+
+        #input1 .cell input{
+            width: 100%;
+        }
+        #input2,#image,#image1{
+            margin-top: 0.5rem;
+        }
+        #input2 textarea{
+            width: 100%;
+            height: 7rem;
+        }
+        div[type=process] .tr{
+            border: none!important;
+        }
+        div[type=button] .button_a{
+            border-radius: 1.3rem!important;
+            line-height: 2.3rem!important;
+            background-color: #3399ff!important;
+            border-color: #3399ff!important;
+        }
+        div[type=button]{
+            position: absolute!important;
+            top: 30rem!important;
+        }
+        body[type=body] div[type=map]{
+            z-index: 999;
+        }
+    </style>
+</head>
+<script>
+    start(function() {
+    	
+        
+        GoBackEvent = function() {
+            getData('map').hide();
+            getData('group').show();
+        }
+        var id1=lazy.geturlstr("wxinitId");
+        var id2=lazy.geturlstr("wxopenid");
+        var obj1={};
+        lazy.loadWxJs(function(){
+        	
+        	lazy.GET(getIP()+"/wechat/weixinTzyjw/eventCategoryList.ht?initid="+id1+"&openid="+id2,function(data){
+            	
+            	
+   	         var data=data.rows;
+   	         var arr=[];
+   	         for(var i=0;i<data.length;i++){
+   	             var obj={};
+   	             obj.title=data[i].categoryname
+   	             arr.push(obj)
+   	         }
+   	        var json = [{
+   	            id : 'group',
+   	            type : 'group',
+   	            list : [{
+   	                id:"input1",
+   	                type : 'input',
+   	                placeholder : '事件类别:',
+   	                inputtype : 'text',
+   	                readOnly:true,
+   	                foc:function(){
+   	                    lazy.iosActionSheet(arr,function(obj,i) {
+   	                        getData("input1").return(obj.title)
+   	                    });
+   	                }
+   	            },{
+   	                id:"input2",
+   	                type : 'input',
+   	                placeholder : '描述:',
+   	                inputtype : 'textarea',
+   	            },{
+   	                "id" : "image",
+   	                "type" : "image",
+   	                "label" : "图片",
+   	                "src" : "../LazyUI/images/zhibu/default.jpg"
+   	            },{
+   	                id:"process",
+   	                type:"process",
+   	                table:[{
+   	                    type:"sound",
+   	                    title:"录音  "
+   	                },{
+   	                    type:"map",
+   	                    title:"定位",
+   	                    onclick:function(){
+   	                        lazy.setGoBack();
+   	                        getData('map').show();
+   	                        getData('group').hide();
+   	                        getData('button').hide();
+   	                    }
+   	                }]
+   	            }]
+   	
+   	        },{
+   	            id : 'map',
+   	            type : 'map',
+   	            center : { lng : 116.397428, lat : 39.90923},
+   	            showHide : 'hide',
+   	            onclick : function(obj) {
+   	            	
+   	                obj1=obj;
+   	                lazy.goBack(GoBackEvent);
+   	                getData('map').hide();
+   	                getData('button').show();
+   	                getData('group').show();
+   	                document.getElementsByTagName("input")[1].value = obj.address;
+   	                //console.log(body.document.getElementsByTagName("input")[1])
+   	                //getData("process").table[1].add(obj.address)
+   	            }
+   	        },{
+   	        	id:'button',
+   	            type : 'button',
+   	            label : '提交',
+   	            onclick : function() {
+   	                tijiao()
+   	            }
+   	        }];
+   	        setData(json,function(){
+   	        	
+   	            //getData("process").table=[]
+   	        });
+           })
+        });
+        
+        function add() {
+            var pic_line = document.getElementsByClassName("line")[0];
+            var add = lazy.create("div", "add ub");
+            pic_line.appendChild(add);
+            add.onclick = function() {
+                photo();
+            }
+        }
+        function tijiao(){
+            var input1=getData("input1").re()
+            var input2=getData("input2").re()
+            var photo=getData("image").re()
+            var luyin=getData("process").re()
+            var gpss=getData("process").gps()
+            
+            var soundId=getData("process").soundId()
+            if(gpss==""){
+            	lazy.alert2("请先定位");
+                return;
+            }
+            lazy.GET(getIP()+"/wechat/weixinTzyjw/sqaction.ht?initid="+id1+"&openid="+id2+"&typeeventname="+input1+"&eventaddr="+gpss+"&content="+input2+"&imgurl="+photo+"&voiceurl="+luyin+"&localvoiceid="+soundId,function(data){
+            	lazy.alert3("提交成功", "感谢您的反馈，我们会尽快处理，请您耐心等待。");
+                lazy.refresh()
+            })
+        }
+    });
+</script>
+</html>

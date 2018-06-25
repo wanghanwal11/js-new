@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人口迁入</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page = 1;
+            var search = "";
+            var lyobj = lazy.getParameter("ly");
+            var fwobj = lazy.getParameter("fw");
+            var json = [
+                    {
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : "人口迁入",
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "right" : [lazy.url + "LazyUI/js/headertoolbar/dui.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                                lazy.goBack();
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                            if(name=="right"){
+                                var arr = getData("renyuan").returnEdit();
+                                if(arr.length==0){
+                                    lazy.alert2("请选择人员")
+                                }else{
+                                    var peoplenamearr = [];
+                                    var peopleidsarr = [];
+                                    for(var i=0;i<arr.length;i++){
+                                        peoplenamearr.push(arr[i].name);
+                                        peopleidsarr.push(arr[i].peopleid)
+                                    }
+                                    var liveaddress = lyobj.name+fwobj.unit+"单元"+fwobj.floor+"层"+fwobj.housenum;
+                                    var url = config.rkqr +"livehouseid="+fwobj.id+"&orgid="+lyobj.orgid+"&orgname="+lyobj.orgname+"&orgpath="+lyobj.orgpath+"&liveaddress="+liveaddress+"&peopleid="+peopleidsarr+"&peoplename="+peoplenamearr;
+                                    lazy.URLRequest(encodeURI(url),function(){
+                                        alert("迁入成功");
+                                        lazy.openWin("rklb.html");
+                                    })
+                                }
+                            }
+                        }
+                    
+                },{
+                    "type" : "sousuoinput_move",
+                    "select" : function(val){
+                        page = 1;
+                        getData("renyuan").clean();
+                        search = val;
+                        load(search);
+                    }
+                },
+                    {
+                        "id" : "renyuan",
+                        "type" : "renyuan",
+                        "table" : []
+                    }
+            ];
+            setData(json,function(){
+                load(search);
+            })
+            function load(val){
+                var namearr = val.match(/\D/g);
+                if(namearr) {
+                    if(namearr.length>1) {
+                        var url = config.rkcx+"page="+page+"&rows=15&name="+encodeURI(val)+"&df8=&needPersonPower=false";
+                    }else{
+                        if(val.match(/(x|X)$/g)) {
+                            var url = config.rkcx+"page="+page+"&rows=15&cardno="+val+"&df8=&needPersonPower=false";
+                        }else {
+                            var url = config.rkcx+"page="+page+"&rows=15&name="+encodeURI(val)+"&df8=&needPersonPower=false";
+                        }
+                    }
+                    
+                }else {
+                    var url = config.rkcx+"page="+page+"&rows=15&cardno="+val+"&df8=&needPersonPower=false";;
+                }
+                lazy.URLRequest(url,function(data){
+                    var arr = data.rows;
+                    for(var i = 0; i < arr.length; i++) {
+                        var onejson = {
+                            "peopleid" : arr[i].id?arr[i].id:"",
+                            "rynum" : i+1+((page-1)*15),
+                            "edit" : true,
+                            "name" : arr[i].name,
+                            "icon" : arr[i].photo?(getIP()+arr[i].photo.replace(/\\/g,"/")):"",
+                            "h1" : ["<span style='color:black'>"+arr[i].name+"</span>","出生日期："+(arr[i].birthday?lazy.format(arr[i].birthday,"yyyy-MM-dd"):""),"修改日期：<span style=\"color:#f20;\">"+(arr[i].updatetime?lazy.format(arr[i].updatetime,"yyyy-MM-dd"):"")+"</span>","身份证："+(arr[i].cardno?arr[i].cardno:"")],
+                        };
+                        getData("renyuan").add(onejson);
+                    }
+                    page++;
+                })
+            }
+            lazy.bounce({
+                "up" : function(){
+                    load(search);
+                }
+             });   
+        });
+    </script>
+</html>

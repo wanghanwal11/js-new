@@ -1,0 +1,100 @@
+body[type=body] div[type=chaxunxq]{
+	position:relative;
+	width: 100%;
+	height: auto;
+	font-size: 1rem;
+	-webkit-box-sizing: border-box;
+}
+div[type=chaxunxq] .title {
+    width: 100%;
+    padding-bottom: 0.5rem;
+}
+div[type=chaxunxq] .title span{
+    font-size: 1.1rem;
+}
+div[type=chaxunxq] .title1{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+div[type=chaxunxq] .title .ub-f1{
+    padding-left: 0.5rem;
+}
+div[type=chaxunxq] .more {
+    color: #f20;
+    padding-right: 0.83rem;
+}
+div[type=chaxunxq] .kuai {
+    width: 0.5rem;
+    height: 100%;
+    background-color: #f20;
+}
+div[type=chaxunxq] .tr {
+    width: 100%;
+    height: auto;
+    background: white;
+    margin-bottom: 0.5rem;
+}
+div[type=chaxunxq] .tr .h{
+    padding: 1rem;
+}
+div[type=chaxunxq] .td1 {
+    height: 2rem;
+    line-height: 2rem;
+    color: #006cd8;
+    padding-right: 0.83rem;
+}
+div[type=chaxunxq] .h2 span{
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+div[type=chaxunxq] .h2 img{
+    width: 4rem;
+    height: 3.5rem;
+    margin-top: 0.6rem;
+    margin-right: 0.5rem;
+}
+div[type=chaxunxq] .h3{
+    padding-top: 0.4rem;
+    color: #c2c2c2;
+    position: relative;
+    border-top: 1px solid #dddddd;
+    margin-top: 1rem;
+}
+div[type=chaxunxq] .icon {
+    -webkit-box-sizing: border-box;
+    width: 3rem;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+}
+div[type=chaxunxq] .img{
+    margin-top: 1rem
+}
+div[type=chaxunxq] .h3{
+    height: 1.5rem;
+}
+div[type=chaxunxq] .h3 span{
+    float:left;
+    margin-top: 0.5rem;
+}
+div[type=chaxunxq] .h3 img{
+    float:left;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 1rem;
+    border-radius: 1rem;
+}
+div[type=chaxunxq] .h3 .socus{
+    margin-left: 1rem;
+}
+div[type=chaxunxq] .h3 .right{
+	display: inline-block;
+    float:right;
+    color:#3399ff;
+    overflow: hidden;
+    max-width: 10rem;
+    height: 1rem;
+}

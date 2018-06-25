@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+             var wdkxqid=lazy.getParameter("wdkxqid");
+             var title=lazy.getParameter("title");
+             var imgUrl = lazy.getParameter("img")
+             var fen=lazy.getParameter("fen");
+             var ping=lazy.getParameter("ping");
+             
+             var shou=lazy.getParameter("shou");
+             var json = [{
+                 "id" : "wdkxq",
+                 "type" : "wdkxq",
+                 "table" : []
+             }];
+             list();
+             //
+             function list(){
+                var url = djconfig.wdkxq + 'mlid='+wdkxqid + "&_id=" + new Date().getTime();             
+                lazy.URLRequest(url, function(data){
+                    var arr = data.rows;
+                   //ping=arr[0].commentcount;
+                   //alert(ping)
+                    for(var i = 0; i < arr.length; i++) {
+                           var d={
+                                "h1" : arr[i].miclecrectitle,
+                                //"icon" : arr[i].photo,
+                                "user" : arr[i].createuser,
+                                "date" : arr[i].fbtime?lazy.autoFormat(arr[i].fbtime):"",
+                                "photo": (arr[i].photo?(getIP() + arr[i].photo):"").replace(/\\/g,"/"),
+                                // "time" : "00:12:34",
+                                "number" : arr.length,
+                                "video" : getIP() + arr[i].video?arr[i].video:"",
+                                "onclick" : function(data) {
+                                    //lazy.playVideo(data.video);
+                                }
+                            }
+                            json[0].table.push(d);
+                           // getData("wdkxq").add(d);
+                      }
+                      json.push({
+                                 "id" : "commentbox",
+                                 "type" : "commentbox",
+                                 
+                                 
+                                 "ping" : arr[0].commentcount,
+                                 "fen" : fen,
+                                 "shou" : shou,
+                                 "pingclick" : function() {
+                                      lazy.setParameter("huodongid",wdkxqid)
+                                      lazy.setParameter("type",7)
+                                                    
+                                      lazy.openWin("../faxian/pllist.html");
+                                  },
+                                  "shouclick" : function() {
+                                      var img=imgUrl;
+                                      var url=lazy.geturlstr()+"?id="+wdkxqid;
+                                      lazy.URLRequest(djconfig.sc+"relaid="+wdkxqid+"&title="+title+"&type=新闻"+"&image="+img+"&url="+url+"&sorce=", function(data) {
+                                            lazy.alert2("收藏成功");
+                                      })
+                                                    
+                                                    
+                                   },"fenclick" : function() {
+                                      var obj={};
+                                      obj.src=lazy.geturlstr()+"?id="+wdkxqid;
+                                      obj.title=title;
+                                      lazy.share(obj,function(){
+                                           lazy.URLRequest(djconfig.share+"activityid="+wdkxqid, function(data) {
+                                            })
+                                       })
+                                    }
+                                    
+                             });
+                      setData(json);
+                  }, function(e) {
+                        alert(e);
+                  },0);
+             }
+            
+        });
+        
+    </script>
+</html>

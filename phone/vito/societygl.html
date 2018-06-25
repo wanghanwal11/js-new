@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<link rel="stylesheet" href="css/reset.css" />
+		<link rel="stylesheet" href="css/vitostyle.css" />
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+		<script type="text/javascript" src="js/societygl.js" ></script>
+		<script type="text/javascript" src="../../../../library/jquery.cookie.js"></script>
+		<title>社会管理</title>
+	</head>
+	<body>
+		<div id="wrapper">
+			
+				<ul class="tab_title tab_for clearfix">
+					
+				</ul>
+
+		</div>
+		<div class="con"></div>
+		<div class="zhanwei"></div>
+		<footer class="index_footer">
+			<ul class="clearfix">
+				<li><span><img src="img/icon_sy.png"/></span>首页</li>
+				<li style="color: #0e88eb;"><span><img src="img/icon_gl02.png"/></span>社会管理</li>
+				<li><span><img src="img/icon_ms.png"/></span>民生服务</li>
+				<li><span><img src="img/icon_jj.png"/></span>解决方案</li>
+				<li><span><img src="img/lol.png"/></span>标准与联盟</li>
+			</ul>
+		</footer>
+		<script>
+		$(function(){ 
+			window.addEventListener('load',function(){ var $carousel = document.getElementById('wrapper'),
+			$ul = $carousel.querySelector('ul'), 
+			liArray = $carousel.querySelectorAll('li'), 
+			liNum = liArray.length; 
+			$ul.style.width = (liArray[0].clientWidth + 10)*5 +"px"; 
+			var carousel=new iScroll("wrapper",{hScrollbar:false, vScrollbar:false}); }); 
+			});
+			
+		</script>
+	
+</body>
+
+</html>

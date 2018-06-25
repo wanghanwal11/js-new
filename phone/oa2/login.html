@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="common/property.js"></script>
+        <script src="common/config.js"></script>
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #f8f8f8 !important;
+                padding-top: 3.5rem !important; 
+                overflow: hidden;
+            }
+            div[type=logininput] {
+                margin-top: 2rem;
+            }
+            div[type=button] {
+                padding: 0 0.83rem !important;
+                margin-top: 1.4rem;
+            }
+            div[type=button] .buttondiv{
+                border:none !important;
+               background-color: #3fc299 !important;
+            }
+            div[type=label] {
+                color: #999;
+                height: 2rem !important;
+                line-height: 2rem !important;
+            } 
+        </style>
+    </head>
+    <script>
+        start(function() {
+            // if(lazy.getParameter("user")!=null) {
+               // var url = config.loginMobile+"username="+lazy.getParameter("username")+"&password="+lazy.getParameter("password");
+               // lazy.URLRequest(url,function(data){
+                   // lazy.openWin("shenpi/shenpi.html");
+               // })
+           // }
+            setData([
+                        {
+                            "type" : "logo",
+                            "icon" : lazy.url + "LazyUI/images/login/logo.png"
+                        },{
+                            "id" : "logininput",
+                            "type" : "logininput"
+                        },{
+                            "type" : "button",
+                            "label" : "登录",
+                            "onclick" : function() {
+                                // lazy.startSound(config.docUpoad,function(str){
+                                    // alert(str)
+                                    // var obj = {
+                                        // "1":"2"
+                                    // }
+                                    // lazy.setWebValue("obj",JSON.stringify(obj));
+                                    // lazy.getWebValue("obj",function(str){
+                                        // alert(str)
+                                    // })
+                                // },true)
+                                // lazy.openWin("aj://showShareWeChatList_?http://baidu.html");
+                                var arr = getData("logininput").getValue();
+                                if(arr[0]=="" || arr[1]=="") {
+                                    lazy.alert2("帐号密码不能为空");
+                                }else {
+                                    var url = config.loginMobile+"username="+arr[0]+"&password="+arr[1];
+                                    lazy.URLRequest(url,function(data){
+                                        /*
+                                        lazy.setParameter("username",arr[0]);
+                                        lazy.setParameter("password",arr[1]);
+                                        lazy.setParameter("user",data.rows[0]);
+                                        lazy.openWin("gonggao/gonggao.html");
+                                        */
+                                       lazy.setParameter("userAreaId",data.rows[0].userAreaId);
+                                        lazy.openWin("lingdaotong.html");
+                                    },function(e){
+                                        alert(e)
+                                    })
+                                }
+                                
+                            }  
+                        },{
+                            "type" : "label",
+                            "text" : "版本号：" + 1234123413
+                        }
+                    ]);
+        });
+    </script>
+</html>

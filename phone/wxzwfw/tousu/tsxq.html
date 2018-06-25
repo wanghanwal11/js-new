@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>投诉</title>
+<script src="../LazyUI/js/admin.js"></script>
+<style type="text/css">
+
+    .gray{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                bottom: 1rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #999999 !important;
+            }
+    
+    .blue{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                bottom: 1rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #3399fd !important;
+            }
+    
+</style>
+</head>
+<body>
+</body>
+<script>
+	start(function() {
+		
+		var id = lazy.getParameter("id");
+		var fileid = lazy.getParameter("fileid");
+		var content = lazy.getParameter("content");
+		var address = lazy.getParameter("address");
+		var statename = lazy.getParameter("statename");
+		var wxinitId = lazy.getParameter("initid");
+		var wxopenid = lazy.getParameter("openid");
+		var pics = [];
+		var json = [ {
+			"id" : "tsxq",
+			"type" : "tsxq",
+			"table" : []
+
+		},{
+		    "id":"qipao",
+		    "type":"qipao",
+		    "table":[],
+		}/* ,{
+		      "id":"button1",
+              "type":"button",
+              "label":"撤销",
+              "onclick":function(){
+                        
+                        //////撤销
+                         var url = getIP() + '/wechat/weixinevent/cexiao.ht?id='+fileid;
+                         lazy.URLRequest(url, function(data){
+                              lazy.alert3("撤销成功","您可到我的事件里查看");
+                         },function(e){
+                             lazy.alert(e);
+                         },0);
+                        
+                }
+		} */];
+		if (lazy.browserType == "weixin") {
+			//json.splice(0,1);
+		}
+		setData(json, function() {
+			/* var button = document.getElementsByClassName("buttondiv")[0];
+		    
+		    if(statename == '核实中'){
+		        button.className = 'buttondiv blue';
+		    }else{
+		        button.style.display = 'none';
+		    } */
+		   lazy.setParameter("page_status",1)
+			list()
+		});
+		function list() {
+			var d = {};
+			var url = getIP() + '/wechat/weixinevent/listimage.ht?eventid='+ fileid;
+			lazy.URLRequest(url, function(data) {
+				var arr = data.rows;
+				for (var i = 0; i < arr.length; i++) {
+
+					pics.push(arr[i].imgurl);
+
+				}//for
+				
+				var d = {
+					"title" : content,
+				
+					"content" : content,
+					"pic" : pics,
+					"addr" : address,
+					
+					"select" : function(index, src) {
+						src = src.replace(/\@.*/g, "");
+						src = lazy.getImagePx(src, 720, 480, 1);
+						lazy.showImage(src);
+					},
+
+				}
+				
+				///////////////////////
+				getData("tsxq").add(d);
+				///////////////////////////
+
+			}, function(e) {
+
+				alert(e);
+			}, 0);
+			url = getIP() + '/wechat/weixinevent/get.ht?openid='+wxopenid+'&initid='+wxinitId+'&id='+ id;
+            lazy.URLRequest(url, function(data) {
+                var arr = data.rows[0].process;
+                arr  = JSON.parse(arr);
+                getData("qipao").clean();
+                for (var i = arr.length-1; i >=0; i--) {
+                	 
+                    var s = {
+                            "user": arr[i].orgName,
+                            "photo": arr[i].photo?arr[i].photo:'../LazyUI/images/morenpeople.png',
+                            "date": arr[i].starttime?lazy.autoFormat(arr[i].starttime):'',
+                            "src":'',
+                            "status": arr[i].statename,
+                            "backcontent":arr[i].opinion,
+                    }
+                    
+                    getData("qipao").add(s);
+
+                }//for
+               
+
+            }, function(e) {
+
+                alert(e);
+            }, 0);
+            
+		}
+
+	})
+</script>
+</html>

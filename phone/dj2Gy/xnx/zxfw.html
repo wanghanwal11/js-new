@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+     start(function() {
+         lazy.setHeader({
+                            "title":"咨询服务",
+                            "rightbtn":[{
+                                "text":"提问",
+                                "onclick":function(){
+                                    lazy.openWin("tiwen.html")
+                                     
+                                }
+                            }]
+                        });
+         var page=1;
+         var state=1;
+         var json=[{
+                             "type":"movebutton",
+                             "index":0,
+                             "table":[{
+                                 "label":"已回答",
+                                 "onclick":function(){
+                                     page=1
+                                     state=1;
+                                     getData("listbar").clean()
+                                     list()
+                                 }
+                             },{
+                                 "label":"未回答",
+                                 "onclick":function(){
+                                     page=1
+                                     state=0;
+                                     getData("listbar").clean()
+                                     list()
+                                 }
+                             }]
+                         },{
+                           "id":"listbar",
+                           "type" : "listbar",
+                           "table":[]
+                       }]
+                       
+              setData(json,function(){
+               list();
+           });          
+                       
+          function list(){
+               lazy.URLRequest(getIP()+'/party/consultserver/mobilelist.ht?rows=10'+"&page="+page+"&state="+state, function(data) {
+                      lazy.closeBounce();
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){     
+                         var d={
+                                 "title":data[i].questiontitle,
+                                 "icon":'../LazyUI/images/mr.jpg',
+                                 "ids":data[i].id,
+                                 "h" : [
+                                    "咨询类别：" + data[i].type,
+                                    "提问者：" + data[i].createuser
+                                 ],
+                                 "onclick":function(obj){
+                                    lazy.setParameter("title",obj.title)
+                                    lazy.setParameter("szllid",obj.ids)
+                                    lazy.openWin("zxfwxq.html")
+                                 }
+                            }
+                          getData("listbar").add(d);
+                      }
+                      page++;
+                 },function(){
+                     lazy.closeBounce();
+                 });
+           }    
+                            
+            lazy.bounce({"up":function(){
+                list();
+            }}); 
+        });
+    </script>
+</html>

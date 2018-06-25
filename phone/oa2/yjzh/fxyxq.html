@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>应急指挥</title>
+        <style type="text/css">
+            div[type=label] {
+                background-color: #67d163;
+                color: white;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setHeader({
+            "title":"风险源",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var id = lazy.getParameter("fxyid");
+        var json = [];
+        var xburl = config.fxyxq+"id="+id;
+        lazy.URLRequest(xburl,function(_data){
+            var _data = _data.rows[0];
+            var xb = {
+                "type":"process_xq",
+                "table":[
+                     {
+                        "title" : "名称：",
+                        "value" : _data.riskname!=""?_data.riskname:"无描述"
+                    },{
+                        "title" : "类别：",
+                        "value" : _data.riskbigname!=""?_data.riskbigname:"无"
+                    },{
+                        "title" : "地址：",
+                        "value" : _data.orgname!=""?_data.orgname:"无"
+                    },{
+                        "title" : "责任人：",
+                        "value" : _data.peoplename!=""?_data.peoplename:"无"
+                    },{
+                        "title" : "联系电话：",
+                        "value" : _data.tel!=""?_data.tel:"无"
+                    },{
+                        "title" : "覆盖范围：",
+                        "value" : _data.securityarea!=""?_data.securityarea:"无"
+                    },{
+                        "title" : "备注：",
+                        "type" : "textarea",
+                        "value" : _data.remake!=""?_data.remake:"无"
+                    }
+                ]
+            }
+            if(_data.df1&&_data.df1.length>0){
+                xb.table.push({
+                    "title" : "图片：",
+                    "type" : "image",
+                    "value" : _data[i].df1
+                })
+            }
+            json.unshift(xb);
+             setData(json);
+        })
+    });
+    </script>
+</html>

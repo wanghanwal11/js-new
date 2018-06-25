@@ -1,0 +1,76 @@
+body{
+    background-color: #efefef;
+}
+body[type=body] div[type=inboxxq]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+}
+div[type=inboxxq] .table {
+    width:100%;
+    height:auto;
+}
+div[type=inboxxq] .top {
+    margin-bottom: 0.5rem;
+    background-color: #FFFFFF;
+}
+div[type=inboxxq] .h {
+    padding: 1rem;
+    border-bottom: 1px solid #efefef;
+}
+div[type=inboxxq] .str1{
+    margin-bottom: 0.5rem;
+}
+div[type=inboxxq] .d span{
+    font-size: 1rem;
+    font-weight: bolder;
+}
+div[type=inboxxq] .date span{
+    font-size: 0.8rem;
+    color: #aaaaaa;
+}
+div[type=inboxxq] .date span:nth-of-type(1){
+    margin-right: 0.5rem;
+}
+div[type=inboxxq] .icon img{
+    display:inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+div[type=inboxxq] .name{
+    height: 1.5rem;
+    line-height: 1.5rem;
+    vertical-align: middle;
+}
+div[type=inboxxq] .boxcontent{
+    height: 13rem;
+    padding: 1rem;
+}
+div[type=inboxxq] .tup{
+    line-height:3rem;
+    background-color: #FFFFFF;
+    margin-bottom: 0.5rem;
+}
+div[type=inboxxq] .fjian{
+    padding: 1rem;
+    background-color: #FFFFFF;
+}
+div[type=inboxxq] .tp{
+    padding-left: 1rem;   
+}
+div[type=inboxxq] .tp img{
+    width: 4rem;
+    height: 3.5rem;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+}
+div[type=inboxxq] .tplist img{
+   width: 100%;
+}
+div[type=inboxxq] .fj{
+    padding: 0.5rem 0;
+}
+

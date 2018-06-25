@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            #listbar{
+                width:90%;
+                margin-left:5%;
+                margin-top:0.5rem;
+                margin-bottom: 3rem;
+            }
+            div[type=button]{
+            position: fixed!important;
+            bottom: 0rem!important;
+          }
+        </style>
+    </head>
+    <script>
+     start(function() {
+         var page=1;
+         var leixing="全部";
+         var zhonglei="全部";
+         var json = [
+            {
+                "type" : "twoselect",
+                "table" : [
+                            {
+                                "title" : "全部",
+                                "content" : ["全部","支部党员大会","支部委员会","党小组会","党课"],
+                                "onclick" : function(i) {
+                                    alert(i)
+                                }
+                            }, {
+                                "title" : "全部",
+                                "content" : ["全部","线上","线下"],
+                                "onclick" : function(j) {
+                                }
+                            }
+                           ],
+                "select":function(i,j){
+                    if(i==0){
+                       leixing=j; 
+                    }
+                    if(i==1){
+                       zhonglei=j; 
+                    }
+                    page=1;
+                     getData("listbar").clean();
+                    load();
+                }
+            },{
+                   "id":"listbar",
+                   "type" : "listbar",
+                   "table":[]
+               },{
+                            "id" : "button",
+                            "type" : "button",
+                            "label" : "发起会议",
+                            "onclick":function(){
+                                lazy.openWin("fqhy.html")
+                            }
+                        }
+         ]
+          if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '三会一课',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+         setData(json,function(){load()})
+         function load(){
+             lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/list.ht?rows=10"+"&page="+page+"&leixing="+leixing+"&zhonglei="+zhonglei,function(data){
+            	 lazy.closeBounce();
+                 var data=data.rows;
+                 for(var i=0;i<data.length;i++){
+                     var s={
+                       "title":data[i].mtitle,
+                        "ids":data[i].id,
+                        "icon":"../LazyUI/js/listbar/images/dzzhd.png",
+                        "h":[
+                                "会议类型"+data[i].mtitle+"-"+data[i].mkind,
+                                "开始时间:"+data[i].mstarttime+"(时长:"+data[i].mlength+")",
+                            ],
+                        "onclick":function(obj){
+                            lazy.setParameter("ids",obj.ids)
+                            lazy.openWin("hyxq.html");
+                        }
+                   }
+                    getData("listbar").add(s)
+                 }
+                 page++;
+             },function(){lazy.closeBounce();})
+         }
+         lazy.bounce({"up":function(){
+                load()
+               }}); 
+        });
+    </script>
+</html>

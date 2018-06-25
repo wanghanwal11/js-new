@@ -1,0 +1,51 @@
+body[type=body] div[type=gerenxq]{
+	width:100%;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+	background-color: #fff;
+	padding: 0.33rem 0 0 0.83rem; 
+	border-bottom: 1px solid #d2d2d2; 
+	border-top: 1px solid #d2d2d2; 
+}
+div[type=gerenxq] .title {
+    height: 2rem;
+    line-height: 2rem;
+    width: 100%;
+    color: #46aaf5;
+}
+div[type=gerenxq] .title span {
+    font-size: 0.9rem;
+}
+div[type=gerenxq] .tr {
+   width: 100%;
+   border-bottom: 1px solid #d2d2d2; 
+   height: 3.5rem;
+   -webkit-box-sizing:border-box;
+}
+div[type=gerenxq] .tr:last-child {
+   border-bottom: none;
+}
+div[type=gerenxq] .h1 {
+    height: 2rem;
+    line-height: 2.2rem;
+}
+div[type=gerenxq] .h1 span {
+    font-size: 0.9rem;
+}
+div[type=gerenxq] .h2 {
+    height: 1.5rem;
+    line-height: 0.7rem;
+    color: #929292;
+}
+div[type=gerenxq] .h2 span {
+    font-size: 0.6rem;
+}
+div[type=gerenxq] .phone{
+    width: 3.5rem;
+    height: 3.5rem;
+    background-image: url(phone.png);
+    background-size: 1.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+}

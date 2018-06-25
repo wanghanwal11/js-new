@@ -1,0 +1,82 @@
+div[type=leftNav]{
+	width:100%;
+	height:100%;
+	-webkit-box-sizing:border-box;
+	position: fixed;
+	font-size:1rem;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    display: none;
+}
+div[type=leftNav] .leftNav_mask {
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.3;
+}
+div[type=leftNav] .leftNav_leftdiv {
+    width: 18rem;
+    height: 100%;
+    background-color: #262d33;
+    position:absolute;
+    z-index: 2;
+    top: 0;
+    left: -18rem;
+}
+div[type=leftNav] .leftNav_leftdiv_a {
+    left: 0;
+    animation: _leftNav_leftdiv_a 0.5s;
+    -webkit-animation: _leftNav_leftdiv_a 0.5s; 
+}
+@keyframes _leftNav_leftdiv_a {
+    from {left: -18rem;}
+    to {left: 0;}
+}
+div[type=leftNav] .leftNav_leftdiv_a_o {
+    left: -18rem;
+    animation: _leftNav_leftdiv_a_o 0.5s;
+    -webkit-animation: _leftNav_leftdiv_a_o 0.5s; 
+}
+@keyframes _leftNav_leftdiv_a_o {
+    from {left: 0;}
+    to {left: -18rem;}
+}
+div[type=leftNav] .leftNav_icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 4rem;
+    margin: 2.5rem 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-image: url(LazyUI2.0/plugins/leftNav/logo.png);
+}
+div[type=leftNav] .leftNav_ul {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid rgba(255,255,255,.2);
+}
+div[type=leftNav] .leftNav_li i {
+    display: block;
+    width: 1.5rem;
+    height: 4rem;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    margin-right: 1rem;
+}
+div[type=leftNav] .leftNav_li {
+    background-color: #262d33;
+    width: 100%;
+    height: 4rem;
+    line-height: 4rem;
+    border-bottom: 1px solid rgba(255,255,255,.2);
+    padding: 0 1rem;
+    -webkit-box-sizing:border-box;
+    color: rgba(255,255,255,.5);
+}

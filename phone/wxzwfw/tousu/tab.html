@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>投诉</title>
+        <style type="text/css">
+            .tr_iframe { 
+                width:100%;
+                height: 90%;
+                border: none;
+            }
+
+        </style>
+    </head>
+    <body>
+        <script>
+        start(function() { 
+           var on = lazy.getParameter("on");
+           on = "left";
+           // var tag = 0;
+           // if(on=="left") tag=1;
+                var json = [{
+                            "id" : "tab",
+                            "type" : "tab",
+                            "left":[{
+                                "content":'我要投诉',
+                                "onclick": function(){
+                                     on = "left";
+                                     iframe.src = "wyts.html";
+                                }        
+                            }],
+                            "right":[{
+                                "content":'投诉记录',
+                                "onclick": function(){
+                                    on = "right";
+                                    iframe.src = "tsjl.html";
+                                }
+                            }]
+                }]
+            setData(json,function(){
+                
+                iframe = lazy.creat("iframe","tr_iframe");
+                if(on == "left"){
+                    iframe.src = "wyts.html";
+                }else{
+                    iframe.src = "tsjl.html";
+                }
+                document.body.appendChild(iframe);
+            });
+            if(on == "right"){
+                lazy.setParameter("on","left");
+            }
+            //setData(json)
+        })
+        
+    </script>
+    </body>
+</html>

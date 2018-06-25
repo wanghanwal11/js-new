@@ -1,0 +1,41 @@
+body[type=body] div[type=orderlist]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=orderlist] .table {
+    width:100%;
+    height:auto;
+}
+div[type=orderlist] .tr {
+    height:auto;
+    background-color: #ffffff;
+    margin-bottom:1rem;
+
+}
+div[type=orderlist] .tr1 {
+    height:2.5rem;
+    line-height:2.5rem;
+    border-bottom: 1px solid #efefef;
+    padding: 0 1rem;
+}
+div[type=orderlist] .type {
+    color:#333333;
+    font-size: 1rem;
+    font-weight: bold;
+}
+div[type=orderlist] .status {
+    color:#ffb400;
+    font-size: 1rem;
+}
+
+div[type=orderlist] .tr2 {
+   line-height:2rem;
+    padding: 0.5rem 1rem;
+}
+div[type=orderlist] .content {
+   width:100%;
+}
+

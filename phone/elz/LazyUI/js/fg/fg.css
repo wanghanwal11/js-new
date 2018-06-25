@@ -1,0 +1,52 @@
+body[type=body] div[type=fg]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=fg] .table {
+    width:100%;
+    height:auto;
+}
+div[type=fg] .titlelb{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+div[type=fg] .icon {
+    width: 6rem;
+    height: 4rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=fg] .trzw {
+    height:3rem;
+}
+div[type=fg] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=fg] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=fg] .h1 {
+    height: 4rem;
+    vertical-align: middle;
+    line-height: 4rem;
+}
+div[type=fg] .h1 span {
+    font-size: 0.9rem;
+}
+
+div[type=fg] .h2 span {
+     color: #aaa;
+}
+

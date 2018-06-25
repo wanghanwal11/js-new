@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var huodongid=lazy.getParameter("huodongid");
+            var type=lazy.getParameter("type")?lazy.getParameter("type"):"";
+            var json=[{
+                            "type" : "headertoolbar",
+                            "title" : "评论",
+                            "left" : ["../LazyUI/images/fanhui.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"){
+                                   lazy.goBack1()
+                                }
+                            }
+                         },{
+                "id" : "pinglist",
+                "type" : "pinglist",
+                "table" : []
+            },{
+               "type" : "commentbox",
+               "send" : function(str) {
+                   lazy.URLRequest(djconfig.pinglun+"activityid="+huodongid+"&content="+str+"&type="+type, function(data) {
+                       lazy.refresh();
+                   })
+               }
+           }]
+            setData(json,function(){load()})
+            function load(){
+                lazy.URLRequest(djconfig.list+"activityid="+huodongid+"&rows=20&page="+page, function(data) {
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    lazy.setParameter("huodongid",huodongid)
+                    for(var i=0;i<data.length;i++){
+                        var s={
+                                "icon" : getIP()+data[i].userpicture.replace(/\\/g,"/"),
+                                "h1" : data[i].createuser,
+                                "h2" : lazy.getFace(data[i].content),
+                                "h3" : lazy.format(data[i].createtime,"MM-dd")+"&nbsp;&nbsp;"+lazy.format(data[i].createtime,"HH:mm"),
+                            }
+                       getData("pinglist").one(s);
+                    }
+                    page++;
+                },function(){lazy.closeBounce();})
+            }
+            lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

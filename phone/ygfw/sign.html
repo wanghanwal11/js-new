@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Document</title>
+    <script src="LazyUI/js/admin.js"></script>
+    <style>
+        body {
+            background-image: url(LazyUI/images/bg.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 12rem;
+            padding-top: 12rem!important;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body></body>
+<script>
+    start(function() {
+        setData([
+            {
+                id : "list1",
+                type : "list",
+                table : [
+                    {
+                        icon : "moren.png",
+                        h1 : "范伟",
+                        h2 : "今天还没有扫码签到",
+                        right : {
+                            label : "签到记录",
+                            onclick : function(){
+                                lazy.openWin("signlist.html");
+                            }
+                        }
+                    }
+                ]
+            },{
+                id : "list2",
+                type : "list",
+                table : [
+                    {
+                        icon : "moren.png",
+                        h1 : "范伟",
+                        h2 : "今天还没有扫码签到",
+                        right : {
+                            label : "尿检记录",
+                            onclick : function(){
+                                lazy.openWin("checklist.html");
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                id : "scan1",
+                type : 'scan',
+                color : '#ff9f2d',
+                // icon : "LazyUI/images/scan.png",
+                text : lazy.format(new Date(),"HH:mm"),
+                label : "签到",
+                onclick : function(){
+                    alert(1)
+                }
+            },{
+                id : "scan2",
+                type : 'scan',
+                color : '#ff9f2d',
+                icon : "LazyUI/images/scan.png",
+                label : "扫一扫",
+                onclick : function(){
+                    alert(2)
+                }
+            },
+            {
+                type : "bottombutton",
+                index : 0,
+                list : [
+                    {
+                        icon : "LazyUI/images/sign.png",
+                        label : "签到",
+                        onclick : function(){
+                            getData('list1').show();
+                            getData('scan1').show();
+                            getData('list2').hide();
+                            getData('scan2').hide();
+                        }
+                    },{
+                        icon : "LazyUI/images/check.png",
+                        label : "扫码尿检",
+                        onclick : function(){
+                            getData('list1').hide();
+                            getData('scan1').hide();
+                            getData('list2').show();
+                            getData('scan2').show();
+                        }
+                    }
+                ]
+            }
+        ],function(){
+            getData('list2').hide();
+            getData('scan2').hide();
+        });
+        
+    });
+</script>
+</html>

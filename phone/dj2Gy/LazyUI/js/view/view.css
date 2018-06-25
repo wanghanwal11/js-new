@@ -1,0 +1,72 @@
+body[type=body] div[type=view]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=view] .table {
+    width:100%;
+    height:auto;
+}
+div[type=view] .titlelb{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+div[type=view] .icon {
+    width: 6rem;
+    height: 4rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=view] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=view] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=view] .h1 {
+    height: 2.5rem;
+    line-height: 1rem;
+}
+div[type=view] .h1 span {
+    font-size: 0.9rem;
+}
+
+div[type=view] .h2 span {
+     color: #aaa;
+}
+div[type=view] .yp{
+     margin-top: 0.5rem;
+}
+div[type=view] .yue {
+    background:url(images/yue.png) 0.1rem 0.38rem no-repeat;
+    background-size: 0.8rem;
+    -webkit-box-sizing:border-box;
+    padding-left: 1.2rem;
+    color: #aaaaaa;
+}
+div[type=view] .ping {
+    background:url(images/ping1.png) 0.1rem 0.42rem no-repeat;
+    background-position: 0.1rem 0.42rem;
+    background-size: 0.8rem;
+    -webkit-box-sizing:border-box;
+    padding-left: 1.2rem;
+    margin-left: 0.5rem;
+    color: #aaaaaa;
+}
+div[type=view] .text {
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+    color: #aaaaaa;
+}
+

@@ -1,0 +1,62 @@
+body[type=body] div[type=judgecontent]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=judgecontent] .table {
+    width:100%;
+    height:auto;
+}
+div[type=judgecontent] .pjcontent{
+    margin: 1rem;
+    padding:0.5rem;
+    border:1px solid #efefef;
+    height:auto;
+}
+div[type=judgecontent] textarea{
+    margin: 0rem;
+    padding:0rem;
+    width:100%;
+    height:5rem;
+}
+div[type=judgecontent] .takepicture{
+    flex-wrap: wrap;
+}
+div[type=judgecontent] .photobutton{
+    margin-top:1rem;
+    height:5rem;
+    width:5rem;
+    float:right;
+    background-image: url(photo.png);
+    background-position: center;
+    background-size: 5rem;
+    background-repeat: no-repeat;
+}
+div[type=judgecontent] .zu{
+    width: 5.5rem;
+    height: 5rem;
+    margin-right: 0.5rem;
+    position: relative;
+    margin-top:1rem;
+}
+div[type=judgecontent] .cha {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-color: #fb3d3d;
+    position: absolute;
+    top: -0.5rem;
+    right: 0rem;
+    z-index: 66;
+    background-image: url(cha.png);
+    background-position: center;
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+}
+div[type=judgecontent] .pic {
+    width: 5rem;
+    height: 5rem;
+    margin-right: 0.5rem;
+}

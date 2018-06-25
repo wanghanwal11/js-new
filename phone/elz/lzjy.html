@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        
+        start(function() {
+            lazy.demo(); 
+                var json = [ {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#32c6d0",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/back.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.goBack()
+                                              }   
+                                            }
+                                          ],
+                            "button" : [
+                                              {
+                                                  "content" : "廉政教育",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },
+                {
+                    "type" : "lzjy",
+                    "src" : "LazyUI/js/zwjc/images/zwjc.jpg",
+                    "table" : [{
+                        "icon" : "LazyUI/js/lzjy/images/1.png",
+                        "title" : "学习资料",
+                        "onclick" : function(data) {
+                         lazy.openWin("xxzl.html");
+                                
+                     }
+                    },{
+                        "icon" : "LazyUI/js/lzjy/images/2.png",
+                        "title" : "自我检测",
+                         "onclick" : function(data) {
+                         lazy.openWin("zwjc.html");
+                                
+                     }
+                    }]
+                }
+                ]
+                setData(json)
+        })
+
+    </script>
+</html>

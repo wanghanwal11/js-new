@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>办理</title>
+    </head>
+    <style>
+        body {
+            background-color: #efeef3 !important;
+        }
+    </style>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide();
+        var buttonId = lazy.getParameter("buttonId");
+        var spobj = lazy.getParameter("spobj");
+        var taskId = spobj.taskid;
+        var json = [{
+            "id" : "process",
+            "type" : "process",
+            "table" : [
+                         {
+                            "title" : "处理意见",
+                            "type" : "textarea",
+                            "placeholder" : "请填写文字"                   
+                         }
+                      ]
+        }]
+        if(buttonId==null){//非公文流转
+        	var url = config.getbpmformbtnMobile+"taskId="+taskId;
+        	lazy.URLRequest(url,function(data){
+        	    var data = data.rows;
+        	    var button=data[1].button;
+        	    var list = [];
+                for(var i=0;i<button.length;i++){
+                    var index=button[i].id;
+                    var value=button[i].name;
+                    var tmp = {
+                        "label" : button[i].name,
+                        "id" : button[i].id,
+                        "onclick" : function(obj){
+                            var url = config.completeMobile;
+                            var button = obj.id;
+                            if(button==1) url+="voteAgree=1&back=0&mark=0&taskId="+taskId;
+                            if(button==4) url+="voteAgree=3&back=1&mark=0&taskId="+taskId;
+                            if(button==20) url=config.endProcess+"voteAgree=1&back=0&mark=0&taskId="+taskId;
+                            if(button==5) url+="voteAgree=3&back=2&mark=0&taskId="+taskId;
+                            var arr = getData("process").getArray().table;
+                            var clyj = arr[0].value;
+                            url += "&voteContent="+clyj;//+"&img="+tp;
+                            var objvalues = lazy.getParameter("objvalues");
+                            var leave_data = {};
+                            leave_data.main = {};
+                            leave_data.serviceid = spobj.serviceid;
+                            leave_data.main.fields = objvalues;
+                            url += "&formData="+JSON.stringify(leave_data);
+                            lazy.POST(url, function(data){
+                                alert("处理成功");
+                                lazy.openWin("daishenpi.html");
+                           },function(str){
+                               if(str=="任务成功完成!"){
+                                   alert("处理成功");
+                                   lazy.openWin("daishenpi.html");
+                               }else{
+                                   lazy.alert2(e)
+                               }
+                           })
+                        }
+                    }
+                    list.push(tmp);
+                }
+                var bottombuttons = {
+                    "type" : "bottombuttons",
+                    "table" : list
+                }
+                json.push(bottombuttons);
+                json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : spobj.h1,
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close()
+                                }
+                            }
+                })
+                setData(json)
+        	})
+        }else{
+            //审核
+            if(buttonId==999){
+                var bottombuttons = {
+                    "type" : "bottombuttons",
+                    "table" : [
+                        {
+                            "label" : "审批",
+                            "onclick" : function(){
+                                var arr = getData("process").getArray().table;
+                                var opinion = arr[0].value;
+                                if(opinion==""){
+                                    lazy.alert2("处理意见不能为空");
+                                    return;
+                                }
+                                var url1 = config.updateOpinion + "opinion="+opinion+"&taskid="+taskId;
+                                lazy.POST(url1,function(data){
+                                    alert("处理成功");
+                                    lazy.openWin("daishenpi.html");
+                                 },function(e){
+                                   if(e=="任务成功完成!"){
+                                        alert("处理成功");
+                                        lazy.openWin("daishenpi.html");
+                                   }else{
+                                       lazy.alert2(e)
+                                   }
+                                })
+                            }
+                        }
+                    ]
+                }
+                json.push(bottombuttons);
+                json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : spobj.h1,
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close()
+                                }
+                            }
+                })
+                setData(json)
+            }else if(buttonId==1){//同意,选择部门
+                json = [
+                    {
+                        "id" : "process",
+                        "type" : "process",
+                        "table" : [
+                            {
+                                "type" : "overtime",
+                                "title" : "部门(点击列表删除)",
+                                "url" : "tree1.html",
+                                "placeholder" : "请选择"                   
+                            }
+                        ]
+                    }
+                ]
+                var bottombuttons = {
+                    "type" : "bottombuttons",
+                    "table" : [
+                        {
+                            "label" : "同意",
+                            "onclick" : function(){
+                                var arr = getData("process").getArray().table;
+                                if(arr[0].value&&arr[0].value.length>0){
+                                    var deptValue = arr[0].value;
+                                    var hostDestTaskOrgIds = "";
+                                    for(var i=0;i<deptValue.length;i++){
+                                        if(i<deptValue.length-1){
+                                            hostDestTaskOrgIds += "org^" + deptValue[i].id + "^" + deptValue[i].h1 +"%23";
+                                        }else{
+                                            hostDestTaskOrgIds += "org^" + deptValue[i].id + "^" + deptValue[i].h1;
+                                        }
+                                    }
+                                    //hostDestTaskOrgIds += "#23^user^10000110900246^王庆";
+                                    lazy.personmessage(function(o){
+                                        var userId = o.rows[0].userId;
+                                        var fullName = o.row[0].fullname;
+                                        hostDestTaskOrgIds += "%23user^"+userId+"^" + fullName;
+                                    })
+                                    var url1 = config.completeMobile + "voteAgree=1&back=0&mark=0&taskId=" + taskId + "&hostDestTaskOrgIds=" + hostDestTaskOrgIds;
+                                    var objvalues = lazy.getParameter("objvalues");
+                                    var leave_data = {};
+                                    leave_data.main = {};
+                                    leave_data.serviceid = spobj.serviceid;
+                                    leave_data.main.fields = objvalues;
+                                    url1 += "&formData="+JSON.stringify(leave_data);
+                                    lazy.POST(url1,function(data){
+                                        alert("处理成功");
+                                        lazy.openWin("daishenpi.html");
+                                    },function(e){
+                                       if(e=="任务成功完成!"){
+                                            alert("处理成功");
+                                            lazy.openWin("daishenpi.html");
+                                       }else{
+                                           lazy.alert2(e)
+                                       }
+                                    })
+                                }else{
+                                    lazy.alert2("请选择部门")
+                                }
+                            }
+                        }
+                    ]
+                }
+                json.push(bottombuttons);
+                json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : spobj.h1,
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close()
+                                }
+                            }
+                })
+                setData(json)
+            }else{//补签,选择人员
+                json = [
+                    {
+                        "id" : "process",
+                        "type" : "process",
+                        "table" : [
+                            {
+                                "type" : "people",
+                                "title" : "人员(点击头像删除)",
+                                "url" : "tongxunlu.html",
+                                "placeholder" : "请选择"                   
+                            }
+                        ]
+                    }
+                ]
+                var bottombuttons = {
+                    "type" : "bottombuttons",
+                    "table" : [
+                        {
+                            "label" : "补签",
+                            "onclick" : function(){
+                                var arr = getData("process").getArray().table;
+                                if(arr[0].value&&arr[0].value.length>0){
+                                    var peopleValue = arr[0].value;
+                                    var hostDestTaskUserIds = "";
+                                    for(var i=0;i<peopleValue.length;i++){
+                                        if(i<peopleValue.length-1){
+                                            hostDestTaskUserIds += "user^" + peopleValue[i].id + "^" + peopleValue[i].h1 +"%23";
+                                        }else{
+                                            hostDestTaskUserIds += "user^" + peopleValue[i].id + "^" + peopleValue[i].h1;
+                                        }
+                                    }
+                                    var url1 = config.addSignBpm + "taskId=" + taskId + "&hostDestTaskUserIds=" + hostDestTaskUserIds;
+                                    lazy.POST(url1,function(data){
+                                        alert("处理成功");
+                                        lazy.openWin("daishenpi.html");
+                                    },function(e){
+                                       if(e=="任务成功完成!"){
+                                            alert("处理成功");
+                                            lazy.openWin("daishenpi.html");
+                                       }else{
+                                           lazy.alert2(e)
+                                       }
+                                    })
+                                }else{
+                                    lazy.alert2("请选择人员")
+                                }
+                            }
+                        }
+                    ]
+                }
+                json.push(bottombuttons);
+                json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : spobj.h1,
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close()
+                                }
+                            }
+                })
+                setData(json)
+            }
+        }
+    });
+    </script>
+</html>

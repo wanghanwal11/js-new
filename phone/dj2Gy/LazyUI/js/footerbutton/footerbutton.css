@@ -1,0 +1,31 @@
+body[type=body] div[type=footerbutton]{
+	width:100%;
+	height:2.5rem;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+body[type=body] .footerbutton {
+    width:100%;
+    height:2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    border-top: 1px solid #efefef;
+    background-color: #fff;
+}
+body[type=body] .footerbutton .icon {
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 0.9rem;
+    padding-left: 1.2rem;
+    color: #999;
+}
+body[type=body] .footerbutton .btn {
+    border-right: 1px solid #efefef;
+}
+body[type=body] .footerbutton .btn:last-child {
+    border-right: none;
+}

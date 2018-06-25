@@ -1,0 +1,80 @@
+body[type=body] div[type=judgeflower]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=judgeflower] .table {
+    width:100%;
+    height:auto;
+}
+
+div[type=judgeflower] .judge {
+    height:1.5rem;
+    line-height:1.5rem;
+    padding: 1.5rem 1rem;
+    color:#333333;
+    width:100%;
+    border-bottom: 1px solid #efefef;
+}
+div[type=judgeflower] .title {
+    margin-right:1rem;
+}
+div[type=judgeflower] .title span{
+    color:#333333;
+}
+div[type=judgeflower] .good{
+  height: 1.5rem;
+  background-image: url(good.png);
+  background-position: left center;
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  padding-left:2rem;
+ }
+
+div[type=judgeflower] .good_choose{
+  height: 1.5rem;
+  background-image: url(good_choose.png);
+  background-position: left center;
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  padding-left:2rem;
+}
+div[type=judgeflower] .middle{
+  height: 1.5rem;
+  background-image: url(middle.png);
+  background-position: left center;
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  padding-left:2rem;
+ }
+
+div[type=judgeflower] .middle_choose{
+  height: 1.5rem;
+  background-image: url(middle_choose.png);
+  background-position: left center;
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  padding-left:2rem;
+}
+div[type=judgeflower] .bad{
+  height: 1.5rem;
+  background-image: url(bad.png);
+  background-position: left center;
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  padding-left:2rem;
+ }
+
+div[type=judgeflower] .bad_choose{
+  height: 1.5rem;
+  background-image: url(bad_choose.png);
+  background-position: left center;
+  background-size: 1.5rem;
+  background-repeat: no-repeat;
+  padding-left:2rem;
+}
+.text{
+    color:#9fa0a9;
+}

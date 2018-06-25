@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>活动报名</title>
+        <style>
+            body{
+                background-color: #f7f8fa !important;
+            }
+            div[type=input]{
+            border-bottom: 1px solid #efefef;
+        }
+        #name{
+            margin-top:1rem;
+            margin-bottom: 0 !important;
+        }
+        #tel{
+            margin-bottom: 0 !important;
+        }
+        #button a{
+                width: 25%!important;
+                border-radius: 1rem;
+                position: absolute;
+                bottom: 0.8rem;
+                right: 5%;
+                margin-left: -45%;
+                background-color: #fff;
+                border: none !important;
+                font-size: 0.9rem;
+                
+            }
+            #button .button_a {
+              color: #ffb401;
+            }
+        #button2{
+             position: absolute!important;
+             top: 15rem!important;
+             margin-left: 2% !important;
+             margin-right: 2% !important;
+             width:96% !important;
+         }
+         #button2 .button_a{
+             background-color: #ffb401;
+             border-radius: 6px !important;
+         }
+         #button a:active{    
+                 background: none !important;
+             }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.clearCache();
+             var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+             var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+             var id = lazy.geturlstr('id')?lazy.geturlstr('id'):'';
+             var peopleid = '';
+             var status = 1;
+             var userphone = ''
+             var username = ''
+             var isBindWx = false
+             var json=[{
+                 "id":'name',
+                 "type":"input",
+                 "title":"姓名",
+                 "value":"",
+                 "placeholder":"请输入您的姓名",
+                 "icon":"",
+                 "foc":function(){},
+                 "onclick":function(){
+                  
+                 },
+             },{
+                 "id":'tel',
+                 "type":"input",
+                 "title":"手机号",
+                 "value":"",
+                 "placeholder":"请输入您的手机号",
+                 "icon":"",
+                 "foc":function(){
+                     
+                 },
+                 "onclick":function(){
+                  
+                 },
+             },{
+                     id : 'ts_group',
+                     type : 'group',
+                     list : [{
+                       
+                         "id":"yzcode",
+                         "type":"input",
+                         "title":"验证码",
+                         "placeholder":"请填写验证码",
+                      }, {
+                         "id":"button",
+                         "type":"button",
+                         "label":"获取验证码",
+                         "onclick":function(){
+                              phone = getData("tel").getValue();
+                             var result=phone.match(/^1(3|4|5|7|8)\d{9}$/);
+                             if(!result){
+                                 lazy.alert2("输入手机号位数错误")
+                             }else{
+                                  if(status){
+                                         status = 0;
+                                         
+                                         yanzhengMobile(phone,function(){
+                                             var button = document.getElementById("button")
+                                             var text = button.getElementsByTagName("span")[0];
+                                             var a = button.getElementsByTagName("a")[0];
+                                             var time = 60;
+                                             text.innerHTML = time + 's';
+                                             //a.style.backgroundColor = "#ffffff";
+                                             time--;
+                                             timer = setInterval(function(){
+                                                 text.innerHTML = time + 's';
+                                                 time--;
+                                                 if(time < 0){
+                                                     text.innerHTML = '获取验证码';
+                                                    // a.style.backgroundColor = "#ffffff";
+                                                     clearInterval(timer);
+                                                     status = 1;
+                                                 }
+                                             },1000) 
+                                         })
+                                         
+                                }     
+                                 
+                             }
+                            
+                         }
+                         
+                         
+                      }]
+                 },{
+                 id:'button2',
+                 type : 'button',
+                 label : '报名',
+                 onclick : function() {
+                     var name = getData("name").getValue();
+                    var phone = getData("tel").getValue();
+                    var code = getData("yzcode").getValue()
+                     if(!name){
+                         lazy.alert2('请输入姓名')
+                         return;
+                     }
+                     if(!phone){
+                         lazy.alert2('请输入手机号')
+                         return;
+                     }
+                     
+                     if(getData("tel").getValue() != userphone){
+                         registerInfo()
+                     }else if(getData("name").getValue() != username){
+                         saveName()
+                     }else{
+                         enrollActivity()
+                     }
+                     
+                    
+                 }
+               
+             }];
+             setData(json,function(){
+                 getData('ts_group').hide()
+                 isBindWxFun()
+                 getUserInfo()
+                 var inputdiv = document.getElementsByTagName("input")[1]
+                 inputdiv.oninput = function(){
+                     if(inputdiv.value == userphone){
+                        if(getData('ts_group')) getData('ts_group').hide()
+                     }else{
+                        if(getData('ts_group')) getData('ts_group').show()
+                     }
+                 }
+             })
+              /*获取用户信息*/
+            function getUserInfo(){
+                var url1 = getIP()+"/wx/api/wx/getweixinuserinfo?openid="+openid+"&initid="+initid;
+                lazy.GET(url1,function(_data){
+                    
+                     if(_data.rows.length>0){
+                        peopleid = _data.rows[0].id;
+                        if(_data.rows[0].realname){
+                            getData("name").add(_data.rows[0].realname)
+                            username = _data.rows[0].realname
+                            
+                        }
+                        if(_data.rows[0].mobile){
+                            getData("tel").add(_data.rows[0].mobile)
+                            userphone = _data.rows[0].mobile
+                        }else{
+                            getData('ts_group').show()
+                        }
+                        
+                    }
+               
+                },function(e){
+                    lazy.alert2("错误信息!:"+e);
+                },0)
+            }
+            /*保存姓名*/
+           function saveName(){
+                var name = getData("name").getValue();
+                var url = getIP()+'/wx/wechatgl/weixinuser/updateUserName?openid='+openid+'&initid='+initid+'&realname='+name;
+                lazy.GET(url, function(data){
+                      enrollActivity()
+                 },function(e){
+                     lazy.alert2(e);
+                 },0);
+                 
+            }
+            
+            /*获取验证码*/
+           //校验手机号是否被占用
+            function yanzhengMobile(phone,back){
+                // 1没有绑定 0被占用
+                var url = getIP()+'/wx/api/wx/checkweixinphone?mobile='+phone+'&initid='+initid;
+                lazy.GET(url, function(data){
+                      if(data.code){
+                          getYanzheng(phone,back)
+                      }else{
+                          status = 1;
+                          lazy.alert2("手机号已被占用")
+                      }
+                      
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },0);
+            }
+            //获取验证码
+            function getYanzheng(phone,back){
+                var url = getIP()+'/base/base/identifyingcode/sendRandomByPhone.ht?phone='+phone;
+                lazy.GET(url, function(data){
+                      back()
+                 },function(e){
+                      status = 1;
+                      alert(e)
+                     lazy.alert2(e);
+                 },0);
+            }
+            
+            
+            /*保存手机号*/
+           //绑定手机号
+            function registerInfo(){
+                var name = getData("name").getValue();
+                var phone = getData("tel").getValue();
+                var code = getData("yzcode").getValue()
+                 if(!name){
+                     lazy.alert2('请输入姓名')
+                     return;
+                 }
+                 if(!phone){
+                     lazy.alert2('请输入手机号')
+                     return;
+                 }
+                 if(!code){
+                     lazy.alert2('请输入验证码')
+                     return;
+                 }
+                 //phone = getData("tel").getValue();
+                 //code = getData("yzcode").getValue()
+                //var url = 'http://192.168.0.27:8092/api/wx/checkweixinphone?mobile='+phone+'&code='+code+'&openid='+openid+'&initid='+initid;
+                var url = getIP()+'/wx/api/wx/checkweixinphone?mobile='+phone+'&code='+code+'&openid='+openid+'&initid='+initid;
+                lazy.GET(url, function(data){
+                    if(data.code){
+                        bindPhone(phone,code,openid,initid)
+                    }else{
+                        lazy.alert2("验证码错误")
+                    }
+                 },function(e){
+                      status = 1;
+                      alert(e)
+                     lazy.alert2(e);
+                 },3);
+            }
+            
+            //绑定手机号
+            function bindPhone(phone,code,openid,initid){
+                var url = getIP()+'/wx/api/wx/bindingphone?mobile='+phone+'&code='+code+'&openid='+openid+'&initid='+initid;
+               lazy.GET(url, function(data){
+                    if(data.code){
+                        saveName()
+                        
+                    }else{
+                        lazy.alert2("验证码错误")
+                    }
+                 },function(e){
+                      status = 1;
+                      alert(e)
+                     lazy.alert2(e);
+                 },3);
+            }
+             /*报名活动*/
+             function enrollActivity(){
+               var url = getIP()+"/cmy/activity/cmyactivitysign/enroll?activityid="+id+"&openid="+openid+"&initid="+initid;
+               lazy.GET(url,function(data){
+                   enroll = true;
+                   //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+                   lazy.alert3("报名成功", "非常感谢您的参与，请准时参加活动哦。",{
+                        yesfun:function(){
+                            if(isBindWx == '1'){
+                                lazy.openWin('bmsuccess2.html?initid='+initid)
+                            }else{
+                                lazy.openWin('bmsuccess.html?initid='+initid)
+                            }
+                            
+                        }
+                    });
+               },function(e){
+                   lazy.alert2(e);
+               },0)   
+               
+           }
+           
+           /*是否绑定公众号*/
+          function isBindWxFun(){
+               var url = getIP()+"/wx/api/wx/getwxuserinfo?initid="+initid+"&openid="+openid;
+               lazy.GET(url,function(data){
+                   isBindWx = data.rows[0].subscribe;
+               },function(e){
+                   lazy.alert2(e);
+               },0)   
+               
+           }
+               
+        });
+    </script>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var fenlei=2;
+            var leixing="";
+         var zhonglei="";
+         var bol="false"
+             lazy.setHeader({
+                            "title":"审核"
+                        })
+                        var json = [{
+                                         "type":"movebutton",
+                                         "index":0,
+                                         "table":[{
+                                             "label":"我发起的",
+                                             "onclick":function(){
+                                                 page=1;
+                                                 fenlei=2;
+                                                 bol="false";
+                                                 getData("listbar").clean()
+                                                 load()
+                                             }
+                                         },{
+                                             "label":"我收到的",
+                                             "onclick":function(){
+                                                 page=1
+                                                 fenlei=1;
+                                                 getData("listbar").clean()
+                                                 bol="true";
+                                                 load()
+                                             }
+                                         }]
+                                     },{
+                                           "id":"listbar",
+                                           "type" : "listbar",
+                                           "table":[]
+                                       }];
+                            setData(json,function(){load()})
+                           function load(){
+                               if(fenlei==2){
+                                  var url=getIP()+"/party/DJ_SanHuiYiKe/fachulist.ht?rows=10"+"&page="+page 
+                               }else{
+                                   var url=getIP()+"/party/DJ_SanHuiYiKe/shoudaolist.ht?rows=10"+"&page="+page
+                               }
+                                 lazy.URLRequest(url,function(data){
+                                     lazy.closeBounce();
+                                     var data=data.rows;
+                                     for(var i=0;i<data.length;i++){
+                                         var s={
+                                           "title":data[i].mtitle,
+                                            "ids":data[i].id,
+                                            "icon":"../LazyUI/js/listbar/images/dzzhd.png",
+                                            "h":[
+                                                    "活动类型:"+data[i].mtypename+"-"+data[i].mkind+"<span style='float:right;display:inline-block;margin-right:2rem'>"+data[i].themetype+"</span>",
+                                                    "开始时间:"+lazy.format(data[i].mstarttime,"MM-dd")+'&nbsp;'+lazy.format(data[i].mstarttime,"HH:mm")+"(时长:"+data[i].mlength+")",
+                                                ],
+                                            "h1" : data[i].mtitle,
+                                            "h2" : "活动类型:"+data[i].mtypename+"-"+data[i].mkind,
+                                            "h4" : "活动类型分类:"+data[i].mcategoryname,
+                                            "themetype":data[i].themetype,
+                                            "h3":"开始时间:"+lazy.format(data[i].mstarttime,"MM-dd")+'&nbsp;'+lazy.format(data[i].mstarttime,"HH:mm")+"(时长:"+data[i].mlength+")",
+                                            "onclick":function(obj){
+                                            lazy.setParameter("shenheid",obj.ids);
+                                            lazy.setParameter("shenhestate",obj.themetype);
+                                            lazy.openWin1("/dj2Gy/sanhuiyike/daishenhe.html?reload=true&bol="+bol);
+                                            }
+                                       }
+                                        getData("listbar").add(s)
+                                     }
+                                     page++;
+                                 },function(){lazy.closeBounce();})
+                             }
+                 lazy.bounce({"up":function(){
+                    load()
+                   }}); 
+        })
+    </script>
+</html>

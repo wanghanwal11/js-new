@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>例会管理</title>
+        <style type="text/css">
+            body{
+                background-color: white!important;
+            }
+        </style>
+    </head>
+    <script> 
+        start(function() {
+            lazy.personmessage(function(obj){
+                lazy.setHeader({
+                    "title":"例会管理",
+                    "color":lazy.getParameter("Bgcolor"),
+                    "rightbtn" : [
+                        {
+                         "icon" : "dui.png",
+                         "onclick" : function() {
+                             var arr = getData("fire_process").getArray();
+                             var url = getIP() + "/firesys/F_Meetingmanagement/save.ht?orgid="+userAreaId+"&orgname="+orgName;
+                             url+="&orgpath="+userAreaPath;
+                             if(arr[0]==""){
+                                 lazy.alert2("请输入会议议题");
+                                 return;
+                             }
+                             url+="&issue="+arr[0];
+                             if(arr[1]==""){
+                                 lazy.alert2("请输入会议地点");
+                                 return;
+                             }
+                             url+="&meetingplace="+arr[1];
+                             if(arr[2]==""){
+                                 lazy.alert2("请选择开始时间");
+                                 return;
+                             }
+                             if(arr[3]==""){
+                                 lazy.alert2("请选择结束时间");
+                                 return;
+                             }
+                             if(new Date(arr[2])>new Date(arr[3])){
+                                 lazy.alert2("开始时间不能超过结束时间");
+                                 return;
+                             }
+                             url+="&meetingbeg="+arr[2];
+                             url+="&meetingend="+arr[3];
+                             if(arr[4]==""){
+                                 lazy.alert2("请输入参会人员");
+                                 return;
+                             }
+                             url+="&participant="+arr[4];
+                             if(arr[5]==""){
+                                 lazy.alert2("请输入会议纪要");
+                                 return;
+                             }
+                             url+="&meetingminutes="+arr[5];
+                             if(arr[6].length>0){
+                                 var imgids = [];
+                                 var imgsarr = arr[6];
+                                 for(var i=0;i<imgsarr.length;i++){
+                                     imgids.push(imgsarr[i].id)
+                                 }
+                                 url += '&imgurl='+imgids;
+                             }
+                             lazy.URLRequest(url,function(){
+                                 alert("提交成功");
+                                 window.history.go(-1);
+                             })
+                         }
+                     }
+                    ]
+                });
+                var userAreaId = obj.rows[0].userAreaId?obj.rows[0].userAreaId:"1234";
+                var userAreaPath = obj.rows[0].userAreaPath?obj.rows[0].userAreaPath:"1234";
+                var orgName = obj.rows[0].orgName?obj.rows[0].orgName:"123412341";
+                var json = [
+                    {
+                        "id":"fire_process",
+                        "type":"fire_process",
+                        "table":[
+                            {
+                                "title":"会议议题",
+                                "type":"input",
+                            },{
+                                "title":"会议地点",
+                                "type":"input",
+                            },{
+                                "title":"开始时间",
+                                "type":"datetime",
+                            },{
+                                "title":"结束时间",
+                                "type":"datetime",
+                            },{
+                                "title":"参会人员",
+                                "type":"textarea",
+                            },{
+                                "title":"会议纪要",
+                                "type":"textarea",
+                            },{
+                                "type":"image",
+                            }
+                        ]
+                    }
+                ]
+                setData(json);
+           })
+        })
+    </script> 
+</html>

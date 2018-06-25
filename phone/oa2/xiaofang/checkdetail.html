@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>消防记录详情</title>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"消防记录详情",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var url = getIP() + "/firesys/F_Firesafeinsrecord/get.ht?id="+lazy.getParameter("checkobj").id;
+            lazy.URLRequest(url,function(_data){
+                var data = _data.rows;
+                var json = [
+                    {
+                        "type":"process_xq",
+                        "table":[
+                            {
+                                "title":"检查人：",
+                                "value":data[0].gridmember
+                            },{
+                                "title":"检查单位：",
+                                "value":data[0].name
+                            },{
+                                "title":"行政区域：",
+                                "value":data[0].orgname
+                            },{
+                                "title":"检查时间：",
+                                "value":data[0].checktime?lazy.format(data[0].checktime,"yyyy-MM-dd"):"无记录"
+                            },{
+                                "title":"备注：",
+                                "value":data[0].remark!=""?data[0].remark:"无记录"
+                            }
+                        ]
+                    }
+                ];
+                if(_data.newPrimaryKeys.imgurl&&_data.newPrimaryKeys.imgurl!=""){
+                    var arr = _data.newPrimaryKeys.imgurl.split(",");
+                    json[0].table.push({
+                        "title" : "图片：",
+                        "type" : "image",
+                        "value" : arr
+                    })
+                }
+                setData(json);
+            })
+        })
+    </script> 
+</html>

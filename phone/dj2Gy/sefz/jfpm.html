@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+         body{
+                background: white!important;
+            }
+            .h1{
+                margin: 1.5rem auto;
+            }
+            .h1 div{
+                text-align: center;
+            }
+            div img{
+                width: 100%;
+                height: 100%;
+            }
+            .h2{
+                font-size: 1.2rem;
+                margin-top: 0.5rem;
+                padding: 1rem!important;
+                border-bottom: 1px solid #ddd;
+            }
+            .h3{
+                  padding: 1rem!important;
+            }
+            p{
+                color: #838383;
+            }
+            .aa{
+                width: 3rem;
+                    margin: 0 auto;
+            }
+            .deng{
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    display: inline-block;
+                    margin-right:1rem;
+                    vertical-align: middle;
+                
+            }
+            .r{
+                background: url(../LazyUI/images/zhibu/r.png) no-repeat;
+                background-size: 100% 100%;
+            }
+            .y{
+                background: url(../LazyUI/images/zhibu/y.png) no-repeat;
+                background-size: 100% 100%;
+            }
+            .g{
+                background: url(../LazyUI/images/zhibu/g.png) no-repeat;
+                background-size: 100% 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="h1">
+            <div class="aa"> <img src='ss.png' ></div>
+            <div style="line-height: 3rem;">积分<span style='color: #F06A03;font-size: 1.8rem' id="score"></span>分</div>
+            <div id="color"></div>
+        </div>
+    </body>
+    <script>
+        start(function() { 
+           lazy.setHeader({
+                            "title": "我的积分",
+                            "rightbtn": [
+                                {
+                                    "text": "积分记录",
+                                    "onclick" : function() {
+                                         lazy.openWin("jfjl_gr.html");
+                                    }
+                                }
+                            ]
+                        });
+                        
+            lazy.URLRequest(getIP()+"/party/unitcadre/getmyscoredetail.ht", function(data) {
+                var data=data.rows[0];
+                var score=data.score;
+                var color=data.color
+                if(color=="r"){
+                    color="<span class='deng r'></span>您已存在严重的违纪行为，请严格遵守各项行为准则！";
+                }else if( color=="y"){
+                    color="<span class='deng y'></span>您已存在违纪行为，请多加注意！";
+                }else{
+                    color="<span class='deng g'></span>您的积分记录很优秀，请继续保持哦！";
+                }
+                document.getElementById("score").innerHTML=score;
+                document.getElementById("color").innerHTML=color;
+            })
+            
+        })
+        
+    </script>
+</html>

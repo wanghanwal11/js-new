@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           var zwsj;
+           var page=1;
+           var status=1;
+           var tag="szyw";
+           var page_status = lazy.getParameter("page_status")?lazy.getParameter("page_status"):"left";
+           lazy.setHeader({
+                            "title": "党建之窗",
+                            "rightbtn": [
+                                {
+                                    "icon": "search.png",
+                                    "text": "",
+                                    "onclick" : function() {
+                                         var url =djconfig.xinwenlist + 'tags=xljh&title=';
+                                                  lazy.setParameter("sou",url)
+                                                  lazy.setParameter("title","党建之窗")
+                                                  lazy.openWin("djsearch.html");
+                                    }
+                                }
+                            ],
+                           
+                        });
+                        
+             var json = [{
+                             "type":"movebutton",
+                             "index":0,
+                             "table":[]
+                         },{
+                            "id" : "xinwenlb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                            
+                        }];
+            lazy.URLRequest(getIP()+"/servicedesk/article/getDjzc.ht", function(data){
+                var data=data.rows;
+                lazy.setParameter("title",data[0].name);
+                for(var i=0;i<data.length;i++){
+                    var f={
+                             "label":data[i].name,
+                             "onclick":function(sum){
+                                 lazy.setParameter("title",data[sum].name);
+                                 tag=data[sum].pinyin;
+                                 cleanZwsj(data[sum].pinyin);
+                             }
+                     }
+                    json[0].table.push(f)
+                }
+                if(lazy.browserType=="weixin") {
+                    json.splice(0,1);
+                 }
+                setData(json,function(){
+                   /* if(page_status == "right"){
+                        list('dyfc')
+                    }else if(page_status == "center"){
+                        list('dflz')
+                    }else{
+                        list('szyw')
+                    }
+                        
+                    if(page_status != "left"){
+                        lazy.setParameter("page_status","left");
+                    }*/
+                   list()
+                });
+            })
+            function cleanZwsj(name) {
+                try{
+                    zwsj.close();
+                }catch(e){};
+                page = 1;
+                getData("xinwenlb").clean();
+                list(name);
+            }
+            function list(){
+                var url = djconfig.xinwenlist + 'tags='+tag+'&page='+page+'&rows=10'+"&_time="+new Date().getTime();              
+                lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+                if(arr.length==0&&page==1){
+                    zwsj = lazy.datanull("还没有数据哦…",null);
+                    
+                }else{
+                     for(var i = 0; i < arr.length; i++) {
+                    
+                     var d={
+                            "icon" : arr[i].imgUrl?lazy.getImagePx(arr[i].imgUrl, 180, 120):"../LazyUI/images/zhibu/default.jpg",
+                            "h1" : arr[i].title,
+                            "yue" : arr[i].count,
+                            "ping" : arr[i].commentcount,
+                            "user" : arr[i].seoTitle,
+                            "imgsc" :  arr[i].imgUrl, 
+                            "date" : arr[i].addTime?lazy.autoFormat(arr[i].addTime):"",
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("xwxqid",data.id)
+                                lazy.setParameter("img",data.imgsc)
+                                
+                                /*switch(tag){
+                                    case 'xljh':
+                                        lazy.setParameter("title","时政要闻");
+                                        lazy.setParameter("tag",10);
+                                        break;
+                                    case 'dflz':
+                                        lazy.setParameter("title","党风廉政");
+                                        lazy.setParameter("tag",11);
+                                        break;
+                                    case 'dyfc':
+                                        lazy.setParameter("title","党员风采");
+                                        //lazy.setParameter("tag",12);
+                                        break;
+                                    default:
+                                        lazy.setParameter("title","党建之窗");
+                                        lazy.setParameter("tag",10);
+                                        break;
+                                }//switch*/
+                                lazy.openWin("djzcxq.html");
+                             }//onclick
+                           }
+                        getData("xinwenlb").add(d);
+                    
+                    
+                        }//for
+                      }//else
+                
+                        
+                        page++;
+                        status=0;
+                        lazy.closeBounce();
+                    }, function(e) {
+                    //lazy.
+                    lazy.closeBounce();
+                    alert(e);
+                },status);
+               
+            }
+            lazy.bounce({
+                   "up" : function() {
+                       list();
+                   } 
+                });
+            
+        })
+        
+    </script>
+</html>

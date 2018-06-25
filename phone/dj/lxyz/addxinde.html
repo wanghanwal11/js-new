@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+        start(function() {
+            var bookid=lazy.getParameter("muluid")
+            var bookname=lazy.getParameter("h1")
+            var json=[{
+                        "id":"txt",
+                        "type" : "textareanum1",
+                        "placeholder" : "输入心得内容(30-300字)"
+                    },{
+                       "type" : "button",
+                       "label" : "提交",
+                       "onclick" : function() {
+                           var txt=getData("txt").getval();
+                           if(txt.length>300){alert("字数不超过300字"); return;}
+                           lazy.URLRequest(getIP()+"/party/DJ_Experiencerecord/saveExperiencerecord.ht?typeid="+bookid+"&type="+bookname+"&experience="+txt, function(data) {
+                               alert("提交成功");
+                               lazy.goBack();
+                           })
+                       }
+                     }]
+                      if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '添加心得',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+            setData(json);
+
+        });
+    </script>
+</html>

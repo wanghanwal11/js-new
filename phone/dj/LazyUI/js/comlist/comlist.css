@@ -1,0 +1,32 @@
+div[type=comlist] .header{
+    display: -webkit-box;
+    background: white;
+}
+div[type=comlist] .header div{
+    width: 25%;
+    text-align: center;
+    line-height: 2rem;
+    color: #3f3f3f;
+    font-size: 0.9rem;
+}
+div[type=comlist] .content{
+	padding: 0.3rem;
+	background: white;
+	padding-top: 0.5rem;
+}
+div[type=comlist] .list{
+    width: 100%;
+    display: -webkit-box;
+    border-bottom: 1px solid #cfcfcf;
+    height: 2rem;
+}
+div[type=comlist] .list div{
+    text-align: center;
+    line-height: 2rem;
+    color: #3f3f3f;
+    font-size: 0.7rem;
+    width: 25%;
+    text-overflow:ellipsis ;
+    white-space:nowrap ;
+    overflow: hidden;
+}

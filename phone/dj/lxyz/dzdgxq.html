@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+      start(function() {
+           lazy.bounce();
+           var id=lazy.getParameter("muluid")
+           var h1=lazy.getParameter("h1")
+           var json = [];
+                lazy.URLRequest(getIP()+"/party/DJ_Learncontent/getAllMobile.ht?type=1"+"&page="+1+"&rows=10&parentid=0&id="+id, function(data) {
+                var data=data.rows[0]
+                var s={
+                    "type" : "bannertitle",
+                    "text" : "共<span style='color:red'>"+data.detailcount+"</span>章&nbsp;已学<span style='color:red'>"+data.havelearncount+"/"+data.detailcount+"</span>&nbsp;本书总分<span style='color:red'>"+data.integralcount+"</span>&nbsp;共得<span style='color:red'>"+data.haveintegration+"</span>分",
+                    "src" : [lazy.getParameter("file")]
+                }
+                var d={
+                    "type" : "button_list1",
+                    //"button" : ["目录", "测试", "心得"],
+                    "button" : ["目录", "心得"],
+                    "index" : 0,
+                    "select" : function(index, data) {
+                        if (index == 0) {
+                            lazy.openWin("dzdgxq.html");
+                        }
+                        if (index == 1) {
+                            lazy.openWin("xinde.html");
+                            //lazy.openIframe("ceshi_content.html");
+                        }
+                       /* if (index == 2) {
+                            lazy.openIframe("xinde_content.html");
+                        }*/
+                    }
+                }
+                json.unshift(d)
+                json.unshift(s)
+                 if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '党章党规',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+
+            setData(json,function(){
+                lazy.URLRequest(getIP()+"/party/DJ_Learndetail/getAllMobile.ht?learncontentid="+id, function(data) {
+                   var data=data.rows;
+                   for(var i=0;i<data.length;i++){
+                       var t=true;
+                       var d={
+                               "type":"label",
+                               "text":data[i].learntitle
+                           }
+                        var g={
+                               "type" : "textlist",
+                               "index" : 0,
+                               "table" : []
+                            }
+                       for(var j=0;j<data[i].details.length;j++){
+                           if(data[i].details[j].state=="f"){
+                               if(t) {
+                                  data[i].details[j].state = "ff";
+                                  g.index=j;
+                                  t=false;
+                               }
+                           }else {
+                               g.index = data[i].details.length;
+                           }
+                            var s={
+                                "h1" : data[i].learntitle+"&nbsp;&nbsp;"+data[i].details[j].title,
+                                "ids":data[i].details[j].id,
+                                "state" : data[i].details[j].state,
+                                "h2" : "时长&nbsp;"+(data[i].details[j].time?data[i].details[j].time:"0")+"s",
+                                "onclick" : function(i,datas) {
+                                    lazy.var(datas.state);
+                                    lazy.setParameter("zjid",datas.ids)
+                                    lazy.openWin("muluxq.html")
+                                } 
+                            }
+                           g.table.push(s)
+                       }
+                       json.push(d);
+                       json.push(g);
+                   }
+                 setData(json)
+               })
+            });
+            })
+               
+            
+       });
+    </script>
+</html>

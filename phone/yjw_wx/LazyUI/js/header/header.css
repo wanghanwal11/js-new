@@ -1,0 +1,21 @@
+body[type=body] div[type=header]{
+    width: 100%;
+    display: -webkit-box;
+	-webkit-box-sizing:border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: aqua;
+    z-index: 100;
+}
+body[type=body] .header_div {
+    height: 3rem;
+    width: 100%;
+    position: relative;
+}
+div[type=header] .headerdiv {
+    width: 100%;
+    height: 3rem;
+    -webkit-box-sizing:border-box;
+    border: 1px solid #ccc;
+}

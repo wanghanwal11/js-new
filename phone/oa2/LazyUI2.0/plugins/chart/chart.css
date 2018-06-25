@@ -1,0 +1,21 @@
+div[type=chart]{
+	width:auto;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+    padding: 0 1rem 1rem 1rem;
+}
+div[type=chart] .chart_title {
+    height: 3rem;
+    line-height: 3rem;
+    width: 100%;
+    border-bottom: 1px solid #eeeeee;
+}
+div[type=chart] .chart_titlezw {
+    height: 1rem;
+    width: 100%;
+}
+div[type=chart] canvas {
+    margin-top: 1rem;
+}

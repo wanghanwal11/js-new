@@ -1,0 +1,128 @@
+div[type=picker]{
+	width:100%;
+	height:100%;
+	-webkit-box-sizing:border-box;
+	position: fixed;
+	font-size:1rem;
+    overflow: hidden;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    display: none;
+}
+div[type=picker] .picker_mask {
+    width:100%;
+	height:100%;
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    opacity: 0.3;
+    background-color: #000;
+}
+div[type=picker] .picker_mask_a{
+    animation: picker_mask 0.5s;
+    -webkit-animation: picker_mask 0.5s; 
+}
+div[type=picker] .picker_mask_a_o{
+    opacity: 0;
+    animation: picker_mask_o 0.5s;
+    -webkit-animation: picker_mask_o 0.5s; 
+}
+@keyframes picker_mask {
+    from {opacity: 0;}
+    to {opacity: 0.3;}
+}
+@keyframes picker_mask_o {
+    from {opacity: 0.3;}
+    to {opacity: 0;}
+}
+div[type=picker] .picker_div {
+    height: 17rem;
+    width:100%;
+    background-color: #fff;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    bottom: 0;
+}
+div[type=picker] .picker_div_a {
+    animation: picker_div 0.5s;
+    -webkit-animation: picker_div 0.5s; 
+}
+div[type=picker] .picker_div_a_o {
+    animation: picker_div_o 0.5s;
+    -webkit-animation: picker_div_o 0.5s; 
+    bottom: -17rem;
+}
+@keyframes picker_div {
+    from {bottom: -17rem;}
+    to {bottom: 0;}
+}
+@keyframes picker_div_o {
+    from {bottom: 0;}
+    to {bottom: -17rem;}
+}
+div[type=picker] .picker_titlediv {
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    padding: 0 1rem;
+    -webkit-box-sizing:border-box;
+    border-bottom: 1px solid #eee;
+}
+div[type=picker] .picker_btn {
+    color: #999;
+    background-color: #fff;
+}
+div[type=picker] .picker_qd {
+    color: #3399ff;
+}
+div[type=picker] .picker_movediv {
+    width: 100%;
+    height: 0;
+}
+div[type=picker] .picker_one {
+    width: 0;
+    height: 14rem;
+    position: relative;
+    overflow: hidden;
+}
+div[type=picker] .picker_split {
+    text-align: center;
+    display: inline-block;
+    line-height: 14rem;
+}
+div[type=picker] .picker_ul {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+}
+div[type=picker] .picker_touch {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9));
+}
+div[type=picker] .picker_li {
+    height: 2rem;
+    line-height: 2rem;
+    width: 100%;
+    text-align: center;
+}
+div[type=picker] .picker_line {
+    height: 2rem;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    top: 9rem;
+    left: 0;
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="common/model.js"></script>
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+            .red {
+                color: #22;
+            }
+            div[type=ppt] .dian{
+                display: none;
+            }
+            div[type=ppt] .maxdiv,div[type=ppt] .maxdiv_li{
+                height: 9.5rem!important;
+            }
+            div[type=ppt] .maxdiv_li{
+                background-size:100% 100%!important;
+            }
+            html,body {
+                background-size: 100% 100% !important;
+                height:auto!important;
+                background-color:#C8E0F1!important;
+            }
+        </style>
+    </head>
+    <script>           
+        start(function() {
+            /*var modelobj = {
+                "xxycs" : {
+                        "type" : "table5",
+                        "table" : [
+                                    {
+                                        "icon" : "LazyUI/images/lxyz/dzdg.png",
+                                        "label" : "党章党规",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("lxyz/dzdg.html");
+                                            });
+                                            
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/xljh.png",
+                                        "label" : "系列讲话",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("lxyz/xljh0.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/szyw.png",
+                                        "label" : "时政要闻",
+                                        "onclick" : function() {
+                                            lazy.var({"name":"时政要闻"});
+                                            lazy.openWin("xiaoshubao/xinwen.html")
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/wdk.png",
+                                        "label" : "三会一课",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                               lazy.openWin("sanhuiyike/shyk.html");
+                                              //lazy.alert2("配置中")
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/zwcs.png",
+                                        "label" : "自我测试",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                if(project == "byqdjhy"||project == "mqlsxdyfwpt"){//贵阳
+                                                    lazy.openWin("lxyz/addceshi2.html");
+                                                }else{
+                                                    lazy.openWin("lxyz/addceshi.html");
+                                                }
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/grb.png",
+                                        "label" : "身边好党员",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("dyfc/dyfc.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    }
+            }
+            var ph="";
+            switch(project){
+                case "byqdjhy" :ph="LazyUI/js/ppt/t2.jpg"; break;
+                case "dyqdjxt" :ph="LazyUI/js/ppt/t3.jpg"; break;
+                case "mqlsxdyfwpt" :ph="LazyUI/js/ppt/t4.jpg"; break;
+            }
+            var json = [{
+                            "type" : "yun",
+                            "src" : lazy.url+projectName,
+                        },{
+                            "type" : "ppt",
+                            "style":{"margin-bottom":"1rem"},
+                            "pages" :[
+                                        { "src" : "LazyUI/js/ppt/t0.png"},
+                                    ]
+                            
+                        }, modelobj.xxycs
+            ];
+            //判断有没有温馨提示 贵阳特有
+            if(project == "byqdjhy") {
+                if(!lazy.getParameter("wxts")) {
+                    addwxts();
+                }
+                function addwxts() {
+                    json.unshift({
+                        "id" : "alertdiy",
+                        "type" : "alertdiy",
+                        "title" : "温馨提示",
+                        "text" : "党员同志:<br/>　　白云区“党建红云APP”是区委为您提供的学习、考评、参加在线组织生活等大数据云平台应用端，是建在云上的支部。其中“两学一做”分学和做两部分，学以听音频、测试和上传心得积分反映学习效果，采取过关方式，准确听完或做完总纲部分才能做下一章节。做以参加组织活动、志愿服务及交纳党费等反映效果。每项任务完成均自动累计积分，积分前10会在比学赶超栏目实时显示。每天测试3题，每题的内容为知识、题目、答案（可多选和单选）感谢您的使用！",
+                        "button" : [{
+                                            "label" : "不再提示",
+                                            "class" : "bzts",
+                                            "onclick" : function() {
+                                                getData("alertdiy").hide();
+                                                lazy.setParameter("wxts","wxts");
+                                            }    
+                                        },{
+                                            "label" : "确定",
+                                            "onclick" : function() {
+                                                getData("alertdiy").hide();
+                                                lazy.setParameter("wxts",null);
+                                            }    
+                                        }]
+                    });
+                }
+            }
+            setData(json);*/
+            //是否是游客
+            function isyouke(back) {
+               /* if(lazy.getParameter("youke")) {
+                    lazy.alertyesno("你的信息需要向所在组织登记，请填写",function() {
+                         lazy.openWin("xxdj.html");  
+                    },function(){
+                        
+                    });
+                }else {*/
+                    if(back)back();
+                //}
+            }
+           if(project=="byqdjhy"){
+                   var json= [{
+                                "type" : "yun",
+                                "src" : lazy.url+projectName,
+                            },{
+                                "type" : "ppt",
+                                "style":{"margin-bottom":"1rem"},
+                                "pages" :[
+                                            { "src" : "LazyUI/js/ppt/t0.png"},
+                                        ]
+                                
+                            },{
+                            "id":"tab5",
+                            "type" : "table5",
+                            "table" : []
+                            }]
+                       
+                setData(json,function(){
+                    load1()
+                })
+                function load1(){
+                    lazy.URLRequest(getIP()+"/oa/sysmolile/getResBtnForParty.ht?alias="+project, function(data) {
+                    var data=data.rows;
+                    for(var i=0;i<data.length;i++){
+                         if(data[i].parentname=="两学一做"){
+                             for(var j=0;j<data[i].children.length;j++){
+                                 var s=model[data[i].children[j].key];
+                                json[2].table.push(s)
+                             }
+                         }
+                    }
+                   setData(json);
+                })
+                }
+           }else if(project=="dyqdjxt"){
+                   var json=   [{
+                                "type" : "yun",
+                                "src" : lazy.url+projectName,
+                            },{
+                                "type" : "ppt",
+                                "style":{"margin-bottom":"1rem"},
+                                "pages" :[
+                                            { "src" : "LazyUI/js/ppt/t0.png"},
+                                        ]
+                                
+                            },{
+                            "id":"tab5",
+                            "title":"两学一做",
+                            "type" : "table4",
+                            "table" : []
+                            }]
+                setData(json,function(){load()})
+                function load(){
+                    lazy.URLRequest(getIP()+"/oa/sysmolile/getResBtnForParty.ht?alias="+project, function(data) {
+                    var data=data.rows;
+                    for(var i=0;i<data.length;i++){
+                         if(data[i].parentname=="两学一做"){
+                             for(var j=0;j<data[i].children.length;j++){
+                                 var s=model1[data[i].children[j].key];
+                                json[2].table.push(s)
+                             }
+                         }
+                    }
+                   setData(json);
+                })
+                }
+           }
+           
+        });
+    </script>
+</html>

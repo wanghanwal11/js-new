@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>消息确认</title>
+        <style>
+            #pic{
+                margin: 0 auto;
+                width:7rem;
+            }
+            #pic img{
+                margin-top:9rem;
+                width:7rem !important;
+                margin-bottom: 1.5rem;
+            }
+            #label{
+                margin: 0 auto;
+                padding:0 !important;
+                width: 4rem;
+            }
+           #label span{
+               color:#333333;
+               font-size: 1rem;
+           }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.clearCache();
+             var id = lazy.geturlstr('id')?lazy.geturlstr('id'):'';
+            
+             var url = getIP()+"/uc/NoticeUser/NoticeUser/userRead?noticeuserid="+id;
+             lazy.GET(url,function(data){
+                    var json=[{
+                       "id":"pic",
+                       "type" : "imgmapdiv",
+                       "src" : "../LazyUI/images/tongzhi/success.png",
+                       "rect" : [ ]
+                     },{
+                         "id":"label",
+                         "type":"label",
+                         "text":"操作成功"
+                     }];
+                     setData(json)
+            },function(e){
+                var json=[{
+                   "id":"pic",
+                   "type" : "imgmapdiv",
+                   "src" : "../LazyUI/images/tongzhi/fail.png",
+                   "rect" : [ ]
+                 },{
+                     "id":"label",
+                     "type":"label",
+                     "text":"操作失败"
+                 }];
+                 setData(json)
+            },0)
+            
+        });
+    </script>
+</html>

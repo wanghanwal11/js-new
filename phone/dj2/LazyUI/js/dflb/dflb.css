@@ -1,0 +1,28 @@
+body[type=body] div[type=dflb]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=dflb] .table {
+    width:100%;
+    height:auto;
+}
+div[type=dflb] .tr {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=dflb] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    margin-bottom: 0.5rem;
+}
+div[type=dflb] .link{
+    color: #ffcd02;
+}
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=wendalist] .tr{
+                border-bottom:0!important;
+            }
+            body{
+               background-color: #efefef !important;
+           }
+           #bounce_loading{
+                display: none;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var val=lazy.geturlstr("val")?lazy.geturlstr("val"):"";
+            var biaoshi=lazy.geturlstr("biaoshi")?lazy.geturlstr("biaoshi"):"";
+            //var ids= lazy.getParameter("ids");
+            var ids=lazy.geturlstr("wxinitId");
+            var id2=lazy.geturlstr("wxopenid");
+            var json=[{
+                        "type" : "sousuoinput",
+                        "re":lazy.geturlstr("val")?lazy.geturlstr("val"):"",
+                        "select" : function(val1){
+                            if(val1!=""){
+                                   val=val1;
+                                   page=1;
+                                   getData("chaxunxq").clean();
+                                   load(val);
+                                }
+                        },
+                        "foc":true
+                        },{
+                        "id" : "chaxunxq",
+                        "type" : "chaxunxq",
+                        "table" : []
+                    }]
+            setData(json,function(){if(!biaoshi){load()}})
+            function load(){
+                lazy.GET(getIP()+"/wechat/weixinzczx/esSearchTzyjw.ht?i=wiki&q="+val+"&p="+page+"&initid="+ids, function(data) {
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    if(data.length==0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull2(document.getElementsByClassName("table")[0])
+                         }
+                     }
+                     
+                    for(var i=0;i<data.length;i++){
+                         var right = JSON.parse(data[i].catName);
+                        var s={
+                                "ids":data[i].id,
+                                "title":data[i].docTitle,
+                                "h2" : data[i].docSummary,
+                                "time":lazy.autoFormat(data[i].docCreatedTime),
+                                "content":data[i].docContent,
+                                "right":right[0].text,
+                                "onclick":function(obj){
+                                    lazy.setParameter("title",obj.title)
+                                    
+                                    lazy.openWin("neirongxq.html?wxinitId="+ids+"&wxopenid="+id2)
+                                }
+                            }
+                       getData("chaxunxq").one(s);
+                    }
+                    page++
+                },function(){lazy.closeBounce();}, 0)
+            }
+            lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

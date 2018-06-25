@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人口详情</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important;
+            }
+            div[type=geren] .title{
+                display: none;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var rkobj = lazy.getParameter("rk");
+            var url = config.rkxq+"id="+rkobj.id;
+            var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var json = [
+                        {
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '人口详情',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "right" : [lazy.url + "LazyUI/js/headertoolbar/edit.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close();
+                                }
+                                if(name=="right"){
+                                    lazy.openWin("rkbj.html");
+                                }
+                            }
+                        },{
+                        "type" : "geren",
+                        "icon" : data.photo?getIP()+data.photo.replace(/\\/g,"/"):"",
+                        "name" : "",
+                    },{
+                            "type" : "process_xq",
+                            "icon" : "",
+                            "table" : [
+                            {
+                                "title" : "姓名：",
+                                "value" : data.name//"李轩颐"
+                            },
+                            {
+                                "title" : "性别：",
+                                "value" : data.gender?data.gender:"无记录"
+                            },
+                            {
+                                "title" : "身份证：",
+                                "value" : data.cardno?data.cardno:"无记录"
+                            },
+                            {
+                                "title" : "民族：",
+                                "value" : data.nationname?data.nationname:"无记录"
+                            },
+                            {
+                                "title" : "出生日期：",
+                                "value" : data.birthday?lazy.format(data.birthday,"yyyy-MM-dd"):"无记录"
+                            },
+                            {
+                                "title" : "英文名：",
+                                "value" : data.englishname?data.englishname:"无"
+                            },
+                            {
+                                "title" : "国家：",
+                                "value" : data.regionname?data.regionname:"无记录"
+                            },
+                            {
+                                "title" : "曾用名：",
+                                "value" : data.formername?data.formername:"无"
+                            },
+                            {
+                                "title" : "证件类型：",
+                                "value" : data.cardtypename//"身份证"
+                            },
+                            {
+                                "title" : "证件号码：",
+                                "value" : data.certificateid//"6106********3412323"
+                            },
+                            {
+                                "title" : "签发机关：",
+                                "value" : data.issorgan?data.issorgan:"无记录"
+                            },
+                            {
+                                "title" : "签发日期：",
+                                "value" : data.issdate?data.issdate:"无记录"
+                            },
+                            {
+                                "title" : "户籍地址：",
+                                "value" : data.raaddress?data.raaddress:"无记录"//"陕西省西安市"
+                            },
+                            {
+                                "title" : "籍贯省：",
+                                "value" : data.nativeplaceprovince?data.nativeplaceprovince:"无记录"
+                            },
+                            {
+                                "title" : "市：",
+                                "value" : data.nativeplacecity?data.nativeplacecity:"无记录"
+                            },
+                            {
+                                "title" : "区县：",
+                                "value" : data.nativeplacecounty?data.nativeplacecounty:"无记录"
+                            },
+                            {
+                                "title" : "籍贯详址：",
+                                "value" : data.nativeplaceaddress?data.nativeplaceaddress:"无记录"
+                            },
+                            {
+                                "title" : "身高：",
+                                "value" : data.height?data.height:"无记录"
+                            },
+                            {
+                                "title" : "血型：",
+                                "value" : data.bloodname?data.bloodname:"无记录"
+                            },
+                            {
+                                "title" : "政治面貌：",
+                                "value" : data.politicsname?data.politicsname:"无记录"
+                            },
+                            {
+                                "title" : "入党日期：",
+                                "value" : data.partyjoindate?data.partyjoindate:"无记录"
+                            },
+                            {
+                                "title" : "文化程度：",
+                                "value" : data.edulevelname?data.edulevelname:"无记录"
+                            },
+                            {
+                                "title" : "健康状况：",
+                                "value" : data.healthname?data.healthname:"无记录"
+                            },
+                            {
+                                "title" : "婚姻状况：",
+                                "value" : data.marryname?data.marryname:"无记录"
+                            },
+                            {
+                                "title" : "初婚日期：",
+                                "value" : data.firstmarrdate?data.firstmarrdate:"无记录"
+                            },
+                            {
+                                "title" : "已婚分类：",
+                                "value" : data.marriedtypename?data.marriedtypename:"无记录"
+                            },
+                            {
+                                "title" : "兵役状况：",
+                                "value" : data.militaryservicename?data.militaryservicename:"无记录"
+                            },
+                            {
+                                "title" : "宗教信仰：",
+                                "value" : data.faithname?data.faithname:"无记录"
+                            },
+                            {
+                                "title" : "从业状况：",
+                                "value" : data.workstatusname?data.workstatusname:"无记录"
+                            },
+                            {
+                                "title" : "社会兼职：",
+                                "value" : data.socialposition?data.socialposition:"无记录"
+                            },
+                            {
+                                "title" : "特长：",
+                                "value" : data.specialty?data.specialty:"无记录"
+                            },
+                            {
+                                "title" : "居住证号：",
+                                "value" : data.moveno?data.moveno:"无记录"
+                            },
+                            {
+                                "title" : "居住时长(月)：",
+                                "value" : data.staylength?data.staylength:"无记录"
+                            },
+                            {
+                                "title" : "联系电话：",
+                                "value" : data.tel?data.tel:"无记录"
+                            },
+                            {
+                                "title" : "服务处所：",
+                                "value" : data.servicespace?data.servicespace:"无记录"
+                            },
+                            {
+                                "title" : "从何处迁入：",
+                                "value" : data.wheretohere?data.wheretohere:"无记录"
+                            },
+                            {
+                                "title" : "参加工作时间：",
+                                "value" : data.joinwork?data.joinwork:"无记录"
+                            },
+                            {
+                                "title" : "工作单位：",
+                                "value" : data.workunits?data.workunits:"无记录"
+                            },
+                            {
+                                "title" : "职业：",
+                                "value" : data.profession?data.profession:"无记录"
+                            },
+                            {
+                                "title" : "单位性质：",
+                                "value" : data.companynature?data.companynature:"无记录"
+                            },
+                            {
+                                "title" : "单位所属行业：",
+                                "value" : data.companyindustry?data.companyindustry:"无记录"
+                            },
+                            {
+                                "title" : "干部职务级别：",
+                                "value" : data.goverjob?data.goverjob:"无记录"
+                            },
+                            {
+                                "title" : "专业技术职务：",
+                                "value" : data.skill?data.skill:"无记录"
+                            },
+                            {
+                                "title" : "单位职务：",
+                                "value" : data.companyjob?data.companyjob:"无记录"
+                            },
+                            {
+                                "title" : "社会职务：",
+                                "value" : data.socialjob?data.socialjob:"无记录"
+                            },
+                            {
+                                "title" : "手机号码：",
+                                "value" : data.cellphonenumber?data.cellphonenumber:"无记录"
+                            },
+                            {
+                                "title" : "电子邮箱：",
+                                "value" : data.email?data.email:"无记录"
+                            },
+                            {
+                                "title" : "离退休时间：",
+                                "value" : data.retirementtime?data.retirementtime:"无记录"
+                            },
+                            {
+                                "title" : "状态：",
+                                "value" : data.state?data.state:"无记录"
+                            },
+                            {
+                                "title" : "注销原因：",
+                                "value" : data.statereason?data.statereason:"无记录"
+                            },
+                            {
+                                "title" : "数据来源：",
+                                "value" : data.datasource?data.datasource:"无记录"
+                            },
+                            {
+                                "title" : "备注：",
+                                "value" : data.remark?data.remark:"无记录"
+                            }
+                            ]
+                        },
+                        {
+                "id" : "table9",
+                "type" : "table9",
+                "col" : 3,
+                "table" : [
+                            {
+                                "icon" : lazy.url + "LazyUI/images/xxcj/hjxq.png",
+                                "label" : "户籍详情",
+                                "color" : colorarr[0],
+                                "onclick" : function() {
+                                    lazy.openWin("hjxq.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/xxcj/fw.png",
+                                "label" : "房屋",
+                                "color" : colorarr[1],
+                                "onclick" : function() {
+                                    lazy.openWin("fjlbrk.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/xxcj/qcjl.png",
+                                "label" : "迁移记录",
+                                "color" : colorarr[2],
+                                "onclick" : function() {
+                                    lazy.openWin("rkqyjl.html");
+                                }
+                            },
+                        ]
+            }
+                ];
+                setData(json)
+            })
+        });
+    </script>
+</html>

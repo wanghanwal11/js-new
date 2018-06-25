@@ -1,0 +1,66 @@
+body[type=body] div[type=judgestar]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    background-color: #ffffff;
+}
+div[type=judgestar] .table {
+    width:100%;
+    height:auto;
+}
+
+div[type=judgestar] .judge {
+    height:1rem;
+    line-height:1rem;
+    margin: 1rem;
+    
+}
+div[type=judgestar] ul {
+  padding: 0;
+  margin:0;
+  overflow: hidden;
+ }
+div[type=judgestar] ul li {
+  float: left;
+  list-style: none;
+  width: 1rem;
+  height: 1rem;
+  background-image: url(gstar.png);
+  background-position: center;
+  background-size: 1rem;
+  background-repeat: no-repeat;
+  margin-left: 1rem;
+ }
+div[type=judgestar] ul li a {
+  display: block;
+  width: 100%;
+  padding-top: 27px;
+  overflow: hidden;
+ }
+div[type=judgestar] ul li.light {
+  float: left;
+  list-style: none;
+  width: 1rem;
+  height: 1rem;
+  background-image: url(ystar.png);
+  background-position: center;
+  background-size: 1rem;
+  background-repeat: no-repeat;
+  margin-left: 1rem;
+}
+div[type=judgestar] ul li.star {
+  float: left;
+  list-style: none;
+  width: 1rem;
+  height: 1rem;
+  background-position: center;
+  background-size: 1rem;
+  background-repeat: no-repeat;
+  margin-left: 1rem;
+}
+div[type=judgestar] .zl{
+    margin-left:1rem;
+    color:#b6b1b0;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>新增地址</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+             
+        </style>
+    </head>
+    <script>
+        start(function() {
+             var citycode='';
+             var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+             var json=[{
+                            "type" : "sousuoinput",
+                            "select" : function(val1){
+                                getDatalist(val1)
+                            },
+                            "onfocus":function(){
+                            }
+                        },{
+                            "id":"searchlist",
+                            "type":"searchlist",
+                             "table":[]
+                         }];
+            setData(json,function(){
+                getCitycode(function(){
+                    getDatalist('')
+                })
+                
+            })
+            //citycode
+            function getCitycode(back){
+                var url = getIP()+'/wx/wechatgl/gzhguanli/getgzhbyinitid?initid='+initid;
+                lazy.GET(url, function(data){
+                     citycode=data.rows[0].citycode
+                     back()
+                 },function(e){
+                     lazy.alert2(e);
+                      
+                 },3);
+            }
+            //地址
+            function getDatalist(val){
+                getData("searchlist").clean()
+                var url = 'http://restapi.amap.com/v3/assistant/inputtips?city='+citycode+'&citylimit=true&key=28db175679cb08e7eecbfaac315294e2&keywords='+val;
+                lazy.mapGET(url, function(data){
+                     lazy.for(data.tips,function(_data){
+                         var s = {
+                             "id":_data.id,
+                             "title":_data.name,
+                             "address":_data.district+' '+_data.address,
+                             "location":_data.location,
+                             "onclick":function(obj){
+                                  lazy.goback(-1)
+                                 lazy.setParameter("address1",obj.title)
+                                 lazy.setParameter("address2",obj.address)
+                                 lazy.setParameter("fulladdress",'')
+                                 lazy.setParameter("gps",obj.location)
+                             },
+                         }
+                         getData("searchlist").add(s)
+                     })
+                     
+                 },function(e){
+                     lazy.alert2(e);
+                      
+                 },3);
+            }
+            
+        });
+    </script>
+</html>

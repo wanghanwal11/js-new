@@ -1,0 +1,56 @@
+body[type=body] div[type=tsjl]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=tsjl] .table {
+    width:100%;
+    height:auto;
+}
+div[type=tsjl] .titlelb{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+
+div[type=tsjl] .trzw {
+    height:3rem;
+}
+div[type=tsjl] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+}
+div[type=tsjl] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=tsjl] .title {
+    margin-bottom: 0.8rem;
+}
+div[type=tsjl] .title span{
+    font-size: 1rem;
+}
+div[type=tsjl] .date span{
+   color: #999999;
+}
+/*完结*/
+div[type=tsjl] .span1{
+   color: #76c612;
+   font-size: 0.8rem;
+}
+/*办理中*/
+div[type=tsjl] .span2{
+   color: #ff9239;
+   font-size: 0.8rem;
+}
+/*撤回*/
+div[type=tsjl] .span3{
+   color: #fb3d3d;
+   font-size: 0.8rem;
+}
+

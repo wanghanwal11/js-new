@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>应急指挥</title>
+        <style type="text/css">
+            div[type=label] {
+                background-color: #67d163;
+                color: white;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setHeader({
+            "title":"续报-应急指挥",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var id = lazy.getParameter("xbid");
+        var json = [];
+        var xburl = config.xbxq+"id="+id;
+        lazy.URLRequest(xburl,function(_data){
+            var _data = _data.rows;
+            for(var i = 0;i<_data.length-1;i++){
+                var xb = {
+                    "type":"process_xq",
+                    "table":[
+                         {
+                            "title" : "事件标题：",
+                            "value" : _data[i].eventtitle!=""?_data[i].eventtitle:"无描述"
+                        },{
+                            "title" : "重伤人数：",
+                            "value" : _data[i].cntSeriously!=""?_data[i].cntSeriously:"无"
+                        },{
+                            "title" : "轻伤人数：",
+                            "value" : _data[i].cntMinor!=""?_data[i].cntMinor:"无"
+                        },{
+                            "title" : "死亡人数：",
+                            "value" : _data[i].cntDead!=""?_data[i].cntDead:"无"
+                        },{
+                            "title" : "下落不明人数：",
+                            "value" : _data[i].cntMissing!=""?_data[i].cntMissing:"无"
+                        },{
+                            "title" : "中毒人数：",
+                            "value" : _data[i].cntPoisoning!=""?_data[i].cntPoisoning:"无"
+                        },{
+                            "title" : "直接经济损失(元)：",
+                            "value" : _data[i].lostDirectly!=""?_data[i].lostDirectly:"无"
+                        },{
+                            "title" : "间接经济损失(元)：",
+                            "value" : _data[i].lostIndirect!=""?_data[i].lostIndirect:"无"
+                        },{
+                            "title" : "续报内容：",
+                            "value" : _data[i].describe!=""?_data[i].describe:"无"
+                        }
+                    ]
+                }
+                if(_data[i].img&&_data[i].img.length>0){
+                    xb.table.push({
+                        "title" : "图片：",
+                        "type" : "image",
+                        "value" : _data[i].img
+                    })
+                }
+                if(_data[i].df2&&_data[i].df2!=""){
+                    xb.table.push({
+                        "title" : "视频：",
+                        "type" : "video",
+                        "value" : _data[i].df2
+                    })
+                }
+                json.unshift(xb);
+                var label = {
+                    "type":"label",
+                    "text":"续报"+(i+1)+"次",
+                };
+                json.unshift(label);
+           }
+                var data = _data[_data.length-1];
+                var cblabel = {
+                  "type":"label",
+                  "text":"初报"  
+                }
+                json.push(cblabel)
+                var cb = {
+                    "type":"process_xq",
+                    "table":[
+                        {
+                            "title" : "事件标题：",
+                            "value" : data.title
+                        },{
+                            "title" : "事件类别：",
+                            "value" : data.levelRank
+                        },{
+                            "title" : "事件级别：",
+                            "value" : data.levelSerious
+                        },{
+                            "title" : "报送类型：",
+                            "value" : data.type
+                        },{
+                            "title" : "事发时间：",
+                            "value" : lazy.format(data.happenTime,"yyyy-MM-dd")
+                        },{
+                            "title" : "上报内容：",
+                            "value" : data.describe
+                        }
+                    ]
+                }
+                if(data.img&&data.img.length>0){
+                    cb.table.push({
+                        "title" : "图片：",
+                        "type" : "image",
+                        "value" : data.img
+                    })
+                }
+                if(data.df2&&data.df2!=""){
+                    cb.table.push({
+                        "title" : "视频：",
+                        "type" : "video",
+                        "value" : data.df2
+                    })
+                }
+                json.push(cb)
+                var buttom = {
+                    "type" : "bottombuttons",
+                    "table" : [
+                        {
+                            "label" : "续报",
+                            "onclick" : function() {
+                                lazy.openWin("xb.html");
+                            }
+                        },{
+                            "label" : "终报",
+                            "onclick" : function() {
+                                lazy.openWin("zb.html");
+                            }
+                        }
+                    ]
+                }
+                json.push(buttom);
+                 setData(json);
+        })
+    });
+    </script>
+</html>

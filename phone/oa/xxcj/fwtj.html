@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>房屋添加</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=process] input{
+                text-align: right
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var lyobj = lazy.getParameter("ly");
+            var json = [
+                    {
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '房屋添加',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "right" : [lazy.url + "LazyUI/js/headertoolbar/dui.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                                lazy.goBack();
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                            if(name=="right"){
+                                var arr = getData("process").getArray().table;
+                                var url=config.fwtj+"buildingid="+lyobj.id+"&buildingname="+lyobj.name+"&orgid="+lyobj.orgid+"&orgname="+lyobj.orgname+"&orgpath="+lyobj.orgpath;
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                        lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                        return;
+                                    }
+                                    if(arr[i].value!=""){
+                                        if(arr[i].type=="select"){
+                                            if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                            if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                            //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                        }else if(arr[i].type=="overtime"){
+                                             url += "&"+arr[i].id+"="+arr[i].value[0].h1;
+                                        }else{
+                                            url+="&"+arr[i].id+"="+arr[i].value
+                                        }
+                                    }
+                                }
+                                lazy.URLRequest(url,function(){
+                                    alert("添加成功");
+                                    lazy.openWin("fjlb.html")
+                                })
+                            }
+                        }
+                    },
+                    {
+                        "id" : "process",
+                        "type" : "process",
+                        "table" : [
+                            {
+                                "id" : "unit",
+                                "title" : "单元(必填)",
+                                "type" : "number",
+                                "placeholder" : "请输入"
+                            },{
+                                "id" : "floor",
+                                "title" : "楼层(必填)",
+                                "type" : "number",
+                                "placeholder" : "请输入"
+                            },{
+                                "id" : "housenum",
+                                "title" : "房屋号(必填)",
+                                "type" : "number",
+                                "placeholder" : "请输入"
+                            },{
+                                "id" : "useid",
+                                "name" : "usename",
+                                "title" : "房屋用途(必填)",
+                                "placeholder" : "请选择",
+                                "type" : "select",
+                                "option" : base_datas.HouseUse
+                            },{
+                                "id" : "hostname",
+                                "title" : "产权人",
+                                "type" : "overtime",
+                                "placeholder" : "请选择",
+                                "url" : "cqr.html"
+                            },{
+                                "id" : "houseownership",
+                                "title" : "房屋所有权",
+                                "placeholder" : "请输入"
+                            },{
+                                "id" : "linktel",
+                                "title" : "联系电话",
+                                "type" : "number",
+                                "placeholder" : "请输入"
+                            },{
+                                "id" : "area",
+                                "title" : "建筑面积",
+                                "placeholder" : "请输入"
+                            },{
+                                "id" : "roompeople",
+                                "title" : "房间人数",
+                                "type" : "number",
+                                "placeholder" : "请输入"
+                            },{
+                                "id" : "basehousetypeid",
+                                "name" : "basehousetypename",
+                                "title" : "房屋户型",
+                                "type" : "select",
+                                "placeholder" : "请选择",
+                                "option" : base_datas.HouseBaseType
+                            },{
+                                "id" : "basestructureid",
+                                "name" : "basestructurename",
+                                "title" : "房屋结构",
+                                "type" : "select",
+                                "placeholder" : "请选择",
+                                "option" : base_datas.StructureBaseName
+                            },{
+                                "id" : "typeid",
+                                "name": "typename",
+                                "title" : "房屋类型",
+                                "type" : "select",
+                                "placeholder" : "请选择",
+                                "option" : base_datas.HouseType
+                            },{
+                                "id" : "natureid",
+                                "name" : "naturename",
+                                "title" : "房屋性质",
+                                "type" : "select",
+                                "placeholder" : "请选择",
+                                "option" : base_datas.HouseNature
+                            },{
+                                "id" : "remark",
+                                "title" : "备注",
+                                "type" : "textarea",
+                                "placeholder" : "请输入"
+                            }
+                        ]
+                        
+                    }
+            ];
+            setData(json)
+        });
+    </script>
+</html>

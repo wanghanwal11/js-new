@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../../LazyUI/js/admin.js"></script>
+        <title>社工加入</title>
+        <style>
+        body{
+            background-color: #febf01 !important;
+        }
+            #pic{
+                position: fixed;
+                bottom:30rem;
+                left:50%;
+                margin-left:-49px;
+                margin-top:3rem;
+                width:92px;
+                height:92px;
+                border-radius: 50%;
+                z-index:2;
+                border: 6px solid #febe01;
+            }
+            #pic img{
+                width:84px;
+                height:84px;
+                border-radius: 50%;
+                border: 4px solid #feb501;
+            }
+            #picbg img{
+                width:100%;
+                height:100%
+            }
+             #picbg{
+                position:fixed;
+                bottom:0
+            }
+            #pictitle{
+                position: fixed;
+                bottom:20rem;
+                z-index:2;
+                left:50%;
+                margin-left:-7rem;
+            }
+            #pictitle img{
+                width:14rem;
+                
+            }
+            #label{
+                position:fixed;
+                bottom:28rem;
+                left:50%;
+                z-index:2;
+                color: #ffffff;
+                padding:0 !important;
+            }
+            #button{
+                position: fixed;
+                /*top:37rem !important;*/
+            }
+            #button .button_a{
+                background-color: #ffffff !important;
+                color: #ffb401 !important;
+                border-radius:4px !important;
+                width: 94% !important;
+                margin-left: 3% !important;
+            }
+            #input1{
+                position:fixed;
+                bottom:9rem;
+               
+            }
+            #input2{
+                position:fixed;
+                bottom:6rem;
+            }
+            #label2 {
+               position: fixed;
+               left: -9.5rem;
+                margin-left: 50%;
+                text-align:center;
+               color: #ffffff !important;
+            } 
+            div[type=input]{
+                width:66% !important;
+                background-color: transparent !important;
+                margin-left:20% !important;
+                
+            }
+            div[type=input] input{
+                color: #ffffff !important;
+            }
+            ::-webkit-input-placeholder{
+                 color: #ffffff !important;
+             }
+            div[type=input] .cell{
+                background-color: transparent !important;
+                color: #ffffff !important;
+                border-bottom:1px solid #ffe6b7;
+                padding:0 !important;
+            }
+            div[type=input] .title {
+                padding-bottom: 0.2rem !important;
+                padding-left: 0.5rem !important;
+                width:4rem !important;
+            }
+            div[type=input] .input {
+                padding-bottom: 0.2rem !important;
+            }
+            div[type=input] .icon{
+                display: none;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.clearCache()
+            var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+            var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+            var streetorcommunity = lazy.geturlstr('streetorcommunity')?lazy.geturlstr('streetorcommunity'):lazy.getParameter('streetorcommunity')
+            var streetorcommunityid = lazy.geturlstr('streetorcommunityid')?lazy.geturlstr('streetorcommunityid'):lazy.getParameter('streetorcommunityid')
+            lazy.setParameter('streetorcommunity',streetorcommunity)
+            lazy.setParameter('streetorcommunityid',streetorcommunityid)
+            var isBindWx = '0'
+            var realname = '';
+            var phone = '';
+            if(openid){
+                //isSg()
+                isBindWxFun() //判断是否是社工
+            }else{
+                login()
+                //isSg()
+            }
+            function loadData(state){
+               
+               var url = getIP()+'/cmy/cmy/sCommunityinfo/list?streetorcommunity='+streetorcommunity+'&streetorcommunityid='+streetorcommunityid
+               lazy.GET(url,function(data){
+                   lazy.loadWxJs(function(){
+                       var objshare = {
+                            title:data.rows[0].streetorcommunityname,
+                            url:location.protocol+'//'+location.host+'/wechat/shequ/sg/sgregister.html?streetorcommunityid='+streetorcommunityid+'&streetorcommunity='+streetorcommunity+'&initid='+initid,
+                            img:data.rows[0].photopath,
+                            summary:data.rows[0].streetorcommunityname+'， 邀请您加入'
+                        }
+                        console.log(objshare)
+                        lazy.setParameter('share',objshare)
+                        lazy.share(objshare)
+                        //getUserInfo()
+                         var json=[{
+                                   "id":"pic",
+                                   "type" : "imgmapdiv",
+                                   "src" : data.rows[0].photopath,
+                                   "loading":0,
+                                   "rect" : [ ]
+                               },{
+                                   "id":'label',
+                                   "type":'label',
+                                   "text":data.rows[0].streetorcommunityname,
+                               },{
+                                   "id":"picbg",
+                                   "type" : "imgmapdiv",
+                                   "src" : "../../LazyUI/images/sg/sg.jpg",
+                                   "loading":0,
+                                   "rect" : [ ]
+                               },{
+                                   "id":"pictitle",
+                                   "type" : "imgmapdiv",
+                                   "src" : "../../LazyUI/images/sg/title2.png",
+                                   "loading":0,
+                                   "rect" : [ ]
+                               }/*,{
+                     
+                                     "id":"input1",
+                                     "type":"input",
+                                     "title":"姓名",
+                                     "value":"",
+                                     "readOnly":'',
+                                     "placeholder":"请填写您的真实姓名",
+                                     "icon":"../LazyUI/images/right1.png",
+                                    "onclick":function(){
+                                    }
+                                  
+                                },{
+                     
+                                     "id":"input2",
+                                     "type":"input",
+                                     "title":"手机号",
+                                     "value":"",
+                                     "readOnly":'',
+                                     "placeholder":"请填写您的手机号",
+                                     "icon":"../LazyUI/images/right1.png",
+                                    "onclick":function(){
+                                    }
+                                  
+                                },{
+                                     "id":"button",
+                                     "type":"button",
+                                     "label":'加入',
+                                     "onclick":function(){
+                                       
+                                       registerSg()
+                                            
+                                           
+                                     }
+                                }*/];
+                        
+                        var input1 = {
+                             "id":"input1",
+                             "type":"input",
+                             "title":"姓名",
+                             "value":"",
+                             "readOnly":'',
+                             "placeholder":"请填写您的真实姓名",
+                             "icon":"../LazyUI/images/right1.png",
+                             /*"key":"rzsq",*/
+                            "onclick":function(){
+                            }
+                        }
+                        var input2 = {
+                             "id":"input2",
+                             "type":"input",
+                             "title":"手机号",
+                             "value":"",
+                             "readOnly":'',
+                             "placeholder":"请填写您的手机号",
+                             "icon":"../LazyUI/images/right1.png",
+                             /*"key":"rzsq",*/
+                            "onclick":function(){
+                            }
+                        }
+                        var label = {
+                           "id":"label2",
+                           "type":"label",
+                           "text":"提示：点击下一步关注公众号后成功加入社工"
+                        }
+                        var button = {
+                            "id":"button",
+                             "type":"button",
+                             "label":'下一步',
+                             "onclick":function(){
+                               
+                               registerSg()
+                                    
+                                   
+                             }
+                        }
+                        if(state){
+                            //已经有手机号
+                            json.push(label)
+                            json.push(button)
+                        }else{
+                            json.push(input1)
+                            json.push(input2)
+                            json.push(label)
+                            json.push(button)
+                        }
+                        setData(json,function(){
+                            var span = document.body.getElementsByTagName('span')[0]
+                            //span.style.width = span.offsetWidth+'px'
+                             span.style.marginLeft = '-'+(span.offsetWidth/2-3)+'px'
+                            //var label = document.getElementById('label')
+                            //label.style.width = span.offsetWidth+'px'
+                            var height = document.body.offsetHeight;
+                            
+                          //定位自适应
+                            if(state){
+                                 console.log(document.getElementById('button'))
+                                 //document.getElementById('button').style.top=(height-15*14)+'px'
+                                 document.getElementById('label2').style.bottom='250px'
+                                 document.getElementById('button').style.bottom='200px'
+                             }else{
+                                 //document.getElementById('button').style.top=(height-15*4)+'px'
+                                 document.getElementById('label2').style.bottom='5rem'
+                                 document.getElementById('button').style.bottom='2rem'
+                             }
+                        })
+                    })//loadwx
+                },function(e){
+                 alert(e)
+                },0)//获取社区信息
+                       
+                
+            }
+            ////判断是否是社工
+            function isSg(){
+               var url = getIP()+'/wx/wechatgl/weixinuser/getAll?openid='+openid;
+               lazy.GET(url,function(data){
+                   if(data.rows.length == 0){
+                       //不是社工
+                       getPersonInfo()
+                       
+                   }else{
+                       if(data.rows[0].istuser){
+                           //是社工                    
+                           if(isBindWx == '1'){
+                               //已经关注过二维码
+                               window.location.replace('sgsuccess2.html?initid='+initid+'&openid='+openid+'&streetorcommunity='+streetorcommunity+'&streetorcommunityid='+streetorcommunityid)
+                           }else{
+                               //没有关注过二维码
+                               window.location.replace('sgsuccess.html?initid='+initid+'&openid='+openid+'&streetorcommunity='+streetorcommunity+'&streetorcommunityid='+streetorcommunityid)
+                           }
+                    	   
+                           //lazy.openWin('sgsuccess.html?initid='+initid+'&openid='+openid)
+                       }else{
+                           getPersonInfo()
+                       }
+                       
+                   }//else
+                   
+                 },function(e){
+                     alert(e)
+                 },0)  //获取是否是社工
+            }
+            ////查询用户信息
+            function getPersonInfo(){
+                
+                 var url1 = getIP()+"/wx/api/wx/getweixinuserinfo?openid="+openid+"&initid="+initid;
+                    lazy.GET(url1,function(_data){
+                        
+                         if(_data.rows.length>0){
+                           
+                            realname = _data.rows[0].realname
+                            phone = _data.rows[0].mobile
+                            if(phone&&realname){
+                                //已经绑定过姓名和手机号 但未关注
+                                window.location.replace('sgsuccess.html?initid='+initid+'&openid='+openid+'&streetorcommunity='+streetorcommunity+'&streetorcommunityid='+streetorcommunityid)
+                                //loadData(1)
+                            }else{
+                                loadData(0)
+                            }
+                             
+                        }else{
+                            loadData(0)
+                        }
+                   
+                    },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                    },0)
+                
+             }
+           /////登陆
+           function login(){
+               var url = getIP()+'/wx/api/wx/getWxOAuth?initid='+initid+'&backurl=shequ/sg/sgregister'
+               lazy.GET(url,function(data){
+                   var urlback = data.rows[0];
+                   lazy.setParameter("gb",1)
+                   //lazy.openWin(urlback+'#LazyAuto0')
+                      window.location.replace(urlback)
+               },function(e){
+                     alert(e)
+               },0)
+           }
+           /*是否关注过公众号*/
+          function isBindWxFun(){
+               var url = getIP()+"/wx/api/wx/getwxuserinfo?initid="+initid+"&openid="+openid;
+               lazy.GET(url,function(data){
+                   isBindWx = data.rows[0].subscribe;
+                   isSg()
+               },function(e){
+                   lazy.alert2(e);
+               },0)   
+               
+           }
+            //注册社工
+            function registerSg(){
+                //var url = 'http://192.168.0.27:8092/api/wx/checkweixinphone?mobile='+phone+'&initid='+initid;
+                if(getData('input1')) realname = getData('input1').getValue()
+                if(getData('input2')) phone = getData('input2').getValue()
+                if(getData('input1')){
+                    if(!getData('input1').getValue()){
+                        lazy.alert2('请填写您的姓名')
+                        return;
+                    }
+                    
+                    
+                }
+                if(getData('input2')){
+                    if(!getData('input2').getValue()){
+                        lazy.alert2('请填写您的手机号')
+                        return;
+                    }
+                    
+                }
+                var url = getIP()+'/wx/wechatgl/gzhguanli/addStaffByInitid?initid='+initid+'&openid='+openid+'&realname='+realname+'&phone='+phone+'&communitytype='+streetorcommunity+'&communityid='+streetorcommunityid;
+                lazy.GET(url, function(data){
+                      //code = data.newPrimaryKeys.checkcode;
+                      //lazy.alert2(data.message)
+                      if(isBindWx == '1'){
+                           //已经关注过二维码
+                           window.location.replace('sgsuccess2.html?initid='+initid+'&openid='+openid+'&streetorcommunity='+streetorcommunity+'&streetorcommunityid='+streetorcommunityid)
+                       }else{
+                           //没有关注过二维码
+                           window.location.replace('sgsuccess.html?initid='+initid+'&openid='+openid+'&streetorcommunity='+streetorcommunity+'&streetorcommunityid='+streetorcommunityid)
+                       }
+                      //window.location.replace('sgsuccess.html?initid='+initid+'&openid='+openid)
+                      // lazy.openWin('sgsuccess.html?initid='+initid+'&openid='+openid)
+                      /*if(isBindWx == '1'){
+                          //已关注
+                            lazy.alert2(data.message)
+                        }else{
+                            lazy.openWin('sgsuccess.html?initid='+initid)
+                        }*/
+                      
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },3);
+            }
+            
+        });
+    </script>
+</html>

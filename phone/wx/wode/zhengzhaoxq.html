@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>证照夹</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+            input{
+                text-align: right;
+            }
+            div[type=input]{
+                margin-bottom: 0rem !important;
+                border-bottom: 1px solid #efefef;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var obj = lazy.getParameter('obj')?lazy.getParameter('obj'):''
+            console.log(obj)
+            //var start = obj.number.length-4;
+            //var number = "****"+obj.number.substring(start,obj.number.length);
+            var src = [];
+            var src_name = [];
+            lazy.for(obj.value,function(_obj){
+                
+                src.push(lazy.getParameter("zzip")+_obj.df2)
+                src_name.push(_obj.licname)
+                
+            })
+            var json =[{
+                            "id":"input1",
+                            "type":"input",
+                             "title":"姓名",
+                             //"key":"rzname",
+                             "readOnly":true,
+                             "value":obj.name,
+                             "placeholder":"",
+                         },{
+                             "id":"input2",
+                             "type":"input",
+                             "title":obj.type,
+                             "readOnly":true,
+                             "value":obj.number,
+                             // "key":"rzid",
+                             "placeholder":"",
+                        },{
+                              "id": "image",
+                              "type": "image2",
+                              "label": "证件照",
+                              /*"key":"rzkey",*/
+                              "title":src_name,
+                              //"ps":'请分别上传身份证正面、背面,本人手持身份证正面照片',
+                              "src": src
+                        }];
+                
+             
+            setData(json,function(){
+                getData("image").setPic(src)
+            })
+            
+        });
+    </script>
+</html>

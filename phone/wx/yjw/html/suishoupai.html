@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>随手拍</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+    <script src="../../LazyUI/js/admin.js"></script>
+    <style>
+    
+        body{
+            background: #EBEBEB!important;
+            
+        }
+        div[type=plugins]{
+            height: 100%!important;
+        }
+        div[type=image] .zu{
+            width:30% !important;
+            height: 7rem !important;
+           
+        }
+        div[type=image] .pic {
+            width:100% !important;
+            height: 7rem !important;
+            
+        }
+        div[type=image] .add {
+            width:30% !important;
+            height: 7rem !important;
+           
+        }
+        #input2{
+            padding: 0.5rem 0rem;
+            background: white;
+        }
+        #image span{
+        }
+        #process span{
+            padding-left: 0.5rem
+        }
+        
+       
+        #image1{
+            margin-top: 0.5rem;
+        }
+        #input2 textarea{
+            width: 100%;
+            height: 4rem;
+            padding-left:0 !important;
+        }
+        div[type=process] .tr{
+            border: none!important;
+        }
+        div[type=process] .tr_map{
+            padding-left: 0.5rem;
+        }
+        div[type=process] .tr_map input{
+            padding-left: 0 !important;
+        }
+        div[type=button] .button_a{
+            border-radius: 1.3rem!important;
+            line-height: 2.3rem!important;
+            background-color: #3399ff!important;
+            border-color: #3399ff!important;
+        }
+        div[type=button]{
+            position: absolute!important;
+            top: 30rem!important;
+        }
+        body[type=body] div[type=map]{
+            z-index: 999;
+        }
+        div[type=image] .cha {
+            width: 1.2rem !important; 
+            height: 1.2rem !important;
+            border-radius: 1.2rem !important;
+            top: -0.6rem !important;
+        }
+        @media all and (orientation : landscape) { 
+            div[type=image] .zu{
+                width: 7rem !important;
+                height: 7rem !important;
+               
+            }
+            div[type=image] .pic {
+                width: 7rem !important;
+                height: 7rem !important;
+                
+            }
+            div[type=image] .add {
+                width: 7rem !important;
+                height: 7rem !important;
+               
+            }
+        } 
+    </style>
+</head>
+<script>
+    start(function() {
+        lazy.clearCache();
+        GoBackEvent = function() {
+            getData('map').hide();
+            getData('group').show();
+            getData('button').show();
+        }
+        var id1=lazy.geturlstr("wxinitId");
+        var id2=lazy.geturlstr("wxopenid");
+        var obj1={};
+        lazy.loadWxJs(function(){
+            
+            //lazy.GET(getIP()+"/wechat/weixinTzyjw/eventCategoryList.ht?initid="+id1+"&openid="+id2,function(data){
+            
+            var json = [{
+                id : 'group',
+                type : 'group',
+                list : [{
+                    "id" : "image",
+                    "type" : "image",
+                    "label" : "图片",
+                    "src" : "../LazyUI/images/zhibu/default.jpg"
+                },{
+                    id:"input2",
+                    type : 'input',
+                    placeholder : '描述:',
+                    inputtype : 'textarea',
+                },{
+                    id:"process",
+                    type:"process",
+                    table:[{
+                        type:"sound",
+                        title:"录音  "
+                    },{
+                        type:"map",
+                        title:"定位",
+                        onclick:function(){
+                            lazy.setGoBack();
+                            getData('map').show();
+                            getData('group').hide();
+                            getData('button').hide();
+                        }
+                    }]
+                }]
+    
+            },{
+                id : 'map',
+                type : 'map',
+                center : { lng : 116.397428, lat : 39.90923},
+                showHide : 'hide',
+                onclick : function(obj) {
+                    
+                    obj1=obj;
+                    lazy.goBack(GoBackEvent);
+                    getData('map').hide();
+                    getData('button').show();
+                    getData('group').show();
+                    document.getElementsByTagName("input")[0].value = obj.address;
+                    //console.log(body.document.getElementsByTagName("input")[1])
+                    //getData("process").table[1].add(obj.address)
+                }
+            },{
+                id:'button',
+                type : 'button',
+                label : '提交',
+                onclick : function() {
+                    tijiao()
+                }
+            }];
+            setData(json,function(){
+                //getData("image").clear();
+            });
+        })
+        
+        
+        
+        function tijiao(){
+            
+            var input2=getData("input2").getValue()
+            var photo=getData("image").getValue()
+            //alert(photo)
+           if(photo.length == 0){
+               lazy.alert2("请上传图片");
+               return;
+           }
+            var luyin=getData("process").re()
+            var gpss=getData("process").gps()
+            var soundId=getData("process").soundId()
+            if(gpss==""){
+                lazy.alert2("请先定位");
+                return;
+            }
+            //getData("input2").add('http://vito.tunnel.qydev.com/lazy/getWeixinImage.php?id='+photo)
+           
+           lazy.GET(getIP()+"/wechat/weixinTzyjw/sqaction.ht?initid="+id1+"&openid="+id2+"&eventaddr="+gpss+"&content="+input2+"&imgurl="+photo+"&voiceurl="+luyin+"&localvoiceid="+soundId,function(data){
+            //lazy.GET(getIP()+"/wechat/weixinTzyjw/sqaction.ht?initid=gh_c22295734c67&openid=oLIQTxA2zexLyh0XRxTQcwxarIIY&eventaddr="+gpss+"&content="+input2+"&imgurl="+photo+"&voiceurl="+luyin+"&localvoiceid="+soundId,function(data){
+                lazy.alert3("提交成功", "感谢您的反馈，我们会尽快处理，请您耐心等待。",{
+                    "yesfun":function(){
+                        lazy.refresh()
+                    }
+                });
+                
+            })
+        }
+    });
+</script>
+</html>

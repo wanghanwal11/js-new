@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>事件详情</title>
+    </head>
+    <script> 
+    start(function() {
+        var url="";
+        if(lazy.getParameter("rtype")=="待办"){
+           var id=lazy.getParameter("rid");
+           var taskid=lazy.getParameter("taskid")
+           url=config.getMobile+"reportid="+id+"&taskid="+taskid;
+        }else{
+           var id=lazy.getParameter("rid");
+           url=config.getMobile+"reportid="+id
+        }
+        var json = []
+        setData(json)
+        lazy.URLRequest(url, function(data){
+            var project = data.newPrimaryKeys.projectName;
+            var data = data.rows;
+            lazy.setParameter("sjbt",data[0].title);
+            var json = [];
+            var pro = {
+                "type" : "process_xq",
+                "table" : [
+                    {
+                        "title" : "事件编号：",
+                        "value" : data[0].reportid
+                    },{
+                        "title" : "事件等级：",
+                        "value" : data[0].levelname
+                    },{
+                        "title" : "事件类型：",
+                        "value" : data[0].subtypename
+                    },{
+                        "title" : "标题：",
+                        "value" : data[0].title
+                    },{
+                        "title" : "地点：",
+                        "value" : data[0].address?data[0].address:"无记录"
+                    },{
+                        "title" : "事件描述：",
+                        "value" : data[0].content?data[0].content:"无记录"
+                    }
+                ]
+            }
+            if(project == "xcaj"){
+            	pro.table.unshift({
+            		"title" : "当事人电话：",
+                    "value" : data[0].partyphone?data[0].partyphone:"无记录"
+            	})
+            	pro.table.unshift({
+            		"title" : "当事人：",
+                    "value" : data[0].partyname?data[0].partyname:"无记录"
+            	})
+            }
+            if(data[0].img&&data[0].img.length>0){
+                var imgs=data[0].img;
+                var img = [];
+                for(var i=0;i<imgs.length;i++){
+                   img.push(imgs[i].path);//"/oa/doc/docdownbyid.ht?fileids="+imgs[i].fileid);
+                }
+                pro.table.push({
+                    "title" : "图片：",
+                    "type" : "image",
+                    "value" : img
+                })
+            }
+            if(data[0].record&&data[0].record.length>0){
+                var record = [];
+                for(var i=0;i<data[0].record.length;i++){
+                   record.push(data[0].record[i].path);//"/oa/doc/docdownbyid.ht?fileids="+imgs[i].fileid);
+                }
+                pro.table.push({
+                    "title" : "录音：",
+                    "type" : "file",
+                    "value" : record
+                })
+            }
+            if(data[0].levelname=="日常事件"){
+                pro.table.push({
+                    "title" : "事件结果：",
+                    "value" : data[0].finalcontent
+                })
+                if(data[0].finalimg&&data[0].finalimg.length>0){
+                    var finalimgs = [];
+                    var finalimg = data[0].finalimg;
+                    for(var i=0;i<finalimg.length;i++){
+                       finalimgs.push(finalimg[i].path);//"/oa/doc/docdownbyid.ht?fileids="+imgs[i].fileid);
+                    }
+                    pro.table.push({
+                       "title" : "图片：",
+                        "type" : "image",
+                        "value" : finalimgs
+                    })
+                }
+                if(data[0].finalrecord&&data[0].finalrecord.length>0){
+                    var finalrecords = [];
+                    for(var i=0;i<data[0].finalrecord.length;i++){
+                       finalrecords.push(data[0].finalrecord[i].path);//"/oa/doc/docdownbyid.ht?fileids="+paths[i].fileid);
+                       //time.push(paths[i].time);
+                       //state.push(paths[i].state)
+                    }
+                    pro.table.push({
+                       "title" : "录音：",
+                       "type" : "file",
+                       "value" : finalrecords
+                    })
+                }
+            }
+             if(data[0].resultimg&&data[0].resultimg.length>0){
+                 var resultimg = [];
+                 for(var i=0;i<data[0].resultimg.length;i++){
+                   resultimg.push(data[0].resultimg[i].path);//"/oa/doc/docdownbyid.ht?fileids="+imgs[i].fileid);
+                 }
+                 pro.table.push({
+                    "title" : "核实图片：",
+                    "type" : "image",
+                    "value" : resultimg
+                 })
+             }
+             if(data[0].resultrecord&&data[0].resultrecord.length>0){
+                 var resultrecord = [];
+                 for(var i=0;i<data[0].resultrecord.length;i++){
+                   resultrecord.push(data[0].resultrecord[i].path);//"/oa/doc/docdownbyid.ht?fileids="+imgs[i].fileid);
+                 }
+                 pro.table.push({
+                    "title" : "核实录音：",
+                    "type" : "file",
+                    "value" : resultrecord
+                 })
+             }
+            json.push(pro);
+            if(data[1].taskOpinionLst){
+	            var taskOpinionLst = data[1].taskOpinionLst;
+	            var opinionlist = [];
+	            for(var i=taskOpinionLst.length-1;i>=0;i--){
+	                var tmp = {
+	                    "icon" : "",
+	                    "h1" : taskOpinionLst[i].exefullname?taskOpinionLst[i].exefullname:taskOpinionLst[i].orgName,
+	                    "h2" : taskOpinionLst[i].state?taskOpinionLst[i].state:""+"&nbsp;"+taskOpinionLst[i].opinion?taskOpinionLst[i].opinion:"",
+	                    "h3" : taskOpinionLst[i].endtime?lazy.format(taskOpinionLst[i].endtime,"yyyy-MM-dd"):""
+	                }
+	                opinionlist.push(tmp)
+	            }
+	            var peopleprocess = {
+	                "type" : "peopleprocess",
+	                "result" : "yes",
+	                "table" : opinionlist
+	            }
+	            if(taskOpinionLst.length>0&&taskOpinionLst[0].checkstatus){
+		            var check = taskOpinionLst[0].checkstatus;
+		            if(check=="-1") peopleprocess.result = null;
+		            if(check=="3") peopleprocess.result = "no";
+		            if(check=="1") peopleprocess.result = "yes";
+	            }
+	            json.push(peopleprocess);
+            }
+            if (lazy.getParameter("rtype")=="待办") {
+       	 		var bottombuttons = {
+                    "type" : "bottombuttons",
+                    "table" : [
+                                   {
+                                       "label" : "办理",
+                                       "onclick" : function() {
+                                           lazy.openWin("shijianchuli.html");
+                                       }
+                                   }
+                                ]
+                }
+       	 		if(data[0].button.indexOf("1")){
+       	 			bottombuttons.table.push({
+                        "label" : "申请退回",
+                        "onclick" : function() {
+                            lazy.openWin("shenqingtuihui.html");
+                        }
+                    })
+       	 		}
+                json.push(bottombuttons)
+   	 		}
+            json.unshift({
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '事件详情',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "select" : function(name, index) {
+                    if(name=="left"&&index==0){
+                        lazy.goBack();
+                    }
+                    if(name=="left"&&index==1){
+                        lazy.close();
+                    }
+                }
+        	})
+            setData(json)
+        })
+         
+    });
+    </script>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>人口添加</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important;
+                margin-bottom:2rem;
+            }
+            div[type=geren] .title span{
+                color: black;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var lyobj = lazy.getParameter("ly");
+            var fwobj = lazy.getParameter("fw");
+            lazy.setHeader({
+                "title":"人口添加",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                        "icon":"dui.png",
+                        "onclick":function(){
+                            var path = getData("geren").returnPath()[0]?getData("geren").returnPath()[0]:"";
+                            var orgid = lyobj.orgid?lyobj.orgid:"";
+                            var orgname = lyobj.orgname?lyobj.orgname:"";
+                            var url = config.rktj+"houseid="+fwobj.id+"&orgid="+orgid+"&orgname="+orgname+"&photo="+path;
+                            var arr = getData("process").getArray().table;
+                            for(var i=0;i<arr.length;i++){
+                                if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                    lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                    return;
+                                }
+                                if(arr[i].value!=""){
+                                    if(arr[i].type=="select"){
+                                        if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                        if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                        //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                    }else{
+                                        url+="&"+arr[i].id+"="+arr[i].value
+                                    }
+                                }
+                            }
+                            lazy.URLRequest(encodeURI(url),function(){
+                                alert("添加成功");
+                                //lazy.openWin("rklb.html")
+                                window.history.go(-1)
+                            },function(e){
+                                lazy.alert2(e)
+                            })
+                        }
+                    }
+                ]
+            });
+                    var json = [
+                         {
+                                "id":"geren",
+                                "type" : "geren",
+                                "icon" : "",
+                                "name" : "头像",
+                                "update" : {}
+                        },
+                            {
+                                "id" : "process",
+                                "type" : "process",
+                                "icon" : "",
+                                "table" : [
+                                {
+                                    "id" : "name",
+                                    "title" : "姓名(必填)",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "genderStorename",
+                                    "name" : "gender",
+                                    "title" : "性别(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.genderStore,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "cardno",
+                                    "title" : "身份证(必填)",
+                                    "placeholder" : "请输入",
+                                    "setValue":function(txtparm){
+                                        if(txtparm.length==18){
+　　                                                                                                                        var year = txtparm.substring(6,10);
+　　                                                                                                                       var month = txtparm.substring(10,12);
+　　                                                                                                                       var date=txtparm.substring(12,14);
+                                          getData("process").setValue(year+"-"+month+"-"+date,4)
+                                        }else{
+　                                                                                                                       　lazy.alert2("输入的身份证不正确！");
+                                         }
+                                    }
+                                },
+                                {
+                                    "id" : "nationid",
+                                    "name" : "nationname",
+                                    "title" : "民族(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.nation,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "birthday",
+                                    "title" : "出生日期",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "regionid",
+                                    "name" : "regionname",
+                                    "title" : "国家",
+                                    "type" : "select",
+                                    "option" : base_datas.region,
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue=="0") list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,6)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplaceprovince",
+                                    "title" : "籍贯省", 
+                                    "type" : "select",
+                                    //"option" : base_datas.city,
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue==id) list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,7)
+                                    }
+
+                                },
+                                {
+                                    "name" : "nativeplacecity",
+                                    "title" : "市",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue==id) list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,8)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplacecounty",
+                                    "title" : "区县",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "englishname",
+                                    "title" : "英文名",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "formername",
+                                    "title" : "曾用名",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id":"cardtypeid",
+                                    "name" : "cardtypename",
+                                    "title" : "证件类型",
+                                    "type" : "select",
+                                    "option" : base_datas.cardtype,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "certificateid",
+                                    "title" : "证件号码",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "issorgan",
+                                    "title" : "签发机关",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "issdate",
+                                    "title" : "签发日期",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "raaddress",
+                                    "title" : "户籍地址",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "nativeplaceaddress",
+                                    "title" : "籍贯详址",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "height",
+                                    "title" : "身高",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "bloodid",
+                                    "name" : "bloodname",
+                                    "title" : "血型",
+                                    "type" : "select",
+                                    "option" : base_datas.blood,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id":"politicsid",
+                                    "name" : "politicsname",
+                                    "title" : "政治面貌",
+                                    "type" : "select",
+                                    "option" : base_datas.politics,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "partyjoindate",
+                                    "title" : "入党日期",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "edulevelid",
+                                    "name" : "edulevelname",
+                                    "title" : "文化程度",
+                                    "type" : "select",
+                                    "option" : base_datas.edulevel,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "healthid",
+                                    "name" : "healthname",
+                                    "title" : "健康状况",
+                                    "type" : "select",
+                                    "option" : base_datas.health,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "marryid",
+                                    "name" : "marryname",
+                                    "title" : "婚姻状况",
+                                    "type" : "select",
+                                    "option" : base_datas.marry, 
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "firstmarrdate",
+                                    "title" : "初婚日期",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "marriedtypeid",
+                                    "name" : "marriedtypename",
+                                    "title" : "已婚分类",
+                                    "type" : "select",
+                                    "option" : base_datas.marriedtype, 
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "militaryserviceid",
+                                    "name" : "militaryservicename",
+                                    "title" : "兵役状况",
+                                    "type" : "select",
+                                    "option" : base_datas.militaryservice, 
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "faithid",
+                                    "name" : "faithname",
+                                    "title" : "宗教信仰",
+                                    "type" : "select",
+                                    "option" : base_datas.faith, 
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "workstatusid",
+                                    "name" : "workstatusname",
+                                    "title" : "从业状况",
+                                    "type" : "select",
+                                    "option" : base_datas.workstatus, 
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "socialposition",
+                                    "title" : "社会兼职",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "specialty",
+                                    "title" : "特长",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "moveno",
+                                    "title" : "居住证号",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "staylength",
+                                    "title" : "居住时长(月)",
+                                    "type" : "number",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "tel",
+                                    "title" : "联系电话",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "servicespace",
+                                    "title" : "服务处所",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "wheretohere",
+                                    "title" : "从何处迁入",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "joinwork",
+                                    "title" : "参加工作时间",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "workunits",
+                                    "title" : "工作单位",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "name" : "profession",
+                                    "title" : "职业",
+                                    "type" : "select",
+                                    "option" : base_datas.profession,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "companynature",
+                                    "title" : "单位性质",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "companyindustry",
+                                    "title" : "单位所属行业",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "goverjob",
+                                    "title" : "干部职务级别",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "skill",
+                                    "title" : "专业技术职务",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "companyjob",
+                                    "title" : "单位职务",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "socialjob",
+                                    "title" : "社会职务",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "cellphonenumber",
+                                    "title" : "手机号码",
+                                    "type" : "number",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "email",
+                                    "title" : "电子邮箱",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "retirementtime",
+                                    "title" : "离退休时间",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "state",
+                                    "title" : "状态",
+                                    "type" : "select",
+                                    "option" : base_datas.stateStore,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "statereason",
+                                    "title" : "注销原因",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "datasource",
+                                    "title" : "数据来源",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "remark",
+                                    "title" : "备注",
+                                    "placeholder" : "请输入"
+                                }
+                                ]
+                            }
+                    ];
+                    setData(json)
+        });
+    </script>
+</html>

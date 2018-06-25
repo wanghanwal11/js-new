@@ -1,0 +1,62 @@
+body[type=body] div[type=dtywlb]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=dtywlb] .table {
+    width:100%;
+    height:auto;
+}
+div[type=dtywlb] .titlelb{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+div[type=dtywlb] .icon {
+    width: 6rem;
+    height: 4rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=dtywlb] .trzw {
+    height:3rem;
+}
+div[type=dtywlb] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=dtywlb] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=dtywlb] .h1 {
+    height: 2.5rem;
+    line-height: 1rem;
+}
+div[type=dtywlb] .h1 span {
+    font-size: 0.9rem;
+}
+
+div[type=dtywlb] .h2 span {
+     color: #aaa;
+}
+div[type=dtywlb] .yp{
+     margin-top: 0.5rem;
+}
+
+div[type=dtywlb] .text {
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+    color: #aaaaaa;
+}
+div[type=dtywlb] .date{
+    color: #aaaaaa;
+}

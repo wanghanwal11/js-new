@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <style>
+        div[type=shyk] .icon{
+            width: 3rem !important;
+            height: 3rem !important;
+            border-radius: 50%;
+            margin-top: 0.5rem;
+        }
+        div[type=shyk] .h1{
+            margin-top: 0.5rem
+        }
+        div[type=shyk] .h1 span{
+            font-size: 0.9rem !important;
+        }
+        div[type=shyk] .h3 span{
+            font-size: 0.8rem !important;
+        }
+        div[type=shyk] .h2 span{
+            color: #000000 !important;
+            font-size: 0.8rem !important;
+        }
+    </style>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+             lazy.setHeader({
+                            "title":"党费审核"
+                        });
+            var json = [{
+                            "id":"shyk",
+                            "type" : "shyk",
+                            "table" : []
+                            
+                        }];
+            setData(json,function(){load()})
+            function load(){
+                 lazy.URLRequest(djconfig.dfsh, function(data) {
+                     var data=data.rows;
+                     if(data.length==0){
+                          lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                     }
+                     var title = '';
+                     if(data.length>0){
+                         var title_time=new Date(data[0].paymonth).getMonth()+1;
+                         title = data[0].username
+                     }
+                     
+                     var str='';
+                     for(var i=0;i<data.length;i++){
+                         var time=lazy.format(data[i].paymonth,"yyyy-MM-dd");
+                         var list={
+                                        "ids":data[i].id,
+                                        "icon" : data[i].picture?data[i].picture:"../LazyUI/images/morenpeople.png",
+                                        "h1" : data[i].username,
+                                        "h2" : '缴费时间:'+time,
+                                        "h3":'',
+                                        "onclick":function(obj){
+                                            lazy.alert("已核实过所缴金额",({
+                                                "yestitle":"通过",
+                                                "notitle":"不通过",
+                                                "yesfun":function(){
+                                                    lazy.URLRequest(djconfig.submitsh+"ids="+obj.ids+"&paystate=审核通过", function(data) {
+                                                        lazy.refresh()
+                                                    },function(e){
+                                                        alert(e)
+                                                    },0)
+                                                },
+                                                "nofun":function(){
+                                                    lazy.URLRequest(djconfig.submitsh+"ids="+obj.ids+"&paystate=审核不通过", function(data) {
+                                                        lazy.refresh()
+                                                    },function(e){
+                                                        alert(e)
+                                                    },0)
+                                                }
+                                            }))
+                                        }
+                                    }
+                         str=str+data[i].username+((i==(data.length-1))?'':',');
+                         getData("shyk").add(list);
+                     }
+                     lazy.dfsh(title,str)
+                 },function(e){
+                    alert(e)
+                 }, 1)
+            }
+            
+        })
+    </script>
+</html>

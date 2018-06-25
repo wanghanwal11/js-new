@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>办事</title>
+        <style type="text/css">
+            div[type=table10] .icons {
+                display: none;
+            }
+            div[type=table10]{
+                padding-bottom: 1rem;
+            }
+            div[type=titlebtnlist2] .h1 {
+                width: 60%!important;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            start(function() {
+                var page = 1;
+                var page_status = 0;
+                var wxinitId = lazy.geturlstr("wxinitId")?lazy.geturlstr("wxinitId"):lazy.getParameter("initid");
+    			var wxopenid = lazy.geturlstr("wxopenid")?lazy.geturlstr("wxopenid"):lazy.getParameter("openid");
+    			lazy.setParameter("openid", wxopenid);
+				lazy.setParameter("initid" , wxinitId);
+            	var url1 = getIP() + "/wechat/weixinCertificate/getPersonInfo.ht?initid="+wxinitId+"&openid="+wxopenid;
+                var sub = 1;//审核通过
+            	lazy.URLRequest(encodeURI(url1),function(data2){
+            		if(data2.rows.length==0||data2.rows[0].rows.length==0) sub = 3;
+            		else if(data2.rows[0].rows[0].state==1){
+            			var person = {
+            				"idcard" : data2.rows[0].rows[0].idcard,
+            				"targetId" : data2.rows[0].rows[0].peopleid?data2.rows[0].rows[0].peopleid:"1",
+            				"targetName" : data2.rows[0].rows[0].username,
+            				"areaid" : data2.rows[0].rows[0].communityid
+            			}
+            			lazy.setParameter("person",person);
+            		}else if(data2.rows[0].rows[0].state==0)sub = 0;//审核中
+            		else sub = 2 //审核失败
+            		lazy.setParameter("userinfo",data2.rows[0].rows[0])
+            		init();
+                 });
+                function init(){
+	                var json = [
+	                    {
+	                        "id" : "title2",
+	                        "type" : "title2",
+	                        "ps" : page_status,
+	                        "left" : [ {
+	                            "content" : '办事',
+	                            "onclick" : function() {
+	                                //loadsubmit();
+	                                if(page_status==1){
+	                                    page_status = 0;
+	                                    showOrhide(page_status)
+	                                }
+	                            }
+	                        } ],
+	                        "right" : [ {
+	                            "content" : '办事记录',
+	                            "onclick" : function() {
+	                                if(page_status==0){
+	                                    page_status = 1;
+	                                    showOrhide(page_status)
+	                                }
+	                            }
+	                        } ],
+	                    },
+	                    {
+	                        "id" : "titlebtnlist2",
+	                        "type" : "titlebtnlist2",
+	                        "table" : [],
+	                        "style" : {
+	                            "display" : "none"
+	                        }
+	                    }
+	                ];
+	                //setData(json,function(){
+	                    loadsubmit(json);
+	                    //loadlist();
+	                    showOrhide(page_status);
+	                //})
+                }
+                function showOrhide(num){
+                    if(num==0){//办事
+                        for(var i=0;i<$("[type=table10]").length;i++){
+                            $("[type=table10]")[i].style.display = "block"
+                        }
+                        $("[type=titlebtnlist2]")[0].style.display = "none";
+                        if(document.body.getElementsByClassName("zwsjXT").length>0){
+                        	document.body.getElementsByClassName("zwsjXT")[0].style.display="none";
+                        }
+                    }else{//办事记录
+                        if(page==1) loadlist();
+                        for(var i=0;i<$("[type=table10]").length;i++){
+                            $("[type=table10]")[i].style.display = "none"
+                        }
+                        $("[type=titlebtnlist2]")[0].style.display = "block"
+                    }
+                }
+                function loadsubmit(json){
+                    var url = getIP() + '/wechat/weixinevent/getServiceListWechat.ht?initid='+wxinitId+'&openid='+wxopenid;
+                    lazy.URLRequest(encodeURI(url),function(_data){
+                        var data = _data.rows;
+                        var tmp1 = {}
+                        for(var i=0;i<data.length;i++){
+                        	if(data[i].phoneservicename!=""){
+	                            if(tmp1[data[i].smalltypename]) tmp1[data[i].smalltypename].push(data[i]);
+	                            else tmp1[data[i].smalltypename] = [data[i]];
+                        	}
+                        }
+                        var table = [];
+                        for(var str in tmp1){
+                            var tmp = {
+                                "title":str,
+                                "content":tmp1[str],
+                            }
+                            table.push(tmp);
+                        }
+                        for(var i=0;i<table.length;i++){
+                            var table10 = {
+                                "type" : "table10",
+                                "title" : [{"text":table[i].title}],
+                                "col" : 4,
+                                "table" : []
+                            }
+                            var content = table[i].content
+                            for(var j=0;j<content.length;j++){
+                            	if(content[j].phoneservicename!=""){
+	                                var tmp = {
+	                                    "id" : content[j].id,
+	                                    "icon" : lazy.url + "LazyUI/images/work/"+content[j].tubiao+".png",
+	                                    "label" : content[j].phoneservicename,
+	                                    "onclick" : function(obj){
+	                                    	if(sub==1){
+	                                            lazy.setParameter("workid",obj.id);
+	                                            lazy.openWin("work.html?wxinitId="+wxinitId);
+	                                    	}else if(sub==3){
+	                                        	lazy.alert("请前去认证",{
+	                                        		"notitle":"取消",
+	                                        		"yesfun":function(){
+	                                                    lazy.openWin("../wode/yanzheng.html?wxopenid="+wxopenid+"&wxinitId="+wxinitId)
+	                                        		},
+	                                        		"nofun":function(){
+	                                        			
+	                                        		}
+	                                        	});
+	                                    	}else if(sub==0){
+	                                    		lazy.alert("审核中",{
+	                                        		"yesfun":function(){
+	                                        			lazy.openWin("../wode/wode.html?wxopenid="+wxopenid+"&wxinitId="+wxinitId)
+	                                        		},
+	                                        	});
+	                                    	}else if(sub==2){
+	                                    		lazy.alert("审核未通过",{
+	                                        		"yesfun":function(){
+	                                        			lazy.openWin("../wode/wode.html?wxopenid="+wxopenid+"&wxinitId="+wxinitId)
+	                                        		},
+	                                        	});
+	                                    	}
+	                                    }
+	                                }
+	                                table10.table.push(tmp);
+                            	}
+                            }
+                            json.push(table10);
+                        }
+                        setData(json)
+                    })
+                }
+                function loadlist(){
+                	if(sub!=1){
+                		if(document.body.getElementsByClassName("zwsjXT").length>0){
+                        	document.body.getElementsByClassName("zwsjXT")[0].style.display="inline";
+                        }else{
+	                        lazy.datanull("暂无数据")
+                        }
+                	}else{
+                		var person = lazy.getParameter("person");
+	                    var url = getIP() + "/wechat/weixinevent/fwblWechat.ht?rows=20&page="+page+"&initid="+wxinitId+"&openid="+wxopenid;
+	                    url += "&idcard="+person.idcard
+	                    lazy.URLRequest(encodeURI(url),function(data){
+	                        var data = data.rows;
+	                        page++;
+	                        if(data.length==0) {
+	                        	if(document.body.getElementsByClassName("zwsjXT").length>0){
+	                            	document.body.getElementsByClassName("zwsjXT")[0].style.display="inline";
+	                            }else{
+	    	                        lazy.datanull("暂无数据")
+	                            }
+	                        };
+	                        if(data.length<20) lazy.stopBounce();
+	                        for(var i = 0;i<data.length;i++){
+	                            var path = (getIP() + data[i].picture).replace(/\\/g,"/");
+	                            if(data[i].picture.indexOf("http://")>-1) path = lazy.getImagePx(data[i].picture,60,60);
+	                            var h2 = ""
+	                            if(data[i].status=="2") h2='<span style="color:#ccc">已完结</span>';
+	                            else if(data[i].status=="911") h2='<span style="color:red">已撤销</span>';
+	                            else if(data[i].status=="4") h2='<span style="color:orange">待审核</span>';
+	                            else h2='<span style="color:#00AAFF">办理中</span>';
+	                            var tmp = {
+	                                "id" : data[i].businessKey,
+	                                "taskid" : data[i].id,
+	                                "runid" : data[i].runId,
+	                                "icon" : path,//data[i].picture?getIP() + data[i].picture.replace(/\\/g,"/"):"",
+	                                "h1" : data[i].subject,
+	                                "name" : data[i].creator,
+	                                "serviceid" : data[i].busDescp,
+	                                "taskStatus" : data[i].status,
+	                                "processName" : data[i].processName,
+	                                "creatorId" : data[i].creatorId,
+	                                "h2" : h2,
+	                                "h3" : lazy.format(data[i].createTime,"yyyy-MM-dd"),
+	                                "taskDefinitionKey" : data[i].taskDefinitionKey,
+	                                "onclick" : function(obj){
+	                                    lazy.setParameter("spobj",obj);
+	                                    parent.lazy.openWin("detail.html?wxinitId="+wxinitId);
+	                                }
+	                            };
+	                            getData("titlebtnlist2").add(tmp);
+	                        }
+	                    },function(e){
+	                    	alert("错误信息!:"+e);
+	                    },1)
+                	}
+                }
+                lazy.bounce({
+                    "up" : function() {
+                        if(page_status==1){
+                            loadlist();
+                        }
+                    }
+                });
+            })
+        </script>
+    </body>
+</html>

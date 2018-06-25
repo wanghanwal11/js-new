@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>社区服务</title>
+<style type="text/css">
+        body{
+            background:url('../LazyUI/images/address.png');
+        }
+</style>
+</head>
+<body>
+    
+	<script>
+	  
+		start(function() {
+		    var json = [{
+		        "id":"judgestar",
+		        "type":"judgestar",
+		        "table":[{
+		            "title":"服务质量",
+		            "content":['非常差','差','一般','好','非常好'],
+		            "yes":"ystar.png",
+		            "no":'gstar.png'
+		        }]
+		    }]
+		    setData(json)
+	    });
+	</script>
+</body>
+</html>

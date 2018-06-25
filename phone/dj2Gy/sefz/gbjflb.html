@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body{
+                background: white!important;
+            }
+            div[type=titlebtnlist4] .icontitle1{
+                width: 2rem!important;
+                height:2rem!important;
+            }
+            div[type=jfph] .tr{
+                border: none!important;
+            }
+             div[type=jfph] .left{
+            display: none;
+        }
+        </style>
+    </head>
+    <script>
+     start(function() {
+          lazy.setHeader({"title": "干部积分列表"
+             });
+         var page=1;
+         var val="";
+         var beginjoinworktime="";
+         var endjoinworktime="";
+         var json = [
+         /*{
+                            "type" : "datebutton",
+                            "select1":function(val){
+                                getData("jfph").clean()
+                                beginjoinworktime=val
+                                page=1;
+                                 load();
+                            },
+                            "select2":function(val){
+                                getData("jfph").clean()
+                                endjoinworktime=val
+                                page=1;
+                                 load();
+                            }
+                        },*/
+                        {
+                            "type" : "sousuoinput1",
+                            "select" : function(val1){
+                                getData("jfph").clean()
+                                val=val1;
+                                page=1;
+                                load();
+                            }
+                        },{
+                "id":"jfph",
+                "type":"jfph",
+                "table":[]
+             }
+         ]
+         setData(json,function(){load()})
+         function load(){
+             lazy.URLRequest(getIP()+"/party/unitcadre/mobilelist.ht?rows=20&page="+page+"&queryname="+val+"&beginjoinworktime="+beginjoinworktime+"&endjoinworktime="+endjoinworktime,function(data){
+               lazy.closeBounce();
+               var data=data.rows;
+                if(data.length==0&&page==1){
+                      lazy.datanull("暂无数据")
+                 }else{
+                     if(document.getElementsByClassName("zwsjXT")[0]){document.getElementsByClassName("zwsjXT")[0].remove()}
+                 }
+                for(var i=0;i<data.length;i++){
+                        var s={
+                            "src":"../LazyUI/images/morenpeople.png",
+                            "name":data[i].name ,
+                             "bumen":data[i].unitmanagename,
+                            "right":"总计<span class='fg'>"+data[i].score+"</span>分",
+                            "id":data[i].id,
+                            "onclick":function(ids){
+                                lazy.setParameter("ccid",ids)
+                                lazy.openWin("jfjl_zb.html")
+                            }
+                        }
+                   getData("jfph").add(s);
+                }
+                page++;
+           })
+         }
+          lazy.bounce({"up":function(){
+              load()
+               }}); 
+        });
+    </script>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>呼叫中心</title>
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setParameter("Bgcolor","#f6bf27");
+            var page = 1;
+            var json =[{
+                "id" : "movebutton_iframe",
+                "type" : "movebutton_iframe",
+                "table" : [
+                                {
+                                    "label" : "我的待办",
+                                    "url" : "wodedaiban.html"
+                                },{
+                                    "label" : "我的办件",
+                                    "url" : "wodebanjian.html"
+                                }
+                                
+                            ]
+            }];
+            json.unshift({
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '呼叫中心',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "select" : function(name, index) {
+                    if(name=="left"){
+                        lazy.close();
+                    }
+                }
+            })
+            setData(json)
+        });
+    </script>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人员列表</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                "title":"分组列表",
+                "color":"#0ec0a9",
+                "rightbtn" : [],
+                "leftbtn" : "iframeBack",
+           });
+           var url = getIP()+"/oa/di_groups/listAll.ht";
+           lazy.URLRequest(url,function(data){
+               var data = data.rows;
+               var table = [];
+               for(var i=0;i<data.length;i++){
+                   var tmp = {
+                       "id" : data[i].id,
+                       "icon" : [data[i].username1[0],data[i].username2[0],data[i].username3[0],"..."],
+                       "h1" : data[i].name,
+                       "h2" : data[i].usercount,
+                       "onclick" : function(id){
+                           var url1 = getIP() + "/oa/di_groups/listAllUsers.ht?id="+id;
+                           lazy.URLRequest(url1,function(data1){
+                                var data1 = data1.rows;
+                                for(var i=0;i<data1.length;i++){
+                                    var path = data1[i].img;
+                                    if(path.indexOf("http")<0) path = getIP()+data1[i].img;
+                                    var tmp = {
+                                        "id":data1[i].userid,
+                                        "icon":path,
+                                        "h1":data1[i].username
+                                    }
+                                    lazy.setParentJs("setProcessPeople", tmp);
+                                };
+                           })
+                       }
+                   }
+                   table.push(tmp);
+               }
+                var json = [
+                    {
+                        "id" : "grouplist",
+                        "type" : "grouplist",
+                        "table" : table
+                        // [
+                            // {
+                                // "icon" : ["陈","网","当","..."],
+                                // "h1":"陈亭、崔大冠、陈振华、陈佩华",
+                                // "h2":"5人",
+                                // "id":"1",
+                                // "onclick":function(id){
+                                    // alert(id)
+                                // }
+                            // }
+                        // ]
+                    }
+                ];
+                setData(json)
+           })
+        });
+    </script>
+</html>

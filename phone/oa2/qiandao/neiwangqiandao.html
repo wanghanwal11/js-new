@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>签到</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script type="text/javascript" src="/maps/?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #41affe !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+            
+            #process .labeldiv {
+                min-height: 2.5rem;
+                height: auto;
+                line-height: 1rem;
+                padding: 0.75rem 0 0.75rem 1.9rem;;
+                width: 100%;
+                background-color: #fff;
+                
+                background-position: 0.5rem center;
+                background-repeat: no-repeat;
+                background-image: url(../LazyUI/images/qiandao/dd.png);
+                background-size: 1rem;
+            }
+            #process .qdsj {
+                background-image: url(../LazyUI/images/qiandao/shijian.png) !important;
+            }
+            #process .labeldiv span {
+                font-size: 0.8rem;
+            }
+            /*
+            #iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+                background-color: #fff;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 20;
+                display: none;
+            }
+            */
+        </style>
+    </head>
+    <body>
+        <!--<iframe id="iframe"></iframe>-->
+    </body>
+    <script> 
+    start(function() {
+        var mark = lazy.getParameter("mark")?lazy.getParameter("mark"):"";
+        if(lazy.response("mark")){
+            mark = lazy.response("mark");
+            lazy.setParameter("mark",mark);
+        }
+        var iframe = lazy.iframe({"showhide": "hide"});
+        document.body.appendChild(iframe);
+        lazy.setParameter("Bgcolor","#81d308");
+        //var iframe = document.getElementById("iframe");
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        var obj = {
+            "title":"签到",
+            "color":lazy.getParameter("Bgcolor"),
+            //"url" : "close",
+            "rightbtn" : [{
+                 "text" : "统计",
+                 "onclick" : function() {
+                     lazy.openWin("qiandaolist.html");
+                 }
+             }]
+        };
+        if(mark!="dj") obj.url = "close";
+        lazy.setHeader(obj);
+        var json = [
+                        {
+                            "id" : "process",
+                            "type" : "process",
+                            "table" : [
+                                        {
+                                            "type" : "label", 
+                                            "class" : "qdsj",
+                                            "text" : "签到时间：" + lazy.format(new Date().getTime(), 'yyyy-MM-dd HH:mm:ss')
+                                        },{
+                                            "type" : "label",
+                                            "class" : "qddd",
+                                            "text" : "定位中..."
+                                        },{
+                                            "title" : "备注：",
+                                            "type" : "textarea",
+                                            "placeholder" : "请输入备注"  
+                                        },{
+                                            "type" : "image",
+                                            "title" : "图片",
+                                            "httpurl" : config.docUpoad,
+                                            "select" : false,
+                                        }]
+                        },{
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var allvalue = getData("process").getArray().table;
+                                var content = allvalue[2].value;
+                                var filesid = [];
+                                for(var i=0;i<allvalue[3].value.length;i++){
+                                    filesid.push(allvalue[3].value[i].annexid);
+                                }
+                                if(address == "") {
+                                    lazy.alert2("定位中...");
+                                }else {
+                                    var url = config.signsave+"address="+address+"&content="+content;
+                                    if(filesid.length>0) url += "&filesid="+filesid;
+                                    lazy.URLRequest(url,function(data){
+                                        alert("签到成功");
+                                        lazy.openWin("qiandaolist.html");
+                                    })
+                                }
+                            }
+                        }
+                    ];
+        var address = "";
+        setData(json, function() {
+            var url = getIP() + "/dispute/location/getCurrUserGpsData.ht"
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var point = {"lat":data.latitude,"lng":data.longitude};
+                lazy.gpsToAmap(point, function(_point) {
+                    lazy.getGpsName(_point, function(data) {
+                        var qddd = document.getElementsByClassName("qddd")[0];
+                        address = data.regeocode.formattedAddress;
+                        qddd.innerHTML = '<span>'+(data.regeocode.formattedAddress)+'（点击微调）</span>';
+                        qddd.onclick = function() {
+                            lazy.var(data);
+                            iframe.src("address.html");
+                            iframe.show();
+                            //iframe.src = "address.html";
+                            //iframe.style.display = "block";
+                        }
+                
+                    });
+                });
+            })
+            function getaddressname(point) {
+                var geoc = new BMap.Geocoder();
+                geoc.getLocation(point, function(rs){
+                    address = rs.address;
+                    var qddd = document.getElementsByClassName("qddd")[0];
+                    qddd.innerHTML = '<span>'+address+'（点击微调）</span>';
+                    qddd.onclick = function() {
+                        lazy.var(rs);
+                        iframe.src("address.html");
+                        iframe.show();
+                    }
+                    
+                });
+            }
+        });
+        this.setqddd = function(str) {
+            address = str;
+           //iframe.style.display = "none";
+           iframe.hide();
+           document.getElementsByClassName("qddd")[0].innerHTML = '<span>'+str+'（点击微调）</span>';
+        } 
+    });
+    
+    </script>
+</html>

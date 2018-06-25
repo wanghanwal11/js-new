@@ -1,0 +1,34 @@
+/*××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+ * input 文本框样式
+ */
+div[type=ewm1]{
+    position: fixed;
+    top:0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+div[type=ewm1] .all{
+   position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.8;
+    z-index: 10;
+}
+div[type=ewm1] .content{
+    width: 12rem;
+    position: absolute;
+    top:3rem;
+    left:50%;
+    margin-left:-6rem;
+    background: white;
+    z-index: 22;
+}
+div[type=ewm1] .rows{
+   text-align:center;
+   width: 100%;
+   height: 3rem;
+   line-height: 3rem;
+   font-size: 0.8rem;
+}

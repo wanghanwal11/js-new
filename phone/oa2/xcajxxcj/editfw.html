@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <script src="../LazyUI/js/xxcj2.js"></script>
+        <title>修改房屋</title>
+        <style>
+        div[type=body] #bounceLoading{
+            display:none!important;
+        }
+        div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+            div[type=process] .layerdiv{
+                width: 10rem;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            #bounceLoading{
+                display:none;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        var hujiaddress ={};
+        var pj = '';
+        var fwobj = lazy.getParameter("fw");
+        var url = config.fjxq+"id="+fwobj.id;
+        lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                lazy.setParameter('data_fw',data);
+    
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        var page = 1;
+        var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+        lazy.setParameter("Bgcolor","#ff953c");
+        lazy.setHeader({
+            "title":"修改房屋",
+            "color":lazy.getParameter("Bgcolor"),
+            "url" : "close",
+            "rightbtn" : []
+        });
+        var click = 0;
+        var json = [];
+        
+        //function loadfw(){
+            //.getElementsByTagName('input')[0].readonly='readonly'
+            //var data = lazy.getParameter('data_fw');
+            var fw = {
+                "id" : "process1",
+                "type" : "process",
+                "table" : [
+                                {
+                                    "id" : "lymc",
+                                    "title" : "楼宇名称(必填)",
+                                    "placeholder" : "请输入",
+                                    "readonly" : true,
+                                    "value":data.buildingname||''
+                                    //"value" : data.buildingname||''
+                                    //value : {text : data.buildingname}//楼宇名
+                                },
+                                {
+                                    "id" : "ssqy",
+                                    "title" : "所属区域(必填)",
+                                    "placeholder" : "输入",
+                                    "readonly" : true,
+                                    "value" : data.orgname||''
+                                },
+                                {
+                                    "id" : "df5",
+                                    "name" : "df5",
+                                    "title" : "门牌号(必填)",
+                                    "placeholder" : "请输入",
+                                    "value" : data.df5||''
+                                },
+                                {
+                                    "id" : "unit",
+                                    //"name" : "houseunit",
+                                    "title" : "单元号(必填)",
+                                    "value": data.unit,//data.unit
+                                    "placeholder" : "请输入",
+                                },
+                                {
+                                    "id" : "floor",
+                                    // "id" : "housefloor", 
+                                    // "name" : "housefloor",
+                                    "title" : "所在层(必填)",
+                                    "value": data.floor,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "housenum",
+                                    "name" : "housenum",
+                                    "title" : "房间号(必填)",
+                                    "flag" : "true",
+                                    "placeholder" : "请输入",
+                                    "value" : data.housenum||'',
+                                },
+                                {
+                                    "id" : "typeid",
+                                    "name" : "typename",
+                                    "title" : "房屋性质(必填)",
+                                    "type" : "select",
+                                    // "flag" : 'true',
+                                    "option" : base_datas.fwxz,
+                                    "placeholder" : "请选择",
+                                    "value":{"html":data.typename,"value":data.typeid},
+                                    "select" : function(name,id){
+                                        var pro = document.getElementById('process1');
+                                        if(name=="自建房"){
+                                             pro.getElementsByClassName("tr")[7].style.display="block"
+                                             pro.getElementsByClassName("tr")[8].style.display="block"
+                                        }else{
+                                              pro.getElementsByClassName("tr")[7].style.display="none"
+                                             pro.getElementsByClassName("tr")[8].style.display="none"
+                                        }
+                                        if(name=="单位直管公房"){
+                                             pro.getElementsByClassName("tr")[9].style.display="block"
+                                        }else{
+                                              pro.getElementsByClassName("tr")[9].style.display="none"
+                                        }
+                                    }
+                                },
+                                {
+                                    "id" : "practicalarea",
+                                    "name" : "practicalarea",
+                                    "title" : "面积",
+                                    "placeholder" : "请输入",
+                                    "value" : data.practicalarea||'',
+                                },
+                                {
+                                    "selectid" : "df7",
+                                    "name" : "df7",
+                                    "title" : "是否住人",
+                                    "type" : "select",
+                                    "option" : [{html:'是',value:'是'},{html:'否',value:'否'}],
+                                    "placeholder" : "请选择",
+                                    "value" : {'html':data.df7||'','val':data.df7||''}
+                                },
+                                {
+                                    "id" : "df9",
+                                    "name" : "df9",
+                                    "title" : "单位名称",
+                                    "placeholder" : "请输入",
+                                    "value" : data.df9||''
+                                },
+                                {
+                                    "id" : "userid",
+                                    "name" : "usename",
+                                    // "id" : "houseuseid",
+                                    // "name" : "houseusename",
+                                    "title" : "居住信息(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.jzxx,
+                                    "placeholder" : "请选择",
+                                    // "value":{"html":data.houseusename,"value":data.houseuseid},
+                                    "value":{"html":data.usename,"value":data.useid},
+                                },{
+                                    "name" : "df8",
+                                    "title" : "联系人类型(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.lxrlx,
+                                    "placeholder" : "请选择",
+                                    "value":{"html":data.df8,"value":data.df8},
+                                },{
+                                    "id" : "df6",
+                                    "name" : "df6",
+                                    "title" : "联系人名称(必填)",
+                                    "placeholder" : "请输入",
+                                    "value" : data.df6,
+                                },{
+                                    "id" : "linktel",
+                                    "name" : "houselinktel",
+                                    "title" : "联系电话(必填)",
+                                    "placeholder" : "请输入",
+                                    // "value" : data.houselinktel,
+                                    "value" : data.linktel,
+                                },
+                                /*{
+                                    "id" : "df3",
+                                    "name" : "codeno",
+                                    "title" : "采集编号",
+                                    "placeholder" : "请输入",
+                                    // "value" : data.codeno,
+                                    "value" : data.df3,
+                                },*/
+                                // {
+                                //     "id" : "collectuser",
+                                //     "name" : "collectuser",
+                                //     "title" : "采集人",
+                                //     "placeholder" : "请输入",
+                                //     "value" : data.collectuser,
+                                // }
+                                // ,{
+                                //     "id" : "collecttime",
+                                //     "name" : "collecttime",
+                                //     "title" : "登记日期",
+                                //     "type" : "date",
+                                //     "placeholder" : "请选择",
+                                //     "value" : data.collecttime?lazy.format(data.collecttime,"yyyy-MM-dd"):"无记录"
+                                // }
+
+                                ]
+                    }
+                          json.push(fw);
+                          json.push({
+                            "id" : "button1",
+                            "type" : "button",
+                            "label" : "保存",
+                            "onclick" : function() {
+                                var familyid = data.familyid;
+                                var houseid = lazy.getParameter('livehouseid');
+                                var arr = getData("process1").getArray().table;
+                                var url=config.fwtj;
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                        lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                        return;
+                                    }
+                                    if(arr[i].value!=""){
+                                        if(arr[i].id=='unit')hujiaddress.houseunit=arr[i].value;
+                                        if(arr[i].id=='floor')hujiaddress.housefloor=arr[i].value;
+                                        if(arr[i].id=='housenum')hujiaddress.housenum=arr[i].value;
+                                        /*pj = build.buildingname+'-'+hujiaddress.houseunit+'单元'+hujiaddress.housefloor+'层'+hujiaddress.housenum;
+                                        /lazy.setParameter('pj',pj);
+                                        if(hujiaddress.housefloor>build.height){
+                                            lazy.alert2('不存在此楼层');
+                                            return;
+                                        }*/
+                                        pj = data.buildingname+'-'+hujiaddress.houseunit+'单元'+hujiaddress.housefloor+'层'+hujiaddress.housenum;
+                                        lazy.setParameter('pj',pj);
+                                        if(arr[i].type=="select"){
+                                            if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                            if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                            //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                        }else if(arr[i].id=='lymc'){
+                                            // url += 'buildingname='+build.buildingname+'&buildingid='+build.id+'&orgpath='+build.orgpath+'&orgid='+build.orgid+'&address='+build.address+'&familyid='+familyid+'&orgname='+build.orgname+'&houseid='+houseid;
+                                            url += 'buildingname='+data.buildingname+'&buildingid='+data.buildingid+'&orgpath='+data.orgpath+'&orgid='+data.orgid+'&familyid='+familyid+'&orgname='+data.orgname+'&houseid='+houseid+'&id='+fwobj.id+'&dpid='+fwobj.id;
+                                            
+                                        }else if(arr[i].flag=="true"){
+                                            // url += '&housenum='+hujiaddress.housenum+'&hujiaddress='+build.buildingname+'-'+hujiaddress.houseunit+'单元'+hujiaddress.housefloor+'层'+hujiaddress.housenum;
+                                            url += '&housenum='+hujiaddress.housenum+'&address='+data.buildingname+'-'+hujiaddress.houseunit+'单元'+hujiaddress.housefloor+'层'+hujiaddress.housenum;
+                                        
+                                        }else if(arr[i].id=="ssqy"){
+                                            url+='';
+                                        }else{
+                                            url+="&"+arr[i].id+"="+arr[i].value
+                                        }
+                                    }
+                                }
+
+                            lazy.URLRequest(url,function(){
+                                alert("保存成功");
+                                lazy.goBack();
+                                // lazy.openWin('fwlb.html');
+                                // window.history.go(-2);
+                                })
+                            }//onclick
+                        })
+                            setData(json,function(){
+                                
+
+                                var pro = document.getElementById('process1');
+                                pro.getElementsByClassName("tr")[7].style.display="none";
+                                pro.getElementsByClassName("tr")[8].style.display="none";
+                                pro.getElementsByClassName("tr")[9].style.display="none";
+
+                                if(data.typename=='自建房'){
+                                    getData('process1').show('practicalarea');
+                                    getData('process1').show('df7');
+                                }
+                                if(data.df9=='单位直管公房'){
+                                    getData('process1').show('df9');
+                                }
+                        });
+        //}
+        
+        });//url结束
+    });
+    </script>
+</html>

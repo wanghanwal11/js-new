@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人员列表</title>
+        <style>
+            body,html {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+            lazy.setHeader({
+                "title":"全部联系人",
+                "color":lazy.getParameter("Bgcolor"),
+                "leftbtn" : "iframeBack",
+                "rightbtn" : []
+            });
+            var level = 0;
+            var json = [
+                {
+                  "type":"sousuoinput_move",
+                  "select" : function(val){
+                      // if(getData("titlebtnlist2")){
+                        // getData("titlebtnlist2").clean();
+                      // }
+                        // str = val;
+                        // if(index==0){
+                        //load(0,val);
+                        loadsearch(val);
+                        // }else{
+                            // loadysp(val);
+                        // }
+                    }  
+                },
+                {
+                    "id":"address",
+                    "type" : "address",
+                    "table": []
+                }
+            ]
+            setData(json,function(){
+                load(0);
+            })
+            function load(orgid){
+                var url = getIP() + "/oa/getmybooklisttree.ht?orgid="+orgid;
+                
+                lazy.URLRequest(url,function(data){
+                    // if(orgid==0)
+                        // var data = {"isSucceed":true,"message":"","rows":[{"orgid":20000001300024,"orgname":"产品部","type":"org"}],"footer":"","total":0,"newPrimaryKeys":{}};
+                    // else 
+                    //    data = {"isSucceed":true,"message":"","rows":[{"picture":"","userid":10000115624635,"type":"user","fullname":"郭峰"},{"picture":"","userid":10000110050636,"type":"user","fullname":"李轩颐"},{"picture":"","userid":10000109070045,"type":"user","fullname":"王晗"},{"picture":"","userid":10000109070028,"type":"user","fullname":"高鹏飞"},{"picture":"","userid":10000109070040,"type":"user","fullname":"吴子良"},{"picture":"","userid":70000001860771,"type":"user","fullname":"行世通"},{"picture":"","userid":70000002075074,"type":"user","fullname":"韩奇志"},{"picture":"","userid":70000001893216,"type":"user","fullname":"李冰含"},{"picture":"","userid":70000002095950,"type":"user","fullname":"冯嫚婷"},{"picture":"","userid":70000002120090,"type":"user","fullname":"蔡晓楠"},{"picture":"","userid":70000001913868,"type":"user","fullname":"陈荣忠"},{"picture":"","userid":10000127681485,"type":"user","fullname":"王雪菲"},{"picture":"","userid":10000109070016,"type":"user","fullname":"王鹏波"},{"picture":"","userid":70000002168747,"type":"user","fullname":"张安杰"},{"picture":"","userid":10000127593856,"type":"user","fullname":"丁康"},{"picture":"","userid":10000127790096,"type":"user","fullname":"陈玉海"},{"picture":"","userid":10000127838166,"type":"user","fullname":"李军"},{"picture":"","userid":10000110050098,"type":"user","fullname":"于涛"}],"footer":"","total":0,"newPrimaryKeys":{}}
+                    data = data.rows;
+                    var table = [];
+                    if(orgid==0){
+                        for(var i=0;i<data.length;i++){
+                            if(data[i].type=="org"){
+                                var tmp = {
+                                    "id":data[i].orgid,
+                                    "title":data[i].orgname,
+                                    "type":"org",
+                                    "onclick":function(id){
+                                        // orgid = id;
+                                        level++;
+                                        load(id);
+                                    }
+                                }
+                            }
+                            if(data[i].type=="user"){
+                                var tmp = {
+                                    "id":data[i].userid,
+                                    "icon":data[i].picture,
+                                    "type":"person",
+                                    "title":data[i].fullname,
+                                    "onclick":function(id,obj){
+                                        //alert(id)
+                                        obj.h1 = obj.title;
+                                        lazy.setParentJs("setProcessPeople", obj);
+                                    }
+                                }
+                            }
+                            table.push(tmp);
+                        }
+                        getData("address").addtable(table);
+                        // var json = [
+                            // {
+                                // "id":"address",
+                                // "type" : "address",
+                                // "table": table
+                            // }
+                        // ]
+                        // setData(json)
+                    }else{
+                        for(var i=0;i<data.length;i++){
+                            if(data[i].type=="org"){
+                                var tmp = {
+                                    "id":data[i].orgid,
+                                    "title":data[i].orgname,
+                                    "type":"org",
+                                    "onclick":function(id){
+                                        load(id);
+                                    }
+                                }
+                                getData("address").add(tmp,orgid,i,level);
+                            }
+                            if(data[i].type=="user"){
+                                var tmp = {
+                                    "id":data[i].userid,
+                                    "icon":data[i].picture,
+                                    "title":data[i].fullname,
+                                    "type":"person",
+                                    "onclick":function(id,obj){
+                                        //alert(id)
+                                       obj.h1 = obj.title;
+                                       lazy.setParentJs("setProcessPeople", obj);
+                                    }
+                                }
+                                getData("address").add(tmp,orgid,i,level);
+                            }
+                        }
+                    }
+               })
+            }
+            function loadsearch(val){
+                if(val==""){
+                    getData("address").clean();
+                    load(0);
+                }else{
+                    getData("address").clean();
+                    var url = getIP()+"/oa/getmybooklist.ht?fullname="+val;
+                    lazy.URLRequest(url,function(data){
+                        var data = data.rows;
+                        var table = [];
+                        for(var i=0;i<data.length;i++){
+                            var _data = data[i].userlist;
+                            for(var j=0;j<_data.length;j++){
+                                var tmp = {
+                                    "id":_data[j].userid,
+                                    "icon":_data[j].picture,
+                                    "type":"person",
+                                    "title":_data[j].name,
+                                    "onclick":function(id){
+                                        //alert(id)
+                                        obj.h1 = obj.title;
+                                       lazy.setParentJs("setProcessPeople", obj);
+                                    }
+                                }
+                                table.push(tmp);
+                            }
+                        }
+                        getData("address").addtable(table);
+                    })
+                }
+            }
+        });
+    </script>
+</html>

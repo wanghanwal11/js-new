@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>待我审批</title>
+    </head>
+    <script> 
+    start(function() {
+        var userid = "";
+        lazy.personmessage(function(o){
+            userid = o.rows[0].userId;
+        })
+        var page = 1;
+        var str = "";
+        var json =[
+            {
+                "type" : "sousuoinput_move",
+                "select" : function(val){
+                    page = 1;
+                    getData("titlebtnlist2").clean();
+                    str = val;
+                    loaddaiban(val);
+                }
+            },{
+                "id" : "titlebtnlist2",
+                "type" : "titlebtnlist2",
+                "table" : []
+            }];
+            setData(json,function(){
+                lazy.bounce({
+                    "up" : function(){
+                        loaddaiban(str)
+                    }
+                })
+                loaddaiban();
+            })
+            function loaddaiban(val){
+                var url = config.vitoMyTask+"&rows=20&page="+page;
+                if(val&&val!="") url += "&subject="+val;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    if(data.length<20) lazy.stopBounce();
+                    else page++;
+                    for(var i=0;i<data.length;i++){
+                        var tmp = {
+                            "id" : data[i].businessKey,
+                            "taskid" : data[i].id,
+                            "runid" : data[i].runId,
+                            "icon" : data[i].picture?getIP() + data[i].picture.replace(/\\/g,"/"):"",
+                            "h1" : data[i].subject,
+                            "name" : data[i].creator,
+                            "serviceid" : data[i].busDescp,
+                            "taskStatus" : data[i].taskStatus,
+                            "processName" : data[i].processName,
+                            "creatorId" : data[i].creatorId,
+                            "h2" : "<span style='color:#f60'>待审批<span>",
+                            "h3" : lazy.format(data[i].createTime,"yyyy-MM-dd"),
+                            "userid" : userid,
+                            "taskDefinitionKey" : data[i].taskDefinitionKey,
+                            "onclick" : function(obj){
+                                lazy.CancelgoBack(true);
+                                obj.shenpi = false; //待审批
+                                lazy.setParameter("spobj",obj);
+                                parent.lazy.openWin("shenpiguocheng.html");
+                            }
+                        };
+                        getData("titlebtnlist2").add(tmp);
+                    }
+                    
+                })
+            }
+        })
+    });
+    </script>
+</html>

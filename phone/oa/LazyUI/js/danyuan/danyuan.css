@@ -1,0 +1,84 @@
+body[type=body] div[type=danyuan]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=danyuan] .hang{
+    display: -webkit-box;
+}
+div[type=danyuan] .icon{
+    width: 2rem;
+    height: 2rem;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+    background-position: center center;
+    background-color: white;
+}
+div[type=danyuan] .left{
+    background-image: url(li2.png);
+}
+div[type=danyuan] .right{
+    background-image: url(ri1.png);
+}
+div[type=danyuan] .unit{
+    width: 100%;
+    height:2rem;
+    line-height: 2rem;
+    background-color: white;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    box-flex: 1;
+}
+div[type=danyuan] .btns{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    box-flex: 1;
+}
+div[type=danyuan] .btndiv{
+    text-align: center;
+    width: 2.5rem;
+    color:#999999;
+    font-size: 0.6rem;
+}
+div[type=danyuan] .click{
+    color:#30a3f5
+}
+div[type=danyuan] .ceng{
+    height:2rem;
+    line-height: 2rem;
+    margin-left:1rem;
+}
+div[type=danyuan] .house {
+    float:left;
+    width: 5rem;
+    height: 5rem;
+    background-position: center 0.5rem;
+    background-repeat: no-repeat;
+    background-size: 3rem 3rem;
+    text-align: center;
+    overflow: hidden;
+    line-height: 8.5rem;
+    color: #9a9a9a;
+}
+div[type=danyuan] .hong {
+    background-image:url(hong.png);
+}
+div[type=danyuan] .huang {
+    background-image:url(huang.png);
+}
+div[type=danyuan] .lan {
+    background-image:url(lan.png);
+}
+div[type=danyuan] .lv {
+    background-image:url(lv.png);
+}
+div[type=danyuan] .hei {
+    background-image:url(hei.png);
+}
+div[type=danyuan] .zu{
+    clear: both;
+}

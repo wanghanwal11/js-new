@@ -1,0 +1,40 @@
+div[type=list3] .header{
+    display: -webkit-box;
+    background: white;
+}
+div[type=list3] .header {
+    text-align: center;
+    line-height: 2rem;
+    color: #3f3f3f;
+    font-size: 0.9rem;
+}
+div[type=list3] .list .h1,div[type=list3] .header div:nth-child(1){
+    width: 4rem;
+}
+div[type=list3] .list .h3,div[type=list3] .header div:nth-child(3){
+    width: 4rem;
+}
+div[type=list3] .list .h2,div[type=list3] .header div:nth-child(2){
+    -webkit-box-flex: 1;
+}
+div[type=list3] .content{
+	padding: 0.3rem;
+	background: white;
+	padding-top: 0.5rem;
+}
+div[type=list3] .list{
+    width: 100%;
+    display: -webkit-box;
+    border-bottom: 1px solid #cfcfcf;
+    height: 2rem;
+}
+div[type=list3] .list div{
+    text-align: center;
+    line-height: 2rem;
+    color: #3f3f3f;
+    font-size: 0.9rem;
+    width: 25%;
+    text-overflow:ellipsis ;
+    white-space:nowrap ;
+    overflow: hidden;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+        start(function() {
+                page();
+            //登录
+            function login(username, password, checkcode, back,errorFun) {
+                loginone();
+                function loginone() {
+                    var url = getIP() + "/loginMobile.ht?" + "username=" + username + "&password=" + password+ "&checkcode=" + checkcode;
+                    lazy.URLRequest(url, function(data) {
+                        //判断党员
+                        var youke = "0";
+                        try {
+                           youke = data.newPrimaryKeys.ispartymember;
+                        }catch(e) {
+                            
+                        }
+                        if(youke != "1") {
+                            lazy.setParameter("youke","yes");
+                        }
+                        //升级时间戳
+                        lazy.setParameter("uptime",new Date().getTime());
+                        //
+                        lazy.setParameter("userid",data.rows[0].userId);
+                        lazy.setParameter("user", {
+                            "username" : username,
+                            "password" : password,
+                            "checkcode" : checkcode
+                        });
+                        back(data);
+                    }, function(a) {
+                        lazy.setParameter("user",null);
+                        errorFun(a);
+                    });
+                }
+            }
+            //渲染界面
+            function page() {
+                setData([{
+                            "id" : "inputlist1",
+                            "type" : "inputlist1",
+                            "table" : [
+                                {
+                                    "title" : "帐号",
+                                    "type" : "text",
+                                    "placeholder" : "用户名/手机号"
+                                },{
+                                    "title" : "密码",
+                                    "type" : "password",
+                                    "placeholder" : "请输入密码"
+                                }
+                            ]
+                        },{
+                            "id" : "button",
+                            "type" : "button",
+                            "label" : "登&nbsp;录",
+                            "onclick" : function() {
+                                var arr = getData("inputlist1").getValue();
+                                var username = arr[0].replace(/\s/g,"");
+                                var password = arr[1].replace(/\s/g,"");
+                                var checkcode = "";
+                                if (username == "") {
+                                    alert("用户名不能为空");
+                                    return;
+                                }else if (password == "") {
+                                    alert("密码不能为空");
+                                    return;
+                                }
+                                login(username, password, checkcode, function(data) {
+                                    lazy.openWin("faxian/wendalist.html");
+                                }, function(a) {
+                                    document.getElementsByClassName("input")[1].value = "";
+                                    alert(a);
+                                });
+                            }
+                        },{
+                            "type" : "button",
+                            "label" : "手机快捷登录",
+                            "onclick" : function() {
+                                lazy.setParameter("user",null);
+                                lazy.openWin("phone.html");
+                            }
+                        }
+                    ]);
+            }
+            
+            
+           var c5 = 0;   //记录点击次数
+           var t5 = new Date().getTime();   //记录时间     
+           function openlog() {
+               if(c5 < 5) {
+                     var t = new Date().getTime();
+                     if(t5) {
+                         if((t - t5)<4000) {
+                             c5++;
+                             if(c5 == 5) {
+                                 lazy.openWin("log.html");
+                                 clearFun();
+                             }
+                         }else {
+                             clearFun();
+                         }
+                     }
+                 }else {
+                     clearFun();
+                 }
+                 function clearFun() {
+                     c5 = 0;
+                     t5 = new Date().getTime();
+                 }
+           }
+        });
+    </script>
+</html>

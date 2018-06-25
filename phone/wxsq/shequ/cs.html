@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>订单详情</title>
+<style type="text/css">
+       body{
+           background-color: #EFEFEF !important;
+       } 
+       div[type=wode]{
+           margin-top:1rem;
+       }
+       #wode3{
+           margin-top:0rem !important;
+           border-top:1px solid #efefef;
+       }
+       div[type=wode] .jf {
+           padding-left:1rem !important;
+           height:1.5rem;
+           line-height:1.5rem;
+           
+           color:#63666d;
+       }
+       div[type=wode] .tr{
+           border-bottom:none !important;
+       }
+       div[type=wode] .text{
+           padding: 0 1rem !important;
+           background-image: none !important;
+           color:#202227;
+       }
+   
+</style>
+</head>
+<body>
+	<script type='text/javascript'>
+        var  state =0;
+       var iscomplete = 0;
+		start(function() {
+		     lazy.setParameter("state",0)
+		   lazy.alertCode('../LazyUI/images/code.png')
+		          lazy.clearCache()
+                           var json = [{
+                               "id":"alertcode",
+                               "type":"alertcode",
+                               "title":"请扫描二维码评价",
+                               "onclick":function(){
+                                   if(!state){
+                                       queryWX()
+                                       
+                                   }else{
+                                       window.location.replace('usercomplete.html')
+                                   }
+                               }
+                           },{
+                               "id":"wode3",
+                               "type":"wode",
+                               "table":[{
+                                   "h1":"服务类型",
+                                   "h2":"家政",
+                               },{
+                                   "h1":"备注",
+                                   "h2":"家政家政家政家政家政家政家政家政家政家政家政家政家政家政家政",
+                               }]
+                           },{
+                               "id":'serverinfo',
+                       "type":'serverinfo',
+                       "table":[{
+                                   "icon":'../LazyUI/images/icon2.jpg',
+                                   "level":'5',
+                                   "name":'维修师傅',
+                                   "number":'0',
+                                   "tel":'13920410298',
+                                }]
+                           },{
+                               "id":"button",
+                               "type":"button",
+                               "label":"刷新啊",
+                               "onclick":function(){
+                                   alert(iscomplete)
+                                   iscomplete = 1;
+                                   getData("alertcode").show()
+                                  // window.location.replace('usercomplete.html')
+                                   //lazy.openWin('usercomplete.html')
+                                   //lazy.refresh()
+                                   /* var u = navigator.userAgent;
+               var app = navigator.appVersion;
+                                   var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+                                   alert(isIOS)
+                                   var url = window.location.href.split("&random")
+                                   console.log(url)
+                                   window.location.href=url[0]+"&random="+10000*Math.random();*/
+                               }
+                           }];
+                           
+                            setData(json,function(){
+                                 
+                                 
+                            })  
+                            function ceshi(){
+                                lazy.setParameter("state",1)
+                                alert(2)
+                                state =0;
+                            }  
+             
+	    });
+	</script>
+</body>
+</html>

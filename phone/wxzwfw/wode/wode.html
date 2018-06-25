@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+       	   #wode .tr{
+               padding: 0.5rem 1rem !important;
+           }
+           #wode1 .tr{
+               padding: 0.5rem 1rem !important;
+           }
+           #wode2 .tr{
+               padding: 0.5rem 1rem !important;
+           }
+           .text{
+               background-size: 0.4rem !important;
+           }
+           .text span{
+               font-size: 0.9rem !important;
+           }
+           .jf{
+               background-size: 1.2rem !important;
+           }
+           .jf span{
+               font-size: 0.9rem !important;
+           }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            
+             var json=[{
+                 "id":"ceshi",
+                 "type":"ceshi",
+                 "style":{"background":"white"},
+                 "table":[]
+             }];
+            setData(json,function(){load()})
+            function load(){
+                var url = getIP()+"/wechat/weixinCertificate/getPersonInfo.ht?openid="+lazy.geturlstr("wxopenid")+"&initid="+lazy.geturlstr("wxinitId");
+                lazy.URLRequest(url,function(data){
+                 var _data = data;
+                 var data=data.rows[0];
+                 var imgs = [];
+                 
+                 for(var temp=1; temp<_data.rows.length ; temp++){
+                	 imgs.push(_data.rows[temp].imgurl)
+                 }
+                 if(data.rows.length>0){
+                	 var state;
+                     switch(data.rows[0].state){
+    	                 case "0":
+    	                	 state='审核中';
+    	                	 break;
+    	                 case "1":
+    	                	 state='已认证';
+    	                	 break;
+    	                 case "2":
+    	                	 state='认证失败';
+    	                	 break;
+                     }
+                     var s={
+                         "icon":data.rows[0].headpicture?data.rows[0].headpicture:"../LazyUI/images/morenpeople.png",
+                         "h1":data.rows[0].username,
+                         "h2":"手机号："+data.rows[0].mobile,
+                         "select":function(){
+                             lazy.startPhoto(function(pics,upids) {
+                                   /* var tmp = {
+                                        "annexid" : _obj.rows[0].id,
+                                        "annexname" : _obj.rows[0].docname,
+                                        "annexpath" : _obj.rows[0].path,
+                                    }*/
+                                   document.getElementsByClassName("ceshi")[0].style.backgroundImage='url('+pics[0]+')';
+                                    alert("上传成功");
+                                    lazy.refresh();
+                                });
+                         }
+                        }
+                         getData("ceshi").add(s)
+                         var h={
+                                "id" : "wode",
+                                "type" : "wode",
+                                "style":{"margin-top":"0.8rem"},
+                                "table" : [{
+                                    "h1":"我的办事",
+                                    "icon":"../LazyUI/js/wode/wdbs.png",
+                                    "onclick" : function(datas) {
+									 if(data.rows[0].state =="1"){
+										 var url = "../work/index.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId");
+	                                       lazy.openWin(url);
+									 }else if(data.rows[0].state =="0"){
+										 lazy.alert2("审核中，请耐心等待")
+									 }else{
+										 lazy.alert2("审核失败，请重新申请")
+									 }
+                                      
+                                    }
+                                },{
+                                    "h1":"我的诉求",
+                                    "icon":"../LazyUI/js/wode/wdsq.png",
+                                    "onclick" : function(datas) {
+                                        var url = "../tousu/suqiu.html?openid="+lazy.geturlstr("wxopenid")+"&initid="+lazy.geturlstr("wxinitId");
+                                        lazy.openWin(url);
+                                    }
+                                }]
+                                
+                            }
+                            var h1={
+                                "id" : "wode1",
+                                "type" : "wode",
+                                "style":{"margin-top":"0.8rem"},
+                                "table" : [{
+                                    "h1":"所属社区",
+                                    "h2":data.rows[0].communityname,
+                                    "icon":"../LazyUI/js/wode/sssq.png",
+                                    "onclick" : function(data) {
+                                       // lazy.openWin("../jfph/jfjl_zb.html");
+                                    }
+                                },{
+                                    "h1":"认证信息",
+                                    "h2":state,
+                                    "icon":"../LazyUI/js/wode/rzxx.png",
+                                    "username":data.rows[0].username,
+                                    "mobile":data.rows[0].mobile,
+                                    "idcard":data.rows[0].idcard,
+                                    "communityname":data.rows[0].communityname,
+                                    "file":data.rows[0].fileid,
+                                    "id":data.rows[0].id?data.rows[0].id:'',
+                                    "rejectereason":data.rows[0].rejectereason,
+                                    "onclick" : function(data) {
+                                    	
+                                        if(data.h2 == '认证失败'){
+                                        	 lazy.setParameter("name",data.username)
+                                             lazy.setParameter("mobile",data.mobile)
+                                             lazy.setParameter("idcard",data.idcard)
+                                             lazy.setParameter("communityname",data.communityname)
+                                             lazy.setParameter("file",imgs)
+                                             lazy.setParameter("id",data.id)
+                                             lazy.setParameter("rejectereason",data.rejectereason)
+                                             lazy.openWin("renzheng2.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                                        }
+                                       
+                                    }
+                                }]
+                                
+                            }
+                            var h2={
+                                "id" : "wode2",
+                                "type" : "wode",
+                                "style":{"margin-top":"0.8rem"},
+                                "table" : [{
+                                    "h1":"邀请",
+                                    "icon":"../LazyUI/js/wode/yq.png",
+                                    "onclick" : function(data) {
+                                        
+                                       // lazy.openWin("../jfph/jfjl_zb.html");
+                                    }
+                                }]
+                                
+                            }
+                         json.push(h)
+                         json.push(h1)
+                         json.push(h2)
+                    setData(json,function(){
+                    	
+                         var tr = document.getElementById("wode1");
+                        if(data.rows[0].state != '2'){
+                           var text = tr.getElementsByClassName("text")[1];
+                           text.style.backgroundImage="url('')";
+                           text.style.paddingRight=0;
+                        }
+                        var text = tr.getElementsByClassName("text")[0];
+                           text.style.backgroundImage="url('')";
+                           text.style.paddingRight=0;
+                    })
+                 }else{
+                     lazy.openWin("yanzheng.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                 }
+                },function(e){
+                	alert("错误信息!:"+e);
+                },1)
+            }
+            
+        });
+    </script>
+</html>

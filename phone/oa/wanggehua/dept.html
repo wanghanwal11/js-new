@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>部门列表</title>
+    </head>
+    <script>
+        start(function() {
+            var url = config.getOrgMobile;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                var tbl = {
+                    "type" : "titlebtnlist2_no",
+                    "table" : []
+                }
+                for(var i=0;i<data.length;i++){
+                    var tmp = {
+                        "id" : data[i].id,
+                        "h1" : data[i].text,
+                        "h2" : "",
+                        "onclick" : function(obj){
+                            lazy.setParentJs(lazy.var(), obj);
+                        }
+                    }
+                    tbl.table.push(tmp);
+                }
+                var json = [];
+                json.push(tbl);
+                
+                
+                json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '部门列表',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                            	lazy.setParentJs(lazy.var(), {});
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                        }
+                    })
+                /*
+                lazy.isAppcan(function() {
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '部门列表',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "select" : function(name, index) {
+                                if(name=="left"){
+                                    lazy.close_appcan();
+                                }
+                            }
+                    })
+                });
+                */
+                setData(json)
+            })
+        });
+    </script>
+</html>

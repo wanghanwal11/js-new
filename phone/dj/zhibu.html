@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="common/property.js"></script>
+        <script src="common/config.js"></script>
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+            html,body {
+                height:auto!important;
+                background-color:#C8E0F1!important;
+            }
+            div[type=yun]{
+                position: fixed!important;
+                background: url(LazyUI/images/lxyz/qitabg.png) no-repeat!important;
+                background-size: 100%!important; 
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page=1;
+             var json = [{
+                            "id":"yun",
+                            "type" : "yun",
+                            "src" : lazy.url+projectName1,
+                            "icon" : "moren.png",
+                            "name" : "加载中...",
+                            "divlist":["民族","支部职务","入党时间","更多"],
+                            "onclick":function(index){
+                                getData("fudong1").setShow();
+                            },
+                            "divcontent":[],
+                            "qita":true
+                        },{
+                           "id":"xinwen",
+                           "type":"xinwen1",
+                           "style":{"margin-top":"16.5rem"},
+                           "content":[]
+                        },{
+                            "id":"fudong1",
+                            "type":"ewm2",
+                            "select":function(){
+                               getData("fudong1").setHide();
+                            },
+                            "con":["设岗定责:","承诺实践:","党员示范岗:","党员责任区:"],
+                         }];
+               setData(json,function(){loadings()});
+               function loadings(){
+                   lazy.URLRequest(getIP()+"/vitopartymember/vitopartymember/getallbyparty.ht?rows=10&page="+page, function(_data) {
+                       var data=_data.rows;
+                       var data1=_data.newPrimaryKeys.member[0];
+                       if(page==1){
+                           var time1="";
+                            if(data1.partyinday){
+                                time1=lazy.format(data1.partyinday,"yyyy-MM-dd")
+                            }
+                           getData("yun").add([data1.nationname,data1.partypostname,time1,""]);
+                           getData("yun").add1(data1.name,(getIP()+data1.picture).replace(/\\/g,"/"))
+                            getData("fudong1").add(["设岗定责:"+data1.postres,"承诺实践:"+data1.communitypra,"党员示范岗:"+data1.memberpost,"党员责任区:"+data1.memberres])
+                       }
+                      lazy.closeBounce();
+                      for(var i=0;i<data.length;i++){
+                            var time="";
+                            if(data[i].partyinday){
+                                time=lazy.format(data[i].partyinday,"yyyy-MM-dd")
+                            }
+                              var d = {
+                                    "icon" : data[i].picture?(getIP()+data[i].picture).replace(/\\/g,"/"):"moren.png",
+                                    "h1" : data[i].name,
+                                    "h2" : data[i].cellphonenumber,
+                                    "minzu": data[i].nationname,
+                                    "bumen": data[i].partypostname,
+                                    "time": time,
+                                    "postres": data[i].postres,
+                                    "communitypra": data[i].communitypra,
+                                    "memberpost": data[i].memberpost,
+                                    "memberres": data[i].memberres,
+                                    "onclick" : function(data) {
+                                        getData("yun").add([data.minzu,data.bumen,data.time,""]);
+                                        getData("yun").add1(data.h1,data.icon)
+                                        getData("fudong1").add(["设岗定责:"+data.postres,"承诺实践:"+data.communitypra,"党员示范岗:"+data.memberpost,"党员责任区:"+data.memberres])
+                                    }
+                                }
+                               getData("xinwen").add(d);
+                            }
+                            page++;
+                      },function(){
+                          lazy.closeBounce();
+                      },true);
+               }
+               lazy.bounce({"up":function(){
+                loadings()
+               },"color":"#C8E0F1"}); 
+        });
+    </script>
+</html>

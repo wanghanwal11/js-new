@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+     start(function() {
+         lazy.bounce();
+         var json=[
+             {
+                 "type" : "label",
+                 "text" : "查询缴费",
+                 "style" : {
+                     "text-align" : "center"
+                 }
+             },{
+                 "type" : "label",
+                 "text" : "请填写真实姓名和手机号，否则查询会失效",
+                 "style" : {
+                     "text-align" : "center",
+                     "fontSize" : "0.6rem"
+                 }
+             },{
+                    "id" : "inputlist1",
+                    "type" : "inputlist1",
+                    "table" : [
+                        {
+                            "title" : "姓名",
+                            "type" : "text",
+                            "placeholder" : "请输入姓名"
+                        },
+                        {
+                            "title" : "身份证号",
+                            "type" : "text",
+                            "placeholder" : "请输入身份证"
+                        }
+                    ]
+                },{
+                    "id" : "button",
+                    "type" : "button",
+                    "label" : "查询",
+                    "onclick" : function() {
+                        lazy.openWin("dfjn404.html");
+                    }
+                }
+         ]
+         if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '党费缴纳',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+         setData(json);
+            
+       });
+    </script>
+</html>

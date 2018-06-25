@@ -1,0 +1,72 @@
+body[type=body] div[type=lb]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=lb] .table {
+    width:100%;
+    height:auto;
+}
+div[type=lb] .titlelb{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+div[type=lb] .icon {
+    width: 6rem;
+    height: 4rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=lb] .trzw {
+    height:3rem;
+}
+div[type=lb] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=lb] .h {
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=lb] .h1 {
+    color:#333333;
+    margin-bottom: 0.8rem;
+}
+div[type=lb] .h1 span {
+    font-size: 1rem;
+}
+div[type=lb] .h2 {
+    color:#333333;
+    margin-bottom: 0.8rem;
+}
+div[type=lb] .h2 span {
+    font-size: 0.9rem;
+}
+div[type=lb] .blue {
+    display:inline-block;
+    color:#3399FF;
+}
+div[type=lb] .blue span {
+    font-size: 0.9rem;
+}
+div[type=lb] .red {
+    display:inline-block;
+    color:#FB3D3D;
+}
+div[type=lb] .red span {
+    font-size: 0.9rem;
+}
+div[type=lb] .text {
+    color:#AAAAAA;
+}
+div[type=lb] .text span {
+    font-size: 0.9rem;
+}

@@ -1,0 +1,51 @@
+body[type=body] div[type=address]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=address] .table {
+    width:100%;
+    height:auto;
+}
+div[type=address] .tr {
+    height:auto;
+    background-color: #ffffff;
+    margin-bottom: 1px;
+    padding:1rem 0 1rem 1rem;
+}
+div[type=address] .default span{
+   color:#aaaaaa;
+}
+div[type=address] .tr1 {
+    height:auto;
+    font-size:1rem;
+    line-height:1.5rem;
+
+}
+div[type=address] .tr2 {
+    height:auto;
+    font-size:0.9rem;
+    line-height:1.5rem;
+    color:#999999;
+}
+div[type=address] .icon {
+    width:1rem;
+    background:url(address.png);
+    background-size:1rem;
+    background-position:center;
+    background-repeat:no-repeat;
+    margin-right: 0.5rem;
+}
+
+div[type=address] .right {
+    width:2.5rem;
+    background:url(right.png);
+    background-size:0.5rem;
+    background-position:center;
+    background-repeat:no-repeat;
+    margin-left: 0.5rem;
+}
+
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=label] {
+                color: #5e97f6;
+                height: 2rem !important;
+                line-height: 2.5rem !important;
+                background-color: #fff;
+                border-top: 1px solid #e1e1e0;
+                margin-top: 0.5rem;
+                padding-left: 1.2rem !important;
+            }
+            div[type=label] span{
+                font-size: 0.85rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var json = [{
+                    "type" : "titlebtnone1",
+                    "icon" : lazy.url + "LazyUI/images/tongxunlu/zz.png",
+                    "color" : "#3fc299",
+                    "h1" : "所有人",
+                    "h2" : "组织架构",
+                    "onclick" : function(obj) {
+                        lazy.openWin("tongxunluall.html");
+                    }
+                },{
+                    "type" : "label",
+                    "text" : "近期查看"
+                },{
+                            "id" : "titlebtnlist2",
+                            "type" : "titlebtnlist2",
+                            "table" : [
+                                // {
+                                    // "icon" : "",//90*90
+                                    // "h1" : "郝建为",
+                                    // "h2" : "产品部",
+                                    // "onclick" : function(obj) {
+                                        // lazy.setParentJs("setProcessPeople", obj);
+                                    // }
+                                // },{
+                                    // "h1" : "大冠",
+                                    // "h2" : "产品部",
+                                    // "onclick" : function(obj) {
+                                        // lazy.setParentJs("setProcessPeople", obj);
+                                    // }
+                                // }
+                                ]
+                }
+            ];
+            json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : '考勤',
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                        if(name=="left"&&index==0){
+                            lazy.goBack();
+                        }
+                        if(name=="left"&&index==1){
+                            lazy.close();
+                        }
+                    }
+            })
+            setData(json,function(){
+                load();
+            })
+            function load(){
+                var data = lazy.getParameter("attperson")?lazy.getParameter("attperson"):[];
+                for(var i=0;i<data.length;i++){
+                    var tmp = {
+                        "id":data[i].id,
+                        "h1":data[i].h1,
+                        "h2":data[i].h2,
+                        "icon":data[i].icon,
+                        "onclick":function(obj){
+                            lazy.setParameter("kqid",obj.id);
+                            lazy.openWin("kaoqin.html");
+                        }
+                    }
+                    getData("titlebtnlist2").add(tmp);
+                }
+            }
+        });
+    </script>
+</html>

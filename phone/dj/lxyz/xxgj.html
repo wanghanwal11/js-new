@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #fff !important;
+            }
+            .red {
+                color: #f20;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var json=[{
+                                "id":"textlist",
+                                "type": "textlist",
+                                "index": -1,
+                                "table": [
+                                ]
+                            }];;
+            var page=1;
+            
+            setData(json,function(){list()})
+            function list(){
+             lazy.URLRequest(getIP()+"/party/DJ_Learnplanmember/getMymobilelist.ht?"+"page="+page+"&rows=10", function(data) {
+                 lazy.closeBounce();
+                 var data=data.rows;
+                 for(var i=0;i<data.length;i++){
+                     var title = data[i].title?data[i].title:"";
+                     if(lazy.getStringByteLength(title)>11) {
+                         title = title.substring(0,11)+"...";
+                     }
+                     var obj1 = {
+                                "h1": data[i].type+"&nbsp;&nbsp;"+title+"&nbsp;&nbsp;<span class='red'>+"+data[i].integration+"</span>分",
+                                "h2": "学习日期："+data[i].time
+                             }
+                    getData("textlist").table.push(obj1)
+                 }
+                 page++;
+                  if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '积分轨迹',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+                 setData(json)
+             },function(){lazy.closeBounce();})
+          }
+          lazy.bounce({"up":function(){
+              list();
+          }});
+        });
+    </script>
+</html>

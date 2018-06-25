@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>网格</title>
+        <style>
+            div[type=table9] .td{
+                color: #888 !important;
+                height: 5rem !important;
+            }
+            div[type=table9] .new {
+                background-image: url(../LazyUI/images/shenpi/new.png);
+                background-size: 2.5rem;
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
+            #headerbutton .tr{
+                background-color: #8764e6!important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.personmessage(function(obj){
+            var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+            var mp = lazy.response("mp");//true是外网
+            lazy.setParameter("Bgcolor","#8764e6");
+            lazy.setHeader({
+                "title":"网格",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var json = [
+                {
+                    "id" : "headerbutton",
+                    "type" : "headerbutton",
+                    "table" : [
+                        {
+                            "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                            "title" : "我的待办",
+                            "onclick" : function() {
+                                lazy.openWin("wodedaiban.html")
+                            }
+                        },{
+                            "icon" : lazy.url + "LazyUI/images/shenpi/wtjd.png",
+                            "title" : "我的办件",
+                            "onclick" : function() {
+                                lazy.openWin("wodebanjian.html")
+                            }
+                        }
+                     ]
+                },
+                {
+                    "id" : "table9",
+                    "type" : "table9",
+                    "col" : 3,
+                    "table" : [
+                                {
+                                    "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                                    "label" : "事件搜索",
+                                    "color" : "#5fc9f7",
+                                    "onclick" : function() {
+                                        lazy.openWin("shijiansousuo.html");
+                                    }
+                                }
+                                ,{
+                                    "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                                    "label" : "延期审批",
+                                    "color" : "#77bf70",
+                                    "onclick" : function() {
+                                        lazy.openWin("yqsp.html");
+                                    }
+                                }
+                            ]
+                }
+            ]
+            //loaddb();
+            if(mp&&mp=="true"){//外网
+                var url = getIP()+"/nloginByPhone.ht?phone="+obj.rows[0].phone;
+                lazy.URLRequest(url,function(){
+                    lazy.setParameter("mp","true");
+                    lazy.URLRequest(config.checkUserMobile, function(data){
+                    var data=data.rows;
+                    if(data[0]==1){//应该是1
+                        var tmp = {
+                            "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                            "label" : "新增事件",
+                            "color" : "#5c98f5",
+                            "onclick" : function() {
+                                lazy.setParameter("xname","xinzengshijian");
+                                lazy.setParameter("sjgl",null);
+                                lazy.setParameter("rid",null);
+                                lazy.setParameter("mapgps",null);
+                                lazy.setParameter("gps",null);
+                                lazy.setParameter("isSave",false);
+                                lazy.openWin("xinzengshijian.html");  
+                            }
+                        }
+                        json[1].table.unshift(tmp);
+                    }
+                    setData(json)
+                    })
+                })
+            }else{
+                lazy.URLRequest(config.checkUserMobile, function(data){
+                   var data=data.rows;
+                   if(data[0]==1){//应该是1
+                       var tmp = {
+                            "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                            "label" : "新增事件",
+                            "color" : "#5c98f5",
+                            "onclick" : function() {
+                                lazy.setParameter("xname","xinzengshijian");
+                                lazy.setParameter("sjgl",null);
+                                lazy.setParameter("rid",null);
+                                lazy.setParameter("mapgps",null);
+                                lazy.setParameter("gps",null);
+                                lazy.setParameter("isSave",false);
+                                lazy.openWin("xinzengshijian.html");  
+                            }
+                        }
+                        json[1].table.unshift(tmp)
+                   }
+                   setData(json)
+                })   
+            }
+            
+        })
+    });
+    </script>
+</html>

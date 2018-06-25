@@ -1,0 +1,63 @@
+div[type=alertdiy]{
+	width: 100%;
+    height: 100%;
+    position:fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.5);
+    font-size: 1rem;
+}
+div[type=alertdiy] .kuang {
+   width: 100%;
+   height: 100%; 
+   text-align: center;
+}
+div[type=alertdiy] .table {
+    width: 90%;
+    height:auto;
+    text-align: center;
+    color: #333;
+    padding: 0.8rem;
+    -webkit-box-sizing:border-box;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    margin: auto;
+}
+div[type=alertdiy] .title {
+    height: 1.5rem;
+    line-height: 1rem;  
+}
+div[type=alertdiy] .title span {
+    font-size: 0.9rem;
+}
+div[type=alertdiy] .text {
+    text-align: left;
+}
+div[type=alertdiy] .text span {
+    font-size: 0.7rem;
+    color: #555;
+}
+div[type=alertdiy] .tr {
+    -webkit-box-sizing:border-box;
+    width:100%;
+    height:auto;
+    margin-top: 0.5rem;
+    border-top: 1px solid #ccc;
+}
+div[type=alertdiy] .tr .button{
+    margin: 0 0.5rem;
+    height: 2rem;
+    width:0;
+    line-height: 2rem;
+    color: #ca291f;
+}
+div[type=alertdiy] .tr .button {
+    border-left: 1px solid #ccc;
+}
+div[type=alertdiy] .tr .button:first-child {
+    border-left: none;
+}
+div[type=alertdiy] .tr .button span {
+    font-size: 0.8rem;
+}

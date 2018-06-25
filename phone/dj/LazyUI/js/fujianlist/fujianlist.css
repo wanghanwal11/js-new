@@ -1,0 +1,65 @@
+div[type=fujianlist]{
+    width: 100%;
+    height: auto;
+    font-size: 0.8rem;
+    position: relative;
+    -webkit-box-sizing:border-box;
+    border-top: 1px solid #dcdcdc;
+    background-color: #fff;
+}
+
+div[type=fujianlist] .hang {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    overflow: hidden;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    border-bottom: 1px solid #dcdcdc;
+}
+div[type=fujianlist] .del {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #f20;
+    text-align:center;
+    line-height: 2.5rem;
+    color: #fff;
+}
+div[type=fujianlist] .del span {
+    font-size: 0.8rem;    
+}
+
+div[type=fujianlist] .hang {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    overflow: hidden;
+    height: 2.5rem;
+}
+div[type=fujianlist] .h1 {
+    padding-left: 0.5rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-bottom: 1px solid #DCDCDC;
+    background-color: #f8f8f8;
+}
+div[type=fujianlist] .icon {
+    width: 3rem;
+    height: 2.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+}
+div[type=fujianlist] .img {
+    background-image: url(images/img.png);
+}
+div[type=fujianlist] .mp4 {
+    background-image: url(images/mp4.png);
+}
+div[type=fujianlist] .file {
+    background-image: url(images/file.png);
+}
+div[type=fujianlist] .mp3 {
+    background-image: url(images/mp3.png);
+}
+div[type=fujianlist] .doc {
+    background-image: url(images/file.png);
+}

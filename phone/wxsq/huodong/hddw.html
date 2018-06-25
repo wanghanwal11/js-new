@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>社区活动</title>
+<style type="text/css">
+        body{
+            background-color: #f7f8fa !important;
+        }
+</style>
+</head>
+<body>
+	<script>
+		start(function() {
+		    lazy.clearCache()
+		    var url = decodeURI(window.location.href) 
+		   var temp = url.split('gps=');
+		   temp = JSON.parse(temp[1])
+		   
+		   var gps = {
+		       lat:temp.y,
+		       lng:temp.x
+		   }
+		   console.log(gps)
+		    var json = [{
+                        id : 'map',
+                        type : 'map2',
+                        showHide : '',
+                        center:gps,
+                        back:function(){
+                            lazy.goback(-1)
+                        },
+                        onclick : function(obj) {
+                            //map_obj.y=obj.gps.lat;
+                           // map_obj.x=obj.gps.lng;
+                           
+                           
+                            //lazy.goBack(GoBackEvent2);
+                            //getData('map').hide();
+                            //('ts_group').show();
+                            //getData("map_button").add(obj.address);
+                           
+                        }
+                    }];
+		    
+			setData(json)
+	    });
+	</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Document</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+        body {
+            padding: 0.8rem !important;
+        }
+        div[type=button] {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+</body>
+<script>
+    start(function() {
+        /*
+         var json = [{
+            type : 'button',
+            label : '这是按钮234'
+        }]
+        lazy.new('Button.js',function(button){
+            button.url = '222';
+            setData(button.init());
+            button.add(json)
+        });*/
+        GoBackEvent = function() {
+           getData('map').hide();
+           getData('group').show();
+        }
+        setData([
+            {
+                id : 'map',
+                type : 'map',
+                center : { lng : 116.397428, lat : 39.90923},
+                showHide : 'hide',
+                onclick : function() {
+                    lazy.goBack(GoBackEvent);
+                    getData('map').hide();
+                    getData('group').show();
+                }
+            },{
+                id : 'group',
+                type : 'group',
+                    list : [{
+                                type : 'button',
+                                label : '界面操作normal',
+                                onclick : function() {
+                                    lazy.setGoBack();
+                                    getData('map').show();
+                                    getData('group').hide();
+                                }
+                                },{
+                                    type : 'button',
+                                    label : '界面操作disabled',
+                                    disabled : true
+                                },{
+                                    type : 'button',
+                                    label : '不填满',
+                                    fill : false
+                                },{
+                                    type : 'button',
+                                    color : 'red',
+                                    label : '颜色color',
+                                    onclick : function() {
+                                        
+                                    }
+                                }]
+                
+            }
+        ]);
+        
+    });
+</script>
+</html>

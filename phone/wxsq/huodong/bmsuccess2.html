@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>报名成功</title>
+<style type="text/css">
+       #pic img{
+           width: 100% !important;
+       }  
+       #div{
+           position:fixed;
+           top:40%;
+           background: transparent !important;
+       }
+       #div2{
+           position:fixed;
+           top:45%;
+           background: transparent !important;
+       }
+        div[type=div2] .content {
+            text-align: center;
+            color:#ffffff;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+       
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    GoBackEvent = function() {
+                           
+               wx.closeWindow();
+            }
+            lazy.setGoBack();
+		    var json = [{
+                       "id":"pic",
+                       "type" : "imgmapdiv",
+                       "src" : "../LazyUI/images/huodong/bg2.png",
+                       "rect" : [
+                       ]
+                   },{
+                       "id":"div",
+                       "type":"div2",
+                       "text":"您可到个人中心查看活动详情"
+                       
+                   },{
+                       "id":"div2",
+                       "type":"div2",
+                       "text":"请您准时参加活动哦~"
+                       
+                   }];
+		    
+			setData(json,function(){
+			    
+			})
+	    });
+	</script>
+</body>
+</html>

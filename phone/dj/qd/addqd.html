@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=07591c420d03d958748c20628252d46e"></script>
+        <style type="text/css">
+           div[type=textareanum1] {
+               background-color: #fff;
+               margin: 0.5rem 0 !important;
+           } 
+           div[type=textareanum1] .textarea{
+               min-height: 5rem !important;
+               border: 1px solid #cfcfcf !important;
+           }
+           .textarea::-webkit-textarea-placeholder {
+               font-size: 0.2rem !important;
+           }
+            div[type=process]{
+                margin-bottom: 2rem;
+            }
+             div[type=button]{
+            position: fixed!important;
+            bottom: 0rem!important;
+            }
+        </style>
+	</head>
+	<body></body>
+	<script>
+	start(function() {
+	    lazy.bounce();
+	    var weizhi="";
+        var lat="";
+        var lon="";
+        var json = [{ 
+                    "type" : "iconlabel",
+                    "icon" : "../LazyUI/images/qd/shijian.png",
+                    "text" : "签到时间：",
+                 },{
+                    "id" : "didian",
+                    "type" : "iconlabel",
+                    "icon" : "../LazyUI/images/qd/dd.png",
+                    "text" : "地点：获取定位中..."
+                 },{
+                     "id":"process",
+                     "type":"process",
+                     "table":[
+                             {
+                            "title" : "备注",
+                            "type" : "textarea",
+                            "placeholder" : "请输入"
+                        },{
+                            "title" : "图片",
+                            "type" : "image",
+                            "httpurl" : config.oa.fileupload
+                        }
+                     ]},{
+                            "id" : "button",
+                            "type" : "button",
+                            "label" : "签到",
+                            "onclick":function(){
+                                tijiao();
+                            }
+                        }
+        ];
+         if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '签到',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+        lazy.URLRequest(getIP()+"/getsigntime.ht",function(data){
+             try{
+                 var time = data.newPrimaryKeys.time;
+                 json[0].text = "签到时间：" + time;
+                 setData(json,function() {
+                    /*lazy.getGps(function(x,y){
+                       lazy.var({"x":x,"y":y});
+                       lazy.getGpsName(x,y,function(ad){
+                          lat=x;
+                          lon=y;
+                          weizhi=ad;
+                          getData("didian").value("地点 ："+ad);
+                          lazy.closeGps();
+                       })
+                   })*/
+                    var geoc = new BMap.Geocoder();
+                    var geolocation = new BMap.Geolocation();
+                    geolocation.getCurrentPosition(function(r){
+                        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                            var pt = new BMap.Point(r.point.lng, r.point.lat);
+                            geoc.getLocation(pt, function(rs){
+                                lat=rs.point.lng;
+                                lon=rs.point.lat;
+                                weizhi=rs.address;
+                                getData("didian").value("地点 ："+rs.address);
+                            })
+                            
+                            
+                        } else {
+                            alert('failed'+this.getStatus());
+                        }        
+                    },{enableHighAccuracy: true})
+                }); 
+             }catch(e){
+                 alert("获取服务器时间错误");
+             }
+         },function(e){
+            alert(e);
+        });
+        
+        function tijiao(){
+               if(weizhi!=""){
+                   var arr=getData("process").getArray().table;
+                   var beizhu=arr[0].value;
+                   var arr7=arr[1].value;
+                   var picture=[];
+                     for(var p=0;p<arr7.length;p++){
+                         picture.push(arr7[p].annexid)
+                     }
+                   lazy.URLRequest(getIP()+"/qiandao.ht?remark="+beizhu+"&photos="+picture+"&lat="+lat+"&lon="+lon+"&positionname="+weizhi,function(data){
+                       alert("签到成功");
+                       lazy.goBack();
+                   },function(e){
+                       alert(e);
+                   })
+               }else{
+                   alert("获取定位中")
+               }
+                   
+           }       
+    });
+	</script>
+</html>

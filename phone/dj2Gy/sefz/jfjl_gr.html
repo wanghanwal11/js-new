@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            lazy.setHeader({
+                            "title":"积分记录查询"
+                        });
+            var json = [{
+                             "id":"jfjl",
+                             "type":"jfjl",
+                             "table":[]
+                         }];
+            var ccid=lazy.getParameter("renid")
+            setData(json,function(){load()})
+            function load(){
+                lazy.URLRequest(getIP()+'/party/scoredetail/list.ht?'+"rows=20&page="+page+"&cadreid="+ccid, function(data) {
+                    lazy.closeBounce();
+                    data=data.rows;
+                     if(data.length==0&&page==1){
+                          lazy.datanull("暂无数据")
+                     }
+                    for(var i=0;i<data.length;i++){
+                        var s={
+                                 "h1":data[i].errorname,
+                                 "h2":lazy.format(data[i].time,"yyyy-MM-dd"),
+                                "right":"积分"+(data[i].type=="加分"?"+":"-")+data[i].score
+                             }
+                       getData("jfjl").one(s);
+                    }
+                    page++;
+               },function(){lazy.closeBounce();}, page>1?0:1)
+            }
+            lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

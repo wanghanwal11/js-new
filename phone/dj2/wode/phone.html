@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body{
+                height: auto !important;
+                min-height: 0 !important;
+            }
+            div[type=lazyinput]{
+                margin-top: 5rem;
+            }
+            #button a{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                top: 11rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d;
+            }
+            
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({"title": "手机号"});
+            var phone_number = lazy.geturlstr("phone")?lazy.geturlstr("phone"):"";
+            var json = [{
+                "id" : "lazyinput",
+                "type" : "lazyinput",
+                 "table" : [{
+                                "title":"当&nbsp;前&nbsp;手&nbsp;机&nbsp;号",
+                                "widget":"text",
+                                "content":phone_number
+                            }]
+            },{
+                 "id":"button",
+                 "type":"button",
+                 "label":"修改手机号",
+                 "onclick":function(){
+                     lazy.setParameter("phone",phone_number);
+                     lazy.openWin("yanzheng.html");
+                }     
+            }]
+            setData(json,function(){
+                var title = document.getElementById("lazyinput").getElementsByClassName("title");
+                for(var i = 0 ; i < title.length ; i++){
+                    title[i].className = "title ub-f1";
+                }
+                var content = document.getElementById("lazyinput").getElementsByClassName("content");
+                for(var i = 0 ; i < content.length ; i++){
+                    content[i].className = "content ub";
+                }
+            })
+        });
+    </script>
+</html>

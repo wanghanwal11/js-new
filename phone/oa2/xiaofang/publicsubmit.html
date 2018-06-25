@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>宣传任务</title>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"宣传任务",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                     "icon" : "dui.png",
+                     "onclick" : function() {
+                         var arr1 = getData("fire_process").getArray();
+                         var arr2 = getData("fire_process2").getArray();
+                         //var arr3 = getData("select").getArray();
+                         var url = getIP() + "/firesys/F_Protask/save.ht?";
+                         var title = arr1[0];
+                         if(title==""){
+                             lazy.alert2("请输入标题");
+                             return;
+                         }
+                         url+='title='+title;
+                         var content = arr1[1];
+                         if(content==""){
+                             lazy.alert2("请输入内容");
+                             return;
+                         }
+                         url+='&content='+content;
+                         // if(remark=""){
+                             // lazy.alert2("请输入")
+                         // }
+                         url+='&remark='+arr1[2];
+                         if(arr2[0].length>0){
+                             var imgids = [];
+                             var imgsarr = arr2[0];
+                             for(var i=0;i<imgsarr.length;i++){
+                                 imgids.push(imgsarr[i].id)
+                             }
+                             url += '&imgurl='+imgids;
+                         }
+                         lazy.URLRequest(url,function(){
+                             alert("提交成功");
+                             window.history.go(-1);
+                         })
+                     }
+                 }
+                ]
+            });
+            var json = [
+                {
+                    "id":"fire_process",
+                    "type":"fire_process",
+                    "table":[
+                        {
+                                "type":"input",
+                                "title":"任务标题"
+                        },
+                        {
+                                "type":"textarea",
+                                "title":"任务内容"
+                        },{
+                                "type":"textarea",
+                                "title":"备注"
+                        }
+                    ]
+                },
+                // {
+                    // "type":"select",
+                    // "title":"",
+                    // "option":[{
+                        // "arr":[
+                            // {"value":"1.口头提醒","id":"1"},
+                            // {"value":"2.开放宣传材料","id":"2"},
+                            // {"value":"3.开展消防培训","id":"3"},
+                            // {"value":"4.其它","id":"4"},
+                        // ]
+                    // }]
+                // },
+                {
+                    "id":"fire_process2",
+                    "type":"fire_process",
+                    "table":[
+                         {
+                            "type":"image",
+                        }
+                    ]
+                }
+            ]
+            setData(json);
+        })
+    </script> 
+</html>

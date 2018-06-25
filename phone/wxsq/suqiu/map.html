@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>我要诉求</title>
+<style type="text/css">
+       body{
+           background-color: #f7f8fa !important;
+       }
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    var map_obj = {}
+		    var json = [{
+                        id : 'map',
+                        type : 'map',
+                        showHide : 'show',
+                        onclick : function(obj) {
+                            map_obj.x=obj.gps.lat;
+                            map_obj.y=obj.gps.lng;
+                            lazy.setParameter("map_obj",map_obj)
+                            lazy.setParameter("mapaddress",map_obj)
+                            lazy.goBack(-1);
+                            getData("map_button").add(obj.address);
+                           
+                        }
+                    }];
+		    
+			setData(json)
+	    });
+	</script>
+</body>
+</html>

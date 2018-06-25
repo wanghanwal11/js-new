@@ -1,0 +1,32 @@
+body[type=body] div[type=dslb]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    background-color: #fff;
+}
+div[type=dslb] .tr{
+    padding:1rem;
+    border-bottom: 1px solid #efefef;
+}
+div[type=dslb] .h1 span{
+    font-size: 1rem;
+}
+div[type=dslb] .date{
+   color:#fb3d3d;
+   background-image: url(calendar.png);
+   background-position:left center;
+   background-repeat:no-repeat;
+   background-size: 1rem;
+   padding: 0.5rem 0 0.5rem 1.5rem;
+}
+div[type=dslb] .date span{
+   font-size:0.8rem;
+}
+div[type=dslb] .content{
+   color:#999999;
+}
+div[type=dslb] .content span{
+   font-size:0.8rem;
+}

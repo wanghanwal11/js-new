@@ -1,0 +1,161 @@
+div[type=table23456]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	position:relative;
+	font-size:1rem;
+    color: #343434;
+    background-color: #ffffff;
+    -webkit-box-orient:vertical;
+    overflow: hidden;
+}
+div[type=table23456] .title {
+    width: 100%;
+    height: 1.7rem;
+    line-height:1.7rem;
+    overflow: hidden;
+    -webkit-box-sizing:border-box;
+    padding: 0 0.83rem;
+}
+div[type=table23456] .title_icon {
+    width: 1.5rem;
+    height: 1.7rem;
+    background-size: 1.1rem;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+div[type=table23456] .title .ub-f1 {
+    height: 0.9rem;
+    border-bottom:1px solid #e4e4e4;
+}
+div[type=table23456] .title span {
+    font-size: 0.9rem;
+    padding-right: 1rem;
+}
+div[type=table23456] .table {
+    width: 100%;
+    height: auto;
+}
+div[type=table23456] .tr {
+    width: 100%;
+    height: auto;
+}
+div[type=table23456] .td {
+    text-align: center;
+    width: 0;
+    height: auto;
+    border-right: 1px solid #e4e4e4;
+    -webkit-box-sizing:border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2);
+}
+div[type=table23456] .td2:first-child {
+    border-bottom: 1px solid #e4e4e4;
+}
+/*2*/
+div[type=table23456] .label2 {
+    height: 4.3rem;
+    line-height: 4.3rem;
+}
+div[type=table23456] .label2 span {
+    font-size: 0.83rem;
+}
+div[type=table23456] .icon2 {
+    width: 5rem;
+    height: 4.3rem;
+    background-size: 2.8rem;
+    background-position: 1.1rem center;
+    background-repeat: no-repeat;
+}
+/*3*/
+
+div[type=table23456] .label3 {
+    height: 1.6rem;
+    line-height: 1.2rem;
+    text-align: center;
+}
+div[type=table23456] .label3 span {
+    font-size: 0.83rem;
+}
+div[type=table23456] .icon3 {
+    width: 5.9rem;
+    height: 3.4rem;
+    background-size: 2.6rem;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+div[type=table23456] .tr .td:first-child .icon3 {
+    background-position: 1.1rem bottom;
+}
+div[type=table23456] .tr .td:first-child .label3{
+    padding-right: 1rem;
+}
+div[type=table23456] .tr .td:last-child .icon3 {
+    background-position: 1.9rem bottom;
+}
+div[type=table23456] .tr .td:last-child .label3 {
+    padding-left: 0.3rem;
+}
+
+/*4*/
+
+div[type=table23456] .label4 {
+    height: 1.7rem;
+    line-height: 1.3rem;
+    text-align: center;
+}
+div[type=table23456] .label4 span {
+    font-size: 0.83rem;
+}
+div[type=table23456] .icon4 {
+    width: 4.4rem;
+    height: 3rem;
+    background-size: 2.4rem;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+/*5 6.94*/
+div[type=table23456] .trb {
+    border-top: 1px solid #e4e4e4;
+}
+div[type=table23456] .td1 {
+    width:50%;
+    -webkit-box-sizing:border-box;
+}
+div[type=table23456] .td2 {
+    width: 8.8rem;
+    min-height: 3.75rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=table23456] .label51 {
+    height: 1.94rem;
+    line-height: 0;
+    text-align: center;
+}
+div[type=table23456] .label51 span {
+    font-size: 0.83rem;
+}
+div[type=table23456] .icon51 {
+    width: 8.84rem;
+    height: 5rem;
+    background-size: 2.8rem;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=table23456] .label5 {
+   width: 4.4rem;
+   height: 3.5rem;
+   line-height: 3.5rem;
+   text-align: left;
+}
+div[type=table23456] .label5 span {
+    font-size: 0.83rem;
+}
+div[type=table23456] .icon5 {
+    width: 4.4rem;
+    height: 3.5rem;
+    background-size: 2.8rem;
+    background-position: center;
+    background-repeat: no-repeat;
+}

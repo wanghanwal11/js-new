@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<link rel="stylesheet" href="css/weixin.css" />
+		<link rel="stylesheet" href="css/vitostyle.css" />
+		<link rel="stylesheet" href="css/swiper.min.css" />
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/swiper.min.js"></script>
+		<script type="text/javascript" src="../../../../library/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/vitowx.js" ></script>
+		<title>北科维拓</title>
+	</head>
+
+	<body>
+		<header class="header_logo"><span><img src="img/logo.png"></span></header>
+		<div class="portal_con">
+			<!-- banner图开始 -->
+			<div class="flexslider portal_ban swiper-container">
+				<ul class="portal_banner slides swiper-wrapper">
+					<li class="swiper-slide">
+						<a href="#"><img src="img/index_banner1.jpg"></a>
+					</li>
+				</ul>
+				<div class="pagination"></div>
+			</div>
+		</div>
+		<!-- banner图结束 -->
+		<div class="content">
+			<!-- 第一部分开始 -->
+			<div class="wrap_news clearfix">
+				<div class="wrap_news_left fl"><div class="left_img"></div></div>
+				<div class="wrap_news_right fr">
+					<div class="right_top">
+						<h2>新闻中心</h2>
+						<a href="companynews.html">更多<em class="arrow_r"></em></a>
+					</div>
+					<ul class="news_list">
+						
+					</ul>
+				</div>
+			</div>
+			<div class="wrap_case">
+				<ul class="clearfix">
+					<li><a href="societygl.html"><img src="img/image_list01.png"/></a></li>
+					<li><a href="peservice.html"><img src="img/image_list02.png"/></a></li>
+					<li><a href="solution.html"><img src="img/image_list03.png"/></a></li>
+					<li><a href="case.html"><img src="img/image_list04.png"/></a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="zhanwei"></div>
+		<footer class="index_footer">
+			<ul class="clearfix">
+				<li><span><img src="img/icon_sy01.png"/></span>首页</li>
+				<li><span><img src="img/icon_gl.png"/></span>社会管理</li>
+				<li><span><img src="img/icon_ms.png"/></span>民生服务</li>
+				<li><span><img src="img/icon_jj.png"/></span>解决方案</li>
+				<li><span><img src="img/icon_yy.png"/></span>标准与联盟</li>
+			</ul>
+		</footer>
+		<script>
+			$(function() {
+				//swiper轮播图
+				swiper = new Swiper('.swiper-container', {
+					autoplay: 3000,
+					pagination: '.pagination',
+					loop: true,
+					speed: 800,
+					autoplayDisableOnInteraction: false
+				})
+
+			});
+		</script>
+	
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+body[type=body] div[type=wode]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    background-color: #fff;
+}
+div[type=wode] .table {
+    width:100%;
+    height:auto;
+}
+div[type=wode] .tr_img {
+    width:100%;
+}
+div[type=wode] .tr1 {
+    background-color : #FFFFFF;
+    padding: 1rem;
+}
+div[type=wode] .tr{
+    border-bottom: 1px solid #ebebeb;
+    padding: 0.5rem;
+}
+div[type=wode] .tr:nth-last-child(1){
+    border-bottom: 0px;
+}
+div[type=wode] .jf {
+    background-position:0 center;
+    background-size: 1.3rem;
+    background-repeat:no-repeat;
+    padding-left: 2.4rem;
+    line-height: 1.5rem;
+    width: 4.5rem;
+}
+div[type=wode] .jf span{
+    font-size: 1rem;
+}
+div[type=wode] .pm {
+    background:url(pm.png);
+    background-position:0 center;
+    background-size: 1.3rem;
+    background-repeat:no-repeat;
+    padding-left: 2.4rem;
+}
+div[type=wode] .text {
+    background:url(right1.png);
+    background-position:right center;
+    background-size: 0.6rem;
+    background-repeat:no-repeat;
+    padding-right: 1.5rem;
+    text-align: right;
+}
+div[type=wode] .text span{
+    font-size: 1rem
+}
+

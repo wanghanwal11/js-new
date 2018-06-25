@@ -1,0 +1,56 @@
+body[type=body] div[type=alertcode]{
+    position: fixed;
+    top: 0;
+    width:100%;
+    height:100%;
+    -webkit-box-sizing:border-box;
+    
+    font-size:1rem;
+    background-color:rgba(0,0,0,0.5);
+    z-index: 4;
+}
+div[type=alertcode] .tanchu{
+    margin-bottom:5rem;
+}
+div[type=alertcode] .title{
+    margin: 0 auto;
+    color: #ffffff;
+    font-size: 1rem;
+    margin-bottom:1.5rem;
+    width:8rem;
+}
+div[type=alertcode] .alertDiv3 {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}    
+div[type=alertcode] .alertDiv3 .alertcon {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+div[type=alertcode] .alertDiv3 span {
+    font-size: 0.8rem;
+}
+div[type=alertcode] .alertsucc{
+     height: 6rem;
+     background: url(../images/success.png) center no-repeat;
+     background-size: 5.2rem 5.2rem;
+}
+div[type=alertcode] .alertDiv3 .alertcontent1 {
+    margin: auto;
+    width: 16rem;
+    height: auto;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    -webkit-box-sizing: border-box;
+    position: relative;
+}
+
+
+

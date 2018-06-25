@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI2.0/admin/admin.js"></script>
+    </head>
+    <script>
+        var config = {
+            debug : true,
+            dir : 'LazyUI2.0', //目录路径   默认为LazyUI2.0
+            iosName : 'vitoios',    //判断原生态ios凭据  webvie的头文件中 navigator.userAgent
+            androidName : 'vitoandroid',    //判断是否原生态android凭据 webvie的头文件中
+            firstPage : 'sdkdemo', //首页名称,
+            map:{
+                'sdkdemo':{
+                   animate : 1
+                }
+            }
+        }
+        start(function() {}, config);
+    </script>
+</html>

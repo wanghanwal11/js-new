@@ -1,0 +1,43 @@
+ <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=label] {
+                color: #5e97f6;
+                height: 2rem !important;
+                line-height: 2.5rem !important;
+                background-color: #fff;
+                border-top: 1px solid #e1e1e0;
+                margin-top: 0.5rem;
+                padding-left: 1.2rem !important;
+            }
+            div[type=label] span{
+                font-size: 0.85rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var title = lazy.geturlstr("title")?lazy.geturlstr("title"):lazy.getParameter("title");
+            var ids=lazy.geturlstr("wxinitId");
+            var id2=lazy.geturlstr("wxopenid");
+            lazy.GET(getIP()+"/wechat/weixinTzyjw/getZSKContentById.ht?title="+title+"&wxinitId="+ids+"&wxopenid="+id2, function(data) {
+                      
+                       var data=data.rows[0];
+                       var right = JSON.parse(data.catName);
+                       var json = [{
+                            "type" : "news",
+                            "title" : data.docTitle,
+                            "username" : right[0].text,
+                            "time" : lazy.autoFormat(data.docCreatedTime),
+                            "content" : data.docContent,
+                        }];
+                        
+                        setData(json)
+                 },function(){}, 0)
+            })
+    </script>
+</html>

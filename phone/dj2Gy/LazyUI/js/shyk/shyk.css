@@ -1,0 +1,43 @@
+body[type=body] div[type=shyk]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=shyk] .table {
+    width:100%;
+    height:auto;
+}
+div[type=shyk] .icon {
+    width: 6rem;
+    height: 5rem;
+    background-color: #efefef;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 0.5rem
+}
+div[type=shyk] .tr1 {
+    width: 100%;
+    height: 8rem;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    margin-bottom: 0.5rem;
+}
+div[type=shyk] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=shyk] .h1,div[type=shyk] .h3,div[type=shyk] .h2,div[type=shyk] .h4{
+    line-height: 1.5rem;
+}
+
+div[type=shyk] .h1 span {
+    font-size: 1rem;
+}
+div[type=shyk] .h2 span,div[type=shyk] .h3 span,div[type=shyk] .h4 span{
+     color: #ccc;
+}

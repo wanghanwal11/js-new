@@ -1,0 +1,36 @@
+body[type=body] div[type=hdtitle]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+
+div[type=hdtitle] .tr {
+    height:auto;
+    background-color: #ffffff;
+    margin-top:1rem;
+    padding:1rem;
+}
+div[type=hdtitle] .h1 {
+    height:1.5rem;
+    line-height:1.5rem;
+    font-size:1.2rem;
+    background-color: #ffffff;
+    margin-bottom:0.5rem;
+    padding-left:1rem;
+    border-left: 3px solid #ffb401;
+    color:#202227;
+}
+div[type=hdtitle] .h2 {
+    height:1rem;
+    line-height:1rem;
+    font-size:1rem;
+    color:#999999;
+}
+div[type=hdtitle] .right {
+    width:1rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:50%;
+}

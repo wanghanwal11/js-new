@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../../LazyUI/js/admin.js"></script>
+        <title>社工加入</title>
+        <style>
+        body{
+            background-color: #febf01 !important;
+        }
+            #pic{
+                position: fixed;
+                top:3rem;
+                left:50%;
+                margin-left:-49px;
+                width:92px;
+                height:92px;
+                border-radius: 50%;
+                z-index:2;
+                border: 6px solid #febe01;
+            }
+            #pic img{
+                width:84px;
+                height:84px;
+                border-radius: 50%;
+                border: 4px solid #feb501;
+            }
+            #picbg img{
+                width:100%;
+                height:100%
+            }
+             #picbg{
+                position:fixed;
+                bottom:0
+            }
+            #pictitle{
+                position: fixed;
+                top:15rem;
+                z-index:2;
+                left:50%;
+                margin-left:-7rem;
+            }
+            #pictitle img{
+                width:14rem;
+                
+            }
+            #label{
+                position:fixed;
+                top:10rem;
+                left:50%;
+                z-index:2;
+                color: #ffffff;
+                padding:0 !important;
+            }
+            #button{
+                position: fixed;
+                top:27rem;
+            }
+            #button .button_a{
+                background-color: #ffffff !important;
+                color: #ffb401 !important;
+                border-radius:4px !important;
+                width: 94% !important;
+                margin-left: 3% !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+            var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+            var streetorcommunity = lazy.geturlstr('streetorcommunity')?lazy.geturlstr('streetorcommunity'):lazy.getParameter('streetorcommunity')
+            var streetorcommunityid = lazy.geturlstr('streetorcommunityid')?lazy.geturlstr('streetorcommunityid'):lazy.getParameter('streetorcommunityid')
+            lazy.setParameter('streetorcommunity',streetorcommunity)
+            lazy.setParameter('streetorcommunityid',streetorcommunityid)
+            if(openid){
+                loadData()
+            }else{
+                login()
+                //loadData()
+            }
+            function loadData(){
+               lazy.loadWxJs(function(){
+                   var url = getIP()+'/cmy/cmy/sCommunityinfo/list?streetorcommunity='+streetorcommunity+'&streetorcommunityid='+streetorcommunityid
+                   lazy.GET(url,function(data){
+                	   var objshare = {
+                               title:data.rows[0].streetorcommunityname,
+                               url:location.protocol+'//'+location.host+'/wechat/shequ/sg/sgregister.html?streetorcommunityid='+streetorcommunityid+'&streetorcommunity='+streetorcommunity+'&initid='+initid,
+                               img:data.rows[0].photopath,
+                               summary:data.rows[0].streetorcommunityname+'， 邀请您加入'
+                           }
+                           console.log(objshare)
+                          lazy.share(objshare)
+                         var json=[{
+                                   "id":"pic",
+                                   "type" : "imgmapdiv",
+                                   "src" : data.rows[0].photopath,
+                                   "loading":0,
+                                   "rect" : [ ]
+                               },{
+                                   "id":'label',
+                                   "type":'label',
+                                   "text":data.rows[0].streetorcommunityname,
+                               },{
+                                   "id":"picbg",
+                                   "type" : "imgmapdiv",
+                                   "src" : "../../LazyUI/images/sg/sg.jpg",
+                                   "loading":0,
+                                   "rect" : [ ]
+                               },{
+                                   "id":"pictitle",
+                                   "type" : "imgmapdiv",
+                                   "src" : "../../LazyUI/images/sgimg/title1.png",
+                                   "loading":0,
+                                   "rect" : [ ]
+                               }];
+                        setData(json,function(){
+                            var span = document.body.getElementsByTagName('span')[0]
+                            span.style.marginLeft = '-'+(span.offsetWidth/2-3)+'px'
+                        })
+                    },function(e){
+                     alert(e)
+                    },0)
+                })
+            }
+           /////登陆
+           function login(){
+               var url = getIP()+'/wx/api/wx/getWxOAuth?initid='+initid+'&backurl=shequ/sg/sgyq'
+               lazy.GET(url,function(data){
+                   var urlback = data.rows[0];
+                   lazy.setParameter("gb",1)
+                   lazy.openWin(urlback+'#LazyAuto0')
+                     // window.location.replace(urlback)
+               },function(e){
+                     alert(e)
+               },0)
+           }
+           
+            
+        });
+    </script>
+</html>

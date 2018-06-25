@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <style>
+        body {
+                background-color: #efeef3 !important;
+            }
+        div[type=titlebtnlist1] .table {
+            padding: 0 0.5rem;
+        }
+        div[type=titlebtnlist1] .tr{
+            border-bottom: 1px solid #ebebeb;
+        }
+        div[type=titlebtnlist1] .td{
+            border-bottom: none !important;
+        }
+    </style>
+    <script> 
+    start(function() {
+        
+        var urldata = JSON.parse(lazy.response("data"));
+        var informationobject = urldata.data.informationobject;
+        var isread = urldata.data.isread*1;
+        var peoplearr = [];
+        var listarr = [];
+        var groupid = urldata.data.groupid;
+        var url = config.commentlist + "groupid="+groupid;
+        if(isread == 0)url += "&id="+urldata.data.id;
+        
+        lazy.URLRequest(url,function(data){
+           lazy.for(data.rows[0].userlist, function(obj) {
+               var img = obj.picture?(getIP() + obj.picture.replace(/\\/g,"/")):"";
+               if(obj.picture.indexOf("http://")>-1) img = obj.picture
+                peoplearr.push({
+                    "id" : obj.userid,
+                    "icon" : img,
+                    "h1" : obj.fullname,
+                    "mask" : parseInt(obj.isread)==0?true:false,
+                    "onclick" : function() {
+                        
+                    }
+                });
+            });
+            
+            lazy.for(data.rows[0].comment, function(obj) {
+                var _informationobject = obj.informationobject;
+                var img = obj.senderpicture?(getIP() + obj.senderpicture.replace(/\\/g,"/")):"";
+                if(obj.senderpicture.indexOf("http://")>-1) img = obj.senderpicture
+                listarr.push({
+                    "id" : obj.userid,
+                    "icon" : img,
+                    "h1" : obj.sendername,
+                    "h2" : _informationobject.content,
+                    "h3" : lazy.autoFormat(obj.createtime)
+                });
+            });
+            var json = [{
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : "#0ec0a9",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '消息详情',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"){
+                                    lazy.close();
+                                }
+                            }
+                        },{
+                    "id" : "titlebtnlist1",
+                    "type" : "titlebtnlist1",
+                    "table" : [{
+                                    "icon" : urldata.icon,
+                                    "h1" : urldata.h1,
+                                    "h2" : urldata.h3,
+                                    "onclick" : function(obj) {
+                                        //lazy.openWin("shenpiguocheng.html");
+                                    }
+                                }]
+                    },{
+                        "type" : "process_xq",
+                        "table" : [
+                                        {
+                                            "title" : "消息内容：",
+                                            "value" : informationobject.content
+                                        },{
+                                            "type" : "image",
+                                            "title" : "图片：",
+                                            "value" : setpath(informationobject.img)
+                                        },{
+                                            "type" : "audio",
+                                            "title" : "录音：",
+                                            "value" : informationobject.audio
+                                        },{
+                                            "type" : "video",
+                                            "title" : "视频：",
+                                            "value" : informationobject.video
+                                        },{
+                                            "type" : "file",
+                                            "title" : "附件:",
+                                            "value" : setpath(informationobject.files)
+                                        },{
+                                            "type" : "readpeople",
+                                            "title" : "阅读人:",
+                                            "value" : peoplearr
+                                        }
+                                    ]
+                        
+                    },{
+                        "id" : "commentlist",
+                        "type" : "commentlist",
+                        "title" : "共"+listarr.length+"条回复",
+                        "table" : listarr
+                    },{
+                        "type" : "commentsend",
+                        "width" : parseInt(document.body.clientWidth - 2.5*lazy.fontSize),
+                        "onclick" : function(val) {
+                            var _url = config.commentinformation + "groupid="+groupid+"&content="+val;
+                            lazy.URLRequest(_url,function(data){
+                                lazy.refresh();
+                            },function(e) {
+                                lazy.alert2(e);
+                            });
+                        }
+                    }];
+            setData(json);  
+        },function(e) {
+            lazy.alert2(e);
+        });
+        /*
+        lazy.for(JSON.parse(informationobject.receivers), function(obj) {
+            peoplearr.push({
+                "id" : obj.userid,
+                "icon" : getIP() + obj.picture.replace(/\\/g,"/"),
+                "h1" : obj.fullname,
+                "mask" : true,
+                "onclick" : function() {
+                    
+                }
+            });
+        });
+        */
+        
+        
+        
+        function setpath(path) {
+            var arr = [];
+            if(path) {
+                arr = path.split(",");
+            }
+            return arr;
+        }   
+    });
+    </script>
+</html>

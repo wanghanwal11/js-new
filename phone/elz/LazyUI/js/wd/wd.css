@@ -1,0 +1,27 @@
+body[type=body] div[type=wd]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+}
+div[type=wd] .table {
+    width:100%;
+    height:auto;
+}
+div[type=wd] .list {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #DDDDDD;
+    height: 3.6rem;
+    line-height: 3.6rem;
+}
+div[type=wd] .right {
+    margin-right: 0.5rem;
+}
+div[type=wd] .title{
+    padding-left:0.5rem;
+    vertical-align: middle;
+}
+div[type=wd] .title img {
+    width: 1.46rem;
+    padding-right:0.5rem;
+    vertical-align: middle;
+}

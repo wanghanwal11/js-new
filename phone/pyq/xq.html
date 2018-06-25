@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var title = lazy.getParameter("label")+'所需材料';
+            var content = lazy.getParameter("content");
+            lazy.setPyqHeader(title);
+            var json=[{
+                "id":"content",
+                "type":"content",
+                "content":content,
+                
+            }];
+            
+             setData(json)
+             function loadsubmit(){
+                    var url = getIP() + "/acceptance/SLPT_Service/getServiceListWechat.ht";
+                    lazy.URLRequest(url,function(_data){
+                        var data = _data.rows;
+                        var tmparr = [];
+                        for(var i=0;i<data.length;i++){
+                            tmparr.push(data[i].smalltypename)
+                        }
+                        for(var i=0;i<tmparr.length;i++){
+                            for(var j=0;j<tmparr.length;j++){
+                                if(i!=j&&tmparr[i]==tmparr[j]) tmparr[j]=-1;
+                            }
+                        }
+                        var table = [];
+                        for(var i=0;i<tmparr.length;i++){
+                            if(tmparr[i]!=-1) {
+                                var tmp = {
+                                    "title" : tmparr[i],
+                                    "content" : []
+                                }
+                                table.push(tmp);
+                            }
+                        }
+                        for(var i=0;i<table.length;i++){
+                            for(var j=0;j<data.length;j++){
+                                if(table[i].title==data[j].smalltypename){
+                                    table[i].content.push(data[j]);
+                                }
+                            }
+                        }
+                        for(var i=0;i<table.length;i++){
+                            var table10 = {
+                                "type" : "table10",
+                                "title" : [{"text":table[i].title}],
+                                "col" : 8,
+                                "table" : []
+                            }
+                            var content = table[i].content
+                            for(var j=0;j<content.length;j++){
+                                var tmp = {
+                                    "id" : content[j].id,
+                                    "icon" : content[j].tubiao,
+                                    "label" : content[j].servicename,
+                                    "content":content[j].zbcl,
+                                    "onclick" : function(obj){
+                                            lazy.setParameter("workid",obj.id);
+                                            lazy.setParameter("content",obj.content);
+                                            lazy.openWin("xq.html");
+                                    }
+                                }
+                                table10.table.push(tmp);
+                            }
+                            json.push(table10);
+                        }
+                        setData(json,function(){
+                            addxian()
+                        })
+                    })
+                }
+                function addxian(){
+                     var icon = document.getElementsByClassName("icons");
+                     for(var i =0 ; i< icon.length ; i++){
+                         icon[i].style.display='none';
+                         icon[i].className = "icons ub";
+                     }
+                     
+                     
+                     var titles = document.getElementsByClassName("title");
+                     for(var i =0 ; i< titles.length ; i++){
+                         var x = lazy.creat("div","xian ub-f1");
+                         titles[i].className = "title ub";
+                         titles[i].appendChild(x);
+                     }
+                }
+             
+        })
+    </script>
+</html>

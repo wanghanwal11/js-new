@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>修改姓名</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+            div[type=input]{
+                border-bottom: 1px solid #efefef;
+            }
+            #input1{
+                margin-top:1rem;
+                margin-bottom: 0 !important;
+            }
+           
+            #button2{
+                 position: absolute!important;
+                 top: 15rem!important;
+                 margin-left: 2% !important;
+                 margin-right: 2% !important;
+                 width:96% !important;
+             }
+             #button2 .button_a{
+                 background-color: #ffb401;
+                 border-radius: 6px !important;
+             }
+            .alertDiv .alertbtn {
+               
+                border: 1px solid #ffb401 !important;
+                background-color: #ffb401 !important;
+                
+            }
+            #button a:active{    
+                 background: none !important;
+             }
+        </style>
+    </head>
+    <script>
+        start(function() {
+             
+            var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+            var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+            var peopleid = lazy.geturlstr('peopleid')?lazy.geturlstr('peopleid'):'';
+            
+             var json=[{
+                    "id":"input1",
+                    "type":"input",
+                     "title":"真实姓名",
+                     "placeholder":"请输入您的真实姓名",
+                     "value":lazy.geturlstr('name')?lazy.geturlstr('name'):''
+                 },{
+                     "id":"button2",
+                     "type":"button",
+                     "label":'保存',
+                     "onclick":function(){
+                            saveName()
+                     }
+                 }];
+            setData(json)
+            //校验手机号是否被占用
+            function saveName(){
+                var name = getData("input1").getValue();
+                var url = getIP()+'/wx/wechatgl/weixinuser/save?id='+peopleid+'&realname='+name;
+                lazy.GET(url, function(data){
+                      lazy.alert2('保存成功')
+                     setTimeout(function(){
+                           lazy.goback(-1)
+                      },1500)
+                      
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },3);
+            }
+            
+        });
+    </script>
+</html>

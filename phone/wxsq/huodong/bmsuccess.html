@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>报名成功</title>
+<style type="text/css">
+       #pic img{
+           width: 100% !important;
+       }  
+       #alertcode3{
+           position: fixed;
+           top:12rem;
+           background-color: transparent !important;
+       }
+       div[type=alertcode3] .alertdiv{
+           width:11rem !important;
+           height:11rem !important;
+           border: none !important;
+           background-color: rgba(255,255,255,0.3);
+       }
+</style>
+</head>
+<body>
+    <script>
+    
+        start(function() {
+            
+            GoBackEvent = function() {
+                           
+               wx.closeWindow();
+            }
+            lazy.setGoBack();
+            var initid = lazy.geturlstr("initid")?lazy.geturlstr("initid"):'';
+            var openid = lazy.geturlstr("openid")?lazy.geturlstr("openid"):'';
+            var objshare = lazy.getParameter('objshare')
+            
+            lazy.loadWxJs(function(){
+                var json = [{
+                           "id":"pic",
+                           "type" : "imgmapdiv",
+                           "src" : "../LazyUI/images/huodong/bg.png",
+                           "rect" : [
+                           ]
+                       },{
+                           "id":"alertcode3",
+                           "type":"alertcode3",
+                           "onclick":function(){
+                               /*if(!state){
+                                   queryWX()
+                                   
+                               }*/
+                           }
+                       }];
+                
+                setData(json,function(){
+                    queryWX()
+                    lazy.share(objshare)
+                })
+            })
+            function queryWX(){
+                var url2 = getIP()+'/wx/api/wx/getForeverCode?code=HD&initid='+initid
+                lazy.GET(url2,function(data){
+                      if(data.rows[0]){
+                          getData("alertcode3").changeUrl(data.rows[0],10)
+                           state =1;
+                      }else{
+                          getData("alertcode3").changeUrl("../LazyUI/images/refresh.png",10)
+                           state =0;
+                      }
+                },function(e){
+                    lazy.alert2("错误信息!:"+e);
+                },3) 
+            }
+        });
+    </script>
+</body>
+</html>

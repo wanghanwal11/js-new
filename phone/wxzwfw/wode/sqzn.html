@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        </style>
+    </head>
+    <script>
+        start(function() {
+             var json=[{
+                  "id" : "sqzn",
+                  "type" : "sqzn",
+             }];
+            setData(json,function(){load()})
+            function load(){
+               var url = getIP()+"/servicedesk/article/listBySort.ht?tags=sqzn&status=1";
+               lazy.URLRequest(url,function(data){
+                   var arr = data.rows;
+                   for(var i=0; i<arr.length ; i++){
+                       var h={
+                            
+                                "h1":arr[i].title,
+                                "icon":arr[i].imgUrl,
+                                "content":arr[i].content,
+                            
+                            
+                        }
+                        getData("sqzn").add(h);
+                   }
+                   /*
+                     var h={
+                            "id" : "sqzn",
+                            "type" : "sqzn",
+                            "table" : [{
+                                "h1":"最新政策解读",
+                                "icon":"../LazyUI/js/sqzn/zxzc.png",
+                                "content":""
+                            },{
+                                "h1":"明确办理范围",
+                                "icon":"../LazyUI/js/sqzn/mqbl.png",
+                                "content":"!11111111111111"
+                            },{
+                                "h1":"熟悉办理流程",
+                                "icon":"../LazyUI/js/sqzn/sxbl.png",
+                                "content":"!11111111111111"
+                            },{
+                                "h1":"准备所需资料",
+                                "icon":"../LazyUI/js/sqzn/zbsx.png",
+                                "content":"!11111111111111"
+                            },{
+                                "h1":"到哪里去办",
+                                "icon":"../LazyUI/js/sqzn/dnlq.png",
+                                "content":"!11111111111111"
+                            },{
+                                "h1":"温馨小贴士",
+                                "icon":"../LazyUI/js/sqzn/wxxt.png",
+                                "content":"!11111111111111"
+                            }]
+                            
+                        }
+                     json.push(h)
+                     */
+                //setData(json)
+               },function(){},1)
+            }
+        });
+    </script>
+</html>

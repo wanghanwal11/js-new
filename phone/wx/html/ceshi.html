@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>随手拍</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+        body{
+            background: #EBEBEB!important;
+        }
+        div[type=plugins]{
+            height: 100%!important;
+        }
+        #input1, #input2{
+            padding: 0.5rem 0.5rem;
+            background: white;
+            padding-left: 0.5rem;
+        }
+        #input1 .cell, #input2 .cell{
+            -webkit-box-flex: 1;
+        }
+        #input1 .cell input{
+            width: 100%;
+        }
+        #input2,#image,#image1{
+            margin-top: 0.5rem;
+        }
+        #input2 textarea{
+            width: 100%;
+            height: 7rem;
+        }
+        div[type=process] .tr{
+            border: none!important;
+        }
+        
+       
+    </style>
+</head>
+<script>
+    start(function() {
+       
+        var id1=lazy.geturlstr("wxinitId");
+        var id2=lazy.geturlstr("wxopenid");
+        var datahc=lazy.getParameter("data");
+        var pics=[];
+        var sound=[];
+        
+         
+        var json = [{
+                type : 'button',
+                label : '选择器picker_多个n_级联',
+                onclick : function() {
+                    var picker = lazy.picker([
+                        [
+                            {
+                                title : '北京'
+                            },{
+                                title : '天津'
+                            }
+                        ],[
+                            {
+                                title : '天津a_11'
+                            },{
+                                title : '天津b_11'
+                            }
+                        ]
+                    ], function(arr) {
+                        lazy.alert2(arr);
+                    });
+                    picker.onchange = function (i,obj,arr) {
+                        
+                        switch(i) {
+                            case 0 :
+                                if(obj.obj.title.indexOf('北京')!=-1) {
+                                    picker.renderer(1,[
+                                                        {
+                                                            title : '北京a_11'
+                                                        },{
+                                                            title : '北京b_11'
+                                                        }
+                                                    ]);
+                                }else {
+                                    picker.renderer(1,[
+                                                        {
+                                                            title : '天津a_11'
+                                                        },{
+                                                            title : '天津b_11'
+                                                        }
+                                                    ]);
+                                }
+                                
+                            break;
+                        }
+                        
+                    }
+                }
+            }];
+        setData(json,function(){
+           
+           
+        });
+        
+        
+       
+    });
+</script>
+</html>

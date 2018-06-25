@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            p{
+                line-height:2rem;
+                text-indent:1.5rem;
+            }
+            img{
+                margin-left:-1.5rem;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+                var articleid = lazy.geturlstr("articleid")?lazy.geturlstr("articleid"):'';
+                var url = getIP()+'/cmy/article/cmyarticle/get.ht?id='+articleid;
+                //var url = 'http://59.110.55.198:5555/cmy/article/cmyarticle/get.ht?id='+articleid;
+                lazy.GET(url, function(data){
+                    var arr = data.rows[0];
+                    var json = [{
+                                "id" : "xinwenxq",
+                                "type" : "xinwenxq",
+                                "h1" : arr.articletitle,
+                                "user" : arr.articleauthor,
+                                "date" : arr.createtime?lazy.format(arr.createtime,"yyyy-MM-dd"):'',
+                                "content" : arr.articlecontent?arr.articlecontent:'',
+                                              
+                                           
+                            }];
+                   
+                   setData(json)  
+                })
+                
+               
+       });
+    </script>
+</html>

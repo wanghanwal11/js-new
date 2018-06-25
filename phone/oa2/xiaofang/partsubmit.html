@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>消防部件</title>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"消防部件",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                         "icon" : "dui.png",
+                         "onclick" : function() {
+                             var arr = getData("fire_process").getArray();
+                             var url = getIP() + "/Comp/ECS_Comp_library/save.ht?";
+                             var name = arr[0];
+                             if(name==""){
+                                 lazy.alert2("请输入部件名称");
+                                 return;
+                             }
+                             url+="name="+name;
+                             if(!arr[1].key){
+                                 lazy.alert2("请选择部件大类");
+                                 return;
+                             }
+                             var comptypename = arr[1].key;
+                             url+="&comptypename="+comptypename;
+                             if(!arr[2].key){
+                                 lazy.alert2("请选择部件小类");
+                                 return;
+                             }
+                             var largeclassname = arr[2].key;
+                             url+="&largeclassname="+largeclassname;
+                             if(arr[3]==""){
+                                 lazy.alert2("请选择外观状态");
+                                 return;
+                             }
+                             var comcurrent = arr[3];
+                             url+='&comcurrent='+comcurrent;
+                             if(arr[4]==""){
+                                 lazy.alert2("请选择时间");
+                                 return
+                             }
+                             var inittime = arr[4];
+                             url+="&inittime="+inittime;
+                             if(arr[5].length>0){
+                                 var imgids = [];
+                                 var imgsarr = arr[5];
+                                 for(var i=0;i<imgsarr.length;i++){
+                                     imgids.push(imgsarr[i].id)
+                                 }
+                                 url += '&df3='+imgids;
+                             }
+                             lazy.personmessage(function(obj){
+                                 url+="&df2="+obj.rows[0].username;
+                                 lazy.URLRequest(url,function(){
+                                     alert("提交成功");
+                                     window.history.go(-1);
+                                 })
+                             })
+                         }
+                     }
+                ]
+            });
+            var json = [
+                {
+                    "id":"fire_process",
+                    "type":"fire_process",
+                    "table":[
+                        {
+                            "type":"input",
+                            "title":"部件名称"
+                        },
+                        {
+                            "type":"select",
+                            "title":"部件大类",
+                            "option":[
+                                {
+                                    "html":"消防部件",
+                                    "value":"消防部件"
+                                }
+                            ]
+                        },{
+                            "type":"select",
+                            "title":"部件小类",
+                            "option":[
+                                {
+                                    "html":"消火栓",
+                                    "value":"消火栓"
+                                },{
+                                    "html":"水泵接合器",
+                                    "value":"水泵接合器"
+                                },{
+                                    "html":"消防水池",
+                                    "value":"消防水池"
+                                },{
+                                    "html":"消防车取水点",
+                                    "value":"消防车取水点"
+                                },{
+                                    "html":"消防控制室",
+                                    "value":"消防控制室"
+                                },{
+                                    "html":"消防水泵房",
+                                    "value":"消防水泵房"
+                                }
+                            ]
+                        },{
+                            "type":"radio",
+                            "title":"外观状态",
+                            "option":[
+                                {
+                                    "html":"正常",
+                                    "value":"正常"
+                                },{
+                                    "html":"损坏",
+                                    "value":"损坏"
+                                }
+                            ]
+                        },{
+                            "type":"date",
+                        },{
+                            "type":"image",
+                        }
+                    ]
+                }
+            ]
+            setData(json)
+        })
+    </script> 
+</html>

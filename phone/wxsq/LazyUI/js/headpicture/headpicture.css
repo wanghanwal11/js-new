@@ -1,0 +1,34 @@
+div[type=headpicture]{
+    width: 100%;
+    height: auto;
+    font-size: 1rem;
+    position: relative;
+    
+    -webkit-box-sizing: border-box;
+}
+div[type=headpicture] .tr{
+    height:auto;
+    padding:0.5rem 1rem;
+    background-color: #ffffff;
+}
+div[type=headpicture] .label{
+    height:3rem;
+    line-height: 3rem;
+}
+div[type=headpicture] .icon{
+    height:3rem;
+    width:3rem;
+    border-radius: 50%;
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+div[type=headpicture] .right{
+    height:3rem;
+    width:1rem;
+    border-radius: 50%;
+    background-position: center;
+    background-size: 1rem;
+    background-repeat: no-repeat;
+    background-image: url(../../images/right.png)
+}

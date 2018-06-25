@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=phb] .num{
+                display: none;
+            }
+            div[type=phb] .h3{
+                padding-right: 0.5rem;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+            var json = [{
+                           "id":"phb",
+                           "type" : "phb",
+                           "table":[]
+                       }];
+           var page = 1;
+           if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '心得',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+           setData(json,function(){
+                fenye();
+           });
+           function fenye() {
+               lazy.URLRequest(getIP()+"/party/DJ_Experiencerecord/getallmobilelist.ht?rows=10"+"&page="+page, function(data) {
+                      lazy.closeBounce();
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                         var d={
+                             "ids":data[i].id,
+                             "h1":data[i].name,
+                             "h2":data[i].partyname,
+                             "h3":data[i].publishtime,
+                             "num":" ",
+                             "icon" : data[i].photo,
+                             "onclick":function(id){
+                                 lazy.setParameter("xindeid",id)
+                                 lazy.openWin("xindexq.html")
+                             }
+                             }
+                          getData("phb").add(d);
+                      }
+                      page++;
+                 },function(){
+                    lazy.closeBounce();
+                 })   
+           }
+           //
+           lazy.bounce({"up":function(){
+                fenye();
+            }});
+        });
+    </script>
+</html>

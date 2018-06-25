@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var str = lazy.getParameter("remind");
+            var invite = lazy.getParameter("invite");
+           var json = [
+            {
+                "type" : "invite",
+                "project" : "oa",
+                "icon" : invite.picture,
+                "h1" : invite.username,//"谢宏博",
+                "h2" : invite.orgname,//"什么都是浮云",
+                "remind" : str,
+                "upload" : function(){
+                    if(lazyWindow.browserType=="weixin"){
+                        alert("请用浏览器打开")
+                    }else{
+                        lazy.openWin("http://oa.bjvito.com/app/apk/e%E6%94%BF%E5%8A%A1.apk");
+                    }
+                }
+            }
+           ]
+           setData(json)
+        });
+    </script>
+</html>

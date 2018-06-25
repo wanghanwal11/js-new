@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>产品介绍</title>
+    <script src="../../LazyUI/js/admin.js"></script>
+    <style>
+    
+    </style>
+</head>
+<script>
+    start(function() {
+    	lazy.clearCache()
+        
+       
+        var id1=lazy.geturlstr("wxinitId");
+        var id2=lazy.geturlstr("wxopenid");
+        var obj1={};
+        //lazy.loadWxJs(function(){
+        	
+        	//lazy.GET(getIP()+"/wechat/weixinTzyjw/eventCategoryList.ht?initid="+id1+"&openid="+id2,function(data){
+            
+   	        var json = [{
+   	            id : 'imagelist',
+   	            type : 'imagelist',
+   	            list : []
+               }]
+   	        setData(json,function(){
+   	        	
+   	            //getData("image").clear();
+   	        });
+        //})
+        
+        
+        
+        
+        
+    });
+</script>
+</html>

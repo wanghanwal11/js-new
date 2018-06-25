@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <style>
+        body {
+            background-color: #efeef3 !important;
+        }
+        div[type=titlebtnlist1] .table {
+            padding: 0 0.5rem;
+        }
+        div[type=titlebtnlist1] .tr{
+            border-bottom: 1px solid #ebebeb;
+        }
+        div[type=titlebtnlist1] .td{
+            border-bottom: none !important;
+        }
+        div[type=process_xq] .title span{
+            display: none!important;
+        }
+        .processimg {
+            width: 3rem;
+            height: 3rem;
+            margin: 0.2rem 0.2rem;
+            float: left;
+        }
+    </style>
+    <script> 
+    start(function() {
+        var user = {};
+        lazy.personmessage(function(json) {
+            user = json.rows[0];
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+    	//办理过程
+    	var blicon = [];
+    	var blh1 = [];
+    	var blh2 = [];
+    	var blh3 = [];
+    	
+    	//图片
+    	var annexpath = [];
+        var annexid = [];
+        var spobj = lazy.getParameter("spobj");
+        lazy.setHeader({
+            "title":spobj.h1,
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var taskId = spobj.taskid?spobj.taskid:0;
+        var runId = spobj.runid;
+        var phones = {};
+        var url = config.phoneBl + "taskId=" + taskId + "&runId=" + runId//config.getPhoneForm + "0" + "&taskId=" + taskId + "&runId=" + runId;//获取表字段
+         lazy.URLRequest(url,function(data){
+            process =  eval('(' + data.rows[0].json + ')');
+            console.log(process);
+            //2017622wangqing
+            /*
+            process[0].table[14].type = 'image';
+            process[0].table[14].value = [];
+            console.log(process[0].table[14]);
+            */
+           lazy.for(process[1].table, function(obj) {
+               if(obj.photourl) {
+                   var str = '<p>';
+                   lazy.for(obj.photourl.split(',') || [], function(val) {
+                       str += '<img class="processimg" src="'+val+'" />'; 
+                   });
+                   str += '</p>';
+                   obj.h2 += str;
+               }
+               //obj.h2 += '<img class="processimg" src="https://www.baidu.com/img/bd_logo1.png" />'; 
+           }); 
+            ///
+            lazy.setParameter("objvalues",data.rows[0].form);
+            var json = process;
+            var check = spobj.taskStatus;
+            var tbl = {
+                "id" : "titlebtnlist1",
+                "type" : "titlebtnlist1",
+                "table" : [{
+                    "icon" : "",
+                    "h1" : spobj.h1,
+                    "h2" : spobj.shenpi?"已审批":"等待审批",
+                }]
+            }
+            json.unshift(tbl)
+            if(check=="2"){
+               var chuo = {
+                   "id" : "chuo",
+                   "type" : "chuo",
+                   "result" : "yes"
+               }
+               json.unshift(chuo);
+            }else if(check=="3"){
+                var chuo = {
+                   "id" : "chuo",
+                   "type" : "chuo",
+                   "result" : "no"
+               }
+               json.unshift(chuo);
+            }
+            if (taskId != 0) {
+                //公文
+                if(spobj.processName.indexOf("gwyz")>-1){
+                    var userid = spobj.userid;
+                    var creatorId = spobj.creatorId;
+                    if(spobj.taskDefinitionKey=="SignTask1"){
+                        if(userid == creatorId){//同意补签  小杜
+                            var bottombuttons = {
+                                "type" : "bottombuttons",
+                                "table" : [
+                                        {
+                                            "label" : "同意",
+                                            "onclick" : function() {
+                                                lazy.setParameter("buttonId",1)
+                                                lazy.openWin("shenqingbanli.html");
+                                            }
+                                        },
+                                         {
+                                            "label" : "补签",
+                                            "onclick" : function() {
+                                                lazy.setParameter("buttonId",7)
+                                                lazy.openWin("shenqingbanli.html");
+                                            }
+                                        }
+                                    ]
+                            }
+                        }else{//审批  大杜
+                            var bottombuttons = {
+                                "type" : "bottombuttons",
+                                "table" : [
+                                        {
+                                            "label" : "审核",
+                                            "onclick" : function() {
+                                                var url1 = config.getEndtimeByTaskid + "taskid=" + taskId;
+                                                lazy.URLRequest(url1,function(data1){
+                                                    if(data1.rows[0].endtime==""){
+                                                        lazy.setParameter("buttonId",999);
+                                                        lazy.openWin("shenqingbanli.html");
+                                                    }else{
+                                                        lazy.alert2("已审核,请勿重新审核")
+                                                    }
+                                                })
+                                            }
+                                        },
+                                    ]
+                            }
+                        }
+                        json.push(bottombuttons)
+                    }else{
+                        if(userid == creatorId){
+                             var bottombuttons = {
+                                "type" : "bottombuttons",
+                                "table" : [
+                                    {
+                                        "label" : "办理",
+                                        "onclick" : function() {
+                                            lazy.setParameter("buttonId",null)
+                                            lazy.openWin("shenqingbanli.html");
+                                        }
+                                    }
+                                ]
+                            }
+                            json.push(bottombuttons)
+                        }
+                    }
+                }else{
+                    var bottombuttons = {
+                        "type" : "bottombuttons",
+                        "table" : [
+                            {
+                                "label" : "办理",
+                                "onclick" : function() {
+                                    lazy.setParameter("buttonId",null)
+                                    lazy.openWin("shenqingbanli.html");
+                                }
+                            }
+                        ]
+                    }
+                    json.push(bottombuttons)
+                }
+            }
+           setData(json, function() {
+               var list = document.body.getElementsByClassName('processimg');
+               for(var i = 0; i < list.length; i++) {
+                   list[i].onclick = function() {
+                       //alert(this.src);
+                       lazy.showImage(this.src);
+                   }
+               }
+           });
+       	 },function(){
+       	     lazy.close();
+       	 });
+       	 });
+    });
+    </script>
+</html>

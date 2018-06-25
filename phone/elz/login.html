@@ -1,0 +1,67 @@
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #f8f8f8 !important;
+                padding-top: 6rem !important; 
+                overflow: hidden;
+            }
+            div[type=logininput] {
+                margin-top: 3rem;
+            }
+            
+            div[type=button] .buttondiv{
+                border:none !important;
+                position:relative !important;
+                top: 2rem;
+                width:80% !important;
+                margin: 0 auto;
+                left: 0 !important;
+               
+            }
+            
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var json = [{
+                            "type" : "logo",
+                            "icon" : lazy.url + "LazyUI/images/logo.png"
+                        },{
+                            "id" : "logininput",
+                            "type" : "logininput"
+                        },{
+                            "id" : "button",
+                            "type" : "button",
+                            "label" : "登&nbsp;录",
+                            "onclick" : function() {
+                                var arr = getData("logininput").getValue();
+                               
+                                var password = arr[0].replace(/\s/g,"");
+                                var checkcode = "";
+                                if (password == "") {
+                                    alert("提取码不能为空");
+                                    return;
+                                }
+                                if(password == "8888"){
+                                    lazy.setParameter("key","8888");
+                                    lazy.openWin("index.html");
+                                }else{
+                                    alert("提取码不正确，请重新输入");
+                                }
+                               
+                                
+                            }
+                        }];
+           
+            setData(json)  
+            
+            
+            
+        });
+    </script>
+</html>

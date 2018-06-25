@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>法人列表</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                "title":"法人列表",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var str = "";
+            var page = 1;
+            var json = [
+                {
+                    "type" : "sousuoinput_move",
+                    "select" : function(val){
+                        page = 1;
+                        getData("titlebtnlist2_no").clean();
+                        str = val;
+                        load(val);
+                    }
+                },{
+                    "id" : "titlebtnlist2_no",
+                    "type" : "titlebtnlist2_no",
+                    "table" : []
+                }
+            ];
+            setData(json,function(){
+                load();
+            })
+            function load(str){
+                var url = getIP() + "/portal/ZZ_Corp/list.ht?rows=20&page=1";
+                if(str&&str!="") url+="&name="+str;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    var list = [];
+                    if(page==1&&data.length==0){
+                        if(document.getElementsByClassName("zwsjXT").length==0){
+                            lazy.datanull(" ");
+                            return;
+                        }
+                        else{
+                            document.getElementsByClassName("zwsjXT")[0].style.display = "inline";
+                            return;
+                        }
+                    }
+                    if(document.getElementsByClassName("zwsjXT").length>0){
+                        document.getElementsByClassName("zwsjXT")[0].style.display = "none";
+                    }
+                    if(data.length<20) lazy.stopBounce();
+                    page++;
+                    for(var i=0;i<data.length;i++){
+                        var tmp = {
+                            "id" : data[i].id,
+                            "orgid" : data[i].orgid,
+                            "orgname" : data[i].orgname,
+                            "h1" : data[i].name,
+                            "h2" : data[i].orgname,
+                            "address" : data[i].address,
+                            "corp": data[i].corp,
+                            "mobile" : data[i].mobiles,
+                            "only":true,
+                            "df9" : data[i].orgpath,
+                            "housenum":data[i].housenum,
+                            "onclick" : function(obj){
+                                lazy.setCache(encodeURI(JSON.stringify({
+                                    'overtime' : JSON.stringify(obj)
+                                })));
+                                lazy.closeWebview();
+                            }
+                        }
+                        getData("titlebtnlist2_no").add(tmp)
+                    }
+                })
+                lazy.bounce({
+                    "up" : function(){
+                        load(str);
+                    }
+                })
+            }
+        });
+    </script>
+</html>

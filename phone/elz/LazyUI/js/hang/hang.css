@@ -1,0 +1,25 @@
+body[type=body] div[type=hang]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=hang] .hang{
+    height: 3rem;
+    background: white;
+    line-height: 3rem;
+    padding: 0.5rem;
+}
+div[type=hang] .icon{
+    float:left;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.8rem;
+}
+div[type=hang] .txt{
+    display: inline-block;
+    width: 80%;
+    font-size: 1rem;
+}

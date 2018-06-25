@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+           html, body{
+               height:100%;
+                background: url(../LazyUI/images/dyfcbg.png) no-repeat;
+                background-size: 100% 100%;
+                background-color: #FA7D83;
+            }
+            div[type=photowall]{
+            }
+            body{
+                padding-top: 6rem!important;
+            }
+            div[type=photowall] .title{
+                    height: 2rem!important;
+                    line-height: 2rem!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+          lazy.setHeader({
+                            "title":"身边好党员"
+                        });
+             var arr=[{
+                    "id":"photowall",
+                    "type" : "photowall",
+                    "table" : [
+                    ]
+                }]
+                lazy.URLRequest(getIP()+"/party/DJ_ThreeOpen/getGWStyle.ht", function(data) {
+                    var data=data.rows;
+                    for(var i=0;i<data.length;i++){
+                        var d={
+                            "icon" : (data[i].photo).replace(/\\/g,"/"),
+                            "title" : data[i].unitname,
+                            "ids":data[i].id,
+                            "onclick" : function(json) {
+                                lazy.setParameter("fcid",json.ids)
+                                lazy.setParameter("pic",json.icon)
+                                lazy.openWin("dyfcxq.html");
+                            }
+                        }
+                        arr[0].table.push(d);
+                    }
+                    setData(arr);
+                })
+            
+        });
+    </script>
+</html>

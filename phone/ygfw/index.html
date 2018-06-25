@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Document</title>
+    <script src="LazyUI2.0/js/admin.js"></script>
+</head>
+<body></body>
+<script>
+    start(function() {
+        
+        /*
+        lazy.POST('http://vitoyun.cn/loginMobile.ht?username=13021225928&password=123456&checkcode=', function(str) {
+            alert(str);
+        })
+        lazy.JSONP('http://weixin.vitoyun.cn/wechat/weixinzczx/esSearch.ht?initid=gh_9e71c19edb54&i=wiki&q=%E7%99%BD%E4%BA%91%E5%8C%BA&p=1', function(str) {
+            alert(str);
+        })
+        */
+        /*
+        lazy.JSONP('http://weixin.vitoyun.cn/wechat/weixinzczx/esSearch.ht?initid=gh_9e71c19edb54&i=wiki&q=%E7%99%BD%E4%BA%91%E5%8C%BA&p=1', function(str) {
+            alert(str);
+        })*/
+        /*
+        setData([{
+            type : 'header'
+        },{
+            id : 'map',
+            type : 'map',
+            onclick : function(obj) {
+                alert(JSON.stringify(obj));
+                getData('map').hide();
+            }
+        },{
+            type : 'button',
+            lable : '按钮',
+            onclick : function() {
+                getData('map').show();
+            }
+        }]);
+        */
+        /*
+        setData([
+            {
+                id : 'item',
+                type : 'item'
+            }
+        ])*/
+        //lazy.help('alert2');
+        
+        setData([
+            {
+                id : 'button',
+                type : 'button',
+                aaa : 100,
+                label : '按钮',
+                onclick : function() {
+                    //getData('button').aaa = 111112312321321
+                }
+            }
+        ]);
+        
+    });
+</script>
+</html>

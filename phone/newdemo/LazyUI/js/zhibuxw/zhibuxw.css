@@ -1,0 +1,35 @@
+body[type=body] div[type=zhibuxw]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+
+
+}
+div[type=zhibuxw] .table {
+    width:100%;
+    height:auto;
+}
+div[type=zhibuxw] .title{
+    background-color: #FFFFFF;
+    height: 2rem;
+    line-height: 2rem;
+    padding-left: 0.2rem;
+    border-bottom: 1px solid #efefef;
+}
+
+div[type=zhibuxw] .tlf {
+    background: url(images/dongtai.png) 0.1rem center no-repeat;
+    background-size: 2rem;
+    padding-left: 1.8rem;
+    color: #FB3D3D;
+    font-size: 0.9rem;
+}
+div[type=zhibuxw] .ridt {
+    background: url(images/right.png) right no-repeat;
+    background-size: 1.5rem;
+    padding-right: 1.6rem;
+    font-size: 0.8rem;
+    color: #AAAAAA;
+}

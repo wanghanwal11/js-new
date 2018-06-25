@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=label]{
+                display: none;
+            }
+            #bounceLoading{
+                display: none;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var val="";
+            lazy.setHeader({
+                            "title":"搜索"
+                        });
+            var json=[{
+                            "type" : "sousuoinput1",
+                            "select" : function(val1){
+                                if(val1!=""){
+                                   val=val1;
+                                   page=1;
+                                   getData("table9").hide();
+                                   getData("huodonglist").clean();
+                                   getData("quanzilist").clean();
+                                   getData("wendalist").clean();
+                                   load(val);
+                                }else{
+                                   getData("table9").show(); 
+                                   getData("huodonglist").clean();
+                                   getData("quanzilist").clean();
+                                   getData("wendalist").clean();
+                                }
+                            }
+                        },{
+                            "id":"table9",
+                            "type" : "table9",
+                            "col" : 3,
+                            "table" : [
+                            {
+                                "icon" : lazy.url + "LazyUI/images/zhibu/hd.png",
+                                "label" : "活动",
+                                "onclick" : function() {
+                                    lazy.setParameter("peid","");
+                                    lazy.openWin("../wode/sousuohd.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/zhibu/qz.png",
+                                "label" : "圈子",
+                                "onclick" : function() {
+                                    lazy.setParameter("peid","");
+                                    lazy.openWin("../wode/sousuoqz.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/zhibu/wd.png",
+                                "label" : "问答",
+                                "onclick" : function() {
+                                    lazy.setParameter("peid","");
+                                    lazy.openWin("../wode/sousuowd.html");
+                                }
+                            }
+                        ]
+                         },{
+                            "id":"huodonglist",
+                            "type" : "huodonglist",
+                            "table" : []
+                            
+                        },{
+                            "id" : "quanzilist",
+                            "type" : "quanzilist",
+                            "style":{"background":"white"},
+                            "table" : []
+                        },{
+                            "id" : "wendalist",
+                            "type" : "wendalist",
+                            "table" : []
+                        }]
+             setData(json)
+            function load(value){
+                 lazy.URLRequest(djconfig.allsousuo+"rows=20&page="+page+"&servicecontent="+value, function(data) {
+                     var data=data.rows[0];
+                     var dataqz=data.Activity_Answer0;
+                     var datawd=data.Activity_Answer1;
+                     var datahd=data.Activity_Base;
+                     if(datahd.length<=0&&dataqz.length<=0&&datawd.length<=0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull("暂无数据")
+                         }
+                     }else{
+                         if(document.getElementsByClassName("zwsjXT")[0]){document.getElementsByClassName("zwsjXT")[0].remove()}
+                         loadhd(datahd)
+                         loadqz(dataqz)
+                         loadwd(datawd)
+                     }
+                     page++;
+                 })
+            }
+            function loadhd(data){
+                if(data.length>0){getData("huodonglist").appto()}
+                for(var i=0;i<data.length;i++){
+                         var time="";
+                         time=lazy.format(data[i].begintime,"MM-dd")
+                         var list={
+                                        "ids":data[i].activityid,
+                                        "icon" : data[i].baseimagepath?lazy.getImagePx(data[i].baseimagepath, 180, 120):"../LazyUI/images/mr.jpg",
+                                        "h1" : data[i].servicetheme,
+                                        "h1s":"<span style=\"color:#f90;\">"+data[i].hdtypename+"</span>"+"&nbsp;|&nbsp;"+"<span style=\"color:#f90;\">"+data[i].integralname+"积分</span>",
+                                        "h2" : time+"&nbsp;|&nbsp;"+data[i].place+"...&nbsp;|&nbsp;"+(data[i].reportcount?data[i].reportcount:"0")+"人/"+data[i].peoplecount+"人",
+                                        "pl" : data[i].commentcount?data[i].commentcount:"0",
+                                        "pinglun" : function(obj) {
+                                            lazy.setParameter("huodongid",obj.ids);
+                                            lazy.setParameter("type","3");
+                                            lazy.openWin1("/dj2/faxian/pllist.html?id="+obj.ids);
+                                        },
+                                        "onclick" : function(obj) {
+                                            lazy.setParameter("huodongid",obj.ids);
+                                            lazy.openWin1("/dj2/faxian/huodongxq.html?id="+obj.ids);
+                                        }
+                                    }
+                         getData("huodonglist").add(list);
+                     }
+            }
+            function loadqz(data){
+                 if(data.length>0){getData("quanzilist").appto()}
+                 for(var i=0;i<data.length;i++){
+                        var s={
+                                "ids":data[i].answerid,
+                                "icon" :lazy.getImagePx(data[i].userpicture, 60, 60),
+                                "h1" : data[i].createuser,
+                                "h2" : data[i].content,
+                                "img":data[i].filepatharray,
+                                "h3" : lazy.format(data[i].createtime,"MM-dd")+"&nbsp;&nbsp;"+lazy.format(data[i].createtime,"HH:mm"),
+                                "pl":data[i].commentcount?data[i].commentcount:"0",
+                                "zan":data[i].agreecount?data[i].agreecount:"0",
+                                "zanstaute":data[i].isagree,
+                                "select":function(index,src){
+                                    lazy.showImage(src)
+                                },
+                                "pinglun":function(obj){
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.setParameter("type","0");
+                                    lazy.openWin1("/dj2/faxian/pllist.html?id="+obj.ids);
+                                },
+                                "dianzan":function(obj1,zan){
+                                    lazy.URLRequest(djconfig.dianzan+"activityid="+obj1.ids, function(js) {
+                                        zan.innerHTML=js.rows[0].agreecount;
+                                    },function(){},0)
+                                }
+                            }
+                       getData("quanzilist").one(s);
+                    }
+            }
+            function loadwd(data){
+                 if(data.length>0){getData("wendalist").appto()}
+                 for(var i=0;i<data.length;i++){
+                        var s={
+                                "ids":data[i].answerid,
+                                "h2" : data[i].content,
+                                "img":data[i].filepatharray,
+                                "h3" : lazy.format(data[i].createtime,"MM-dd")+"&nbsp;&nbsp;"+lazy.format(data[i].createtime,"HH:mm"),
+                                "pl":data[i].commentcount?data[i].commentcount:"0",
+                                "yue":data[i].concerncount?data[i].concerncount:"0",
+                                "people":[{"src":data[i].userpicture,"name":data[i].createuser}],
+                                "onclick":function(obj){
+                                    var objs=encodeURIComponent(JSON.stringify(obj))
+                                    lazy.setParameter("data",obj);
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.openWin1("/dj2/faxian/wendaxq.html?id="+obj.ids+"&objs="+objs);
+                                },
+                                "pinglun":function(obj){
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.setParameter("type","1");
+                                    lazy.openWin1("/dj2/faxian/pllist.html?id="+obj.ids);
+                                }
+                            }
+                       getData("wendalist").one(s);
+                    }
+            }
+             lazy.bounce({"up":function(){
+                load(val)
+               }}); 
+        })
+    </script>
+</html>

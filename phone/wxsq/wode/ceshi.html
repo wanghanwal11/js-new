@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+<script type="text/javascript"
+    src="https://webapi.amap.com/maps?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+<script src="../LazyUI/js/admin.js"></script>
+<title>我的诉求</title>
+<style type="text/css">
+body{
+    background-color: #efefef !important;
+}
+#delbtn{
+    padding:0rem !important;
+    
+   
+}
+      #delbtn .button_a {
+          color:red !important;
+          background-color: #ffffff !important;
+          border-radius: 0rem !important;
+         text-align: left !important;
+      }
+      #delbtn span{
+          margin-left:1rem;
+      }
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+             for(var i=0; i<3;i++){
+                 alert(i)
+             }
+		    var json = [{
+                      "id":"delbtn",
+                     "type":"button",
+                     "label":'删除地址',
+                     "onclick":function(){
+                            //lazy.openWin("searchaddress.html")
+                          submit()
+                     }
+                 },{
+                       "id":'serverinfo1',
+                       "type":'serverinfo',
+                       "table":[{
+                                   "icon":"../LazyUI/images/company.png",
+                                   "name":"所属企业：所属企业：所属企业：所属企业：",
+                                   "tel":"15101050425",
+                                   "level":4,
+                               }]
+                       
+                   },{
+                       type:"a",
+                       label:'cesih',
+                       color:'red',
+                       onclick:function(){
+                           
+                       }
+                   }];
+		    
+			setData(json,function(){
+			    var inputs = documents.getElementsByTagName("input");
+                 for(var i=0;i<inputs.length;i++){
+                     inputs[i].disabled = true;
+                 }
+			})
+	    });
+	</script>
+</body>
+</html>

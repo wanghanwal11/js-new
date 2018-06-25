@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>办事</title>
+        <style>
+            body {
+                background-color: #white !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border-radius: 1rem;
+            }
+            #submit .buttondiv{
+                border: none !important;
+                background-color: #649bdb !important;
+            }
+            #save .buttondiv{
+                border: #649bdb 1px #solid !important;
+                color : #649bdb;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <body>
+        <script>
+            start(function() {
+                var serviceId = lazy.getParameter("workid");
+                var wxinitId = lazy.getParameter("initid");
+        		var wxopenid = lazy.getParameter("openid");
+                var obj = lazy.getParameter("save")?lazy.getParameter("save"):"";
+                var readarr = [];
+                var button1 = {
+                    "id" : "submit",
+                    "type" : "button",
+                    "label" : "提交",
+                    "onclick" : function() {
+                        var allvalue = getData("process").getArray();
+                        var arr = allvalue.table;
+                        var tmp = {};
+                        var filearr = [];
+                        var idCardarr = [];
+                        var subsonobj = {
+                            "fields" : []
+                        };
+                        var sonarr = [];
+                        for(var i=0;i<arr.length;i++){
+                                var title = arr[i].title;
+                                if(arr[i].id&&arr[i].type!="hide"){
+                                    if(arr[i].value==""&&arr[i].placeholder.indexOf("必填")>-1){
+                                       alert(title+"不能为空");
+                                       return;
+                                    }
+                                    if(arr[i].type=="people"){
+                                        var ygbh = "";
+                                        var xm = "";
+                                        for(var n=0;n<arr[i].value.length;n++){
+                                            if(n<arr[i].value.length-1){
+                                                ygbh += arr[i].value[n].id+",";
+                                                xm += arr[i].value[n].h1+",";
+                                            }else{
+                                                ygbh += arr[i].value[n].id;
+                                                xm += arr[i].value[n].h1;
+                                            }
+                                        }
+                                         tmp[arr[i].id] = xm;
+                                         if(arr[i].subid&&arr[i].subid!=""){
+                                             tmp[arr[i].subid] = ygbh;
+                                         }
+                                    }else if(arr[i].type=="overtime"){
+                                        var ids =  "";
+                                        var names = "";
+                                        for(var n=0;n<arr[i].value.length;n++){
+                                            if(n<arr[i].value.length-1){
+                                                ids += arr[i].value[n].id+",";
+                                                names += arr[i].value[n].h1+",";
+                                            }else{
+                                                ids += arr[i].value[n].id;
+                                                names += arr[i].value[n].h1;
+                                            }
+                                        }
+                                        tmp[arr[i].id] = names;
+                                        if(arr[i].subid&&arr[i].subid!=""){
+                                            tmp[arr[i].subid] = ids;
+                                        }
+                                    }else{
+                                        if(lazy.isArray(arr[i].value)){
+                                            var str = "";
+                                            for(var m=0;m<arr[i].value.length;m++){
+                                                if(m<arr[i].value.length-1){
+                                                    str += arr[i].value[m]+",";
+                                                }else{
+                                                    str += arr[i].value[m];
+                                                }
+                                            }
+                                            tmp[arr[i].id] = str;
+                                        }else{
+                                            tmp[arr[i].id] = arr[i].value?arr[i].value:"";
+                                        }
+                                    }
+                                }else if(arr[i].type=="image"){
+                                    if(arr[i].value.length>0){
+                                        for(var m=0;m<arr[i].value.length;m++){
+                                            filearr.push(arr[i].value[m])
+                                        }
+                                    }
+                                }else if(arr[i].type=="file"){
+                                    if(arr[i].value.length>0){
+                                        for(var m=0;m<arr[i].value.length;m++){
+                                            filearr.push(arr[i].value[m])
+                                        }
+                                    }
+                                }else if(arr[i].type=="idCard"){
+                                    if(arr[i].value&&arr[i].value.length>0){
+                                        for(var m=0;m<arr[i].value.length;m++){
+                                            idCardarr.push(arr[i].value[m])
+                                        }
+                                    }
+                                }
+                        }
+                        var leave_data = {};
+                        if(subsonobj.fields.length>0){
+                            sonarr.push(subsonobj);
+                            leave_data.sub = sonarr;
+                        }
+                        leave_data.main = {};
+                        leave_data.main.fields = tmp;
+                        leave_data.serviceid = serviceId;
+                        if(getData("process2")){
+                            var zxr = getData("process2").getArray().table[0].value;
+                            if(zxr==""||zxr.length==0){
+                                alert("执行人不能为空");
+                                return;
+                            }else{
+                                var tmpzxr = "";
+                                //"coDestTaskUserIds":"user^10000110050775^崔大冠%23user^10000108950020^谢宏博"
+                                for(var ss=0;ss<zxr.length;ss++){
+                                    if(ss<zxr.length-1){
+                                        tmpzxr+="user^"+zxr[ss].id+"^"+zxr[ss].h1+"%23";
+                                    }else{
+                                        tmpzxr+="user^"+zxr[ss].id+"^"+zxr[ss].h1;
+                                    }
+                                }
+                                if(servicename.indexOf("公文")>-1){//公文流转
+                                    lazy.personmessage(function(o){
+                                        var userId = o.rows[0].userId;
+                                        var fullName = o.row[0].fullname;
+                                        tmpzxr += "%23user^"+userId+"^" + fullName;
+                                    })
+                                    leave_data.hostDestTaskUserIds = tmpzxr;
+                                }else{
+                                    leave_data.coDestTaskUserIds = tmpzxr;
+                                }
+                            }
+                        }
+                        var person = lazy.getParameter("person")
+                        var url = getIP() + "/wechat/weixinevent/saveFormWechat.ht?formData="+JSON.stringify(leave_data)+"&busdescp="+serviceId+"&idCarddata="+JSON.stringify(idCardarr);
+                        url+= "&applyorderbynet=1&targetId="+person.targetId+"&targetName="+person.targetName+"&idcard="+person.idcard+"&areaid="+person.areaid;
+                        url+="&initid="+wxinitId+"&openid="+wxopenid;
+                        lazy.URLRequest(encodeURI(url),function(data){
+                            if(lazy.getParameter("save")){
+                                var obj = lazy.getParameter("save");
+                                obj[serviceId] = {};
+                                lazy.setParameter("save",obj);
+                            }
+                            alert("提交成功");                                 
+                            lazy.openWin("index.html")
+                        },function(e){})
+                    }
+                }
+                var button2 = {
+                    "id" : "save",
+                    "type" : "button",
+                    "label" : "保存草稿",
+                    "onclick" : function() {
+                        var allvalue = getData("process");
+                        var obj = lazy.getParameter("save")?lazy.getParameter("save"):{};
+                        obj[serviceId] = allvalue;
+                        lazy.setParameter("save",obj);
+                        lazy.openWin("index.html")
+                    }
+                }
+                if(obj[serviceId]&&obj[serviceId].table){
+                    var json = [
+                        obj[serviceId],button1,button2
+                    ]
+                    setData(json)
+                }else{
+                    var url = getIP() + "/wechat/weixinevent/getByserviceId.ht?serviceId="+serviceId+"&taskId=0";//获取表字段        
+                    url+="&initid="+wxinitId+"&openid="+wxopenid;
+                    lazy.URLRequest(encodeURI(url),function(data){
+                        var personinfo = lazy.getParameter("userinfo");
+                        var phones = data.rows[0].phoneHtml;
+                        lazy.for(phones.table,function(obj,i){
+                            switch(obj.id){
+                                case 'xm':
+                                    obj.value = personinfo.username;
+                                    readarr.push(i)
+                                    break;
+                                case 'sfzh':
+                                case 'sfzhm':
+                                    obj.value = personinfo.idcard;
+                                     readarr.push(i)
+                                    break;
+                                case 'lxdh':
+                                    obj.value = personinfo.mobile;
+                                     readarr.push(i)
+                                    break;
+                            }
+                        })
+                        var json = [phones,button1,button2];
+                        setData(json,function(){
+                            lazy.for(readarr,function(obj){
+                                document.getElementsByTagName("input")[obj].readOnly = true;
+                            })
+                        })
+                    })
+                }
+                // var json = [{
+                    // "type" : "process",
+                    // "table" : [{
+                        // "type" : "select",
+                        // "placeholder" : "请选择（必填）",
+                        // "option" : [
+                                        // {"html":"一级", "value" : "1"},
+                                        // {"html":"二级", "value" : "2"},
+                                        // {"html":"三级", "value" : "3"},
+                                        // {"html":"四级", "value" : "4"}
+                                   // ],
+                        // "title" : "任务等级",
+                    // },{
+                        // "type" : "idCard",
+                        // "title" : "附件",
+                        // "remard":["请上传身份证正面","请上传身份证背面","请上传本人手持证件照","请上传近期一寸照","请上传知情,支援三线证明"]
+                    // }]
+                // }]
+            })
+        </script>
+    </body>
+</html>

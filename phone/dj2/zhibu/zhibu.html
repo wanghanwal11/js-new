@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=xinwenlb] .tr1{
+                margin-bottom: 0rem!important;
+            }
+            div[type=zhibuinfo] .tr1{
+                margin-bottom: 0rem!important;
+            }
+            div[type=huodonglist] .tr1{
+                margin-bottom: 0rem!important;
+            }
+            div[type=huodonglist] .h1{
+                height: 1.5rem !important;
+                line-height: 1.5rem !important;
+            }
+            div[type=xinwenlb] .trzw {
+                height: 0rem!important; 
+            }
+            #zhibuxf {
+                margin-top:0.5rem;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        
+        start(function() {
+             var page = 1;
+             var json=[
+                         {
+                             "id" : "zhibuxw",
+                             "type" : "zhibuxw",
+                             "tlf" : "支部动态",
+                             "ridt" : "更多动态",
+                             "icon" : "../LazyUI/js/zhibuxw/images/dongtai.png",
+                             "onclick" : function (data){
+                                 lazy.openWin1("/dj2/zhibu/zbdtlb.html");
+                             }
+                            },{
+                            "id" : "xinwenlb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                        },{
+                                 "id" : "zhibuxf",
+                                 "type" : "zhibuxw",
+                                 "tlf" : "支部活动",
+                                 "ridt" : "更多活动",
+                                 "icon" : "../LazyUI/js/zhibuxw/images/huodong.png",
+                                 "onclick" : function (data){
+                                    lazy.openWin1("/dj2/zhibu/zbhd.html");
+                             }
+                            },{
+                                "id":"huodonglist",
+                                "type" : "huodonglist",
+                                "table" : []
+                            }]
+                            
+            setData(json,function(){
+                load()
+            }) 
+            function load(){
+             var url = djconfig.xinwenlist + 'tags=zbdt&page='+page+'&rows=2';               
+             lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+                // if(arr.length==0&&page==1){
+                    // var s = document.getElementById("xinwenlb");
+                             // lazy.datanull("暂无数据",s.getElementsByClassName("table")[0])
+                // }
+               
+                    for(var i = 0; i < arr.length; i++) {
+                    var d={
+                           "icon" : arr[i].imgUrl?lazy.getImagePx(arr[i].imgUrl, 180, 120):"../LazyUI/images/zhibu/default.jpg",
+                          "imgsc" :  arr[i].imgUrl, 
+                            "h1" : arr[i].title,
+                            "yue" : arr[i].count,
+                            "ping" : arr[i].commentcount,
+                            "user" : arr[i].seoTitle,
+                            "date" : lazy.autoFormat(arr[i].addTime),
+                            "id" : arr[i].id,
+                            "zw":1,
+                            "onclick" : function(data) {
+                                //lazy.setParameter("xwxqid",data.id)
+                                lazy.setParameter("img",data.imgsc)
+                                lazy.openWin1("/dj2/zhibu/zbdtxq.html?id="+data.id);
+                            }
+                           }
+                          getData("xinwenlb").add(d)
+                        }//for
+                     lazy.URLRequest(djconfig.zbhdlb+"rows=2&page="+page, function(data1) {
+                     lazy.closeBounce();
+                     var data1=data1.rows;
+                     for(var i=0;i<data1.length;i++){
+                         var time="";
+                         time=lazy.format(data1[i].begintime,"MM-dd")
+                         var list={
+                                        "ids":data1[i].activityid,
+                                        "icon" : lazy.getImagePx(data1[i].baseimagepath, 180, 120),
+                                        "h1" : data1[i].servicetheme,
+                                        "h2" : "&nbsp;"+time+"&nbsp;|&nbsp;"+/*data[i].place+"&nbsp;|&nbsp;"+*/(data1[i].reportcount?data1[i].reportcount:"0")+"人/"+data1[i].peoplecount+"人&nbsp;|&nbsp;<span style=\"color:#f90;\">"+data1[i].integralname+"积分</span>",
+                                        "pl" : data1[i].commentcount?data1[i].commentcount:"0",
+                                        "pinglun" : function(obj) {
+                                            lazy.setParameter("huodongid",obj.ids);
+                                            lazy.setParameter("type","3");
+                                            lazy.openWin1("/dj2/faxian/pllist.html?id="+obj.ids);
+                                        },
+                                        "onclick" : function(obj) {
+                                            lazy.setParameter("huodongid",obj.ids);
+                                           // lazy.openWin1("/dj2/zhibu/zbhdxq.html?id="+obj.ids);
+                                            lazy.openWin1("/dj2/faxian/huodongxq.html?id="+obj.ids);
+                                        }
+                                    }
+                          getData("huodonglist").add(list)
+                     }
+                 })
+            })
+            
+            }
+        })
+
+    </script>
+</html>

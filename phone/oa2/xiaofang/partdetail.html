@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>部件详情</title>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"部件详情",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var url = getIP() + "/Comp/ECS_Comp_library/get.ht?id="+lazy.getParameter("partobj").id;
+            lazy.URLRequest(url,function(_data){
+                var data = _data.rows;
+                var json = [
+                    {
+                        "type":"process_xq",
+                        "table":[
+                            {
+                                "title":"名称：",
+                                "value":data[0].name
+                            },{
+                                "title":"大类：",
+                                "value":data[0].comptypename
+                            },{
+                                "title":"小类：",
+                                "value":data[0].largeclassname
+                            },{
+                                "title":"采集人：",
+                                "value":data[0].df2!=""?data[0].df2:"无记录"
+                            },{
+                                "title":"部件状态：",
+                                "value":data[0].comcurrent?data[0].comcurrent:"无记录"
+                            },{
+                                "title":"创建时间：",
+                                "value":lazy.format(data[0].createtime,"yyyy-MM-dd")
+                            },{
+                              "title":'外观状态：',
+                              "value":data[0].comcurrent
+                            }
+                            // ,{
+                                // "title":"行政区域：",
+                                // "value":data[0].orgname
+                            // }
+                        ]
+                    }
+                ];
+                if(_data.newPrimaryKeys.imgurl&&_data.newPrimaryKeys.imgurl!=""){
+                    var arr = _data.newPrimaryKeys.imgurl.split(",");
+                    json[0].table.push({
+                        "title" : "图片：",
+                        "type" : "image",
+                        "value" : arr
+                    })
+                }
+                setData(json)
+            })
+        })
+    </script> 
+</html>

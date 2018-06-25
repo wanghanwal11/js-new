@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="common/property.js"></script>
+        <script src="common/config.js"></script>
+        <script src="elz/LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #f8f8f8 !important;
+                padding-top: 3.5rem !important; 
+                overflow: hidden;
+            }
+            div[type=logininput] {
+                margin-top: 2rem;
+            }
+            div[type=button1] {
+                padding: 0 0.83rem !important;
+                margin-top: 1.4rem;
+            }
+            div[type=button1] .buttondiv{
+                border:none !important;
+               background-color: #11AEFF !important;
+            }
+            div[type=label] {
+                color: #999;
+                height: 2rem !important;
+                line-height: 2rem !important;
+            } 
+            #label {
+                width: 100%;
+                text-align: center;
+                color: #11AEFF;
+            }
+            #label span {
+                font-size: 2rem;
+            }
+            #ydy {
+                position:fixed;
+                left:0;
+                top:0;
+                width:100%;
+                height:100%;
+                z-index:9999;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var ydy = lazy.creat("img","#ydy");
+            ydy.src = "elz/LazyUI/images/ydy.jpg";
+            document.body.appendChild(ydy);
+            ydy.onclick = function() {
+                document.body.removeChild(ydy);
+            }
+            ydy.onload = function() {
+                
+                setData([
+                        {
+                            "id" : "label",
+                            "type" : "label",
+                            "text" : "白云区e廉政"
+                        },{
+                            "id" : "logininput",
+                            "type" : "logininput"
+                        },{
+                            "type" : "button1",
+                            "label" : "登录",
+                            "onclick" : function() {
+                                var arr = getData("logininput").getValue();
+                                if(arr[0]=="" || arr[1]=="") {
+                                    lazy.alert2("帐号密码不能为空");
+                                }else if(arr[0]=="elz" || arr[1]=="8888"){
+                                    lazy.openWin("elz/index.html");
+                                }else {
+                                    lazy.alert2("帐号密码错误");
+                                    
+                                }
+                                  
+                                   
+                                
+                            }  
+                        },{
+                            "type" : "label",
+                            "text" : "版本号：" + 1
+                        }
+                    ]);
+            }
+            
+        });
+    </script>
+</html>

@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>办理</title>
+    </head>
+    <style>
+        body {
+            background-color: #efeef3 !important;
+        }
+    </style>
+    <script>
+        start(function() {
+            var mark = "";
+            if (lazy.getParameter("mark")) {
+                mark = lazy.getParameter("mark");
+            }
+            var spobj = lazy.getParameter("spobj");
+            lazy.setHeader({
+                "title" : spobj.h1,
+                "color" : lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var buttonId = lazy.getParameter("buttonId");
+            var taskId = spobj.taskid;
+            var json = [{
+                "id" : "process",
+                "type" : "process",
+                "table" : [{
+                    "title" : "处理意见",
+                    "type" : "textarea",
+                    "placeholder" : "请填写文字"
+                }]
+            }]
+            if (buttonId == null) {//非公文流转
+                var url = config.getbpmformbtnMobile + "taskId=" + taskId;
+                lazy.URLRequest(url, function(data) {
+                    var data = data.rows;
+                    var button = data[1].button;
+                    var list = [];
+                    for (var i = 0; i < button.length; i++) {
+                        var index = button[i].id;
+                        var value = button[i].name;
+                        var tmp = {
+                            "label" : button[i].name,
+                            "id" : button[i].id,
+                            "onclick" : function(obj) {
+                                var url = config.completeMobile;
+                                var button = obj.id;
+                                var arr = getData("process").getArray().table||[];
+                                // var arr2 = getData("process2").getArray().table||[];
+                                //王庆2017621
+                                if(arr[1]){
+                                    var imgobjs = arr[1].value;
+                                    var imgs = [];
+                                    for (var j = 0; j < imgobjs.length; j++) {
+                                        imgs.push(imgobjs[j].annexpath);
+                                    }
+                                }
+                                if (button == 1){
+                                    if(imgs&&imgs.length==0){
+                                        url += "voteAgree=1&back=0&mark=0&taskId=" + taskId;
+                                    }else if(imgs&&imgs.length!=0){
+                                        url += "voteAgree=1&back=0&mark=0&taskId=" + taskId + '&photourl=' + imgs;
+                                    }else{
+                                        url += "voteAgree=1&back=0&mark=0&taskId=" + taskId;
+                                    }
+                                }
+                                    //url += "voteAgree=1&back=0&mark=0&taskId=" + taskId + (imgs.length == 0 ? '' : '&photourl=' + imgs);
+                                if (button == 4)
+                                    url += "voteAgree=3&back=1&mark=0&taskId=" + taskId;
+                                if (button == 20)
+                                    url = config.endProcess + "voteAgree=1&back=0&mark=0&taskId=" + taskId;
+                                if (button == 5)
+                                    url += "voteAgree=3&back=2&mark=0&taskId=" + taskId;
+                                var clyj = arr[0].value;
+                                url += "&voteContent=" + clyj;
+                                //+"&img="+tp;
+                                var objvalues = lazy.getParameter("objvalues");
+                                var leave_data = {};
+                                leave_data.main = {};
+                                leave_data.serviceid = spobj.serviceid;
+                                leave_data.main.fields = objvalues;
+                                url += "&formData=" + JSON.stringify(leave_data);
+                                lazy.POST(url, function(data) {
+                                    alert("处理成功");
+				                    window.history.go(-2);
+                                    //lazy.openWin("daishenpi.html");
+                                }, function(str) {
+                                    if (str == "任务成功完成!") {
+                                        alert("处理成功");
+				                        window.history.go(-2);
+                                        //lazy.openWin("daishenpi.html");
+                                    } else {
+                                    }
+                                })
+                            }
+                        }
+                        list.push(tmp);
+                    }
+                    //2017621王庆加
+                    if (data[2]) {
+                        var spobj = lazy.getParameter("spobj");
+                        //console.log(config.fileuploadwork+"status=6&workid="+spobj.id);
+                        //
+                        var id = lazy.getParameter("rid");
+                        var qx2 = data[2];
+                        if (qx2.isOnlyImg == 1) {
+
+                            json[0].table.push({
+                                "id" : "tp",
+                                "title" : "图片",
+                                "type" : "image",
+                                "placeholder" : "请选择",
+                                "httpurl" : config.fileuploadwork + "status=6&workid=" + spobj.id
+                            });
+                        }
+                    }
+
+                    //
+                    var bottombuttons = {
+                        "type" : "bottombuttons",
+                        "table" : list
+                    }
+                    json.push(bottombuttons);
+
+                    setData(json)
+                }, function() {
+                    lazy.alert2("该审批已办理");
+                    lazy.close();
+                })
+            } else {
+                //审核
+                if (buttonId == 999) {
+                    var bottombuttons = {
+                        "type" : "bottombuttons",
+                        "table" : [{
+                            "label" : "审批",
+                            "onclick" : function() {
+                                var arr = getData("process").getArray().table;
+                                var opinion = arr[0].value;
+                                if (opinion == "") {
+                                    lazy.alert2("处理意见不能为空");
+                                    return;
+                                }
+                                var url1 = config.updateOpinion + "opinion=" + opinion + "&taskid=" + taskId;
+                                lazy.URLRequest(url1, function(data) {
+                                    alert("处理成功");
+                                    window.history.go(-2);
+                                    //lazy.openWin("daishenpi.html");
+                                })
+                            }
+                        }]
+                    }
+                    json.push(bottombuttons);
+                    setData(json)
+                } else if (buttonId == 1) {//同意,选择部门
+                    json = [{
+                        "id" : "process",
+                        "type" : "process",
+                        "table" : [{
+                            "type" : "overtime",
+                            "title" : "部门",
+                            "url" : "tree1.html",
+                            "placeholder" : "请选择"
+                        }]
+                    }]
+                    var bottombuttons = {
+                        "type" : "bottombuttons",
+                        "table" : [{
+                            "label" : "同意",
+                            "onclick" : function() {
+                                var arr = getData("process").getArray().table;
+                                if (arr[0].value && arr[0].value.length > 0) {
+                                    var deptValue = arr[0].value;
+                                    var hostDestTaskOrgIds = "";
+                                    for (var i = 0; i < deptValue.length; i++) {
+                                        if (i < deptValue.length - 1) {
+                                            hostDestTaskOrgIds += "org^" + deptValue[i].id + "^" + deptValue[i].h1 + "%23";
+                                        } else {
+                                            hostDestTaskOrgIds += "org^" + deptValue[i].id + "^" + deptValue[i].h1;
+                                        }
+                                    }
+                                    lazy.personmessage(function(o) {
+                                        var userId = o.rows[0].userId;
+                                        var fullName = o.row[0].fullname;
+                                        hostDestTaskOrgIds += "%23user^" + userId + "^" + fullName;
+                                    })
+                                    var url1 = config.completeMobile + "voteAgree=1&back=0&mark=0&taskId=" + taskId + "&hostDestTaskOrgIds=" + hostDestTaskOrgIds;
+                                    var objvalues = lazy.getParameter("objvalues");
+                                    var leave_data = {};
+                                    leave_data.main = {};
+                                    leave_data.serviceid = spobj.serviceid;
+                                    leave_data.main.fields = objvalues;
+                                    url1 += "&formData=" + JSON.stringify(leave_data);
+                                    lazy.POST(url1, function(data) {
+                                        alert("处理成功");
+                                        window.history.go(-2);
+                                        //lazy.openWin("daishenpi.html");
+                                    }, function(e) {
+                                        if (e == "任务成功完成!") {
+                                            alert("处理成功");
+                                            window.history.go(-2);
+                                            //lazy.openWin("daishenpi.html");
+                                        } else {
+                                            lazy.alert2(e)
+                                        }
+                                    })
+                                } else {
+                                    lazy.alert2("请选择部门")
+                                }
+                            }
+                        }]
+                    }
+                    json.push(bottombuttons);
+                    setData(json)
+                } else {//补签,选择人员
+                    json = [{
+                        "id" : "process",
+                        "type" : "process",
+                        "table" : [{
+                            "title" : "处理意见",
+                            "type" : "textarea",
+                            "placeholder" : "请填写文字"
+                        }]
+                    }, {
+                        "id" : "process2",
+                        "type" : "process",
+                        "table" : [{
+                            "type" : "people",
+                            "title" : "执行人",
+                            "url" : "address.html"
+                        }]
+                    }];
+                    /*json = [{
+                     "id" : "process",
+                     "type" : "process",
+                     "table" : [{
+                     "type" : "people",
+                     "title" : "人员",
+                     "url" : "tongxunlu.html",
+                     "placeholder" : "请选择"
+                     }]
+                     }]*/
+                    var bottombuttons = {
+                        "type" : "bottombuttons",
+                        "table" : [{
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var arr = getData("process").getArray().table;
+                                var opinion = arr[0].value;
+                                if (opinion == "") {
+                                    lazy.alert2("处理意见不能为空");
+                                    return;
+                                }
+                                var leave_data = {};
+                                var zxr = getData("process2").getArray().table[0].value;
+                                if (zxr == "" || zxr.length == 0) {
+                                    lazy.alert2("执行人不能为空");
+                                    return;
+                                } else {
+                                    var tmpzxr = "";
+                                    for (var ss = 0; ss < zxr.length; ss++) {
+                                        if (ss < zxr.length - 1) {
+                                            tmpzxr += "user^" + zxr[ss].id + "^" + zxr[ss].h1 + "%23";
+                                        } else {
+                                            tmpzxr += "user^" + zxr[ss].id + "^" + zxr[ss].h1;
+                                        }
+                                    }
+                                }
+                                var url1 = config.addSignBpm + "taskId=" + taskId + "&hostDestTaskUserIds=" + tmpzxr;
+                                lazy.POST(url1, function(data) {
+                                    alert("处理成功");
+                                    window.history.go(-2);
+                                    //lazy.openWin("daishenpi.html");
+                                }, function(e) {
+                                    if (e == "任务成功完成!") {
+                                        alert("处理成功");
+                                        window.history.go(-2);
+                                        //lazy.openWin("daishenpi.html");
+                                    } else {
+                                        lazy.alert2(e);
+                                    }
+                                })
+                            }
+                        }]
+                    }
+                    json.push(bottombuttons);
+                    setData(json)
+                }
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>我有话要说</title>
+    <script src="../../LazyUI/js/admin.js"></script>
+    <style>
+        body{
+            padding-top:1rem !important;
+        }
+        div[type=input]{
+            padding: 0.5rem 1rem;
+            background: white;
+        }
+        div[type=input] .cell{
+            width:100%;
+            border: 1px solid #efefef;
+            padding: 0.5rem 0;
+        }
+        div[type=input] input{
+           width: 100%; 
+        }
+        div[type=div2]{
+            padding:0.5rem 1rem;
+        }
+        div[type=div2] .content{
+            border: 1px solid #efefef;
+            color:#000;
+        }
+        div[type=button]{
+           margin-top: 5rem;
+        }
+    </style>
+</head>
+<script>
+    start(function() {
+        var id1=lazy.geturlstr("wxinitId");
+        var id2=lazy.geturlstr("wxopenid");
+        var datahc = lazy.getParameter("data");
+        var json = [
+            {
+                id:"label2",
+                type : 'label',
+                color:'#000',
+                text:'内容'
+            }, {
+                id:"input2",
+                type : 'div2',
+                text:datahc.content
+            },{
+                id:"label3",
+                type : 'label',
+                color:'#000',
+                text:'姓名'
+            }, {
+                id:"input3",
+                type : 'input',
+                placeholder : '只为后台解答人员联系使用，不会对外公开',
+               readOnly:true,
+                value:datahc.username,
+            }, {
+                id:"label4",
+                type : 'label',
+                color:'#000',
+                text:'联系方式'
+            },{
+                id:"input4",
+                type : 'input',
+                placeholder : '只为后台解答人员联系使用，不会对外公开',
+               readOnly:true,
+                value:datahc.phone,
+            }];
+        setData(json);
+       
+    });
+</script>
+</html>

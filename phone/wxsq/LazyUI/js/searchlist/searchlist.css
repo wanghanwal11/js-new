@@ -1,0 +1,45 @@
+body[type=body] div[type=searchlist]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=searchlist] .table {
+    width:100%;
+    height:auto;
+}
+div[type=searchlist] .tr {
+    height:auto;
+    background-color: #ffffff;
+    padding:1rem;
+    border:1px solid #efefef;
+}
+div[type=searchlist] .icon {
+    width:1rem;
+    height:1.2rem;
+    background: url(address1.png);
+    background-size: 1rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top:0.5rem;
+    margin-right:0.5rem;
+    #ababab;
+}
+div[type=searchlist] .tr1 {
+    height:auto;
+}
+div[type=searchlist] .title {
+    height:1.5rem;
+    line-height: 1.5rem;
+    color:#313233;
+}
+div[type=searchlist] .address {
+    height:auto;
+    line-height: 1.2rem;
+}
+div[type=searchlist] .address span{
+    font-size: 0.9rem;
+    color:#666666;
+}
+

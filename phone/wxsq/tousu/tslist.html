@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+
+<title>诉求</title>
+<style type="text/css">
+     body{
+         background-color: #efefef !important;
+     }
+     
+     #button{
+         position: absolute!important;
+         top: 28rem!important;
+     }
+     #button1{
+         position: absolute!important;
+         top: 32rem!important;
+     }
+     #button1 .button_a{
+         border: 1px solid #aaa;
+         background-color: transparent;
+     }
+     #button1 .button_a span{
+         color:#aaa;
+     }
+     #bounce_loading{
+          display:none;
+     }
+     textarea{
+         padding-left:0 !important;
+     }
+     input{
+         padding-left:0 !important;
+     }
+     div[type=image] .cha {
+        width: 1.1rem !important;
+        height: 1.1rem !important;
+        border-radius: 1.1rem !important;
+    }
+    div[type=navbar] .li_c{
+        color: #ff8a00 !important;
+        border-bottom: 2px solid #ff8a00 !important;
+    }
+    div[type=image] .add {
+        background-image: url('../LazyUI/images/suqiu/takepicture.png') !important;
+        width:6rem !important;
+    }
+    div[type=input] .icon{
+        background-size: 1.2rem !important;
+    }
+
+</style>
+</head>
+<body>
+    <script>
+    var isPageHide = false; 
+          window.addEventListener('pageshow', function () { 
+            if (isPageHide) { 
+              window.location.reload(); 
+            } 
+          }); 
+          window.addEventListener('pagehide', function () { 
+            isPageHide = true; 
+          }); 
+    var address = '';
+        start(function() {
+            lazy.clearCache();
+            
+            var username = lazy.geturlstr("username")
+            var headpicture=lazy.geturlstr("headpicture")
+           
+             var initid = lazy.geturlstr("initid");
+            var openid = lazy.geturlstr("openid");
+             var page = 1;
+            
+             var isFY = true;
+            
+             
+            var json = [
+               {
+                    "id":"sousuoinput1",
+                    "type" : "sousuoinput",
+                    "select" : function(search){
+                             page = 1;
+                             getData("tsjl").clean();
+                             getlist(0,search);
+                     },
+                },{
+                    "id" : "tsjl",
+                    "type" : "tsjl",
+
+                }]
+            
+                setData(json,function() {
+                     getlist(1,'')
+                   
+                });
+               
+           
+            lazy.bounce({
+                "up" : function() {
+                    if(isFY){
+                        page++;
+                        getlist(0,'');
+                    }else{
+                        lazy.closeBounce();
+                    }
+                    
+                }
+            });
+
+            function getlist(action,content) {
+                var url = getIP() + '/wx/wechat/weixinevent/list.ht?initid='
+                        + initid + '&openid=' + openid + '&page=' + page
+                        + '&rows=10&content='+content+'&type=mobile';
+                
+                lazy.GET(url, function(data) {
+                    var arr = data.rows;
+                    if(action==1){
+                        getData("tsjl").clean();
+                        
+                    }
+                    if(arr.length==0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull2(document.getElementsByClassName("table")[0],'../LazyUI/images/datanull2.png')
+                         }
+                     }
+                    for (var i = 0; i < arr.length; i++) {
+                        var pictures = [];
+                        console.log(arr[i].imageList)
+                        for(var j=0; j<arr[i].imageList.length; j++){
+                            pictures.push(arr[i].imageList[j].imgurl)
+                        }
+                        console.log(pictures)
+                        var d = {
+                            "id" : arr[i].id,
+                            "content" : arr[i].content,
+                            "statename" : arr[i].eventstate,
+                            "date" : arr[i].submittime ? lazy.autoFormat(arr[i].submittime) : '',
+                            "pictures" : pictures,
+                            "onclick" : function(data) {
+                               
+                                lazy.openWin("tsxq.html?openid="+openid+"&initid="+initid);
+                                lazy.setParameter("id",data.id)
+                            }
+                        }
+                        getData("tsjl").add(d);
+                    }
+                    lazy.closeBounce();
+                }, function(e) {
+                    lazy.alert2(e);
+                    lazy.closeBounce();
+                }, 0);
+                
+            }
+          
+        })
+
+    </script>
+</body>
+</html>

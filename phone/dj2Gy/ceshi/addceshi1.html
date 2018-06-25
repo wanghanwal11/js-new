@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+         body{
+             background: white!important;
+         }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                            "title":"十九大学习专题",
+                            "rightbtn": [
+                                {
+                                    "text": "写心得",
+                                    "onclick" : function() {
+                                         lazy.openWin("../xinwen/xdwrite.html?tt=十九大心得");
+                                    }
+                                }
+                            ]
+                        });
+             var json=[{
+                 "type":"div",
+                 "style":{"width":"100%","height":"100%","backgroundImage":"url(ff.jpg)","background-repeat":"no-repeat","background-size":"100% 100%"}
+             },{
+                             "type":"div",
+                             "style":{"background-color":"white","width":"7rem","height":"7rem","backgroundImage":"url(ceshi.png)","background-repeat":"no-repeat","background-size":"100% 100%","position":"absolute",
+                                      "top":"50%","left":"50%","margin-left":"-3.5rem","margin-top":"5.5rem"
+                         },
+                             "onclick":function(){
+                                 lazy.openWin1("/dj2/ceshi/ceshi1.html?reload=true")
+                             }
+                         }];
+            setData(json)
+        });
+    </script>
+</html>

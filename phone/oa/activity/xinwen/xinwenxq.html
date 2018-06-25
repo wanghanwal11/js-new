@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+                var xwxqid=lazy.getParameter("xwxqid")
+                var imgUrl = lazy.getParameter("img")
+                var ping = lazy.getParameter("ping")
+                
+                var url = djconfig.xinwenxq + 'id='+xwxqid+"&_time="+new Date().getTime();
+                lazy.URLRequest(url, function(data){
+                    console.log(data);
+                    
+                var arr = data.rows[0];
+                // if(!ping)
+                    // ping = arr.commentcount;
+                // alert(arr.commentcount)
+                var json = [{
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                 lazy.goBack1()
+                                              }
+                                            },{
+                                              "content" : lazy.url + "LazyUI/js/header/images/cha1.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.close()
+                                              }   
+                                            }   
+                                            
+                                          ],
+                           
+                            
+                            "button" : [
+                                              {
+                                                  "content" : "系列讲话",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },{
+                            "id" : "xinwenxq",
+                            "type" : "xinwenxq",
+                            "table" : [
+                  
+                                           {
+                                                "h1" : arr.title,
+                                                "user" : arr.seoTitle,
+                                                "date" : lazy.format(arr.addTime , 'MM-dd'),
+                                                "time" : lazy.format(arr.addTime , 'HH:mm'),
+                                                "content" : arr.content,
+                                           }
+                                        ]
+                            
+                        }, {
+                                "type" : "commentbox",
+                                "ping" : arr.commentcount,
+                                "fen" : arr.sharecount,
+                                "shou" : arr.collectioncount,
+                                "pingclick" : function() {
+                                   
+                                    lazy.setParameter("huodongid",arr.id)
+                                    lazy.setParameter("type",2)
+                                    
+                                    lazy.openWin("../faxian/pllist.html");
+                                },
+                                "shouclick" : function() {
+                                    var img=imgUrl;
+                                    var url=lazy.geturlstr()+"?id="+arr.id;
+                                    lazy.URLRequest(djconfig.sc+"relaid="+arr.id+"&title="+arr.title+"&type=新闻"+"&image="+img+"&url="+url+"&sorce=", function(data) {
+                                         lazy.alert2("收藏成功");
+                                    })
+                                    
+                                    
+                                },
+                                "fenclick" : function() {
+                                   
+                                     var obj={};
+                                     obj.src=lazy.geturlstr()+"?id="+arr.id;
+                                     obj.title=arr.title;
+                                     lazy.share(obj,function(){
+                                     lazy.URLRequest(djconfig.share+"activityid="+arr.id, function(data) {
+                                                          
+                                     })
+                                   })
+                                }
+                            
+                            }
+                        ];
+            
+            setData(json)
+            }) 
+       });
+    </script>
+</html>

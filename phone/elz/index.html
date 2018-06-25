@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+        start(function() {
+            lazy.demo();
+            var json=[{
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#32c6d0",
+                            "color" : "#fff",
+                            "border" : "none",
+                            // "left" : [
+                                            // {
+                                              // "content" : lazy.url + "LazyUI/js/header/images/back.png",
+                                              // "onclick" : function(name, index) {
+//                                                   
+                                                 // lazy.goBack()
+                                              // }   
+                                            // }
+                                          // ],
+                            "button" : [
+                                              {
+                                                  "content" : "白云区e廉政",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },{
+                            "type":"ppt",
+                            "pages":[{"src":"LazyUI/js/ppt/1.jpg","title":""},
+                            {"src":"LazyUI/js/ppt/2.jpg","title":""},
+                            {"src":"LazyUI/js/ppt/3.jpg","title":""},
+                            {"src":"LazyUI/js/ppt/4.jpg","title":""},
+                            {"src":"LazyUI/js/ppt/5.jpg","title":""}]
+                         },{
+                            "type" : "list123",
+                            "style":{"margin-top":"1rem"},
+                            "table" : [{
+                                    "icon" : "LazyUI/images/jifen1.png",
+                                    "label":"我的积分",
+                                    "txt":"<i style='font-size:0.9rem'>12</i>分",
+                                    "onclick" : function(){
+                                        lazy.openWin("jf/wdjf.html")
+                                    }
+                                },{
+                                    "icon" : "LazyUI/images/jifen2.png",
+                                    "label":"你问我答",
+                                    "txt":"<span></span>",
+                                    "onclick" : function(){
+                                        lazy.openWin("nwwd/nwwd.html")
+                                    }
+                                }]
+                            },{
+                                "type":"hang",
+                                "style":{"margin-top":"1rem","border-top": "1px solid #dcdcdc","border-bottom": "1px solid #dcdcdc"},
+                                "table":[{
+                                    "icon":"LazyUI/images/tizhi.png",
+                                    "txt":"<span style='color:#32c6cf;font-size:1rem'>通告|</span>贵阳市加强党风廉政建设和反腐工作\"问计..."
+                                }]
+                            },{
+                            "type" : "table23456",
+                            "style":{"margin-top":"1rem"},
+                            "table" : [{
+                                    "icon" : "LazyUI/images/shier.png",
+                                    "label":"十二分制",
+                                    "onclick" : function(){
+                                        lazy.openWin("jf/jfxq.html")
+                                    }
+                                },{
+                                    "icon" : "LazyUI/images/djfg.png",
+                                    "label":"党纪法规",
+                                    "onclick" : function(){
+                                        lazy.openWin("fg.html")
+                                    }
+                                },{
+                                    "icon" : "LazyUI/images/dtyw.png",
+                                    "label":"动态要闻",
+                                    "onclick" : function(){
+                                        lazy.openWin("dtywlb.html")
+                                    }
+                                }]
+                            },{
+                            "type" : "table23456",
+                            "style":{"margin-top":"1rem"},
+                            "table" : [{
+                                    "icon" : "LazyUI/images/xj.png",
+                                    "label":"我要举报",
+                                    "onclick" : function(){
+                                        lazy.openWin("jb/wdjb.html")
+                                    }
+                                },{
+                                    "icon" : "LazyUI/images/jy.png",
+                                    "label":"我要谏言",
+                                    "onclick" : function(){
+                                        lazy.openWin("jy/wdjy.html")
+                                    }
+                                },{
+                                    "icon" : "LazyUI/images/bg.png",
+                                    "label":"监督曝光",
+                                    "onclick" : function(){
+                                        lazy.openWin("jdbglb.html")
+                                    }
+                                },{
+                                    "icon" : "LazyUI/images/lz.png",
+                                    "label":"廉政教育",
+                                    "onclick" : function(){
+                                        lazy.openWin("lzjy.html")
+                                    }
+                                }]
+                            },{
+                            "type" : "table23456",
+                            "style":{"margin-top":"1rem"},
+                            "table" : [{
+                                    "icon" : "LazyUI/images/lzdsj.png",
+                                    "label":"廉政教育大数据",
+                                    "onclick" : function(){
+                                        // alert(1)
+                                        // lazy.openWin("lxyz/xljh0.html")
+                                        lazy.alert2("配置中。。。")
+                                    }
+                                },{
+                                    "icon" : "LazyUI/images/jbdsj.png",
+                                    "label":"举报审查大数据",
+                                    "onclick" : function(){
+                                        // alert(2)
+                                        // lazy.openWin("lxyz/xljh0.html")
+                                        lazy.alert2("配置中。。。")
+                                    }
+                                }]
+                            },{
+                                "type":"div",
+                                "style":{"height":"4rem","background-color": "#efefef"}
+                            },{
+                                           "id" : "footertoolbar",
+                                           "type" : "footertoolbar",
+                                           "name" : ["首页", "消息", "积分", "我"],
+                                           "n" : 0,
+                                           "icon" : ["sy", "xx", "jf", "w"],
+                                           "select" : function(name, i) {
+                                               switch(name) {
+                                                   case "首页" :
+                                                        lazy.openWin("index.html");
+                                                   break;
+                                                   case "消息" :
+                                                        lazy.openWin("tslb.html");
+                                                   break;
+                                                   case "积分" :
+                                                        lazy.openWin("jf/jf.html");
+                                                   break;
+                                                   case "我" :
+                                                       lazy.openWin("wd.html");
+                                                   break;
+                                               }
+                                           }
+                                        }]
+            setData(json);
+            
+        });
+    </script>
+</html>

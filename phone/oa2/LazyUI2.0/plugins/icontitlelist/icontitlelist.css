@@ -1,0 +1,37 @@
+div[type=icontitlelist]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=icontitlelist] .icontitlelist_div {
+    width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+    background-color: #fff;
+    padding: 0 1rem; 
+}
+div[type=icontitlelist] .icontitlelist_li {
+    height: 3rem;
+    line-height: 3rem;
+    background-color: #fff;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 1.5rem;
+    background-image: url(icon.png);
+}
+div[type=icontitlelist] .icontitlelist_li:last-child {
+    border-bottom: none;
+}
+div[type=icontitlelist] .icontitlelist_i {
+    height: 3;
+    width: 1.5rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 1.5rem;
+    margin-right: 0.5rem;
+}

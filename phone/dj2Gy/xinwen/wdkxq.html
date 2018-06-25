@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+             lazy.setHeader({"title": "视频详情"
+             });
+             var wdkxqid=lazy.geturlstr("id")?lazy.geturlstr("id"):lazy.getParameter("wdkxqid");
+             var title=lazy.getParameter("title");
+             var imgUrl = lazy.getParameter("img");
+             var fen=lazy.getParameter("fen");
+              var fenlei=lazy.getParameter("fenlei");
+             var ping=lazy.getParameter("ping");
+             var datibol=lazy.getParameter("dati")
+             var shou=lazy.getParameter("shou");
+             lazy.setHeaderHide();
+             var json = [{
+                 "id" : "wdkxq",
+                 "type" : "wdkxq",
+                 "table" : []
+             }];
+             list();
+             //
+             function list(){
+                 if(fenlei==4){
+                     var url = getIP()+'/party/DJ_MicroLecturesRecord/getmobilemonthbyid.ht?id=' +wdkxqid; 
+                 }else{
+                     var url = djconfig.wdkxq + 'mlid='+wdkxqid; 
+                 }
+                
+                      
+                lazy.URLRequest(url, function(data){
+                    var ssr=data.newPrimaryKeys.isview;
+                    var arr = data.rows;
+                    for(var i = 0; i < arr.length; i++) {
+                        
+                           var d={
+                                "h1" : arr[i].miclecrectitle,
+                                //"icon" : arr[i].photo,
+                                "user" : arr[i].createuser,
+                                "date" : arr[i].createtime?lazy.autoFormat(arr[i].createtime):"",
+                                // "photo": (arr[i].photo?(getIP() + arr[i].photo):"").replace(/\\/g,"/"),
+                                "photo" :lazy.getImagePx(arr[i].photo, 720, 480),
+                                // "time" : "00:12:34",
+                                "number" : arr.length,
+                                "video" : arr[i].video?arr[i].video:"",
+                                "dati":{
+                                    "bol":datibol,
+                                    "id":arr[i].id,
+                                    "text":arr[i].teststate=="0"?"我要答题":"已答题",
+                                    "ssr":ssr=="0"?"false":"true",
+                                    "onclick":function(data){
+                                        lazy.openWin("dati.html")
+                                    }
+                                },
+                                "onclick" : function(data) {
+                                    //lazy.playVideo(data.video);
+                                }
+                            }
+                            json[0].table.push(d);
+                      }
+                      json.push({
+                                 "id" : "commentbox",
+                                 "type" : "commentbox",
+                                 
+                                 
+                                 "ping" : arr[0].commentcount,
+                                 "fen" : fen,
+                                 "shou" : shou,
+                                 "pingclick" : function() {
+                                      lazy.setParameter("huodongid",wdkxqid)
+                                      lazy.setParameter("type",7)
+                                                    
+                                      lazy.openWin("../faxian/pllist.html");
+                                  },
+                                  "shouclick" : function() {
+                                      var img=imgUrl;
+                                      console.log(img)
+                                      var url=lazy.geturlstr()+"?id="+wdkxqid;
+                                     
+                                      lazy.URLRequest(djconfig.sc+"relaid="+wdkxqid+"&title="+title+"&type=先锋微视"+"&image="+img+"&url="+url+"&source="+arr[0].createuser+"&def1="+data.newPrimaryKeys.picture, function(data) {
+                                            lazy.alert2("收藏成功");
+                                      })
+                                                    
+                                                    
+                                   },"fenclick" : function() {
+                                      var obj={};
+                                     
+                                     if(lazy.geturlstr("id")){
+                                         obj.src=lazy.geturlstr();
+                                     }else{
+                                         obj.src=lazy.geturlstr()+"?id="+arr[0].mlid;
+                                     }
+                                      obj.title=title;
+                                      lazy.share(obj,function(){
+                                           lazy.URLRequest(djconfig.share+"activityid="+arr[0].mlid, function(data) {
+                                            })
+                                       })
+                                    }
+                                    
+                             });
+                     if(lazy.browserType=="weixin") {
+                        json.splice(1,1);
+                     }
+                      setData(json);
+                  }, function(e) {
+                        alert(e);
+                  },0);
+             }
+            
+        });
+        
+    </script>
+</html>

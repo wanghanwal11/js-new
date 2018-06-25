@@ -1,0 +1,132 @@
+body[type=body] div[type=wdkxq]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=wdkxq] .table {
+    width:100%;
+    height:auto;
+}
+div[type=wdkxq] .pic {
+    background-color:#000;
+    height: 16rem;
+    width : 100%;
+    position: relative;
+}
+div[type=wdkxq] .video {
+    height: 16rem;
+    width : 100%;
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    
+}
+div[type=wdkxq] .left {
+   
+    background:url(images/left1.png) no-repeat;
+     background-size: 1.5rem 1.5rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 99;
+    width: 2rem;
+    height: 2rem;
+}
+div[type=wdkxq] .center {
+    width: 3rem;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 3rem;
+    background-image: url(images/bf.png);
+    margin: 0 auto;
+}
+div[type=wdkxq] .h1 {
+    -webkit-box-sizing:border-box;
+    padding: 0.5rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    height: 2.5rem;
+    line-height: 1.3rem;
+}
+div[type=wdkxq] .h1 span {
+    font-size: 1rem;
+}
+div[type=wdkxq] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 0.5rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=wdkxq] .icon img{
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius:50%;
+}
+div[type=wdkxq] .content{
+    margin-left: 0.5rem;
+}
+
+div[type=wdkxq] .content span{
+    color: #aaa;
+    font-size: 0.8rem;
+}
+
+div[type=wdkxq] .tr_list {
+     width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 0.5rem;
+    background-color: #fff;
+   
+}
+
+div[type=wdkxq] .tr2 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 0 0.5rem;
+    background-color: #fff;
+    
+}
+div[type=wdkxq] .tr3 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 0.5rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    
+}
+div[type=wdkxq] .tr3 span{
+    font-size:1rem;
+    
+}
+div[type=wdkxq] .selected span{
+    color: #fb3d3d;
+    
+}
+div[type=wdkxq] .time {
+    background-position: 0.1rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-image: url(images/time.png);
+    -webkit-box-sizing:border-box;
+    padding-left: 1.2rem;
+    height: 1.4rem;
+    line-height: 1.3rem;
+}
+div[type=wdkxq] .time span{
+   color: #aaaaaa;
+   font-size: 0.8rem;
+
+}
+div[type=wdkxq] .dati{
+    line-height: 1.5rem;
+    position: absolute;
+    right: 0rem;
+    margin-right: 2rem;
+    font-size: 0.9rem;
+    color: black;
+}

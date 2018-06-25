@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>认证信息</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+            div[type=input]{
+                border-bottom: 1px solid #efefef;
+            }
+            #input1{
+                margin-top:1rem;
+                margin-bottom: 0 !important;
+            }
+            #input2{
+                 margin-bottom: 0 !important;
+            }
+            #button a{
+                width: 25%!important;
+                border-radius: 1rem;
+                position: absolute;
+                bottom: 0.3rem;
+                right: 5%;
+                margin-left: -45%;
+                background-color: #fff;
+                border: none !important;
+                font-size: 0.9rem;
+                
+            }
+            #button .button_a {
+              color: #ffb401;
+            }
+            #button2{
+                 position: absolute!important;
+                 top: 15rem!important;
+                 margin-left: 2% !important;
+                 margin-right: 2% !important;
+                 width:96% !important;
+             }
+             #button2 .button_a{
+                 background-color: #ffb401;
+                 border-radius: 6px !important;
+             }
+            .alertDiv .alertbtn {
+               
+                border: 1px solid #ffb401 !important;
+                background-color: #ffb401 !important;
+                
+            }
+            #button a:active{    
+                 background: none !important;
+             }
+        </style>
+    </head>
+    <script>
+        start(function() {
+             
+            var timer;
+            var code;
+            var phone;
+            var status = 1;
+            //var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'gh_b2308269120b';
+            //var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'o4BZpwiUtfERlkrvJLme1S7t-ugk';
+            var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+            var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+            
+            
+             var json=[{
+                    "id":"input1",
+                    "type":"input",
+                     "title":"手机号码",
+                     "key":"yztel",
+                     "placeholder":"请输入手机号码",
+                 },{
+                	 id : 'ts_group',
+                     type : 'group',
+                     list : [{
+  					   
+                         "id":"input2",
+                         "type":"input",
+                         "title":"验证码",
+                         "placeholder":"请填写验证码",
+              }, {
+                     "id":"button",
+                     "type":"button",
+                     "label":"获取验证码",
+                     "onclick":function(){
+                          phone = document.getElementsByTagName("input")[0].value;
+                         var result=phone.match(/^1(3|4|5|7|8)\d{9}$/);
+                         if(!result){
+                             lazy.alert2("输入手机号位数错误")
+                         }else{
+                              if(status){
+                                     status = 0;
+                                     
+                                     yanzhengMobile(phone,function(){
+                                         var button = document.getElementById("button")
+                                         var text = button.getElementsByTagName("span")[0];
+                                         var a = button.getElementsByTagName("a")[0];
+                                         var time = 60;
+                                         text.innerHTML = time + 's';
+                                         //a.style.backgroundColor = "#ffffff";
+                                         time--;
+                                         timer = setInterval(function(){
+                                             text.innerHTML = time + 's';
+                                             time--;
+                                             if(time < 0){
+                                                 text.innerHTML = '获取验证码';
+                                                // a.style.backgroundColor = "#ffffff";
+                                                 clearInterval(timer);
+                                                 status = 1;
+                                             }
+                                         },1000) 
+                                     })
+                                     
+                            }     
+                             
+                         }
+                        
+                     }
+                 
+                 
+              }]
+                 },{
+                 "id":"button2",
+                 "type":"button",
+                 "label":'注册',
+                 "onclick":function(){
+                       // lazy.setParameter("mobile",document.getElementsByTagName("input")[0].value)
+                        //lazy.setParameter("ps",'1')
+                        //lazy.openWin("renzheng.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"))
+                      
+                      //  //lazy.setParameter("mobile",document.getElementsByTagName("input")[0].value)
+                        lazy.setParameter("ps",'1')
+                        registerInfo(phone)
+                      //} 
+                      //else{
+                      //  lazy.alert2("验证码错误")  
+                      //}
+                    
+                 }
+             }];
+            setData(json)
+            //校验手机号是否被占用
+            function yanzhengMobile(phone,back){
+                //var url = 'http://192.168.0.27:8092/api/wx/checkweixinphone?mobile='+phone+'&initid='+initid;
+                var url = getIP()+'/wx/api/wx/checkweixinphone?mobile='+phone+'&initid='+initid;
+                lazy.GET(url, function(data){
+                      //code = data.newPrimaryKeys.checkcode;
+                      if(data.code){
+                          getYanzheng(phone,back)
+                      }else{
+                          status = 1;
+                          lazy.alert2("手机号已被占用")
+                      }
+                      
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },3);
+            }
+            //获取验证码
+            function getYanzheng(phone,back){
+                //var url = getIP() +'/sendRandom.ht?mobile='+phone;
+                //var url = 'http://59.110.55.198:8089/base/identifyingcode/sendRandomByPhone.ht?phone='+phone;
+                var url = getIP()+'/base/base/identifyingcode/sendRandomByPhone.ht?phone='+phone;
+                lazy.GET(url, function(data){
+                    //console.log(data)
+                      code = data.rows[0];
+                      back()
+                 },function(e){
+                      status = 1;
+                      alert(e)
+                     lazy.alert2(e);
+                 },3);
+            }
+            //绑定手机号
+            function registerInfo(phone){
+                 phone = document.getElementsByTagName("input")[0].value;
+                //var url = 'http://192.168.0.27:8092/api/wx/checkweixinphone?mobile='+phone+'&code='+code+'&openid='+openid+'&initid='+initid;
+                var url = getIP()+'/wx/api/wx/checkweixinphone?mobile='+phone+'&code='+code+'&openid='+openid+'&initid='+initid;
+                lazy.GET(url, function(data){
+                    if(data.code){
+                        //lazy.alert("注册成功")
+                        //1 我的页
+                        //0 订单详情页
+                        bindPhone(phone,code,openid,initid)
+                        
+                        
+                    }else{
+                        lazy.alert2("验证码错误，请重新获取")
+                    }
+                    //console.log(data)
+                      //code = data.rows[0];
+                      //back()
+                 },function(e){
+                      status = 1;
+                      alert(e)
+                     lazy.alert2(e);
+                 },3);
+            }
+            
+            //绑定手机号
+            function bindPhone(phone,code,openid,initid){
+                
+                var url = getIP()+'/wx/api/wx/bindingphone?mobile='+phone+'&code='+code+'&openid='+openid+'&initid='+initid;
+               lazy.GET(url, function(data){
+                    if(data.code){
+                        //lazy.alert("注册成功")
+                        //1 我的页
+                        //0 订单详情页
+                        if(lazy.getParameter('pre') == 1){
+                            lazy.openWin('wode.html?initid='+initid+'&openid='+openid)
+                        }else{
+                            lazy.openWin('userorder.html?initid='+initid+'&openid='+openid)
+                        }
+                        //lazy.openWin('qyzc.html')
+                       
+                    }else{
+                        lazy.alert2("绑定手机号失败")
+                    }
+                    //console.log(data)
+                      //code = data.rows[0];
+                      //back()
+                 },function(e){
+                      status = 1;
+                      alert(e)
+                     lazy.alert2(e);
+                 },3);
+            }
+        });
+    </script>
+</html>

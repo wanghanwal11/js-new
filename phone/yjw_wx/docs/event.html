@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>event</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+        div[type=button] {
+            margin: 0.5rem;
+        }
+        .kuang {
+            width: 500px;
+            height: 500px;
+            background-color: #1d65a3;
+        }
+    </style>
+</head>
+<body></body>
+<script>
+    start(function() {
+        
+        setData([
+            {
+                type : 'button',
+                label : '预置返回事件',
+                onclick : function() {
+                    lazy.setGoBack();
+                }
+            },{
+                type : 'button',
+                label : 'lazy.goBack()',
+                onclick : function() {
+                    //lazy.goBack() lazy.goBack(n) lazy.goBack(fun);
+                    lazy.goBack(function() {
+                        alert('回调');
+                    });
+                }
+            },{
+                type : 'button',
+                label : 'lazy.alert2',
+                onclick : function() {
+                    lazy.alert2('str,obj   obj={direction:方向start center end , time: 整数不是毫秒数默认2， 2s , back : 回调函数}');
+                }
+            },{
+                type : 'button',
+                label : 'lazy.loading',
+                onclick : function() {
+                    //_num, title, time__num显示加载loding动画! 0-9不覆盖,a-z全覆盖__title标题___time显示时间
+                    lazy.loading('a','加载',1000);
+                }
+            },{
+                type : 'button',
+                label : '弹出式菜单android',
+                onclick : function() {
+                    //弹出式菜单android(arr)  arr=[{"title":标题, onclick:''},{"title":标题,onclick:''}]
+                    lazy.androidActionSheet([{
+                                                title : '标题一'
+                                                },{
+                                                    title : '标题二'
+                                                }],function(obj,i) {
+                                                    lazy.alert2(obj);
+                                                });
+                }
+            },{
+                type : 'button',
+                label : '弹出式菜单ios',
+                onclick : function() {
+                    //弹出式菜单android(arr)  arr=[{"title":标题, onclick:''},{"title":标题,onclick:''}]
+                    lazy.iosActionSheet([{
+                                                title : '标题一'
+                                                },{
+                                                    title : '标题二'
+                                                }],function(obj,i) {
+                                                    lazy.alert2(obj);
+                                                });
+                }
+            },{
+                type : 'button',
+                label : '选择器picker_单个',
+                onclick : function() {
+                    lazy.picker(
+                        [
+                                [
+                                    {
+                                        title : '飞机'
+                                    },{
+                                        title : '火车'
+                                    },{
+                                        title : '汽车'
+                                    },{
+                                        title : '其他'
+                                    },{
+                                        title : '飞机'
+                                    },{
+                                        title : '火车'
+                                    },{
+                                        title : '汽车汽车汽车汽车汽车汽车'
+                                    },{
+                                        title : '其他'
+                                    },
+                                ]
+                        ], 
+                     function(arr) {
+                        lazy.alert2(arr);
+                    });
+                }
+            },{
+                type : 'button',
+                label : '选择器picker_多个n_不级联',
+                onclick : function() {
+                    lazy.picker(
+                        [
+                                [
+                                    {
+                                        title : '北京市'
+                                    },{
+                                        title : '河北省'
+                                    },{
+                                        title : '吉林省'
+                                    },{
+                                        title : '其他'
+                                    }
+                                ],[
+                                    
+                                    {
+                                        title : '北京市'
+                                    },{
+                                        title : '天津市'
+                                    },{
+                                        title : '沈阳市'
+                                    },{
+                                        title : '其他'
+                                    }
+                                ],[
+                                    
+                                    {
+                                        title : '北京市'
+                                    },{
+                                        title : '其他'
+                                    }
+                                ]
+                        ], 
+                     function(arr) {
+                        lazy.alert2(arr);
+                    });
+                }
+            },{
+                type : 'button',
+                label : '选择器picker_多个n_级联',
+                onclick : function() {
+                    var picker = lazy.picker([
+                        [
+                            {
+                                title : '北京'
+                            },{
+                                title : '天津'
+                            }
+                        ],[
+                            {
+                                title : '天津a_11'
+                            },{
+                                title : '天津b_11'
+                            }
+                        ]
+                    ], function(arr) {
+                        lazy.alert2(arr);
+                    });
+                    picker.onchange = function (i,obj,arr) {
+                        switch(i) {
+                            case 0 :
+                                if(obj.obj.title.indexOf('北京')!=-1) {
+                                    picker.renderer(1,[
+                                                        {
+                                                            title : '北京a_11'
+                                                        },{
+                                                            title : '北京b_11'
+                                                        }
+                                                    ]);
+                                }else {
+                                    picker.renderer(1,[
+                                                        {
+                                                            title : '天津a_11'
+                                                        },{
+                                                            title : '天津b_11'
+                                                        }
+                                                    ]);
+                                }
+                                
+                            break;
+                        }
+                        
+                    }
+                }
+            },{
+                type : 'button',
+                label : '基于picker时间控件pickerDate',
+                onclick : function() {
+                    lazy.pickerDate(function(str) {
+                        lazy.alert2(str);
+                    });
+                }
+            },{
+                type : 'button',
+                label : '基于picker时间控件pickerTime',
+                onclick : function() {
+                    lazy.pickerTime(function(str) {
+                        lazy.alert2(str);
+                    });
+                }
+            },{
+                type : 'button',
+                label : '基于picker时间控件pickerDateTime',
+                onclick : function() {
+                    lazy.pickerDateTime(function(str) {
+                        lazy.alert2(str);
+                    });
+                }
+            }
+        ]);
+        
+    });
+</script>
+</html>

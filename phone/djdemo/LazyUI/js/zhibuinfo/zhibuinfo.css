@@ -1,0 +1,35 @@
+body[type=body] div[type=zhibuinfo]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=zhibuinfo] .table {
+    width:100%;
+    height:auto;
+}
+div[type=zhibuinfo] .icon {
+    width: 6rem;
+    height: 4rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=zhibuinfo] .tr1 {
+    width: 100%;
+    height: 6rem;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=zhibuinfo] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+
+

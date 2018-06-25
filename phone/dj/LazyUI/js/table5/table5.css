@@ -1,0 +1,75 @@
+div[type=table5]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	position:relative;
+	font-size:1rem;
+    color: #343434;
+    -webkit-box-orient:vertical;
+}
+div[type=table5] .title {
+    width: 100%;
+    height: 1.5rem;
+    line-height:1.5rem;
+    overflow: hidden;
+    -webkit-box-sizing:border-box;
+    margin-bottom: 0.8rem;
+    background: #e5eaed;
+}
+div[type=table5] .title .title_title{
+    margin-left: 1.2rem;
+}
+div[type=table5] .title_icon {
+    width: 1.5rem;
+    height: 1.7rem;
+    background-size: 1.1rem;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+div[type=table5] .title .ub-f1 {
+    height: 0.9rem;
+    border-bottom:1px solid #e4e4e4;
+}
+div[type=table5] .title span {
+    font-size: 0.9rem;
+    padding-right: 1rem;
+    color: #7b7b7c;
+}
+div[type=table5] .table {
+    width: 100%;
+    height: auto;
+}
+div[type=table5] .tr {
+    width: 100%;
+    height: 6.1rem;
+    overflow: hidden;
+}
+div[type=table5] .td {
+    text-align: center;
+    width: 0;
+    height: 4.4rem;
+    -webkit-box-sizing:border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2);
+}
+div[type=table5] .icon {
+    width: 100%;
+    height: 3.5rem;
+    background-size: 3.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+} 
+div[type=table5] .label {
+    width:100%;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+}
+div[type=table5] .label span {
+    font: 0.85rem/0.85rem "微软雅黑";
+    font-weight: 600;
+    color: #000;
+}
+div[type=table5] .spanx {
+    font-size: 0.85rem !important;
+}

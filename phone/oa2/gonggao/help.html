@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=label] {
+                color: #5e97f6;
+                height: 2rem !important;
+                line-height: 2.5rem !important;
+                background-color: #fff;
+                border-top: 1px solid #e1e1e0;
+                margin-top: 0.5rem;
+                padding-left: 1.2rem !important;
+            }
+            div[type=label] span{
+                font-size: 0.85rem !important;
+            }
+            
+            div[type=news] .title{
+                text-align: center !important;
+            }
+            div[type=news] .title2{
+                margin-top: -2.2rem;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var url = config.help+"tags=help";
+            if(lazy.getParameter("isdel")==true){
+                // tmp.right = [lazy.url + "LazyUI/js/headertoolbar/del.png"]
+                lazy.setHeader({
+                    "title":"帮助",
+                    "color":"#F7F7F7",
+                    "rightbtn" : [
+                        {
+                            "icon":"del.png",
+                            "onclick":function(){
+                                var delurl = config.delgonggao + "id="+lazy.getParameter("ggid");
+                                lazy.URLRequest(delurl,function(data){
+                                    alert("删除成功");
+                                    lazy.openWin("gonggao.html");
+                                })
+                            }
+                        }
+                    ],
+                });
+            }else{
+                lazy.setHeader({
+                    "title":"帮助",
+                    "color":lazy.getParameter("Bgcolor"),
+                    "rightbtn" : [],
+                });
+            }
+            lazy.URLRequest(url,function(data){
+                if(data.length>0){
+                    var data = data.rows[0];
+                    var json = [{
+                        "type" : "news",
+                        "title" : data.title,
+                        "content" : data.content,
+                    }];
+                    
+                }
+                setData(json)
+            })
+        });
+    </script>
+</html>

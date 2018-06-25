@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>材料库</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+            
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var u = navigator.userAgent;
+            var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            var idcard = lazy.geturlstr('idcard')?lazy.geturlstr('idcard'):'';
+             var json=[{
+                            "id":"wenjian1",
+                            "type" : "wenjian",
+                            "table" : []
+                        }]
+                
+            
+            setData(json,function(){
+                var url = getIP()+'/wechat/weixinevent/getMatlistByCardNo.ht?initid='+lazy.geturlstr("wxinitId")+'&openid='+lazy.geturlstr("wxopenid")+'&matholdercard='+idcard;
+                lazy.GET(url,function(data){ 
+                    var _data = data.rows;
+                    if(data.rows.length == 0){
+                        lazy.alert2("您还没有上传过任何材料");
+                        setTimeout(function(){
+                             window.history.go(-1);
+                        },2000)
+                    }else{
+                        lazy.for(_data,function(obj,i){
+                            var f={
+                                "fileurl":getIP()+obj.df2,
+                                "src":"../LazyUI/js/wenjian/"+lazy.getFlieType(obj.df2.substring(obj.df2.lastIndexOf(".")+1))+".png",
+                                "name":obj.df1,
+                                "onclick":function(obj){
+                                    if(lazy.browserType == 'weixin'){
+                                        lazy.alert("若想预览文件，请点击右上角选择在浏览器中打开,苹果端暂不支持预览")
+                                    }else{
+                                        if(isIOS){
+                                            lazy.alert2('苹果端暂不支持预览')
+                                        }else{
+                                            lazy.openWin(obj.fileurl)
+                                        }
+                                        
+                                    } 
+                                }
+                            }
+                            getData("wenjian1").add(f);
+                        })
+                    }
+                    
+                }, function(e) {
+                    lazy.alert2(e);
+                }, 0);
+            })
+            
+        });
+    </script>
+</html>

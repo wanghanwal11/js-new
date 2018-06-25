@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+	        body {
+	            background-color: #efeef3 !important;
+	        }
+	        div[type=titlebtnlist1] .table {
+	            padding: 0 0.5rem;
+	        }
+	        div[type=titlebtnlist1] .tr{
+	            border-bottom: 1px solid #ebebeb;
+	        }
+	        div[type=titlebtnlist1] .td{
+	            border-bottom: none !important;
+	        }
+	        div[type=process_xq] .title span{
+	            display: none!important;
+	        }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide()
+    	var personobj = lazy.getParameter("personobj");
+    	var url = config.mobilelogget+"id="+personobj.id;
+    	lazy.URLRequest(url,function(data){
+    		var data = data.rows[0];
+    		var bzjh = JSON.parse(data.content).bzjh;
+    		var bzwc = JSON.parse(data.content).bzwc;
+    		var wwc = JSON.parse(data.content).wwc;
+    		var gzzj = JSON.parse(data.content).gzzj;
+    		var fxts = JSON.parse(data.content).fxts;
+    		var xtsx = JSON.parse(data.content).xtsx;
+    		var xzjh = JSON.parse(data.content).xzjh;
+    		var files = data.files;
+            var filesPath = [];
+            var filesName = [];
+            for(var i=0;i<files.length;i++){
+                filesPath.push(files[i].url.replace(/\\/g,"/"));
+                filesName.push(files[i].name);
+            }
+    		var json = [{
+    			"type" : "titlebtnlist1",
+    			"table" : [{
+                    "id" :  data.userid,
+                    "icon" : personobj.icon,
+                    "h1" : personobj.h1,
+                    "h2" : personobj.h2,
+                    "onclick" : function(obj){
+                        lazy.setParameter("personid",obj.id);
+                        lazy.openWin("../person/person.html");
+                    }
+                    }]
+    		},{
+                "id" : "process",
+                "type" : "process_xq",
+                "table" : [
+                           {
+                             "title" : "日期：",
+                             "value" : lazy.format(data.logtime,"yyyy-MM-dd")
+                           },
+                           {
+                             //组
+                             "list" : {
+                                  "table" : [
+                                               [
+                                                   {
+                                                       "title" : "本周计划：",
+														"value" : cut(bzjh)
+                                                   },
+                                                   {
+                                                       "title" : "本周完成：",
+                                                       "value" : cut(bzwc)
+                                                   },
+                                                   {
+                                                       "title" : "未完成原因：",
+                                                       "value" : cut(wwc)
+                                                   }
+                                                ]
+                                   ],
+                               }  
+                           },
+                           {
+                               "title" : "本周工作总结：",
+                               "value" : gzzj
+                           },
+                           {
+                               "title" : "风险提示：",
+                               "value" : fxts
+                            },
+                            {
+                               "title" : "需要协调和支持事项：",
+                               "value" : xtsx
+                            },
+                            {
+                               "title" : "下周工作计划：",
+                               "value" : xzjh
+                            },
+                            // {
+                                // "title" : "附件：",
+                                // "type" : "file",
+                                // "value" : files
+                             // }   
+                         ]
+            }
+            // ,{
+                // "type" : "peopleprocess",
+                // "result" : "yes",
+                // "table" : [
+                            // {
+                                // "icon" : "",
+                                // "h1" : "张三",
+                                // "h2" : "这里是意见各种意见",
+                                // "h3" : "2016-05 07：80",
+                            // },{
+                                // "icon" : "",
+                                // "h1" : "李四",
+                                // "h2" : "这里是意见各种意见",
+                                // "h3" : "2016-05 07：80",
+                            // }
+                         // ]
+            // },{
+                // "type" : "bottombuttons",
+                // "table" : [
+                                // {
+                                    // "label" : "评论",
+                                    // "onclick" : function() {
+                                        // lazy.alert2(1);
+                                    // }
+                                // }
+                            // ]
+            // }
+            ];
+            if(files.length>0){
+                json[1].table.push({
+                    "type" : "file",
+                    "title" : "附件",
+                    "value" : filesPath,
+                    "name" : filesName
+                })
+            }
+            json.unshift({
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '周报',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "select" : function(name, index) {
+                    if(name=="left"&&index==0){
+                        lazy.goBack();
+                    }
+                    if(name=="left"&&index==1){
+                        lazy.close();
+                    }
+                }
+            })
+	        setData(json)
+    	})
+    	function cut(arr) {
+    		var _html = '';
+    		if(lazy.isArray(arr)) {
+    			for(var i = 0; i < arr.length; i++) {
+        			_html += "<br/>&nbsp;●&nbsp;" + arr[i];
+        		}
+    		}else {
+    			_html = "<br/>&nbsp;●&nbsp;" + arr;
+    		}
+    		return _html;
+    	}
+    });
+    </script>
+</html>

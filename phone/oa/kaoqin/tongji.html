@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style id="style"></style>
+    </head>
+    <script> 
+    start(function() {
+        //rotate();
+        var datestr = lazy.response("date");
+        datestr = datestr.replace(/-/g, "/");
+        var orgid = "";
+        var json = [
+                        {
+                           "type" : "datebutton",
+                            "onclick" : function(val) {
+                                val = val.replace(/-/g, "/");
+                                var y1 = new Date(datestr).getMonth();
+                                var y2 = new Date(val).getMonth();
+                                if(y1!=y2) {
+                                    datestr = val;
+                                    load(); 
+                                }
+                            }
+                        }, {
+                            "id" : "table_tj",
+                            "type" : "table_tj",
+                            "select" : [],
+                            "onchange" : function(obj) {
+                                 orgid = obj.value;
+                                 load(); 
+                            },
+                            "h" : ["产品部<span style='font-size: 0.5rem;'>▼</span>", "迟", "早", "加", "请", "外", "旷", "出"],
+                            "table" : [
+                                        //["李轩颐" , "333", "22", "333", "22", "333", "22", "333"],
+                                     ]
+                        }, {
+                            "type" : "label",
+                            "style" : {"height" : "3rem"}
+                        }
+                    ];
+        lazy.URLRequest(config.getOrgTreeByOnlineUserpath,function(data){
+            var arr = [];
+            for(var i = 0; i < data.rows.length; i++) {
+                arr.push({
+                    "value" : data.rows[i].id,
+                    "html" : data.rows[i].text
+                });
+            }
+            json[1].select = arr;
+            json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : '考勤',
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                        if(name=="left"&&index==0){
+                            lazy.goBack();
+                        }
+                        if(name=="left"&&index==1){
+                            lazy.close();
+                        }
+                    }
+            })
+            setData(json);
+            orgid = arr[0].value;
+            //
+            load();
+            
+        }, function(e) {
+            lazy.alert2(e);
+        });
+        
+        function load(back) {
+            var date = new Date(datestr);
+            var url = config.getCountForOrg + 'year='+date.getFullYear()+'&month='+(date.getMonth() + 1)+'&orgid='+orgid;
+            lazy.URLRequest(url, function(data){
+                getData("table_tj").clean();
+                for(var i = 0; i < data.rows.length; i++) {
+                    var obj = data.rows[i];
+                    var arr = [];
+                    arr[0] = obj.name;
+                    arr[1] = obj.chidao;
+                    arr[2] = obj.zaotui;
+                    arr[3] = obj.jiaban;
+                    arr[4] = obj.qingjia;
+                    arr[5] = obj.waichu;
+                    arr[6] = obj.kuanggong;
+                    arr[7] = obj.chuchai;
+                    getData("table_tj").add(arr);
+                }
+            }, function(e) {
+                lazy.alert2(e);
+            });
+        }
+        //旋转
+        function rotate() {
+            if(lazyWindow.browserType!='pc') {
+                var w = document.body.clientWidth;
+                var h = document.body.clientHeight ;
+                var c = h - w;
+                var _style = document.getElementById("style");
+                var _html = 'body,html {overflow: scroll !important;}';
+                _html += 'html {height: auto !important;}';
+                _html += '@-webkit-keyframes rotate90 {from {-webkit-transform: rotate(0deg); margin-top:0px; margin-left:0px;}to {-webkit-transform: rotate(90deg); margin-top:'+h+'px; margin-left:'+(-c)+'px;}}';
+                _html += 'body{-webkit-animation: rotate90 0.5s;-webkit-transform: rotate(90deg);-webkit-transform-origin:right top;}';
+                _style.innerHTML = _html;
+                document.body.style.width = h + "px";
+                document.body.style.height = w + "px";
+                //document.body.style.webkitTransform = "rotate(90deg)";
+                //document.body.style.webkitTransformOrigin = "right top";
+                document.body.style.marginTop = h+"px";
+                document.body.style.marginLeft = -c+"px";
+            } 
+            
+        }
+    });
+    
+    </script>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #41affe !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var json = [
+                        {
+    "id": "process",
+    "type": "process",
+    "table": [
+        {
+            "id": "ygbh",
+            "title": "员工编号：",
+            "placeholder": "",
+            "value": "",
+            "type": "none"
+        },
+        {
+            "id": "sqr",
+            "title": "申请人：",
+            "placeholder": "请选择(必填)",
+            "value": "",
+            "type": "none"
+        },
+        {
+            "id": "rq",
+            "title": "日期：",
+            "placeholder": "请选择(必填)",
+            "value": "",
+            "type": "date"
+        },
+        {
+            "id": "zywp",
+            "title": "主要物品：",
+            "placeholder": "请选择(必填)",
+            "value": "",
+            "type": "textarea"
+        },
+        {
+            "id": "je",
+            "title": "金额（￥）：",
+            "placeholder": "请选择(必填)",
+            "value": "",
+            "type": "input"
+        },
+        {
+            "id": "jedx",
+            "title": "金额（大写）：",
+            "placeholder": "",
+            "value": "",
+            "type": "none"
+        },
+        {
+            "id": "rwzt",
+            "title": "任务状态：",
+            "placeholder": "",
+            "value": "",
+            "type": "none"
+        },
+        {
+            "id": "bz",
+            "title": "备注：",
+            "placeholder": "",
+            "value": "",
+            "type": "input"
+        },
+        {
+            "title": "图片",
+            "type": "image",
+            "httpurl": "docUpoad"
+        },
+        {
+            "title": "附件",
+            "type": "file",
+            "httpurl": "docUpoad"
+        },
+        {
+            "list": {
+                "sontableid": "bgypcgsqb",
+                "name": "添加明细",
+                "table": [
+                    [
+                        {
+                            "id": "wpmc",
+                            "title": "物品名称：",
+                            "placeholder": "",
+                            "value": "",
+                            "type": "input"
+                        },
+                        {
+                            "id": "gg",
+                            "title": "规格：",
+                            "placeholder": "",
+                            "value": "",
+                            "type": "input"
+                        },
+                        {
+                            "id": "yjdjy",
+                            "title": "预计单价（元）：",
+                            "placeholder": "",
+                            "value": "",
+                            "type": "input"
+                        },
+                        {
+                            "id": "sl",
+                            "title": "数量：",
+                            "placeholder": "",
+                            "value": "",
+                            "type": "input"
+                        },
+                        {
+                            "id": "cby",
+                            "title": "成本（元）：",
+                            "placeholder": "",
+                            "value": "",
+                            "type": "input"
+                        },
+                        {
+                            "id": "bz",
+                            "title": "备注：",
+                            "placeholder": "",
+                            "value": "",
+                            "type": "input"
+                        }
+                    ]
+                ],
+                "add": "+增加报销明细"
+            }
+        }
+    ]
+},{
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var allvalue = getData("process").getArray();
+                                alert(JSON.stringify(allvalue));
+                            }
+                        }
+                    ];
+        setData(json);
+           
+    });
+    </script>
+</html>

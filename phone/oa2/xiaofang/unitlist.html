@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>消防安全</title>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"单位信息",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                        "icon":"jia.png",
+                        "onclick":function(){
+                            lazy.openWin("unitsubmit.html");
+                        }
+                    }
+                ]
+            });
+            var page = 1;
+            var json = [
+                {
+                    "id" : "titlebtnlist2",
+                    "type" : "titlebtnlist2_no",
+                    "table" : []
+                }
+            ]
+            setData(json,function(){
+                load()
+            });
+            function load(){
+                var url = getIP() + "/firesys/F_Fireunit/list.ht?rows=20&page="+page;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    if(page==1&&data.length==0){
+                        if(document.getElementsByClassName("zwsjXT").length==0){
+                            lazy.datanull(" ");
+                            return;
+                        }
+                        else{
+                            document.getElementsByClassName("zwsjXT")[0].style.display = "inline";
+                            return;
+                        }
+                    }
+                    if(document.getElementsByClassName("zwsjXT").length>0){
+                        document.getElementsByClassName("zwsjXT")[0].style.display = "none";
+                    }
+                    if(data.length<20) lazy.stopBounce();
+                    else page++;
+                    for(var i=0;i<data.length;i++){
+                        var tmp = {
+                            "id" : data[i].id,
+                            "h1" : "单位名称:"+data[i].name,
+                            "h2" : "负责人："+data[i].corp,
+                            "h3" : lazy.format(data[i].createtime,"yyyy-MM-dd"),
+                            "onclick" : function(obj){
+                                // if(obj.taskStatus=="2"||obj.taskStatus=="3") obj.shenpi = true;//已审批
+                                // else obj.shenpi = false;//待审批
+                                lazy.setParameter("unitobj",obj);
+                                lazy.openWin("unitdetail.html");
+                            }
+                        };
+                        getData("titlebtnlist2").add(tmp);
+                    }
+                })
+                lazy.bounce({
+                    "up" : function(){
+                        load();
+                    }
+                 });   
+            }
+        })
+    </script> 
+</html>

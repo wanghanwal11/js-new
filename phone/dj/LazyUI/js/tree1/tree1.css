@@ -1,0 +1,55 @@
+div[type=tree1]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	position:relative;
+	font-size:1rem;
+    color: #343434;
+    background-color: #ffffff;
+    -webkit-box-orient:vertical;
+    padding: 0 0.8rem;
+    overflow: hidden;
+}
+div[type=tree1] .tablediv {
+    -webkit-box-sizing:border-box;
+    width:100%;
+    height:auto;
+}
+div[type=tree1] .table {
+    height: 2.5rem;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    line-height: 2.5rem;
+}
+div[type=tree1] .zw {
+    height: 100%;
+    width: 0;
+}
+
+div[type=tree1] .tr {
+    height: 100%;
+    width: 100%;
+    border-bottom: 1px solid #dcdcdc;
+}
+div[type=tree1] .td {
+    height: 100%;
+    width: 100%;
+}
+div[type=tree1] .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-image: url(images/jian.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 1rem;
+    -webkit-transition: -webkit-transform 0.2s;
+    margin-top: 0.5rem;
+}
+div[type=tree1] .icon_click {
+    -webkit-transform: rotate(90deg);
+}
+
+div[type=tree1] .td span {
+    font-size: 0.85rem;
+}

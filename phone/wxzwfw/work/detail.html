@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>办事</title>
+        <style>
+            body {
+                background-color: #white !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border-radius: 1rem;
+            }
+            #submit .buttondiv{
+                border: none !important;
+                background-color: #649bdb !important;
+            }
+            #backtrue .buttondiv{
+                border: #649bdb 1px #solid !important;
+                color : #649bdb;
+            }
+            #backfalse .buttondiv{
+                border: #649bdb 1px #solid !important;
+                color : #649bdb;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <body>
+        <script>
+            start(function() {
+                var spobj = lazy.getParameter("spobj");
+                var wxinitId = lazy.getParameter("initid");
+        		var wxopenid = lazy.getParameter("openid");
+                var taskId = spobj.taskid?spobj.taskid:0;
+                var runId = spobj.runid;
+                var taskStatus = spobj.taskStatus;
+                var url = getIP()+"/wechat/weixinevent/phoneBlForWechat.ht?taskId=" + taskId + "&runId=" + runId+"&status="+taskStatus;
+                url+="&initid="+wxinitId+"&openid="+wxopenid;
+                lazy.URLRequest(encodeURI(url),function(data){
+                    var json =  data.rows[0].json;
+                    if(json[0].id&&json[0].id=="process"){
+                        var button1 = {
+                            "id" : "submit",
+                            "type" : "button",
+                            "label" : "提交",
+                            "style" : {
+                                "margin-bottom":"1rem"
+                            },
+                            "onclick" : function() {
+                                var allvalue = getData("process").getArray();
+                                var arr = allvalue.table;
+                                var tmp = {};
+                                var filearr = [];
+                                var idCardarr = [];
+                                var subsonobj = {
+                                    "fields" : []
+                                };
+                                var sonarr = [];
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].title){
+                                        var title = arr[i].title;
+                                        if(arr[i].id&&arr[i].type!="hide"){
+                                            if(arr[i].value==""&&arr[i].placeholder.indexOf("必填")>-1){
+                                               alert(title+"不能为空");
+                                               return;
+                                            }
+                                            if(arr[i].type=="people"){
+                                                var ygbh = "";
+                                                var xm = "";
+                                                for(var n=0;n<arr[i].value.length;n++){
+                                                    if(n<arr[i].value.length-1){
+                                                        ygbh += arr[i].value[n].id+",";
+                                                        xm += arr[i].value[n].h1+",";
+                                                    }else{
+                                                        ygbh += arr[i].value[n].id;
+                                                        xm += arr[i].value[n].h1;
+                                                    }
+                                                }
+                                                 tmp[arr[i].id] = xm;
+                                                 if(arr[i].subid&&arr[i].subid!=""){
+                                                     tmp[arr[i].subid] = ygbh;
+                                                 }
+                                            }else if(arr[i].type=="overtime"){
+                                                var ids =  "";
+                                                var names = "";
+                                                for(var n=0;n<arr[i].value.length;n++){
+                                                    if(n<arr[i].value.length-1){
+                                                        ids += arr[i].value[n].id+",";
+                                                        names += arr[i].value[n].h1+",";
+                                                    }else{
+                                                        ids += arr[i].value[n].id;
+                                                        names += arr[i].value[n].h1;
+                                                    }
+                                                }
+                                                tmp[arr[i].id] = names;
+                                                if(arr[i].subid&&arr[i].subid!=""){
+                                                    tmp[arr[i].subid] = ids;
+                                                }
+                                            }else{
+                                                if(lazy.isArray(arr[i].value)){
+                                                    var str = "";
+                                                    for(var m=0;m<arr[i].value.length;m++){
+                                                        if(m<arr[i].value.length-1){
+                                                            str += arr[i].value[m]+",";
+                                                        }else{
+                                                            str += arr[i].value[m];
+                                                        }
+                                                    }
+                                                    tmp[arr[i].id] = str;
+                                                }else{
+                                                    tmp[arr[i].id] = arr[i].value?arr[i].value:"";
+                                                }
+                                            }
+                                        }else if(arr[i].type=="image"){
+                                            if(arr[i].value.length>0){
+                                                for(var m=0;m<arr[i].value.length;m++){
+                                                    filearr.push(arr[i].value[m])
+                                                }
+                                            }
+                                        }else if(arr[i].type=="file"){
+                                            if(arr[i].value.length>0){
+                                                for(var m=0;m<arr[i].value.length;m++){
+                                                    filearr.push(arr[i].value[m])
+                                                }
+                                            }
+                                        }else if(arr[i].type=="idCard"){
+                                            if(arr[i].value.length>0){
+                                                for(var m=0;m<arr[i].value.length;m++){
+                                                    idCardarr.push(arr[i].value[m])
+                                                }
+                                            }
+                                        }
+                                    }else{
+                                        subsonobj.tableName = arr[i].list.sontableid;
+                                        for(var s=0;s<arr[i].list.table.length;s++){
+                                            var tmp1 = arr[i].list.table[s];
+                                            var tmpobj = {};
+                                            for(var n=0;n<tmp1.length;n++){
+                                                var title = tmp1[n].title;
+                                                if(tmp1[n].id&&tmp1[n].type!="hide"){
+                                                    if(tmp1[n].value==""&&tmp1[n].placeholder.indexOf("必填")>-1){
+                                                       alert(title+"不能为空");
+                                                       return;
+                                                    }else{
+                                                        tmpobj[tmp1[n].id] = tmp1[n].value;
+                                                    }
+                                                }
+                                            }
+                                            subsonobj.fields.push(tmpobj);
+                                        }
+                                            
+                                    }
+                                }
+                                var leave_data = {};
+                                if(subsonobj.fields.length>0){
+                                    sonarr.push(subsonobj);
+                                    leave_data.sub = sonarr;
+                                }
+                                leave_data.main = {};
+                                leave_data.main.fields = tmp;
+                                leave_data.serviceid = serviceId;
+                                if(getData("process2")){
+                                    var zxr = getData("process2").getArray().table[0].value;
+                                    if(zxr==""||zxr.length==0){
+                                        alert("执行人不能为空");
+                                        return;
+                                    }else{
+                                        var tmpzxr = "";
+                                        //"coDestTaskUserIds":"user^10000110050775^崔大冠%23user^10000108950020^谢宏博"
+                                        for(var ss=0;ss<zxr.length;ss++){
+                                            if(ss<zxr.length-1){
+                                                tmpzxr+="user^"+zxr[ss].id+"^"+zxr[ss].h1+"%23";
+                                            }else{
+                                                tmpzxr+="user^"+zxr[ss].id+"^"+zxr[ss].h1;
+                                            }
+                                        }
+                                        if(servicename.indexOf("公文")>-1){//公文流转
+                                            lazy.personmessage(function(o){
+                                                var userId = o.rows[0].userId;
+                                                var fullName = o.row[0].fullname;
+                                                tmpzxr += "%23user^"+userId+"^" + fullName;
+                                            })
+                                            leave_data.hostDestTaskUserIds = tmpzxr;
+                                        }else{
+                                            leave_data.coDestTaskUserIds = tmpzxr;
+                                        }
+                                    }
+                                }
+                                var url = getIP() + "/wechat/weixinevent/saveFormWechat.ht?formData="+JSON.stringify(leave_data)+"&busdescp="+serviceId+"&idCarddata="+idCardarr;
+                                url+= "&applyorderbynet=1&targetId="+targetId+"&targetName="+targetName+"&idcard="+idcard+"&areaid="+areaid;
+                                url += "&runId="+runId;
+                                url+="&initid="+wxinitId+"&openid="+wxopenid;
+                                lazy.URLRequest(encodeURI(url),function(data){
+                                    if(lazy.getParameter("save")){
+                                        var obj = lazy.getParameter("save");
+                                        obj[serviceId] = {};
+                                        lazy.setParameter("save",obj);
+                                    }
+                                    alert("提交成功");                                 
+                                    lazy.openWin("index.html")
+                                })
+                            }
+                        }
+                        json.push(button1);
+                    }else{
+                    	var url1 = getIP() + "/wechat/weixinevent/listimage.ht?eventid="+runId;
+                        lazy.URLRequest(encodeURI(url1),function(data1){
+                        	var data1 = data1.rows;
+                        	var valuearr = [];
+                        	for(var j=0;j<data1.length;j++){
+                        		var tmp = {
+                        				"path" : data1[j].imgurl,
+                        				"remind" : data1[j].type  
+                        		}
+                        		valuearr.push(tmp);
+                        	}
+                        	var table = json[0].table;
+                        	for(var n=0;n<table.length;n++){
+                        		if(table[n].type=="idCard"){
+                        			table[n].value = valuearr;
+                        			json[0].table = table;
+                        			n=table.length;
+                        		}
+                        	}
+                        	//alert(JSON.stringify(json[0].table))
+                        })
+                        if(taskStatus=="4"){
+	                        var button2 = {
+	                            "id" : "backtrue",
+	                            "type" : "button",
+	                            "label" : "撤销",
+	                            "style" : {
+	                                "margin-bottom":"1rem"
+	                            },
+	                            "onclick" : function() {
+	                                var url = getIP() + "/wechat/weixinevent/updateReservation.ht?status=911&runId="+runId;
+	                                url+="&initid="+wxinitId+"&openid="+wxopenid;
+	                                 lazy.URLRequest(encodeURI(url),function(data){
+	                                	alert("撤销成功");
+	                                	lazy.openWin("index.html")
+	                                })
+	                            }
+	                        }
+	                        json.push(button2);
+                        }
+                    }
+                    setData(json);
+                })
+            })
+        </script>
+    </body>
+</html>

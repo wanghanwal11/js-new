@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>呼叫中心</title>
+        <style>
+            body {
+                background-color: white !important;
+            }
+            div[type=button] .buttondiv {
+                background-color: white!important;
+                color:#186ae7!important;
+                margin-top:0.5rem;
+            }
+            div[type=process_xq]{
+                border-bottom: none!important;
+                padding: 0!important;
+                padding-left:0.5rem!important;
+            }
+            div[type=peopleprocess] .table{
+                border-top:none!important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var hjzxobj = lazy.getParameter("hjzx");
+            var url=config.getHjzxMobile+"taskid="+hjzxobj.id+"&eventcode="+hjzxobj.eventcode;
+            lazy.URLRequest(url, function(data){
+                var json =[];
+                var data = data.rows;
+                var json = [
+                    {
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '呼叫中心',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                                lazy.goBack();
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                        }
+                    },
+                    {
+                        "type" : "titlebtnlist2_no",
+                        "table" : [{
+                            "h1" : data[0].eventname,
+                            "h2" : data[0].taskid,
+                        }]
+                    },
+                    {
+                        "type" : "process_xq",
+                        "style" : {
+                            "padding-bottom":"none",
+                        },
+                        "table" : [
+                            {
+                                "title" : "紧急程度：",
+                                "value" : data[0].levelname
+                            },
+                            {
+                                "title" : '事件状态：',
+                                "value" : data[0].statecode
+                            },
+                            {
+                                "title" : "事件地址：",
+                                "value" : data[0].eventaddr?data[0].eventaddr:"无"
+                            },
+                            {
+                                "title" : "事件详情：",
+                                "value" : data[0].content?data[0].content:"无"
+                            },
+                        ]
+                    },
+                    {
+                        "id" : "zhankai",
+                        "type" : "button",
+                        "label" : "展开",
+                        "onclick" : function(){
+                            document.getElementById("process").style.display = "block";
+                            document.getElementById("shouqi").style.display = "inline";
+                            document.getElementById("zhankai").style.display = "none";
+                        }
+                    },
+                    {
+                        "id" : "process",
+                        "style" : {
+                            "display":"none",
+                        },
+                        "type" : "process_xq",
+                        "table" : [
+                            {
+                                "title" : "记录时间：",
+                                "value" : data[0].eventtime?lazy.format(data[0].eventtime,"yyyy-MM-dd HH:mm:ss"):"无"
+                            },
+                            {
+                                "title" : '联系电话：',
+                                "value" : data[0].mobile?data[0].mobile:"无"
+                            },
+                            {
+                                "title" : "诉求人：",
+                                "value" : data[0].cname?data[0].cname:"无"
+                            },
+                            {
+                                "title" : "事件来源：",
+                                "value" : data[0].channelcode?data[0].channelcode:"无"
+                            },
+                            {
+                                "title" : "事件类型：",
+                                "value" : data[0].typeeventname?data[0].typeeventname:"无"
+                            },
+                            {
+                                "title" : "事件小类：",
+                                "value" : data[0].categorysmallcode?data[0].categorysmallcode:"无"
+                            },
+                            {
+                                "title" : "事件大类：",
+                                "value" : data[0].categorycode?data[0].categorycode:"无"
+                            },
+                            {
+                                "title" : "诉求区域：",
+                                "value" : data[0].regionname?data[0].regionname:"无"
+                            },
+                        ]
+                    },
+                    {
+                        "id" : "shouqi",
+                        "style" : {
+                            "display":"none",
+                        },
+                        "type" : "button",
+                        "label" : "收起",
+                        "onclick" : function(){
+                            document.getElementById("process").style.display = "none";
+                            document.getElementById("shouqi").style.display = "none";
+                            document.getElementById("zhankai").style.display = "inline";
+                        }
+                    },
+                ]
+                if(data[1].taskOpinionLst){
+                    var taskOpinionLst = data[1].taskOpinionLst;
+                    var opinionlist = [];
+                    for(var i=taskOpinionLst.length-1;i>=0;i--){
+                        var tmp = {
+                            "icon" : "",
+                            "h1" : taskOpinionLst[i].exefullname?taskOpinionLst[i].exefullname:taskOpinionLst[i].orgName,
+                            "h2" : taskOpinionLst[i].state?taskOpinionLst[i].state:""+"&nbsp;"+taskOpinionLst[i].opinion?taskOpinionLst[i].opinion:"",
+                            "h3" : taskOpinionLst[i].endtime?lazy.format(taskOpinionLst[i].endtime,"yyyy-MM-dd"):""
+                        }
+                        opinionlist.push(tmp)
+                    }
+                    var peopleprocess = {
+                        "type" : "peopleprocess",
+                        "result" : "yes",
+                        "table" : opinionlist
+                    }
+                    if(taskOpinionLst.length>0&&taskOpinionLst[0].checkstatus){
+                        var check = taskOpinionLst[0].checkstatus;
+                        if(check=="-1") peopleprocess.result = null;
+                        if(check=="3") peopleprocess.result = "no";
+                        if(check=="1") peopleprocess.result = "yes";
+                    }
+                    json.push(peopleprocess);
+                }
+                if (lazy.getParameter("htype")=="待办") {
+                    var bottombuttons = {
+                        "type" : "bottombuttons",
+                        "table" : [
+                                       {
+                                           "label" : "办理",
+                                           "onclick" : function() {
+                                               lazy.openWin("shijianchuli.html");
+                                           }
+                                       }
+                                    ]
+                    }
+                    json.push(bottombuttons)
+                }
+                setData(json)
+            })
+        });
+    </script>
+</html>

@@ -1,0 +1,89 @@
+body[type=body] div[type=textarea]{
+    width: 100%;
+    font-size: 1rem;
+    position: relative;
+    background-color: #ffffff;
+}
+div[type=input] .text{
+    padding: 0.5rem 1rem;
+   
+}
+div[type=textarea] .top:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    border-top: 1px solid #efefef;
+    color: #efefef;
+}
+div[type=textarea] .tr_radio{
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #efefef;
+}
+
+div[type=textarea] .choose_radio{
+    background-image: url(yes.png);
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+}
+div[type=textarea] .tr{
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-bottom: 1px solid #efefef;
+}
+div[type=textarea] .choose{
+    width: 1rem;
+    height: 1rem;
+    border:1px solid #999999;
+   /* border-radius: 50%;*/
+}
+div[type=textarea] .choose_check{
+    /*border: 1px solid #09BB07;
+    background-color: #09BB07;*/
+    background-image: url(yes.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 0.8rem;
+}
+div[type=textarea] .choose_nocheck{
+    border: 1px solid #C9C9C9;
+}
+div[type=textarea] .tr_check{
+    margin-left:0.5rem;
+        height: 1rem;
+    line-height: 1rem;
+}
+div[type=textarea] .tr_input{
+    padding: 0.5rem 1rem;
+}
+div[type=textarea] .tr_input input{
+    width:100%;
+    border:none;
+}
+div[type=textarea] .tr_textarea{
+    padding: 0.5rem 1rem;
+}
+div[type=textarea] .tr_textarea textarea{
+    width:100%;
+    border:none;
+    resize:none;
+}
+div[type=textarea] .fontnumber{
+   float: right;
+}
+div[type=textarea] .fontnumber span{
+   font-size: 0.9rem;
+   color:#999;
+}
+div[type=textarea] .tr_single{
+    padding: 0.5rem 2.5rem;
+    border-bottom: 1px solid #efefef;
+}
+
+div[type=textarea] .choose_single{
+    background-image: url(yes.png);
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+}

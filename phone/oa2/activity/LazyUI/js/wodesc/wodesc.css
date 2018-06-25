@@ -1,0 +1,62 @@
+body[type=body] div[type=wodesc]{
+	position:relative;
+	width: 100%;
+	height: auto;
+	font-size: 1rem;
+	-webkit-box-sizing: border-box;
+}
+div[type=wodesc] .wodesc{
+    width: 100%;
+    height: auto;
+    background: white;
+    margin-bottom: 1rem;
+}
+div[type=wodesc] .h1{
+    height:1.5rem;
+    padding: 0.8rem;
+    color: #006dd9
+}
+div[type=wodesc] .h2{
+    padding: 0.8rem;
+}
+div[type=wodesc] .h2 div{
+    height: 5rem;
+    font-size: 1rem;
+}
+div[type=wodesc] .h2 img{
+    width: 6rem;
+    height: 100%;
+    float: left;
+    margin-right: 1rem;
+}
+div[type=wodesc] .people{
+    float: left;
+}
+div[type=wodesc] .people span{
+    display:inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: red;
+    vertical-align: middle;
+    margin-right: 0.8rem;
+    border-radius: 50%;
+}
+div[type=wodesc] .time{
+    width:6rem;
+    float: right;
+    color: #aaaaaa;
+    text-align: center;
+    font-size: 0.9rem;
+}
+div[type=wodesc] .header{
+    width: 100%;
+    border-bottom: 1px solid #dddddd;
+}
+div[type=wodesc] .footer{
+    height:1.8rem;
+    line-height:1.8rem;
+    text-align:right;
+    padding-right: 1rem;
+    font-size: 0.9rem;
+    color: #aaaaaa;
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>评价</title>
+<style type="text/css">
+body{
+    background-color: #efefef!important;
+}
+div[type=judgepeople]{
+    margin-top:1rem;
+}
+div[type=judgepeople] .icon{
+    margin-top:0rem!important;
+    width: 4rem!important;
+    height: 4rem!important;
+}
+div[type=judgestar] {
+    margin-top:1rem;
+}
+         #button{
+         /*position: absolute!important;
+         top: 32rem!important;*/
+         margin-left: 2% !important;
+         margin-right: 2% !important;
+         width:96% !important;
+         margin-top:3rem;
+     }
+     #button .button_a{
+         background-color: #3399fd;
+         border-radius: 6px !important;
+     }
+     .takepicture{
+         display: none !important;
+     }
+
+div[type=judgecontent] textarea {
+    height:10rem !important;
+}
+div[type=judgepeople] .name {
+    width:auto !important;
+}
+</style>
+</head>
+<body>
+    <script>
+    
+        start(function() {
+            console.log(lazy.getParameter("document"))
+                var judgeobj = lazy.getParameter("judgeobj");
+                console.log(judgeobj)
+                /*judgeobj = {
+                    businesskey:"10000005980564",
+                    icon:"../LazyUI/images/work/sqxsznjyjz.png",
+                    opinion:"12344555",
+                    orgid:"10000003690276",
+                    orgname:"海关社区",
+                    phone:"15101050425",
+                    score:5,
+                    serviceid:"10000000754747",
+                    servicename:"东营区社会养老服务申请",
+                    targetid:"",
+                    targetname:"王一",
+                    username:"王一",
+                    weixinid:"gh_fc7457b3a79f",
+                    runId:lazy.geturlstr("runid")
+                 }*/
+                judgeobj.runId = lazy.geturlstr("runid");
+                console.log(judgeobj)
+                var json = [
+                  {
+                    "id":'judgepeople',
+                    "type":'judgepeople',
+                     "icon":judgeobj.icon,
+                     "name":judgeobj.servicename
+                  },{
+                       "id":"judgestar",
+                       "type":"judgestar",
+                       "title":'服务质量',
+                       "yes":'../LazyUI/js/judgestar/ystar.png',
+                       "no":'../LazyUI/js/judgestar/gstar.png',
+                       "content":['非常差','差','一般','好','非常好']
+                   },{
+                       "id":"judgecontent",
+                       "type":"judgecontent",
+                   },{
+                       "id":"button",
+                       "type":"button",
+                       "label":'提交评价',
+                       "onclick":function(){
+                          var level = getData('judgestar').getLevel();
+                          var content = document.getElementsByTagName("textarea")[0].value;
+                          judgeobj.score=level;
+                          judgeobj.opinion=content;
+                          submit(judgeobj)
+                             
+                       }
+                   }]; 
+                
+                 setData(json)
+                    
+                function submit(obj){
+                    var url = getIP()+"/wechat/weixinevent/submitEvaluation.ht?data="+JSON.stringify(obj)+"&initid="+lazy.geturlstr("wxinitId")+"&openid="+lazy.geturlstr("wxopenid");
+                    //url = "/acceptance/SLPT_Evaluate/save.ht?data="+JSON.stringify(obj);
+                    lazy.GET(encodeURI(url),function(data){ 
+                       lazy.alert2("评价成功")
+                       setTimeout(function(){
+                           var url = lazy.getParameter("document")
+                             window.location.replace(url);
+                        },2000)
+                    }, function(e) {
+                        lazy.alert2(e);
+                    }, 0);
+                }
+           
+            
+        });
+    </script>
+</body>
+</html>

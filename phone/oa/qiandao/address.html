@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            #titlebtnlist2_no {
+                padding-top: 3rem;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var rs = lazy.var();
+        var json = [{
+                        "id" : "titlebtnlist2_no",
+                        "type" : "titlebtnlist2_no",
+                        "table" : [],
+                    }];
+        setData(json, function() {
+            getData("titlebtnlist2_no").add({
+                //"h1" : rs.addressComponents.streetNumber,
+                //"h2" : rs.address,
+                "h1" : "&nbsp;&nbsp;",
+                "h2" : rs.regeocode.formattedAddress,
+                "onclick" : function(obj) {
+                    parent.setqddd(obj.h2);
+                }
+            });
+            //var arr = rs.surroundingPois;
+            var arr = rs.regeocode.pois;
+            for(var i = 0; i < arr.length; i++) {
+                getData("titlebtnlist2_no").add({
+                    //"h1" : arr[i].title,
+                    "h1" : arr[i].name,
+                    "h2" : arr[i].address,
+                    "onclick" : function(obj) {
+                        parent.setqddd(obj.h2);
+                    }
+               });
+            }
+        }); 
+        
+    });
+    </script>
+</html>

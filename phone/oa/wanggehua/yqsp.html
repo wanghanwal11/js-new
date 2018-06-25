@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>延期审批</title>
+        <style type="text/css">
+            div[type=label]{
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                color: #787878;
+                background-color: #efeff4;
+            }
+            .icontitle1, .iconimg {
+                border-radius: 0 !important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var page = 1;
+        var json = [
+        {
+                "id" : "titlebtnlist2",
+                "type" : "titlebtnlist2",
+                "table" : [
+                    // {
+                        // "icon" : "",//90*90
+                        // "h1" : "郝建为",
+                        // "h2" : "产品部",
+                        // "onclick" : function(obj) {
+                            // lazy.setParentJs("setProcessPeople", obj);
+                        // }
+                    // }
+                   ]
+            }
+        ];
+        json.unshift({
+            "id" : "headertoolbar",
+            "type" : "headertoolbar",
+            "backgroundColor" : lazy.getParameter("Bgcolor"),
+            "color" : "#fff",
+            "border" : "none",
+            "title" : '延期审批',
+            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+            "select" : function(name, index) {
+                if(name=="left"&&index==0){
+                    lazy.goBack();
+                }
+                if(name=="left"&&index==1){
+                    lazy.close();
+                }
+            }
+        })
+        setData(json,function(){
+            load();
+        })
+        function load(){
+            var url = config.yqsplist+"rows=10&page="+page;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                for(var i=0;i<data.length;i++){
+                    var replay = "";
+                    var check = "";
+                    if(data[i].replay == 1){
+                       replay = "<span style='color:green'>批准延期</sapn>";
+                    }else if(data[i].replay === 0 || data[i].replay === "0"){
+                       replay = "<span style='color:red'>拒绝延期</sapn>";
+                    }else{
+                       check = 2;
+                       replay = "<span style='color:red'>待审批</sapn>";
+                    }
+                    var tmp = {
+                        "id" : data[i].delaycode,
+                        "h1" : data[i].title,
+                        "h2" : data[i].applicant,
+                        "h3" : replay,
+                        "check" : check,
+                        "icon" : data[i].imgSrc?getIP()+data[i].imgSrc.replace(/\\/g,"/"):"",
+                        "onclick" : function(obj){
+                            lazy.setParameter("appcode",obj.id);
+                            lazy.setParameter("check",obj.check);
+                            lazy.openWin("yqspxq.html");
+                        }
+                    }
+                    getData("titlebtnlist2").add(tmp)
+                }
+                setData(json);
+                page++;
+            })
+        }
+        lazy.bounce({
+            "up" : function(){
+                load();
+            }
+         });   
+    });
+    </script>
+</html>

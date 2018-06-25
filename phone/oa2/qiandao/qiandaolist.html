@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>签到统计</title>
+        <style type="text/css">
+            #movebutton .line div{
+                border: 2px solid #15c4c6;
+            }
+            #movebutton .change span{
+                color: #15c4c6;
+            }
+            div[type=qiandao] .h2 {
+                padding-left: 1rem;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-image: url(../LazyUI/images/qiandao/dd.png);
+                background-size: 0.8rem;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var page = 1;
+        var index = 0;
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        lazy.setHeader({
+            "title":"签到",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var json =[{
+            "id" : "movebutton_iframe",
+            "type" : "movebutton_iframe",
+            "index" : 0,
+            "table" : [
+                            {
+                                "label" : "我的签到",
+                                "onclick" : function(i){
+                                    if(index==1){
+                                        page = 1;
+                                        getData("qiandao").clean();
+                                        loadwd();
+                                    }
+                                    index=0;
+                                }
+                            },{
+                                "label" : "他人签到",
+                                "onclick" : function(i){
+                                    if(index==0){
+                                        page = 1;
+                                        getData("qiandao").clean();
+                                        loadtr();
+                                    }
+                                    index=1;
+                                }
+                            }
+                        ]
+        },
+        {
+            "id":"qiandao",
+            "type" : "qiandao",
+            "table" : [
+                // {
+                    // "title":"12312341243",
+                    // "content":[
+                        // {
+                            // "id":"1",
+                            // "h1":"dggggg",
+                            // "h2":"dddddddd",
+                            // "h3":"dddddsssss",
+                        // },{
+                            // "id":"2",
+                            // "h1":"dggggg",
+                            // "h2":"dddddddd",
+                            // "h3":"dddddsssss"
+                        // },{
+                            // "h1":"dggggg",
+                            // "h2":"dddddddd",
+                            // "h3":"dddddsssss"
+                        // }
+                    // ],
+                    // "onclick":function(obj){
+                        // alert(obj.id)
+                    // }
+                // }
+            ]
+        }
+        ];
+        setData(json,function(){
+            loadwd()
+        });
+        function loadwd(){
+            var url = config.signlist+"type=own&rows=20&page="+page;
+            if(mark!="") url += "&mark="+mark;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+                for(var i=0;i<data.length;i++){
+                    var tmp = {
+                        "title":data[i].date,
+                        "content":[],
+                        "onclick" : function(obj){
+                            var id = obj.id;
+                            lazy.setParameter("qdid",id);
+                            lazy.setParameter("qdicon",obj.icon);
+                            lazy.openWin("qiandaoxq.html");
+                        }
+                    }
+                    var perdate = data[i].perdate;
+                    for(var j=0;j<perdate.length;j++){
+                        var path = perdate[j].picture;
+                        if(path.indexOf("http")<0) path = getIP() + perdate[j].picture;
+                        var obj = {
+                            "id" : perdate[j].id,
+                            "h1" : perdate[j].name,
+                            "h2" : perdate[j].address,
+                            "h3" : perdate[j].time,
+                            "icon" : path,
+                        }
+                        tmp.content.push(obj)
+                    }
+                    getData("qiandao").add(tmp);
+                }
+            })
+            lazy.bounce({
+                "up" : function(){
+                    if(index==0){
+                        loadwd();
+                    }
+                    if(index==1){
+                        loadtr();
+                    }
+                }
+            })
+        }
+        function loadtr(){
+            var url = config.signlist+"type=other&rows=20&page="+page;
+            if(mark!="") url += "&mark="+mark;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+                for(var i=0;i<data.length;i++){
+                    var tmp = {
+                        "title":data[i].date,
+                        "content":[],
+                        "onclick" : function(obj){
+                            var id = obj.id;
+                            lazy.setParameter("otherid",id);
+                            lazy.openWin("tarenqiandaolist.html");
+                        }
+                    }
+                    var perdate = data[i].perdate;
+                    for(var j=0;j<perdate.length;j++){
+                        var path = perdate[j].picture;
+                        if(path.indexOf("http")<0) path = getIP() + perdate[j].picture;
+                        var obj = {
+                            "id" : perdate[j].userid,
+                            "h1" : perdate[j].name,
+                            "h2" : perdate[j].address,
+                            "h3" : perdate[j].time,
+                            "icon" : path,
+                        }
+                        tmp.content.push(obj)
+                    }
+                    getData("qiandao").add(tmp);
+                }
+            })
+            lazy.bounce({
+                "up" : function(){
+                    if(index==0){
+                        loadwd();
+                    }
+                    if(index==1){
+                        loadtr();
+                    }
+                }
+            })
+        }
+    });
+    </script>
+</html>

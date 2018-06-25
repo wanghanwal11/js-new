@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            body{
+                background-color: white!important;
+            }
+            div[type=wxylistbar] .h{
+                width: 100%!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+         var ids=lazy.getParameter("ids");
+         var page=1;
+         var a={}
+         lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/get.ht?id="+ids,function(data){
+             var data=data.rows[0];
+         var json = [{
+                            "type" : "wxylistbar",
+                            "icon" : "../LazyUI/js/listbar/images/dzzhd.png",
+                            "rl" : false,
+                            "title" :data.mtitle,
+                            "ids":data.id,
+                            "table" : [
+                                        "会议类型:"+data.mtitle+"-"+data.mkind,
+                                        "会议地址:"+data.maddress,
+                                        "开始时间:"+data.mstarttime,
+                                     ],
+                                     "style":{
+                                         "border":"none"
+                                     }
+                    },{
+                    "type" : "button_list1",
+                    "button" : ["会议人员", "文档"],
+                    "index" : 1,
+                    "select" : function(index, data) {
+                        if (index == 0) {
+                            lazy.openWin("hyry.html");
+                        }
+                        if (index == 1) {
+                            lazy.openWin("wd.html");
+                        }
+                    }
+                },
+              {
+                  "id":"titlebtnlist2",
+                  "type":"titlebtnlist2",
+                  "style":{
+                      "border":"none",
+                  },
+                  "table":[
+                  ]         
+                 }
+         ]
+         if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '会议详情',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                } 
+         setData(json,function(){wenjian()})
+     })
+         function wenjian(){
+             lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/getFile.ht?rows=100&id="+ids+"&page="+page,function(data){
+                 lazy.closeBounce();
+                 var data=data.rows;
+                 for(var i=0;i<data.length;i++){
+                    var s= {
+                        "h1":data[i].docname,
+                        "h2":data[i].createtime,
+                        "icon":"../LazyUI/images/1.jpg",
+                        "fileurl":data[i].path,
+                        "onclick":function(obj){
+                                 var downbol = false;
+                                 var _name = obj.fileurl.replace(/\\/g,"/");
+                                 var _url = (getIP()+obj.fileurl).replace(/\\/g,"/");
+                                 url = encodeURI(_url);
+                                 if(downbol) {
+                                        alert("有文件正在下载！");
+                                    }else {
+                                        downbol = true;
+                                        lazy.fileBol('/sdcard'+_name,function(){
+                                            downbol = false;
+                                          lazy.readerFile('/sdcard'+_name);
+                                          },function(){
+                                              a=lazy.loading("正在下载");
+                                             lazy.download(_url,function(bfb){
+                                            },function(size,path){
+                                                a.close();
+                                                downbol = false;
+                                                lazy.readerFile('/sdcard'+_name);
+                                            },function(){
+                                                a.close();
+                                                downbol = false;
+                                            },'/sdcard'+_name);
+                                          })
+                                    }
+                        }
+                    }
+                    getData("titlebtnlist2").add(s);
+                 }
+                // page++;
+             },function(){lazy.closeBounce();})
+         }
+        });
+    </script>
+</html>

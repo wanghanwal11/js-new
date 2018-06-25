@@ -1,0 +1,61 @@
+body[type=body] div[type=a]{
+    width:100%;
+    height:100%;
+    position:relative;
+    font-size:8px;
+}
+div[type=a] .banner{
+   width:100%;
+   height:50px;
+   line-height:50px;
+   background-image: url(mobile.png);
+   background-position: center left 30px;
+   background-repeat: no-repeat;
+   background-size:20px;
+   background-color: #0099ff;
+   padding-left: 60px;
+   color: #fff;
+   font-size: 12px;
+}
+div[type=a] .center{
+    width:80%;
+    height:100%;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+div[type=a] .left{
+    width:20%;
+    height:auto;
+    background-color: #efefef;
+    float: left;
+}
+div[type=a] .choose{
+    
+    background-color: #ddd;
+    
+}
+div[type=a] .li{
+    padding: 5px 5px 5px 10px;
+    border-bottom: 1px solid #fff;
+}
+div[type=a] .right{
+    width:50%;
+    height:auto;
+    float: left;
+    margin-left: 10px;
+}
+div[type=a] .code{
+    width:100%;
+    height:auto;
+    padding:5px 20px;
+    margin:5px 0;
+    border: 1px solid #999;
+}
+
+div[type=a] .tip{
+    width:100%;
+    height:auto;
+   
+    padding-left: 15px;
+    margin-bottom: 10px;
+}

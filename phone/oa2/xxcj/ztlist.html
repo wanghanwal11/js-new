@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人员列表</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                "title":lazy.getParameter("fw").housenum?lazy.getParameter("fw").housenum:"人员列表",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            
+            var json = [
+                    {
+                        "id" : "renyuan",
+                        "type" : "renyuan",
+                        "table" : []
+                    }
+            ];
+            setData(json,function(){
+                load();
+            })
+            function load(){
+                var url = config.rklb+"livehouseid="+lazy.getParameter("fw").id;
+                lazy.URLRequest(url,function(data){
+                    var arr = data.rows;
+                    for(var i = 0; i < arr.length; i++) {
+                        var type = "";
+                        switch(arr[i].type) {
+                            case "all" :
+                                type = "人户同在";
+                            break;
+                            case "house" :
+                                type = "人在户不在";
+                            break;
+                            case "family" :
+                                type = "户在人不在";
+                            break;
+                            default :
+                                type = "";
+                            break;
+                        }
+                        var onejson = {
+                            "id" : arr[i].peopleid?arr[i].peopleid:"",
+                            "rynum" : i+1,
+                            "icon" : arr[i].photo?(getIP()+arr[i].photo.replace(/\\/g,"/")):"",
+                            "relations":(arr[i].relations?arr[i].relations:""),
+                            "name" : arr[i].peoplename,
+                            "state":type,
+                            "h1" : ["<span style='color:black'>"+arr[i].peoplename+"</span>","关系："+(arr[i].relations?arr[i].relations:""),"状态："+type,"迁入时间："+lazy.format(arr[i].createtime,"yyyy-MM-dd")],
+                            "onclick" : function(obj){
+                                lazy.setParameter("rk",obj)
+                                lazy.openWin("xxbj.html");
+                            }
+                        };
+                        getData("renyuan").add(onejson);
+                    }
+                        setData(json)
+                })
+            }
+        });
+    </script>
+</html>

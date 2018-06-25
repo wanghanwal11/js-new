@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>审批</title>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: rgb(254, 148, 62) !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        var servicename = lazy.getParameter("servicename")
+        lazy.setHeader({
+            "title":"申请-"+servicename,
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        },true);
+        // lazy.setParameter("header",{
+            // "title":"申请-"+servicename,
+            // "color":lazy.getParameter("Bgcolor"),
+            // "rightbtn" : []
+        // })
+    	var serviceId = lazy.getParameter("serviceid");
+        var isfreeflow = lazy.getParameter("isfreeflow");
+    	var phones = {};
+    	var url = config.getPhoneForm+serviceId+"&taskId=0";//获取表字段
+   	 	var url1 = config.getFormRights + 'serviceId=' + serviceId + '&taskId=0';//获取字段权限
+   	 	var url2 = config.getFormPicture + 'serviceid=' + serviceId;
+   	 	var url3 = config.getProject;
+ 	    var option =  [];
+   	 	if(serviceId == 10000109980784){
+       	 	lazy.URLRequest(url3,function(viewData){
+       	 	    var viewData = viewData.rows;
+       	 	    for(var i=0;i<viewData.length;i++){
+       	 	        var tmp = {
+       	 	            "value":viewData[i].id,
+       	 	            "html":viewData[i].name
+       	 	        }
+       	 	        option.push(tmp)
+       	 	    }
+       	 	    load();
+       	 	})
+   	 	    
+   	 	}else{
+   	 	    load();
+   	 	}
+   	 	function load(){
+        	 lazy.URLRequest(url,function(data){
+        		 phones =  eval('(' + data.rows[0].phoneHtml + ')');
+        		 var json = [phones];
+                     for (var i = 0; i<phones.table.length ; i++) {
+                         if(phones.table[i].type=="image"||phones.table[i].type=="file"){
+                             phones.table[i].httpurl = config.docUpoad;
+                         }
+                         if(phones.table[i].id=="ccdd"){
+                             //phones.table[i].httpurl = config.docUpoad;
+                             phones.table[i].option = option
+                         }
+                     }
+                    	if(isfreeflow=="是"){
+                    	    var process2 = {
+                    	        "id":"process2",
+                    	        "type":"process",
+                    	        "table":[
+                    	            {
+                                          "type":"people",
+                                          "title":"执行人",
+                                          "url":"address.html"
+                                      }
+                    	        ]
+                    	    }
+                    	    json.push(process2);
+                    	}
+                    	var button = {
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                lazy.personmessage(function(o){
+                                                var userId = o.rows[0].userId;
+                                                var fullName = o.rows[0].fullname;
+                                                
+                                var allvalue = getData("process").getArray();
+                                var arr = allvalue.table;
+                                var tmp = {};
+                                var filearr = [];
+                                var subsonobj = {
+                                    "fields" : []
+                                };
+                                var sonarr = [];
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].title){
+                                    	var title = arr[i].title;
+                                        if(arr[i].id&&arr[i].type!="hide"){
+                                            if(arr[i].type=="date"||arr[i].type=="datetime"||arr[i].type=="time"){
+                                                if(arr[i].value.indexOf("请选择")>-1&&arr[i].placeholder.indexOf("必填")>-1){
+                                                    lazy.alert2(title+"不能为空");
+                                                    return;
+                                                }
+                                                if(arr[i].value==""&&arr[i].placeholder.indexOf("必填")>-1){
+                                                    lazy.alert2(title+"不能为空");
+                                                    return;
+                                                }
+                                            }else if(arr[i].value==""&&arr[i].placeholder.indexOf("必填")>-1){
+                                               lazy.alert2(title+"不能为空");
+                                               return;
+                                            }
+                                            if(arr[i].type=="people"){
+                                                var ygbh = "";
+                                                var xm = "";
+                                                for(var n=0;n<arr[i].value.length;n++){
+                                                    if(n<arr[i].value.length-1){
+                                                        ygbh += arr[i].value[n].id+",";
+                                                        xm += arr[i].value[n].h1+",";
+                                                    }else{
+                                                        ygbh += arr[i].value[n].id;
+                                                        xm += arr[i].value[n].h1;
+                                                    }
+                                                }
+                                                 tmp[arr[i].id] = xm;
+                                                 if(arr[i].subid&&arr[i].subid!=""){
+                                                     tmp[arr[i].subid] = ygbh;
+                                                 }
+                                            }else if(arr[i].type=="person"){
+                                            	var ygbh = "";
+                                            	var xm = "";
+                                            	for(var n=0;n<arr[i].value.length;n++){
+                                            		if(n<arr[i].value.length-1){
+                                            			ygbh += arr[i].value[n].id+",";
+                                            			xm += arr[i].value[n].h1+",";
+                                            		}else{
+                                            			ygbh += arr[i].value[n].id;
+                                            			xm += arr[i].value[n].h1;
+                                            		}
+                                            	}
+                                            	 tmp[arr[i].id] = xm;
+                                            	 if(arr[i].subid&&arr[i].subid!=""){
+                                            	     tmp[arr[i].subid] = ygbh;
+                                            	 }
+                                            }else if(arr[i].type=="overtime"){
+                                                var ids =  "";
+                                                var names = "";
+                                                for(var n=0;n<arr[i].value.length;n++){
+                                                    if(n<arr[i].value.length-1){
+                                                        ids += arr[i].value[n].id+",";
+                                                        names += arr[i].value[n].h1+",";
+                                                    }else{
+                                                        ids += arr[i].value[n].id;
+                                                        names += arr[i].value[n].h1;
+                                                    }
+                                                }
+                                                tmp[arr[i].id] = names;
+                                                if(arr[i].subid&&arr[i].subid!=""){
+                                                    tmp[arr[i].subid] = ids;
+                                                }
+                                            }else{
+        	                                    if(lazy.isArray(arr[i].value)){
+        	                                        var str = "";
+        	                                        for(var m=0;m<arr[i].value.length;m++){
+        	                                            if(m<arr[i].value.length-1){
+        	                                                str += arr[i].value[m]+",";
+        	                                            }else{
+        	                                                str += arr[i].value[m];
+        	                                            }
+        	                                        }
+        	                                        tmp[arr[i].id] = str;
+        	                                    }else if(arr[i].id=="ccdd"){
+        	                                        tmp.ccdid = arr[i].returnObj.value;
+        	                                        tmp.ccdd = arr[i].returnObj.html;
+        	                                    }else{
+        	                                        tmp[arr[i].id] = arr[i].value?arr[i].value:"";
+        	                                    }
+                                            }
+                                        }else if(arr[i].type=="image"){
+                                        	if(arr[i].value.length>0){
+        	                                	for(var m=0;m<arr[i].value.length;m++){
+        		                                    filearr.push(arr[i].value[m])
+        	                                	}
+                                        	}
+                                        }else if(arr[i].type=="file"){
+                                        	if(arr[i].value.length>0){
+        	                                	for(var m=0;m<arr[i].value.length;m++){
+        		                                    filearr.push(arr[i].value[m])
+        	                                	}
+                                        	}
+                                        }
+                                    }else{
+                                        subsonobj.tableName = arr[i].list.sontableid;
+                                        for(var s=0;s<arr[i].list.table.length;s++){
+                                            var tmp1 = arr[i].list.table[s];
+                                            var tmpobj = {};
+                                            for(var n=0;n<tmp1.length;n++){
+                                                var title = tmp1[n].title;
+                                                if(tmp1[n].id&&tmp1[n].type!="hide"){
+                                                    if(tmp1[n].value==""&&tmp1[n].placeholder.indexOf("必填")>-1){
+                                                       lazy.alert2(title+"不能为空");
+                                                       return;
+                                                    }else{
+                                                        tmpobj[tmp1[n].id] = tmp1[n].value;
+                                                    }
+                                                }
+                                            }
+                                            subsonobj.fields.push(tmpobj);
+                                        }
+                                            
+                                    }
+                                }
+                                var leave_data = {};
+                                if(subsonobj.fields.length>0){
+                                    sonarr.push(subsonobj);
+                                    leave_data.sub = sonarr;
+                                }
+                                leave_data.main = {};
+                                leave_data.main.fields = tmp;
+                                leave_data.serviceid = serviceId;
+                                if(getData("process2")){
+                                    var zxr = getData("process2").getArray().table[0].value;
+                                    if(zxr==""||zxr.length==0){
+                                        lazy.alert2("执行人不能为空");
+                                        return;
+                                    }else{
+                                        var tmpzxr = "";
+                                        //"coDestTaskUserIds":"user^10000110050775^崔大冠%23user^10000108950020^谢宏博"
+                                        for(var ss=0;ss<zxr.length;ss++){
+                                            if(ss<zxr.length-1){
+                                                tmpzxr+="user^"+zxr[ss].id+"^"+zxr[ss].h1+"%23";
+                                            }else{
+                                                tmpzxr+="user^"+zxr[ss].id+"^"+zxr[ss].h1;
+                                            }
+                                        }
+                                        if(servicename.indexOf("公文")>-1){//公文流转
+                                            /*lazy.personmessage(function(o){
+                                                var userId = o.rows[0].userId;
+                                                var fullName = o.rows[0].fullname;
+                                                tmpzxr += "%23user^"+userId+"^" + fullName;
+                                            })*/
+                                            tmpzxr += "%23user^"+userId+"^" + fullName;
+                                            leave_data.hostDestTaskUserIds = tmpzxr;
+                                        }else{
+                                            leave_data.coDestTaskUserIds = tmpzxr;
+                                        }
+                                    }
+                                }
+                                var url = config.subleavefrom+"formData="+JSON.stringify(leave_data);
+                                lazy.URLRequest(url,function(data){
+                                    if(data.newPrimaryKeys.runId){
+                                        //请求ajax，图片路径和runId绑定
+                                        if (filearr[0]&&filearr[0].annexid){
+                                            var basedata = {}; 
+                                            basedata.serviceid = serviceId;
+                                            basedata.runid = data.newPrimaryKeys.runId;
+                                            basedata = JSON.stringify(basedata);
+                                            filearr = JSON.stringify(filearr);
+                                            var urlImg = config.urlImg + "?basedata=" + basedata + "&rowdata=" + filearr;
+                                            lazy.URLRequest(encodeURI(urlImg),function(data){
+                                                alert("提交成功");
+                                                lazy.openWin("shenpi.html")
+                                            });
+                                        }else{
+                                            alert("提交成功");
+                                            lazy.openWin("shenpi.html")
+                                        }
+                                    }
+                                })
+                              })
+                            }
+                        }
+                    	json.push(button);
+                    	setData(json)
+        	 });
+   	 	}
+    });
+    </script>
+</html>

@@ -1,0 +1,38 @@
+body[type=body] div[type=cjry]{
+    width:100%;
+    height:auto;
+}
+div[type=cjry] .cjry{
+    width: 100%;
+    min-height: 3rem;
+    background: white;
+}
+div[type=cjry] .left{
+    width: 5rem;
+    line-height: 3rem;
+    padding-left: 1rem
+}
+div[type=cjry] .right{
+    width: 3rem;
+}
+div[type=cjry] .right1{
+    width: 3rem;
+}
+div[type=cjry] a.list{
+    position: relative;
+    width: 2.5rem;
+    height:2.5rem;
+    float: right;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+}
+div[type=cjry] a .hei{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 22;
+    background: black;
+    opacity: 0.4;
+    border-radius: 50%;
+}

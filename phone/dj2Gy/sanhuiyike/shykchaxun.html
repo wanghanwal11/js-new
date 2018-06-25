@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        div[type=lazyinput] {
+            background-color: #efefef !important;
+        }
+        div[type=lazyinput] .tr{
+            margin-bottom: 0rem !important;
+        }
+        div[type=address] .icon{
+            display:none
+        }
+        div[type=address] .person{
+            display: -webkit-box
+        }
+        div[type=address] .name{
+            -webkit-box-flex: 1;
+            padding-right:0.5rem;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        div[type=address] .stat{
+            position: relative!important;
+            top:0.5rem!important;
+            right: 0!important;
+            margin-right: 1rem;
+            
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           var year=new Date().getFullYear()+"";
+           var month=new Date().getMonth()+1;
+           month=month<10?"0"+month:month
+           var sum=year+"-"+month
+           var partyname=""
+            lazy.setHeader({
+                            "title": sum,
+                            "rightbtn":[{
+                                "icon":"seltime",
+                                "onclick":function(){
+                                    lazy.time("4",function(y){
+                                        lazy.setHeader({
+                                            "title": y,
+                                            "rightbtn":[{
+                                            "icon":"seltime"
+                                        }]
+                                        });
+                                        sum=y;
+                                        getData('address').clean();
+                                        list();
+                                    })
+                                     
+                                }
+                            }]
+                        });
+             var json = [{
+                            "type" : "sousuoinput",
+                            "iconcolor" : "#ccc",
+                            "placeholder":"请输入关键字",
+                            "borderBottom" : "1px solid #ccc",
+                            "select" : function(val){
+                                page=1;
+                                partyname=val;
+                                getData('address').clean();
+                                list()
+                            }
+                       },{
+                 'id':'address',
+                 'type':'address',
+                 'table':[]
+             }];
+           
+            setData(json,function(){
+                list()
+            });
+           
+            function list(){
+                  lazy.URLRequest(getIP()+'/party/DJ_SanHuiYiKe/getactivitylight.ht?month='+sum+'&partyname='+partyname, function(data) {
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                          var color=data[i].light;
+                          if(color=='red')color='statred'
+                          if(color=='green')color='statgreen'
+                          if(color=='yellow')color='statyellow'
+                          var s={
+                             'type':'person',
+                             'title':data[i].partyname,
+                             'stat':color
+                            }
+                          getData("address").add(s,'',i)
+                      }
+                      
+                  })
+            }
+        })
+        
+    </script>
+</html>

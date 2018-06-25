@@ -1,0 +1,49 @@
+div[type=panel2]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	position:relative;
+	font-size:1rem;
+	-webkit-box-orient:vertical;
+	padding: 0 0.83rem;
+}
+div[type=panel2] .tr {
+    -webkit-box-orient:vertical;
+    height: 3.7rem;
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #bcbcbc;
+    padding-right: 1.5rem;
+    -webkit-box-sizing:border-box;
+    
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+    
+} 
+div[type=panel2] .icon {
+    height:1.4rem;
+    width:1.4rem;
+    background-image: url("images/cs_h2.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+}
+div[type=panel2] .h1 {
+    width: 100%;
+    height: 2rem;
+    line-height: 2.5rem;
+}
+div[type=panel2] .h1 span {
+    color: #444444;
+    font-size: 0.9rem;
+} 
+div[type=panel2] .h2icon {
+    height: 1.4rem;
+    line-height: 1.4rem;
+}
+div[type=panel2] .h2 span{
+    color: #999999;
+    font-size: 0.7rem;
+} 

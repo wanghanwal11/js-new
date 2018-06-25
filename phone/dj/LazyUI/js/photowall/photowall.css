@@ -1,0 +1,109 @@
+div[type=photowall]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	position:relative;
+	font-size:1rem;
+	overflow: hidden;
+}
+div[type=photowall] .tr {
+    width: 33.33%;
+    height: auto;
+    float: left;
+    text-align: center;
+    margin-bottom: 0.8rem;
+}
+div[type=photowall] .td {
+    margin: 0 auto;
+    height: 8rem;
+    width: 5rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=photowall] .icon {
+    height: 6.5rem;
+    width: 100%;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size: 100% 100%;
+    -webkit-box-sizing:border-box;
+    border-radius: 0.3rem;
+    box-shadow: 0 0 0 1px #bbb inset;
+}
+div[type=photowall] .title {
+    width: 100%;
+    height: 1.3rem;
+    line-height: 1.3rem;   
+    text-align: center;
+}
+
+div[type=photowall] .title span {
+    font-size: 0.85rem;
+}
+
+div[type=table3] .title {
+    width: 100%;
+    height: 1.7rem;
+    line-height:1.7rem;
+    overflow: hidden;
+    -webkit-box-sizing:border-box;
+    padding: 0 0.83rem;
+}
+div[type=table3] .title_icon {
+    width: 1.5rem;
+    height: 1.7rem;
+    background-size: 1.1rem;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+div[type=table3] .title .ub-f1 {
+    height: 0.9rem;
+    border-bottom:1px solid #bcbcbc;
+}
+div[type=table3] .title span {
+    font-size: 0.9rem;
+    padding-right: 1rem;
+}
+div[type=table3] .table {
+    width: 100%;
+    height: auto;
+}
+div[type=table3] .tr {
+    width: 100%;
+    height: 4.4rem;
+    overflow: hidden;
+}
+div[type=table3] .tr2 {
+    padding-top: 0.2rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=table3] .td {
+    text-align: center;
+    height: 4.4rem;
+    -webkit-box-sizing:border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2);
+}
+div[type=table3] .tr2 .td{
+    height: 8rem;
+    border-left:1px solid #bcbcbc;
+    -webkit-box-sizing:border-box;
+    padding-top: 2rem;
+}
+div[type=table3] .tr1 .td:first-child {
+    border-bottom:1px solid #bcbcbc;
+}
+div[type=table3] .icon {
+    width: 100%;
+    height: 3rem;
+    background-size: 2.6rem;
+    background-position: center;
+    background-repeat: no-repeat;
+} 
+div[type=table3] .label {
+    width:100%;
+    height: 1.38rem;
+    line-height: 0.69rem;
+    text-align: center;
+}
+div[type=table3] .label span {
+    font-size: 0.7rem;
+}

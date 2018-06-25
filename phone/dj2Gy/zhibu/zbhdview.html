@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var sou=lazy.getParameter("sou");
+            var title=lazy.getParameter("title");
+            var page=1;
+            var search = "";
+             lazy.setHeader({
+                            "title": title,
+                        });
+            var json = [
+                        {
+                            "id" : "sousuoinput1",
+                            "type" : "sousuoinput1",
+                            "select" : function(val){
+                                        page = 1;
+                                        getData("huodonglist").clean();
+                                        search = val;
+                                        load();
+                                        
+                            }
+                            },
+                          {
+                              "id" : "huodonglist",
+                              "type" : "huodonglist",
+                              "table" : []
+                        }];
+            setData(json);
+           function load () {
+                 var url = sou+search+'&page='+page+'&rows=50';
+                 lazy.URLRequest(url, function(data) {
+                                         lazy.closeBounce();
+                     var data=data.rows;
+                 if(data.length==0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                         }
+                     }else if(document.getElementsByClassName("zwsjXT")[0]){
+                         document.getElementsByClassName("zwsjXT")[0].remove()
+                     }
+                     for(var i=0;i<data.length;i++){
+                         var time="";
+                         time=lazy.format(data[i].begintime,"MM-dd")
+                         var list={
+                                        "ids":data[i].activityid,
+                                        "icon" : lazy.getImagePx(data[i].baseimagepath, 180, 120),
+                                        "h1" : data[i].servicetheme,
+                                        "h2" : "&nbsp;"+time+"&nbsp;|&nbsp;"+/*data[i].place+"&nbsp;|&nbsp;"+*/(data[i].reportcount?data[i].reportcount:"0")+"人/"+data[i].peoplecount+"人&nbsp;|&nbsp;<span style=\"color:#f90;\">"+data[i].integralname+"积分</span>",
+                                        "pl" : data[i].commentcount?data[i].commentcount:"0",
+                                        "pinglun" : function(obj) {
+                                            lazy.setParameter("huodongid",obj.ids);
+                                            lazy.setParameter("type","3");
+                                            lazy.openWin1("/dj2/faxian/pllist.html?id="+obj.ids);
+                                        },
+                                        "onclick" : function(obj) {
+                                            lazy.setParameter("huodongid",obj.ids);
+                                            lazy.openWin1("/dj2/faxian/huodongxq.html?id="+obj.ids);
+                                        }
+                                    }
+                         getData("huodonglist").add(list);
+                     }
+                     page++
+                 },function(){lazy.closeBounce();}, page>1?0:1)
+            }
+             lazy.bounce({"up":function(){
+                load()
+               }}); 
+             
+        })
+        
+    </script>
+</html>

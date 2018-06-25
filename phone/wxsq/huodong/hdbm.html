@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>报名信息</title>
+<style type="text/css">
+        body{
+            background-color: #f7f8fa !important;
+        }
+        div[type=input]{
+            border-bottom: 1px solid #efefef;
+        }
+        #inputname{
+            margin-top:1rem;
+            margin-bottom: 0 !important;
+        }
+        #button{
+             position: absolute!important;
+             top: 15rem!important;
+             margin-left: 2% !important;
+             margin-right: 2% !important;
+             width:96% !important;
+         }
+         #button .button_a{
+             background-color: #ffb401;
+             border-radius: 6px !important;
+         }
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    lazy.clearCache()
+		    
+		    var id = lazy.geturlstr("id");
+		    var openid = lazy.geturlstr("openid");
+		    var initid = lazy.geturlstr("initid");
+		    var communityid = lazy.geturlstr("communityid");
+		    var communitytype = lazy.geturlstr("communitytype");
+		    var name ="";
+            var phone ="";
+		   
+		    var json = [{
+                    "id":"inputname",
+                    "type":"input",
+                     "title":"姓名",
+                     "key":"name",
+                     "placeholder":"请输入姓名",
+                 },{
+                    "id":"inputtel",
+                    "type":"input",
+                     "title":"手机号码",
+                     "key":"tel",
+                     "inputtype":'number',
+                     "placeholder":"请输入手机号码",
+                 },{
+                 "id":"button",
+                 "type":"button",
+                 "label":'提交',
+                 "onclick":function(){
+                      name = getData("inputname").getValue()
+                      phone = getData("inputtel").getValue()
+                      //alert(name)
+                      if(!name){
+                          alert(1)
+                          lazy.alert2("请填写姓名")
+                          return;
+                      }
+                      if(!phone){
+                          lazy.alert2("请填写手机号")
+                          return;
+                      }
+                      if(phone.length!=11){
+                          lazy.alert2("输入手机号错误")
+                          return;
+                      }
+                      submitphone()
+                    
+                 }
+             }];
+             
+             setData(json)
+             function submitphone(){
+                 var url = getIP()+'/api/wx/addWxUser?realname='+name+'&mobile='+phone+'&initid='+initid+'&openid='+openid;
+                url += '&communityid='+communityid+'&communitytype='+communitytype
+                lazy.GET(url, function(data){
+                      //code = data.newPrimaryKeys.checkcode;
+                      /*if(!data.code){
+                          submitphone(phone)
+                      }else{
+                          status = 1;
+                          lazy.alert2("手机号已被占用")
+                      }*/
+                      
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },0);
+             }
+             //校验手机号是否被占用
+            function yanzhengMobile(){
+                //var url = 'http://192.168.0.27:8092/api/wx/checkweixinphone?mobile='+phone+'&initid='+initid;
+                var url = getIP()+'/wx/api/wx/checkweixinphone?mobile='+phone+'&initid='+initid;
+                lazy.GET(url, function(data){
+                      //code = data.newPrimaryKeys.checkcode;
+                      if(!data.code){
+                          submitphone(phone)
+                      }else{
+                          status = 1;
+                          lazy.alert2("手机号已被占用")
+                      }
+                      
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },0);
+            }
+	    });
+	</script>
+</body>
+</html>

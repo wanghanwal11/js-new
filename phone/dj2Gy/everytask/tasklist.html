@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                            "title":"每日任务"
+                        });
+            lazy.URLRequest(getIP()+"/party/DJ_MemberScore/getDaily.ht", function(data) {
+                var data=data.rows[0];
+                var json=[{
+                    type:"tasklist",
+                    task:[{type:!data.sign,content:"只要打开APP，点击签到即可获得1积分",title:"签到",img:"../LazyUI/js/tasklist/qiandao.png",onclick:function(){
+                        lazy.openWin("qiandao.html?reload=true")
+                    }}]
+                },{
+                    type:"tasklist",
+                    task:[{type:!data.learn,content:"学习党章党规，学习系列讲话，每学习一节，即可获得1积分",title:"学习",img:"../LazyUI/js/tasklist/xuexi.png",onclick:function(){
+                        lazy.openWin("../dzdg.html?reload=true")
+                    }}]
+                },{
+                    type:"tasklist",
+                    task:[{type:!data.experience,content:"动动手指，发表一篇心得，即可获得1积分",title:"心得",img:"../LazyUI/js/tasklist/xinde.png",onclick:function(){
+                        lazy.openWin("../xinwen/xdwrite.html?reload=true")
+                    }}]
+                }]
+                setData(json)
+            })
+
+        })
+    </script>
+</html>

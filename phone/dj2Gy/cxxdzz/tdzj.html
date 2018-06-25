@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=process] .title{
+                display: none
+            }
+            div[type=button] .buttondiv{
+                width: 90%!important;
+                border-radius: 3rem;
+                position: fixed;
+                top: 30rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d!important;
+            }
+            div[type=process] .tr{
+                border: none!important;
+            }
+            div[type=process] .tr_input input{
+                padding-left: 0.5rem;
+            }
+            div[type=process] .tr_input textarea{
+                    min-height: 6rem!important;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+             lazy.setHeader({
+                            "title":"痛点征集"
+                        });
+            var json=[{
+                "id" : "process",
+                "type" : "process",
+                "table" : [{
+                    "type":"text",
+                    "placeholder":"标题"
+                },{
+                    "type":"textarea",
+                    "placeholder":"输入内容"
+                },{
+                    "title" : "图片",
+                    "type" : "image",
+                    "httpurl" : config.oa.fileupload
+                },
+                {
+                    "title":"附件",
+                    "type" : "file",
+                    "httpurl" : config.oa.fileupload
+                }]
+            },{
+                "type":"button",
+                "label":"提交",
+                "onclick":function(){
+                     var arr=getData("process").getArray().table;
+                     var title=arr[0].value;
+                      var content=arr[1].value;
+                      var arr2=arr[2].value;
+                     var picid=[];
+                     for(var p=0;p<arr2.length;p++){
+                         picid.push(arr2[p].annexid)
+                     }
+                     var arr3=arr[3].value;
+                     var fileid=[];
+                     for(var o=0;o<arr3.length;o++){
+                         fileid.push(arr3[o].annexid)
+                     }
+                     if(title==''){
+                         lazy.alert2("标题不能为空");
+                         return;
+                     }
+                     lazy.URLRequest(getIP()+'/party/DJ_ThreeOpen/save.ht?title='+title+'&content='+content+'&photo='+picid+'&files='+fileid+'&modeltype=8', function(data) {
+                            alert("添加成功");
+                            lazy.goBack1();
+                     })
+                }
+            }]
+            setData(json)
+        })
+    </script>
+</html>

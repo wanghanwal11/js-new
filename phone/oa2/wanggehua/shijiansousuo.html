@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>事件搜索</title>
+        <style type="text/css">
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: rgb(254, 148, 62) !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+            div[type=process] .tr{
+                border-top:none!important;
+            }
+            div[type=process] input{
+                text-align: right;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setHeader({
+            "title":"事件搜索",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        lazy.URLRequest(config.getLevelName,function(data){
+            var levelname=[];
+            var data=data.rows;
+            for(var i=0;i<data.length;i++){
+               levelname.push(data[i].name);
+            }
+            var json = [{
+                    "id":"sjdj",
+                    "type" : "event_select",
+                    "title" : "事件等级",
+                    "button" : [levelname]
+                },{
+                    "id" : "process1",
+                    "type" : "process",
+                    "table" : [
+                        {
+                            "title" : "事件类型",
+                            "type" : "overtime",
+                            "url" : "shijianleixing.html"
+                        },
+                        {
+                            "title" : "事件标题",
+                            "type" : "input",
+                            "placeholder" : "请输入"
+                        }
+                    ]
+                },{
+                    "id":"sjzt",
+                    "type" : "event_select",
+                    "title" : "事件等级",
+                    "button" : [["待分派","已退回","待转办"],["处理中","待核实","已核实"],["已归档","",""]]
+                },{
+                    "id" : "process2",
+                    "type" : "process",
+                    "table" : [
+                        {
+                            "title" : "起始时间",
+                            "type" : "date",
+                            "placeholder" : "请选择"
+                        },
+                        {
+                            "title" : "结束时间",
+                            "type" : "date",
+                            "placeholder" : "请选择"
+                        }
+                    ]
+                },{
+                    "type" : "button",
+                    "label" : "搜索",
+                    "onclick" : function(){
+                        var arr1=getData("sjdj").getData();
+                        var levelid=[];
+                        for(var n=0;n<arr1.length;n++){
+                          var j=arr1[n].j;
+                          levelid.push(j)
+                        }
+                        var title = getData("process1").getArray().table[1].value;
+                        var eventtype = ""; var subtypeid = "";
+                        if(getData("process1").getArray().table[0].value.length>0){
+                            eventtype = getData("process1").getArray().table[0].value[0].h1;
+                            subtypeid = getData("process1").getArray().table[0].value[0].id;
+                        }
+                        var arr2=getData("sjzt").getData();
+                        var state=[];
+                        for(var n=0;n<arr2.length;n++){
+                           var i=arr2[n].i;
+                           var j=arr2[n].j;
+                           if(i==0) state.push(j+1)
+                           if(i==1) state.push(j+4);
+                           if(i==2) state.push(j+7)
+                        }
+                        var st=getData("process2").getArray().table[0].value;
+                        var et=getData("process2").getArray().table[1].value;
+                        var sd = new Date(st);
+                        var ed = new Date(et);
+                        if(st!=""&et!=""&&sd>ed) alert("起始时间不能大于结束时间")
+                        else if(levelid.length<1&&eventtype==""&&title==""&&state.length<1&&st==""&&et=="") alert("搜索条件不能全部为空");
+                        else{
+                            var url=config.eventsearchMobile;
+                            if(levelid!="") url+="levelids="+levelid+"&";
+                            if(subtypeid!="") url+="subtypeid="+subtypeid+"&";
+                            if(title!="") url+="title="+title+"&";
+                            if(state.length>1) url+="states="+state+"&";
+                            if(state.length==1) url+="state="+state+"&";
+                            if(st!="") url+="begincreatetime="+st+"&";
+                            if(et!="") url+="endcreatetime="+et+"&";
+                            lazy.setParameter("searchshijian",url);
+                            lazy.openWin("sjssjg.html")
+                        }
+                    }
+                }
+             ]
+            // json.unshift({
+                // "id" : "headertoolbar",
+                // "type" : "headertoolbar",
+                // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                // "color" : "#fff",
+                // "border" : "none",
+                // "title" : '事件搜索',
+                // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                // "select" : function(name, index) {
+                    // if(name=="left"&&index==0){
+                        // lazy.goBack();
+                    // }
+                    // if(name=="left"&&index==1){
+                        // lazy.close();
+                    // }
+                // }
+            // })
+            setData(json)
+        })
+    });
+    </script>
+</html>

@@ -1,0 +1,12 @@
+body{
+    background-color: #FFFFFF;
+}
+body[type=body] div[type=ceshi]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+}
+div[type=ceshi] .table {
+    width:100%;
+    height:auto;
+}

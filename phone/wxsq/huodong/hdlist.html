@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>社区活动</title>
+        <style>
+            body{
+                background-color: #f7f8fa !important;
+            }
+           .zwsjXT{
+               margin-top:6rem !important;
+               background-size: 100% !important;
+           }
+           
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.clearCache();
+             var page=1;
+             lazy.setParameter("gb",0)
+             var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+             var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+             
+             var json=[{
+                        "type" : "sousuoinput",
+                        "re":lazy.geturlstr("val")?lazy.geturlstr("val"):"",
+                        "select" : function(val1){
+                            if(val1!=""){
+                                   val=val1;
+                                   page=1;
+                                   getData("hdlist").clean();
+                                   getHDList(val);
+                                }
+                        },
+                        "foc":true
+                 },{
+                     "id":"hdlist",
+                     "type":"hdlist",
+                     "table":[]
+               }];
+             setData(json,function(){
+                 getHDList()
+             })
+                function getHDList(val){
+                     //var url = 'http://192.168.0.103:8098/SupOrder/supOrder/list?openid='+openid
+                     var url = getIP()+'/cmy/activity/cmyactivity/weixinAllList?rows=10&page='+page+'&openid='+openid+'&initid='+initid
+                     if(val) url+="&title="+val
+                     lazy.GET(url,function(data){
+                         _data = data.rows
+                         lazy.for(_data,function(obj){
+                             var status = 1;
+                             var date = new Date();
+                            var date3 = new Date(obj.endttime);
+                            if(date.getTime() > date3.getTime())  status = 0;
+                            /*时间处理*/
+                            var time1 = lazy.format(obj.starttime,'yyyy-MM-dd HH:mm');
+                            var timestr1 = time1.split(' ');
+                            if(timestr1[1].substring(0,2)=='00') time1 = timestr1[0];
+                            
+                            var time2 = lazy.format(obj.endtime,'yyyy-MM-dd HH:mm');
+                            var timestr2 = time2.split(' ');
+                            if(timestr2[1].substring(0,2)=='00') time2 = timestr2[0];
+                            
+                            var time = ""
+                            if(time1 == time2){
+                                time = time1
+                            }else{
+                                time = time1+" 至   "+time2
+                            }
+                             var s = {
+                                 "id":obj.id,
+                                 //"picture":obj.cover,
+                                 "picture":lazy.getImagePx(obj.cover, 240),
+                                 "title":obj.title,
+                                 "address":obj.address,
+                                 "type":obj.activitytype,
+                                 "time":time,
+                                 "onclick":function(obj){
+                                	 //alert(1)
+                                	 var url = "hdxq.html?id="+obj.id+"&initid="+initid;
+                                	 ///alert(url)
+                                     lazy.openWin(url)
+                                     //lazy.setParameter("initid",initid)
+                                     lazy.setParameter("openid",openid)
+                                 }
+                             }
+                             getData("hdlist").add(s)
+                         })
+                         page++;
+                        lazy.closeBounce();   
+                    },function(e){
+                         lazy.closeBounce();
+                        lazy.alert2("错误信息!:"+e);
+                    },0)
+
+                }
+                lazy.bounce({
+                   "up" : function() {
+                       getHDList();
+                   } 
+                });
+            
+        });
+    </script>
+</html>

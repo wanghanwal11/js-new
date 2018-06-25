@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        #cjry a.list{
+            border-radius: 0%!important;
+        }
+        #cjry .left{
+            line-height: 3.5rem!important;
+        }
+        #button  .buttondiv{
+            background-color: #fb3d3d;
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var huodongid=lazy.getParameter("huodongid")
+            var people=lazy.getParameter("people")
+            var isreport=lazy.getParameter("isreport")
+            var reportcount=lazy.getParameter("reportcount");
+            var peoplecount=lazy.getParameter("peoplecount");
+            lazy.URLRequest(djconfig.activityset+"activityid="+huodongid, function(data) {
+                var data=data.rows;
+                var arr=[];
+                for(var i=0;i<data.length;i++){
+                    var obj={};
+                    obj.src=data[i].userpicture?getIP()+(data[i].userpicture).replace(/\\/g,"/"):"../LazyUI/js/cjry/morenpeople.png";
+                    obj.state=data[i].ispartyin;
+                    arr.push(obj)
+                }
+                var json = [{
+                            "type" : "headertoolbar",
+                            "title" : "活动设置",
+                            "left" : ["../LazyUI/images/fanhui.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"){
+                                    lazy.goBack1()
+                                }
+                            }
+                         },{
+                            "type" : "cjry",
+                            "left" : people,
+                            "right":"../LazyUI/js/cjry/xia.png",
+                            "center":arr
+                        },{
+                            "id":"cjry",
+                            "type" : "cjry",
+                            "left" : "二维码",
+                            "right1":"../LazyUI/js/cjry/right1.png",
+                            "center":["../LazyUI/js/cjry/ewm.png"],
+                            "style":{"margin-top":"1rem","height":"3rem"},
+                            "onclick":function(){
+                                    lazy.alert("<span style=\"color:#f20;\">活动二维码</span></br><img style='width:13rem' src='"+djconfig.createCode+"url="+"basicactivities/Activity_Integralrecord/signin.ht?activityid="+huodongid+"&type=Activity_Base"+"'/>",{
+                                             "close" : function() {
+                                               }
+                                     });
+                                
+                            }
+                        }];
+                  if(isreport=="1"){
+                      var s={
+                            "id":"button",
+                            "type":"button",
+                            "label":"取消报名",
+                            "style":{"position":"absolute","bottom":"1rem"},
+                            "onclick":function(){
+                                lazy.URLRequest(djconfig.updateIsreport+"activityid="+huodongid, function(data) {
+                                    lazy.setParameter("isreport","0");
+                                    lazy.setParameter("people",(reportcount>0?reportcount-1:"0")+"人/"+peoplecount+"人")
+                                    lazy.alert("<img style='width:4rem' src='../LazyUI/images/dui.png'></br><span style=\"color:#f20;\">取消报名成功</span>",{
+                                        "yesfun" : function(){
+                                            lazy.refresh();
+                                        },
+                                        "close" : function() {
+                                            lazy.refresh();
+                                        }
+                                     });
+                                })
+                            }
+                        }
+                      json.push(s)
+                  }
+                setData(json)
+            })
+            
+        })
+    </script>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>用户须知</title>
+<style type="text/css">
+        body{
+            background-color: #ffffff !important;
+        }
+        div[type=button]{
+        	padding: 1rem;
+        }
+        div[type=button] .button_a {
+        	border-radius: 1rem;
+        	background-color: #ffb401  !important;
+        }
+       
+        div[type=div2] .content p{
+           margin-top: 0rem !important;
+        }
+        div[type=div2] .content {
+            white-space: pre;
+        }
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    lazy.clearCache()
+			var url = getIP() + "/wx/wechat/weixineventdir/getDirByinitId.ht?initid="+lazy.geturlstr("initid");
+            lazy.GET(url,function(_data){
+                setData([
+                    
+                    {
+                        "id" : "div2",
+                        "type" : "div2",
+                        //"text" : 0,
+                        "textareatext" : _data.rows[0].eventdirectory,
+                       // "text":'<p style=\'white-space:normal;\'>\r\n   <strong>一、诉求件处理流程：</strong>\r\n</p>\r\n<span style=\'white-space:normal;\'>市民发送诉求件→“民情通呼叫中心”转发诉求件至承办单位→承办单位接收诉求件后及时核实处理→承办单位回复办理意见答复市民→“民情通呼叫中心”回访市民</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'><strong>二、诉求件办理时限：</strong></span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>1.紧急事件办理时限：正常工作日24小时内。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>2.一般事件办理时限：正常工作日5个工作日内。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'><strong>三、注意事项：</strong></span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>1.投诉举报类诉求请市民留下真实联系方式，以便进一步了解情况，市民的电话号码和IP地址联系方式将受到保护。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>2.市民需承担因您的诉求件内容而直接或间接引起的法律责任。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>3.请您在发表诉求时使用文明用语，含有不文明用语的诉求件，系统不予受理。</span>'
+                    },
+                   
+                    /*{
+                        "id" : "button",
+                        "type" : "button",
+                        "label" : "我已阅读并同意遵守上述内容",
+                        "onclick" : function() {
+                            var url = "suqiu.html?openid="+lazy.geturlstr("openid")+"&initid="+lazy.geturlstr("initid")+'&username='+lazy.geturlstr("username")+'&headpicture='+lazy.geturlstr("headpicture");
+                            lazy.openWin(url);
+
+                        }
+                    }*/
+                ],function(){
+                    
+                    var height = document.body.getElementsByTagName('textarea')[0].scrollHeight;
+                    document.body.getElementsByTagName('textarea')[0].style.height = height + 'px'
+                    
+                   
+                });
+            });
+			
+			
+			});
+	</script>
+</body>
+</html>

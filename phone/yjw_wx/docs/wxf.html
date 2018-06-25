@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>docs</title>
+    <script src="../LazyUI/js/admin.js"></script>
+</head>
+<body></body>
+<script>
+    start(function() {
+        setData([
+            {
+                "type":"a",
+                "list":[{
+                    "class":"button",
+                    "content":[{
+                        "data":{
+                            type : 'button',
+                            label : '界面操作normal',
+                            //qwe456s
+                            onclick : function() {
+                                    alert(1)
+                             }
+                        },
+                        "tips":"界面操作normal"
+                    },{
+                        "data":{
+                           type : 'button',
+                           label : '界面操作disabled',
+                           disabled : true,
+                           onclick : function() {
+                                    
+                            }
+                        },
+                        "tips":"界面操作disabled"
+                    },{
+                        "data":{
+                            type : 'button',
+                            label : '不填满',
+                            fill : false,
+                        },
+                        "tips":"不填满"
+                    },{
+                        "data":{
+                            type : 'button',
+                            color : 'red',
+                            label : '颜色color',
+                            onclick : function() {
+                                        
+                            }
+                        },
+                        "tips":"颜色"
+                    }]
+                },{
+                    "class":"input",
+                    "content":[{
+                        "data":{
+                             type : 'label',
+                             text : '标签'
+                        },
+                        "tips":"标签"
+                    },{
+                        "data":{
+                            type : 'input',
+                            placeholder : '请输入文本',
+                            inputtype : 'text'
+                        },
+                        "tips":"input框"
+                    },{
+                        "data":{
+                          type : 'input',
+                          placeholder : '存储文本',
+                          inputtype : 'textarea'
+                        },
+                        "tips":"textarea框"
+                    }]
+                }]
+            }
+        ]);
+    });
+</script>
+</html>

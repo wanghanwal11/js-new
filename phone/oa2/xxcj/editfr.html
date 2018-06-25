@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>人口编辑</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important
+            }
+            div[type=geren] .title{
+                color:black
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+                var frobj = lazy.getParameter("fr");
+                var lyobj = lazy.getParameter("ly");
+                var url = config.frlb+"id="+frobj.id+"&name=";
+                
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows[0];
+                    lazy.setHeader({
+                        "title":"法人编辑",
+                        "color":lazy.getParameter("Bgcolor"),
+                        "rightbtn" : [
+                            {
+                                "icon":"dui.png",
+                                "onclick":function(){
+                                    var arr = getData("process").getArray().table;
+                                    var url=config.frtj2+"id="+frobj.id+"&buildingid="+lyobj.id+"&orgid="+lyobj.orgid+"&orgpath="+lyobj.orgpath+"&status=正常";
+                                    //var url=config.frtj2+"id="+frobj.id+"&buildingname="+lyobj.name+"&buildingid="+lyobj.id+"&orgid="+lyobj.orgid+"&orgname="+lyobj.orgname+"&orgpath="+lyobj.orgpath+"&address="+lyobj.address+"&status=正常";
+                                    for(var i=0;i<arr.length;i++){
+                                        if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                            lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                            return;
+                                        }
+                                        if(arr[i].value!=""){
+                                            if(arr[i].type=="select"){
+                                                if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                                if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                                //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                            }else{
+                                                url+="&"+arr[i].id+"="+arr[i].value
+                                            }
+                                        }
+                                    }
+                                    //alert(url)
+                                    lazy.URLRequest(url,function(){
+                                        alert("添加成功");
+                                        lazy.openWin("frlb.html")
+                                    })
+                                 }
+                            }
+                        ]
+                    });
+                    var json = [
+                            {
+                                "id" : "process",
+                                "type" : "process",
+                                "icon" : "",
+                                "table" : [
+                                    {
+                                        "id" : "name",
+                                        "title" : "名称(必填)",
+                                        "value" : data.name
+                                    },
+                                    {
+                                        "id" : "buildingname",
+                                        "title" : "楼宇名称",
+                                        "value" : data.buildingname
+                                    },
+                                    {
+                                        "id" : "orgname",
+                                        "title" : "行政区域",
+                                        "value" : data.orgname
+                                    },
+                                    {
+                                        "id" : "address",
+                                        "title" : "所在地址",
+                                        "value" : data.address
+                                    },
+                                    {
+                                        "id" : "abbreviation",
+                                        "title" : "单位简称",
+                                        "value" : data.abbreviation
+                                    },
+                                    {
+                                        "id" : "areacodename",
+                                        "title" : "行政区划代码",
+                                        "value" : data.areacodename
+                                    },
+                                    {
+                                        "id" : "corp",
+                                        "title" : "法人(必填)",
+                                        "value" : data.corp
+                                    },
+                                    {
+                                        "id" : "typeid",
+                                        "name" : "typename",
+                                        "title" : "机构类型(必填)",
+                                        "type" : "select",
+                                        "option" : base_datas.Type,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.typename?data.typename:"无记录"
+                                        "value" : {"html":data.typename,"value":data.typeid},
+                                    },
+                                    {
+                                        "id" : "organizationcode",
+                                        "title" : "组织机构代码",
+                                        "value" : data.organizationcode
+                                    },
+                                    {
+                                        "id" : "floor",
+                                        "title" : "楼层",
+                                        "type" : "number",
+                                        "placeholder" : "请输入",
+                                        "value" : data.floor
+                                    },
+                                    {
+                                        "id" : "unit",
+                                        "title" : "单元号",
+                                        "type" : "number",
+                                        "placeholder" : "请输入",
+                                        "value" : data.unit
+                                    },
+                                    {
+                                        "id" : "housenum",
+                                        "title" : "房间号",
+                                        "placeholder" : "请输入",
+                                        "value" : data.housenum
+                                    },
+                                    {
+                                        "id" : "areatypeid",
+                                        "name" : "areatypename",
+                                        "title" : "占地面积",
+                                        "type" : "select",
+                                        "option" : base_datas.areaType,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.areatypename?data.areatypename:"无记录"
+                                        "value" : {"html":data.areatypename,"value":data.areatypeid},
+                                    },
+                                    {
+                                        "id" : "landline",
+                                        "title" : "固定电话",
+                                        "placeholder" : "请输入",
+                                        "value" : data.landline
+                                    },
+                                    {
+                                        //"id" : "nativeplaceaddress",
+                                        "id" : "mobiles",
+                                        "title" : "移动电话",
+                                        "placeholder" : "请输入",
+                                        "value" : data.mobiles
+                                    },
+                                    {
+                                        "id" : "fax",
+                                        "title" : "传真",
+                                        "placeholder" : "请输入",
+                                        "value" : data.fax
+                                    },
+                                    {
+                                        "id" : "postcode",
+                                        "title" : "邮政编码",
+                                        "placeholder" : "请输入",
+                                        "value" : data.postcode
+                                    },
+                                    {
+                                        "id" : "email",
+                                        "title" : "电子邮箱",
+                                        "placeholder" : "请输入",
+                                        "value" : data.email
+                                    },
+                                    {
+                                        "id" : "website",
+                                        "title" : "网址",
+                                        "placeholder" : "请输入",
+                                        "value" : data.website
+                                    },
+                                    {
+                                        "id" : "industrytypeid",
+                                        "name" : "industrytypename",
+                                        "title" : "行业类别",
+                                        "type" : "select",
+                                        "option" : base_datas.industryType,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.industrytypename?data.industrytypename:"无记录"
+                                        "value" : {"html":data.industrytypename,"value":data.industrytypeid},
+                                    },
+                                    {
+                                        "id" : "businesstypeid",
+                                        "name" : "businesstypename",
+                                        "title" : "登记注册类型",
+                                        "type" : "select",
+                                        "option" : base_datas.businesstype,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.businesstypename?data.businesstypename:"无记录"
+                                        "value" : {"html":data.businesstypename,"value":data.businesstypeid},
+                                    },
+                                    {
+                                        "id" : "operatingstatusid",
+                                        "name" : "operatingstatusname",
+                                        "title" : "营业状态",
+                                        "type" : "select",
+                                        "option" : base_datas.OperatingStatus,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.operatingstatusname?data.operatingstatusname:"无记录"
+                                        "value" : {"html":data.operatingstatusname,"value":data.operatingstatusid},
+                                    },
+                                    {
+                                        "id" : "holdingtypeid",
+                                        "name" : "holdingtypename",
+                                        "title" : "企业控股类型",
+                                        "type" : "select",
+                                        "option" : base_datas.HoldingType,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.holdingtypename?data.holdingtypename:"无记录"
+                                        "value" : {"html":data.holdingtypename,"value":data.holdingtypeid},
+                                    },
+                                    {
+                                        "id" : "afiliationid",
+                                        "name" : "afiliationname",
+                                        "title" : "隶属关系",
+                                        "type" : "select",
+                                        "option" : base_datas.Afiliation,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.afiliationname?data.afiliationname:"无记录"
+                                        "value" : {"html":data.afiliationname,"value":data.afiliationid},
+                                    },
+                                    {
+                                        "id" : "zxkjtypeid",
+                                        "name" : "zxkjtypename",
+                                        "title" : "会计标准类别",
+                                        "type" : "select",
+                                        "option" : base_datas.ZXKJType,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.zxkjtypename?data.zxkjtypename:"无记录"
+                                        "value" : {"html":data.zxkjtypename,"value":data.zxkjtypeid},
+                                    },
+                                    {
+                                        "id" : "unitscaleid",
+                                        "name" : "unitscalename",
+                                        "title" : "单位规模",
+                                        "type" : "select",
+                                        "option" : base_datas.UnitScale,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.unitscalename?data.unitscalename:"无记录"
+                                        "value" : {"html":data.unitscalename,"value":data.unitscaleid},
+                                    },
+                                    {
+                                        "id" : "personnercount",
+                                        "title" : "职工人数",
+                                        "type" : "number",
+                                        "placeholder" : "请输入",
+                                        "value" : data.personnercount
+                                    },
+                                    {
+                                        "id" : "general",
+                                        "title" : "单位简介",
+                                        "placeholder" : "请输入",
+                                        "value" : data.general
+                                    },
+                                    {
+                                        "id" : "partynum",
+                                        "title" : "党员人数",
+                                        "type" : "number",
+                                        "placeholder" : "请输入",
+                                        "value" : data.partynum
+                                    },
+                                    {
+                                        "id" : "registerfund",
+                                        "title" : "注册资金",
+                                        "type" : "number",
+                                        "placeholder" : "请输入",
+                                        "value" : data.registerfund
+                                    },
+                                    {
+                                        "id" : "annualsale",
+                                        "title" : "年销售额",
+                                        "type" : "number",
+                                        "placeholder" : "请输入",
+                                        "value" : data.annualsale
+                                    },
+                                    {
+                                        "id" : "taxpayment",
+                                        "title" : "年缴税额",
+                                        "type" : "number",
+                                        "placeholder" : "请输入",
+                                        "value" : data.taxpayment
+                                    },
+                                    {
+                                        "id" : "annualcheckdate",
+                                        "title" : "年检日期",
+                                        "type" : "date",
+                                        "placeholder" : "请选择",
+                                        //"value" : data.annualcheckdate?data.annualcheckdate:"无记录"
+                                        "value" : data.annualcheckdate?lazy.format(data.annualcheckdate,"yyyy-MM-dd"):"无记录"
+                                    },
+                                    {
+                                        "id" : "approvalorgname",
+                                        "title" : "注册批准机构",
+                                        "placeholder" : "请输入",
+                                        "value" : data.approvalorgname
+                                    },
+                                    {
+                                        "id" : "currencytypeid",
+                                        "name" : "currencytypename",
+                                        "title" : "货币名称",
+                                        "type" : "select",
+                                        "option" : base_datas.currencytype,
+                                        "placeholder" : "请选择",
+                                        //"value" : data.currencytypename?data.currencytypename:"无记录"
+                                        "value" : {"html":data.currencytypename,"value":data.currencytypeid},
+                                    },
+                                    {
+                                        "id" : "establishdate",
+                                        "title" : "成立日期",
+                                        "type" : "date",
+                                        "placeholder" : "请选择",
+                                        "value" : data.establishdate?lazy.format(data.establishdate,"yyyy-MM-dd"):"无记录"
+                                    },
+                                    {
+                                        "id" : "registcode",
+                                        "title" : "单位注册号",
+                                        "placeholder" : "请输入",
+                                        "value" : data.registcode
+                                    },
+                                    {
+                                        "id" : "mainbusinesses",
+                                        "title" : "主要业务活动",
+                                        "placeholder" : "请输入",
+                                        "value" : data.mainbusinesses
+                                    },
+                                    {
+                                        "id" : "nameofjoiningcommerce",
+                                        "title" : "加入商会名称",
+                                        "placeholder" : "请输入",
+                                        "value" : data.nameofjoiningcommerce
+                                    },
+                                    {
+                                        "id" : "regauthority",
+                                        "title" : "工商登记机关",
+                                        "placeholder" : "请输入",
+                                        "value" : data.regauthority
+                                    },
+                                    {
+                                        "id" : "taxnumber",
+                                        "title" : "税务登记号",
+                                        "placeholder" : "请输入",
+                                        "value" : data.taxnumber
+                                    },
+                                    {
+                                        "id" : "taxreporting",
+                                        "title" : "纳税申报机关",
+                                        "placeholder" : "请输入",
+                                        "value" : data.taxreporting
+                                    },
+                                    {
+                                        "id" : "depositarybank",
+                                        "title" : "开户银行",
+                                        "placeholder" : "请输入",
+                                        "value" : data.depositarybank
+                                    },
+                                    {
+                                        "id" : "bankaccountname",
+                                        "title" : "银行户名",
+                                        "placeholder" : "请输入",
+                                        "value" : data.bankaccountname
+                                    },
+                                    {
+                                        "id" : "bankaccount",
+                                        "title" : "银行账号",
+                                        "placeholder" : "请输入",
+                                        "value" : data.bankaccount
+                                    },
+                                    {
+                                        "id" : "socialregnumber",
+                                        "title" : "社保登记证号",
+                                        "placeholder" : "请输入",
+                                        "value" : data.socialregnumber
+                                    },
+                                    {
+                                        "id" : "statereason",
+                                        "title" : "注销原因",
+                                        "placeholder" : "请输入",
+                                        "value" : data.statereason
+                                    },
+                                    {
+                                        "id" : "datasource",
+                                        "title" : "数据来源",
+                                        "placeholder" : "请输入",
+                                        "value" : data.datasource
+                                    },
+                                    {
+                                        "id" : "remark",
+                                        "title" : "备注",
+                                        "placeholder" : "请输入",
+                                        "value" : data.remark
+                                    }
+                                ]
+                            }
+                            
+                            /*
+                            ,{
+                                "type" : "button",
+                                "label" : "保存",
+                                "onclick":function(){
+                                    var arr = getData("process").getArray().table;
+                                    var url=config.frtj2+"id="+frobj.id+"&buildingid="+lyobj.id+"&orgid="+lyobj.orgid+"&orgpath="+lyobj.orgpath+"&status=正常";
+                                    //var url=config.frtj2+"id="+frobj.id+"&buildingname="+lyobj.name+"&buildingid="+lyobj.id+"&orgid="+lyobj.orgid+"&orgname="+lyobj.orgname+"&orgpath="+lyobj.orgpath+"&address="+lyobj.address+"&status=正常";
+                                    for(var i=0;i<arr.length;i++){
+                                        if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                            lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                            return;
+                                        }
+                                        if(arr[i].value!=""){
+                                            if(arr[i].type=="select"){
+                                                if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                                if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                                //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                            }else{
+                                                url+="&"+arr[i].id+"="+arr[i].value
+                                            }
+                                        }
+                                    }
+                                    //alert(url)
+                                    lazy.URLRequest(url,function(){
+                                        alert("添加成功");
+                                        lazy.openWin("frlb.html")
+                                    })
+                                 }
+                            }
+                            */
+                            
+                            
+                            
+                            
+                                
+                    ];
+                    setData(json,function(){
+                        document.getElementById('buildingname').getElementsByTagName('input')[0].setAttribute('readonly',true);
+                        document.getElementById('orgname').getElementsByTagName('input')[0].setAttribute('readonly',true);
+                        document.getElementById('address').getElementsByTagName('input')[0].setAttribute('readonly',true);
+                    })
+                })
+        });
+    </script>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+
+<title>诉求</title>
+<style type="text/css">
+     body{
+         background-color: #efefef !important;
+     }
+     .button_a{
+         border-radius: 0.3rem !important;
+     }
+     #button{
+         position: absolute!important;
+         top: 28rem!important;
+     }
+     #button1{
+         position: absolute!important;
+         top: 32rem!important;
+     }
+     #button1 .button_a{
+         border: 1px solid #aaa;
+         background-color: #ffffff;
+     }
+     #button1 .button_a span{
+         color:#aaa;
+     }
+     #bounce_loading{
+          display:none;
+     }
+     textarea{
+         padding-left:0 !important;
+     }
+     input{
+         padding-left:0 !important;
+     }
+
+    div[type=navbar] .li_c{
+        color: #ff8a00 !important;
+        border-bottom: 2px solid #ff8a00 !important;
+    }
+    div[type=image] .add {
+        background-image: url('../LazyUI/images/suqiu/takepicture.png') !important;
+        width:6rem !important;
+    }
+    div[type=image] .cha {
+        width: 1.2rem !important;
+        height: 1.2rem !important;
+        border-radius: 1.2rem !important;
+        background-color: #ffffff !important;
+        background-image: url('../LazyUI/images/suqiu/cha.png') !important;
+        right:-0.5rem !important;
+        background-size: 90% !important;
+    }
+    div[type=input] .icon{
+        background-size: 1.2rem !important;
+    }
+    #xieyi{
+        background-color: transparent !important;
+    }
+    
+</style>
+</head>
+<body>
+    <script>
+    var isPageHide = false; 
+    window.addEventListener('pageshow', function () { 
+      if (isPageHide) { 
+        window.location.reload(); 
+      } 
+    }); 
+    window.addEventListener('pagehide', function () { 
+      isPageHide = true; 
+    }); 
+    var address = '';
+        start(function() {
+            lazy.clearCache();
+            
+            GoBackEvent2 = function() {
+                getData('map').hide();
+                getData('ts_group').show();
+                
+            }
+            var username = lazy.geturlstr("username")
+            var headpicture=lazy.geturlstr("headpicture")
+            var map_obj={ y : 0, x : 0};
+             var initid = lazy.geturlstr("initid");
+            var openid = lazy.geturlstr("openid");
+             var url = getIP()+"/wx/api/wx/checkinitidphone?openid="+openid+"&initid="+initid;
+                lazy.GET(url,function(data){
+                        if(data.code){
+                            loadhtml()
+                        }else{
+                            //绑定手机号
+                            lazy.openWin("yanzheng.html?openid="+openid+"&initid="+initid)
+                        }
+                    },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                    },0)
+            // loadhtml()   
+            function loadhtml(){
+                lazy.loadWxJs(function(){
+                    getCitycode(function(center_gps){
+                        var json = [
+                        {
+                            id : 'ts_group',
+                            type : 'group',
+                            list : [{
+                                id:"input_ts",
+                                type:"input",
+                                inputtype:"textarea",
+                                key:"tsnr",
+                                placeholder:"请输入投诉内容及地点，例如区县乡镇等",
+                               
+                            },{
+                                id: "image",
+                                type: "image",
+                                label: "附件",
+                                key:"tskey",
+                                src: "../LazyUI/images/zhibu/default.jpg"
+                            },{
+                                 id:"map_button",
+                                 type:"input",
+                                 placeholder:"定位中...",
+                                 key:"tsdw",
+                                 icon:"../LazyUI/images/suqiu/address.png",
+                                 onclick:function(){
+                                        lazy.setGoBack();
+                                        getData('map').show();
+                                        getData('ts_group').hide();
+                                  }
+                             },{
+                                        id:"xieyi",
+                                        type : 'textarea',
+                                        title: '我已阅读并同意<a href="xuzhi.html?initid='+initid+'"style="color:#2c5e8d">《诉求须知》</a>',
+                                        widget : 'singlebutton',
+                                        choose:lazy.getParameter("checked"),
+                                        onclick : function(obj,index) {
+                                            //lazy.openWin("xuzhi.html")
+                                        }
+                                       
+                              }/*,{
+                                 id:"tele_button",
+                                 type:"input",
+                                 placeholder:"电话",
+                                 key:"tsdh",
+                                 
+                             }*/,{
+                                 id:'button',
+                                 type : 'button',
+                                 label : '提交',
+                                 disabled : true,
+                                 onclick : function() {
+                                    submit()
+                                    //clear()
+                                }
+                             },{
+                                 id:'button1',
+                                 type : 'button',
+                                 label : '清空',
+                                 disabled : true,
+                                 onclick : function() {
+                                    clear()
+                                }
+                             }]
+                        },{
+                            id : 'map',
+                            type : 'map',
+                            center:center_gps,
+                            showHide : 'hide',
+                            onclick : function(obj) {
+                                map_obj.y=obj.gps.lat;
+                                map_obj.x=obj.gps.lng;
+                               
+                               
+                                lazy.goBack(GoBackEvent2);
+                                getData('map').hide();
+                                getData('ts_group').show();
+                                getData("map_button").add(obj.address);
+                               
+                            }
+                        }]
+                        setData(json,function() {
+                            setTimeout(function(){
+                                console.log(document.getElementById("input_ts"))
+                                if(document.getElementsByTagName("textarea")[0].value){
+                                    setTimeout(function(){
+                                        getData('button').change_color('#ffb401');
+                                        getData('button1').change_bordercolor('#ffb401');
+                                        getData('button1').change_textcolor('#ffb401');
+                                        getData('button').change(false);
+                                        getData('button1').change(false);
+                                    },1000)
+                                    
+                                }
+                                document.getElementsByTagName("textarea")[0].oninput = function(){
+                                    getData('button').change_color('#ffb401');
+                                    getData('button1').change_bordercolor('#ffb401');
+                                    getData('button1').change_textcolor('#ffb401');
+                                    getData('button').change(false);
+                                    getData('button1').change(false);
+                                   
+                                }
+                                if(lazy.getParameter("tsnr")||lazy.getParameter("tsdw")||lazy.getParameter("tsdh")){
+                                    //var button = document.getElementById("button");
+                                    getData('button').change_color('#ffb401');
+                                    getData('button1').change_bordercolor('#ffb401');
+                                    getData('button1').change_textcolor('#ffb401');
+                                    getData('button').change(false);
+                                    getData('button1').change(false);
+                                }
+                                if(!getData("map_button").getValue()){
+                                     setTimeout(function(){
+                                          if(lazy.getParameter('dw') == 1){
+                                              lazy.alert2('定位失败')
+                                              //getData("map_button").add('定位失败，请在此输入地址');
+                                              document.getElementById("map_button").getElementsByTagName('input')[0].placeholder = '定位失败，请切换网络'
+                                          }else{
+                                              if(lazy.getParameter('dwdata')){
+                                                  var obj = lazy.getParameter('dwdata')
+                                                  //alert(JSON.stringify(obj))
+                                                  getData("map_button").add(obj.address);
+                                                  map_obj.y=obj.gps.lat;
+                                                  map_obj.x=obj.gps.lng;
+                                              }
+                                          }
+                                     },6000)
+                                 }
+                            },1000)
+                            
+                             
+                            
+                            
+                            
+                            
+                        });
+                    })
+                    
+                });//loadwxjs
+            }
+            function getCitycode(back){
+                var url = getIP()+'/wx/wechatgl/gzhguanli/getgzhbyinitid?initid='+initid;
+                lazy.GET(url, function(data){
+                     gpsstring=data.rows[0].swurl
+                     
+                     var temp = {
+                    	lng:gpsstring?gpsstring.split(',')[0]:116.397428,
+                        lat:gpsstring?gpsstring.split(',')[1]:39.90923
+                     }
+                     //alert(JSON.stringify(temp))
+                     back(temp)
+                 },function(e){
+                     lazy.alert2(e);
+                      
+                 },0);
+            }         
+            function submit(){
+                checked = lazy.getParameter("checked");
+                if(!checked){
+                    lazy.alert2('请阅读诉求协议')
+                     return;
+                }
+                var content=getData("input_ts").getValue();
+                if (content.length == 0) {
+                    lazy.alert2("请填写诉求内容");
+                    return;
+                }
+                var photo=getData("image").getValue();
+                var address=getData("map_button").getValue();
+                /*var mobile=getData("tele_button").getValue();
+                var result1=mobile.match(/^0\d{2}-?\d{8}$|^0\d{3}-?\d{7}$/);
+                var result2=mobile.match(/^1(3|4|5|7|8)\d{9}$/);
+                
+                if(!(result1||result2)){
+                    alert("请填写有效的电话号码");
+                    return;
+                }*/
+                getData('button').disabled_change(true);
+                getData('button').change_title('提交中...');
+                getData('button1').disabled_change(true);
+                getData('button1').change_textcolor('#aaa');
+                /*var url = 'http://101.200.52.9:8092/wechat/weixinevent/save.ht?content='
+                                    + content + '&initid=' + initid
+                                    + '&openid=' + openid + '&address='
+                                    + address + '&addressgps='
+                                    + JSON.stringify(map_obj) + '&file='
+                                    + photo + '&def2='  +'&username=' +username;*/ 
+                      var url = getIP()+'/wx/wechat/weixinevent/save.ht?content='
+                                    + content + '&initid=' + initid
+                                    + '&openid=' + openid + '&address='
+                                    + address + '&addressgps='
+                                    + JSON.stringify(map_obj) + '&file='
+                                    + photo + '&def2='  +'&username=' +username;            
+                                    //alert(url)
+                                    //getData('input_ts').add(encodeURI(url))
+                lazy.GET(encodeURI(url), function(data) {
+                    
+                    lazy.alert3("提交成功", "感谢您的投诉，我们会尽快处理，请您耐心等待。",{
+                        yesfun:function(){
+                            clear()
+                           // getData('input_ts').add(encodeURI(url))
+                          
+                            //lazy.refresh()
+                        }
+                    });
+                    
+                }, function(e) {
+                    lazy.alert2(e);
+                }, 0);
+            }
+
+            
+            function clear() {
+                getData('button').change_title('提交');
+                getData("input_ts").clear();
+                getData("image").clear();
+                getData("map_button").clear();
+                //getData("tele_button").clear();
+                getData('button').change_color('#aaa');
+                getData('button1').change_bordercolor('#aaa');
+                getData('button1').change_textcolor('#aaa');
+                getData('button').change(true);
+                getData('button1').change(true);
+               
+            }
+
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+	  start(function() {
+           lazy.setHeader({
+                            "title":"人才统计详情"
+                        });
+           var id=lazy.getParameter("szllid")
+           lazy.URLRequest(getIP()+'/szllxqMobile.ht?'+"id="+id, function(data) {
+               var data=data.rows;
+               setData([{
+                     "type": "wuping_dy",
+                      "title" : ["姓名","身份证号","性别","文化程度","政治面貌","联系方式","工作单位","职称","学科类别","所属层级","授课内容","备注"],
+                      "placeholder" : ["","","","","","","","","","","",""],
+                      "inputtype" :   ["nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext"],
+                      "text" : [data[0].name,data[0].pid,data[0].gender,data[0].degree,data[0].politics,data[0].tel,data[0].units,data[0].teacher,data[0].type,data[0].level,data[0].content,data[0].note],
+                     "style": {
+                         "line-height": "2.5rem !important",
+                      }
+                }]);
+           })
+           
+        });
+	</script>
+</html>

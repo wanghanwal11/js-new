@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>云盘</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=07591c420d03d958748c20628252d46e"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide();
+        var pid = lazy.response("pid");
+        var foldername = lazy.response("foldername");
+        var changename = false;
+        var rights = JSON.parse(lazy.response("rights"));
+        var def1 = lazy.response("def1");
+        lazy.setParameter("Bgcolor","#5c98f5");
+        var name = mark=="dj"?"文件资料":"云盘"
+        var listid = 0;
+        var json = [{
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : foldername?foldername:name,
+                "left" : pid==0?[lazy.url + "LazyUI/js/headertoolbar/cha1.png"]:[lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "right" : [lazy.url + "LazyUI/js/headertoolbar/sousuobai.png", lazy.url + "LazyUI/js/headertoolbar/ld.png"],
+                "select" : function(name, index,length) {
+                    if(name=="left"){
+                        if(length==1){
+                            lazy.close();
+                        }else{
+                            if(index==0) {
+                                var str = "yunpan.html?pid=0";
+                                if(mark=="dj") str += "&mark=dj";
+                                lazy.openWin(str)
+                                //lazy.goBack();
+                            }else {
+                                lazy.close();
+                            }
+                        }
+                    }else {
+                        if(index == 0) {
+                            lazy.openWin("yunpansousuo.html?filetype=sousuo");
+                        }else {
+                            //筛选
+                            getData("rightmenu").show();
+                        }
+                    }
+                }
+            },{
+            "id" : "yunpan_dir",
+            "type" : "yunpan_dir",
+            "header" : true,
+            "select" : function(name, obj) {
+                selectFun(name, obj);
+            },
+            "table" : [
+                        /*{
+                            "type" : "folder",
+                            "id" : 1,
+                            "h1" : "我收到的",
+                            "h2" : "2016-06-17 11:32",
+                            "select" : function(name, obj) {
+                                selectFun(name, obj);
+                            }
+                        },{
+                            "type" : "folder",
+                            "h1" : "共享文件",
+                            "id" : 2,
+                            "h2" : "2016-06-17 11:32",
+                            "select" : function(name, obj) {
+                                selectFun(name, obj);
+                            }
+                        },{
+                            "type" : "img",
+                            "url" : "http://192.168.0.42:8080/webapp/phone/oa/LazyUI/images/login/logo.png",
+                            "h1" : "ssss.jpg",
+                            "h2" : "2016-06-17 11:32",
+                            "h3" : "2M",
+                            "select" : function(name, obj) {
+                                selectFun(name, obj);
+                        }
+                            }*/
+                      ]
+        }, {
+            "id" : "alertinput",
+            "type" : "alertinput",
+            "title" : "新建文件夹",
+            "icon" : lazy.url + "LazyUI/js/yunpan_dir/images/dir.png",
+            "select" : function(name, val) {
+                if(name=="确定" && val!="") {
+                    var url = config.filesave + "pid=" + pid + "&filetype=folder&filename1=" + val;
+                    if(changename) {
+                        changename = false;
+                        url = config.filesave + "pid=" + pid + "&filetype=folder&filename1=" + val + "&id=" + listid;
+                    }
+                    if((pid!=0 && def1=="rights") || pid == 2) {
+                        url += '&def1=rights';
+                    }
+                    if(lazy.response("def5"))url += "&def5="+lazy.response("def5");
+                    lazy.URLRequest(url, function(data){
+                        lazy.refresh();
+                    }, function(e) {
+                        lazy.alert2(e);
+                    })
+                }
+                
+                
+            }
+        },{
+            "id" : "rightmenu",
+            "type" : "rightmenu",
+            "table" : [
+                         {
+                             "icon" : lazy.url + "LazyUI/js/yunpan_dir/images/doc_x.png",
+                             "title" : "文档",
+                             "onclick" : function() {
+                                 lazy.openWin("yunpansousuo.html?filetype=doc");
+                             }
+                         },{
+                             "icon" : lazy.url + "LazyUI/js/yunpan_dir/images/img_x.png",
+                             "title" : "图片",
+                             "onclick" : function() {
+                                 lazy.openWin("yunpansousuo.html?filetype=img");
+                             }
+                         },{
+                             "icon" : lazy.url + "LazyUI/js/yunpan_dir/images/video_x.png",
+                             "title" : "视频",
+                             "onclick" : function() {
+                                 lazy.openWin("yunpansousuo.html?filetype=video");
+                             }
+                         },{
+                             "icon" : lazy.url + "LazyUI/js/yunpan_dir/images/audio_x.png",
+                             "title" : "音频",
+                             "onclick" : function() {
+                                 lazy.openWin("yunpansousuo.html?filetype=audio");
+                             }
+                         },{
+                             "icon" : lazy.url + "LazyUI/js/yunpan_dir/images/other_x.png",
+                             "title" : "其他",
+                             "onclick" : function() {
+                                 lazy.openWin("yunpansousuo.html?filetype=other");
+                             }
+                         }]
+        }];
+        setData(json, function() {
+            //没有权限去掉操作头部
+            if(rights==false) {
+                var el = document.getElementById("yunpan_dir").getElementsByClassName("yunpan_header")[0];
+                el.parentNode.removeChild(el);
+            }
+            //
+            var url = config.filelist + "pid=" + pid;//+"&mark=oa";
+            if(def1=="rights" || pid == 2) {
+                url += "&def1=rights";
+            }
+            if(mark!="") url += "&mark="+mark;
+            lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+                for(var i = 0; i < arr.length; i++) {
+                    var url = ""//getIP()+arr[i].url?arr[i].url.replace(/\\/g,"/"):"");
+                    var urlyt = "";
+                    if(arr[i].filename!="我收到的"){
+                        if(arr[i].url){
+                            if(arr[i].url.indexOf("http://")>-1){
+                                url = arr[i].url;
+                                urlyt = arr[i].url
+                            }else{
+                                url = getIP() + (arr[i].url?arr[i].url.replace(/\\/g,"/"):"");
+                                urlyt = getIP()+(arr[i].url?arr[i].url.replace(/\\/g,"/"):"");
+                            }
+                        }
+                        getData("yunpan_dir").add({
+                            "type" : arr[i].filetype,
+                            "id" : arr[i].id,
+                            "url" : urlyt,//getIP() + (arr[i].url_ys?arr[i].url_ys.replace(/\\/g,"/"):""),
+                            "urlyt" : urlyt,//getIP() + (arr[i].url?arr[i].url.replace(/\\/g,"/"):""),
+                            "rights" : arr[i].rights,
+                            "h1" : arr[i].filename,
+                            "h2" : arr[i].createtime?lazy.format(arr[i].createtime, 'yyyy-MM-dd HH:mm'):"",
+                            "h3" : arr[i].filesize,
+                            "def5" : arr[i].def5,
+                            "select" : function(name, obj) {
+                                selectFun(name, obj);
+                            }
+                        });
+                    }
+                }
+            }, function(e) {
+                lazy.alert2(e);
+            });
+            document.documentElement.style.webkitTouchCallout='none'
+        });
+        //选择菜单
+        function selectFun(name, obj) {
+            switch(name) {
+                case "选择" :
+                    lazy.alertlist([
+                        {
+                            "title" : "重命名",
+                            "onclick" : function() {
+                                changename = true;
+                                listid = obj.id;
+                                getData("alertinput").show(obj.h1);
+                            }
+                        },{
+                            "title" : "移动",
+                            "onclick" : function() {
+                                moveid(obj.id);
+                            }
+                        },{
+                            "title" : "<span style=\"color:#f20;\">删除</span>",
+                            "onclick" : function() {
+                                lazy.alertyesno("确认删除？", function() {
+                                    delid(obj.id);
+                                }, function() {
+                                    
+                                });
+                            }
+                        },{
+                            "title" : "取消",
+                            "onclick" : function() {
+                                
+                            }
+                        }
+                    ]);
+                break;
+                case "列表" :
+                    if(obj.type == "folder") {
+                        var url = "yunpan.html?pid="+obj.id+"&foldername="+obj.h1+"&rights="+obj.rights;
+                        if(def1=="rights" || obj.id == 2) {
+                            url += "&def1=rights";
+                        }
+                        url += "&def5="+obj.def5;
+                        lazy.openWin(url);
+                    }else if(obj.type == "img"){
+                        lazy.isAppcan(function() {
+                            lazy.showPhoto_appcan([obj.urlyt]);
+                        }, function(type) {
+                            lazy.showImage(type,obj.urlyt);
+                        });
+                    }else if(obj.type == "doc"){
+                        var hz = obj.urlyt.replace(/.*\./g,"");
+                        var name = obj.h1.replace(/\..*/g,"");
+                        var dsrc = '/sdcard/'+name+"."+hz;
+                        lazy.isAppcan(function() {
+                            var loading = lazy.loading("下载中...");
+                            lazy.download_appcan(obj.urlyt,function(bfb){
+                                loading.setTitle("下载中...("+bfb+"%)");
+                            },function(){
+                                loading.close();
+                                lazy.alert2('附件下载完成：');
+                                lazy.readerFile_appcan(dsrc);
+                            },function(e){
+                                loading.close();
+                                lazy.alert2(e);
+                            },dsrc);
+                            
+                        }, function(type) {
+                            lazy.openFile(type,obj.urlyt);
+                        });
+                        
+                    }else if(obj.type == "audio"){
+                        var hz = obj.urlyt.replace(/.*\./g,"");
+                        var name = obj.h1.replace(/\..*/g,"");
+                        var dsrc = '/sdcard/'+name+"."+hz;
+                        lazy.isAppcan(function() {
+                            var loading = lazy.loading("下载中...");
+                            lazy.download_appcan(obj.urlyt,function(bfb){
+                                loading.setTitle("下载中...("+bfb+"%)");
+                            },function(){
+                                loading.close();
+                                lazy.alert2('附件下载完成：');
+                                lazy.playSound_appcan(dsrc);
+                            },function(e){
+                                loading.close();
+                                lazy.alert2(e);
+                            },dsrc);
+                            
+                        }, function(type) {
+                            lazy.playSound(type,obj.urlyt);
+                        });
+                        
+                    }else if(obj.type == "video"){
+                        var hz = obj.urlyt.replace(/.*\./g,"");
+                        var name = obj.h1.replace(/\..*/g,"");
+                        var dsrc = '/sdcard/'+name+"."+hz;
+                        lazy.isAppcan(function() {
+                            var loading = lazy.loading("下载中...");
+                            lazy.download_appcan(obj.urlyt,function(bfb){
+                                loading.setTitle("下载中...("+bfb+"%)");
+                            },function(){
+                                loading.close();
+                                lazy.alert2('附件下载完成：');
+                                lazy.playVideo_appcan(dsrc);
+                            },function(e){
+                                loading.close();
+                                lazy.alert2(e);
+                            },dsrc);
+                            
+                        }, function(type) {
+                            lazy.playVideo(type,obj.urlyt);
+                        });
+                        
+                    }else if(obj.type == "other"){
+                        lazy.alert2("文件格式不支持");
+                    }
+                break;
+                case "新建文件夹" :
+                    getData("alertinput").show();
+                break;
+                case "移动到当前目录" :
+                    alert(name);
+                break;
+                case "移动" :
+                    var idstr = "";
+                    for(var i = 0; i < obj.length; i++) {
+                        idstr += obj[i].id;
+                        if(i < obj.length - 1)idstr += ","
+                    }
+                    moveid(idstr);
+                break;
+                case "删除" :
+                    var idstr = "";
+                    for(var i = 0; i < obj.length; i++) {
+                        idstr += obj[i].id;
+                        if(i < obj.length - 1)idstr += ","
+                    }
+                    delid(idstr);
+                    
+                break;
+                case "上传" :
+                    var url = config.filesave + "pid=" + pid;
+                    if(pid!=0 && rights==true) {
+                        url += '&def1=rights';
+                     }
+                    if(lazy.response("def5"))url += "&def5="+lazy.response("def5");
+                    lazy.isAppcan(function() {
+                            lazy.alertlist([
+                                {
+                                    "title" : "选择相册",
+                                    "onclick" : function() {
+                                        lazy.startFile_appcan(function(src) {
+                                            upload(src);
+                                        }, true);
+                                    }
+                                },{
+                                    "title" : "附件",
+                                    "onclick" : function() {
+                                        lazy.startFile(url, function() {
+                                            
+                                        }, function(data, name, size, path) {
+                                            lazy.refresh();
+                                        }, function(e) {
+                                            lazy.alert2(e);
+                                        });
+                                    }
+                                }
+                                    
+                            ]);
+                            //上传
+                            function upload(src) {
+                                lazy.upload_appcan('filename', src, url, 3, function() {
+        
+                                }, function(obj) {
+                                    lazy.refresh();
+                                }, function(e) {
+                                    lazy.alert2(e);
+                                });
+                            }
+                            //
+                        },function(type) {
+    	                    lazy.fujian(type,url, function(_obj,size) {
+    	                    	lazy.refresh();
+    	                    });
+                        });
+                break;
+            }
+        }
+        //移动
+        function moveid(idstr) {
+            getData("yunpan_dir").move("yidong.html?ids="+idstr+"&pid=0&foldername=云盘");
+        }
+        //删除方法
+        function delid(idstr) {
+            var url = config.filedel+"ids=" + idstr;
+            lazy.URLRequest(url, function(data){
+                lazy.refresh();
+            }, function(e) {
+                lazy.alert2(e);
+            });
+        }
+        //上传
+        function upload(src, httpurl) {
+            var loading = lazy.loading("");
+            lazy.upload_appcan('filename', src, obj.httpurl, 3, function() {
+
+            }, function(obj) {
+                 loading.close();
+                 var obj = JSON.parse(obj);
+                 if(obj.succeed || obj.isSucceed) {
+                     var tmp = {
+                            "annexid" : obj.rows[0].id,
+                            "annexname" : obj.rows[0].docname,
+                            "annexpath" : obj.rows[0].path,
+                        }
+                        imagearr.push(tmp);
+                        var _src = getIP() + obj.rows[0].path.replace(/\\/g,"/");
+                     imagediv.appendChild(imageone(_src));
+                 }else {
+                    lazy.alert2(data.message?data.message:"message is null");
+                }
+
+            }, function() {
+                loading.close();
+                lazy.alert2("上传失败");
+            });
+        }
+    });
+    </script>
+</html>

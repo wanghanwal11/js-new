@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>docs</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+         textarea{
+             width:500px;
+             height:300px;
+             font-size: 8px;
+         }
+         button{
+             width:50px;
+             height:30px;
+         }
+    </style>
+</head>
+<body>
+    <div>
+        <textarea id="a"></textarea>
+        <button id="btn">click</button>
+    </div>
+</body>
+<script>
+    
+       
+    start(function() {
+        
+        var textarea = document.getElementById("a");
+    var btn = document.getElementById("btn");
+   var str;
+   var str2;
+   var json = [];
+    btn.onclick = function(){
+        str = textarea.value;
+        str2= str.replace(/\s|\n/g,"");
+        //alert(str)
+        
+         //var json = format(str2)
+        // alert(json)
+        //var obj = JSON.parse(str2)
+        var key = getKey(str);
+        //var temp = cs.split(",");
+        //console.log(cs)
+        //alert(cs.length)
+        //alert(cs[0])
+        //consosle.log(obj)
+        //textarea.value = json;
+        var value = getValue(str);
+        //alert(value.length)
+        var obj={};
+        for(var i = 0 ; i<value.length ; i++){
+            //alert(value[i].indexOf('function'))
+           if(value[i].indexOf('function')<0){
+               //alert(1)
+               obj[key[i]]=value[i];
+           }else{
+               alert(value[i])
+               obj[key[i]]=eval(value[i])
+           }
+           //obj.key[i] = value[i];
+           
+        }
+        console.log(obj)
+        
+        json.push(obj);
+        setData(json)
+    }
+    function getKey(str) {
+        
+        //var result = str.match(/\"(\w|[\u4E00-\u9FA5\uF900-\uFA2D])*\":/g);
+        var result = str.match(/\"\w*\":/g);
+        
+        return result.map(function(element){
+            return element.replace(/\":|\"/g, '');
+        });
+    }
+    function getValue(str) {
+        //var result = str.match(/\":"\w*\",/g);
+       var result = str.match(/\:(\w|[\u4E00-\u9FA5\uF900-\uFA2D]|\"|\(|\)|\;|\.|\'|\{|\}|\s|\n)*\,/g);
+        alert(result)
+        //var result = str.match(/\"\w*\":/g);
+        return result.map(function(element){
+            element = element.replace(/\:|\",|\,|\"/g, '');
+            //return element.replace(/\:|\",|\,|\"/g, '');
+            return element.replace(/(^\s+)|(\s+$)/g,"");//去掉前后空格
+        });
+    }
+      
+        
+         
+    });
+</script>
+</html>

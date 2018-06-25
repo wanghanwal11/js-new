@@ -1,0 +1,77 @@
+body[type=body] div[type=addresslist]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=addresslist] .table {
+    width:100%;
+    height:auto;
+}
+div[type=addresslist] .tr {
+    height:auto;
+    background-color: #ffffff;
+    width:100%;
+    margin-bottom:1rem;
+}
+div[type=addresslist] .tr0 {
+    height:auto;
+    font-size:1rem;
+    line-height:1.5rem;
+    padding:1rem 1rem 0 1rem;
+    color:#222222;
+}
+div[type=addresslist] .tr1 {
+    height:auto;
+    font-size:1rem;
+    line-height:1.5rem;
+    border-bottom: 1px solid #efefef;
+    padding:1rem;
+}
+div[type=addresslist] .tr2 {
+    height:auto;
+    font-size:1rem;
+    line-height:1.5rem;
+    padding:1rem;
+}
+div[type=addresslist] .tagimg {
+    width:1rem;
+    background:url(address.png);
+    background-size:1rem;
+    background-position:center;
+    background-repeat:no-repeat;
+    margin-right: 0.5rem;
+}
+
+div[type=addresslist] .tag span{
+    color:#ffa800;
+    font-size:1rem;
+}
+
+div[type=addresslist] .edit {
+    background:url(edit.png);
+    background-size:1rem;
+    background-position:left center;
+    background-repeat:no-repeat;
+    padding-left: 1.5rem;
+    margin-right:0.5rem;
+}
+div[type=addresslist] .edit span{
+    color:#2f3437;
+    font-size:0.9rem;
+}
+div[type=addresslist] .del {
+   
+    background:url(delete.png);
+    background-size:1rem;
+    background-position:left center;
+    background-repeat:no-repeat;
+    padding-left: 1.5rem;
+    
+}
+div[type=addresslist] .del span{
+    color:#2f3437;
+    font-size:0.9rem;
+}
+

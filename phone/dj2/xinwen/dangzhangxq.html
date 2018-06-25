@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+                 /*
+                 var src1;
+                 var src2;
+                 window.onload=function(){
+                     function loadImage(url, callback) { 
+                        var img = new Image(); //创建一个Image对象，实现图片的预下载 
+                        img.src = url; 
+                        if (img.complete) {
+                            callback(img.src);
+                        }else {
+                        img.onload = function () {
+                            callback(img.src);
+                            img.onload = null;
+                            };
+                        };
+                      }; 
+                        
+                        var  temp1 = lazy.url + "LazyUI/js/header/images/bf.png"
+                        var  temp2 = lazy.url + "LazyUI/js/header/images/bbf.png"
+                         
+                        loadImage(temp1,function(obj){
+                            src1=obj;
+                           
+                        })                              
+                        loadImage(temp2,function(obj){
+                            src2=obj;
+                           
+                        })
+                }
+                */
+                var dzxqid=lazy.getParameter("dzxqid")
+                var type = lazy.getParameter("type");
+                var ping = lazy.getParameter("ping");
+                var status = lazy.getParameter("status");
+                var jifen = lazy.getParameter("jifen");
+                var state = "T";
+                if(status != "T") state = "F";
+                var sound_status = 1;
+                var ptype = 4;
+                var titlename = "党章";
+               
+                var click = 1, soundpath = "";//1正在播放 0已暂停
+                
+                if(type == 1){
+                    titlename = "党规";
+                }else{
+                    titlename = "党章";
+                    ptype = 5; 
+                }
+                 if(type == 1){
+                       lazy.setParameter("on","right");
+                 }else{
+                       lazy.setParameter("on","left");
+                 }
+                
+                var url = djconfig.dangzhangxq + 'id='+dzxqid+"&state="+state+"&_time="+new Date().getTime();
+                lazy.URLRequest(url, function(data){
+                 
+                var arr = data.rows[0];
+                soundpath = arr.mppath;
+                lazy.playSound(soundpath);
+                setTimeout(function() {
+                    setHeader();
+                },300)
+               
+                var json = [
+                
+                        {
+                            "id" : "dangzhangxq",
+                            "type" : "dangzhangxq",
+                            "table" : [
+                  
+                                           {
+                                                "id" : arr.id,
+                                                "h1" : arr.learntitle+arr.title,
+                                                "time" : arr.timelong,
+                                                "content" : arr.detail,
+                                                "mppath" : arr.mppath,
+                                                "status" : status,
+                                                "jifen" : jifen,
+                                           }
+                                        ]
+                            
+                        },
+                        /*
+                         {
+                            "type" : "commentbox",
+                            "ping" : arr.commentcount,
+                            "pingclick" : function() {
+                                
+                                lazy.setParameter("huodongid",arr.id)
+                                lazy.setParameter("type",ptype)
+                                lazy.openWin("../faxian/pllist.html");
+                                }
+                            }
+                            */
+                        ];
+             
+                setData(json)
+            },function(e){
+                     lazy.alert(e,{
+                         "yesfun" : function() {
+                             lazy.goBack1();
+                         }
+                     });
+                     //lazy.goBack1();  
+            },1) 
+            function setHeader(){
+                var pic_icon = (click==1)?"voice.png":"unvoice.png";
+                lazy.setHeader({
+                            "title": titlename,
+                            "rightbtn": [
+                                {
+                                    "icon": pic_icon,
+                                    "text": "",
+                                    "onclick" : function() {
+                                            if(click){
+                                              click = 0;  
+                                              lazy.closeSound(); 
+                                              setTimeout(function() {
+                                                    setHeader();
+                                                    
+                                                },300)
+                                            }else{
+                                                click = 1;
+                                                lazy.playSound(soundpath);
+                                                setTimeout(function() {
+                                                    setHeader();
+                                                    
+                                                },300)
+                                                
+                                            }
+                                    }
+                                }
+                            ],
+                           
+                  });
+            }
+       });
+    </script>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>小组详情</title>
+        <style type="text/css">
+            body{
+                background-color: #EEEEEE!important
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                position: fixed!important;
+                top: 80%;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+            div[type=label]{
+                height: 2rem!important;
+                padding-top: 0.5rem!important;
+                padding-left: 1.5rem!important;
+                margin-top: 3px;
+                margin-bottom: 8px;
+                background-color: white;
+            }
+            div[type=label] span {
+                height:1rem;
+                line-height:1rem;
+                font-size: 1rem!important;
+            }
+            div[type=alertinput] .centerdiv{
+                height: 6rem!important;
+            }
+            div[type=alertinput] .btns{
+                margin-top: 0.5rem!important;
+            }
+            div[type=alertinput] .queding {
+                background-color: #0db09b !important
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                "title":"小组详情",
+                "color":"#0ec0a9",
+                "rightbtn" : [],
+            });
+            var groupid = lazy.response("groupid");
+            var groupname = lazy.response("groupname");
+            var url = getIP() + "/oa/di_groups/listAllUsers.ht?id="+groupid;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                var table = [];
+                for(var i=0;i<data.length;i++){
+                    var path = data[i].img;
+                    if(path.indexOf("http")<0) path = getIP()+data[i].img;
+                    var tmp = {
+                        "id":data[i].userid,
+                        "icon":path,
+                        "label":data[i].username,
+                        "h1":data[i].username
+                    }
+                    table.push(tmp)
+                };
+                lazy.setParameter("group",table)
+                var json = [
+                    {
+                        "id" : "label",
+                        "type" : "label",
+                        "text" : groupname,
+                        "class" : "slh",
+                        "edit" : function(){
+                            getData("alertinput").show();
+                        },
+                    },
+                    {
+                        "id" : "alertinput",
+                        "type" : "alertinput",
+                        "select" : function(name, val) {
+                            if(name=="确定" && val!="") {
+                                var str = val;
+                                if(str==""){
+                                    lazy.alert2("请输入组名");
+                                    return;
+                                }
+                                var url = getIP() + "/oa/di_groups/update.ht?id="+groupid+"&name="+str;
+                                lazy.URLRequest(url,function(){
+                                    getData("label").setTitle(str)
+                                },function(e){
+                                    lazy.alert2(e)
+                                })
+                            }
+                            
+                            
+                        }
+                    },
+                    {
+                        "id":"group",
+                        "type" : "group",
+                        "table" : table,
+                        "add" : function(){
+                            //getData("group").addOne(
+                                // "icon":"",
+                                // "id":"5",
+                                // "label":"888",
+                            // )
+                            lazy.persongroup(lazy.response("groupid"))
+                        },
+                        "showdel":function(){
+                            lazy.setHeader({
+                                "title":"小组详情",
+                                "color":"#0ec0a9",
+                                "rightbtn" : [{
+                                     "text" : "取消",
+                                     "onclick" : function() {
+                                         getData("group").delHide();
+                                         lazy.setHeader({
+                                            "title":"小组详情",
+                                            "color":"#0ec0a9",
+                                            "rightbtn" : []
+                                         });
+                                     }
+                                 }]
+                            });
+                        },
+                        "del" : function(id){
+                            var delurl = getIP()+"/oa/di_group_user/delByUserId.ht?userid="+id+"&groupid="+lazy.response("groupid");
+                            lazy.URLRequest(delurl,function(){
+                                getData("group").delOne(id);
+                            },function(e){
+                                lazy.alert2(e);
+                            })
+                        }
+                    },{
+                        "type" : "button",
+                        "label" : "发消息",
+                        "onclick" : function() {
+                            //lazy.setParameter("group",group);
+                            lazy.openWin("addxiaoxi.html?group=true");
+                        }
+                    }
+                ]
+                setData(json)
+            })
+        });
+    </script>
+</html>

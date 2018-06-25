@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>加班日期</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var mark = "";
+            if(lazy.getParameter("mark")){
+                mark = lazy.getParameter("mark");
+            }
+            if(mark=="dj") lazy.setHeaderHide()
+            var json = []
+            var url = config.getJiabanDays;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                var list = [];
+                for(var i=0;i<data.length;i++){
+                    var tmp = {
+                        "h1" : data[i].day,
+                        "h2" : data[i].alias+"天",
+                        "onclick" : function(obj){
+                            lazy.setParentJs(lazy.var(), obj);
+                        }
+                    }
+                    list.push(tmp);
+                }
+                var tbl = {
+                    "id" : "titlebtnlist2_no",
+                    "type" : "titlebtnlist2_no",
+                    "table" : list
+                }
+                json.push(tbl);
+                json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : '加班日期',
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                        if(name=="left"&&index==0){
+                            lazy.setParentJs(lazy.var(), {});
+                        }
+                        if(name=="left"&&index==1){
+                            lazy.close();
+                        }
+                    }
+                })
+                setData(json);
+            })
+        });
+    </script>
+</html>

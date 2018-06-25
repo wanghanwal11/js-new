@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            
+            var page=1;
+            var json=[
+                {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.close()
+                                              }   
+                                            }
+                                          ],
+                           "right" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/write.png",
+                                              "onclick" : function(name, index, btn) {
+                                                  lazy.openWin("xdwrite.html");
+                                              }   
+                                            }
+                                          ],
+                            
+                            "button" : [
+                                              {
+                                                  "content" : "心得体会",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },{
+                "id" : "quanzilist",
+                "type" : "quanzilist",
+                "table" : []
+            }]
+            setData(json,function(){load()})
+            function load(){
+                
+                lazy.URLRequest(djconfig.quanzi+"type=2&rows=20&page="+page+"&_time="+new Date().getTime(), function(data) {
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    
+                    var plid=lazy.getParameter("huodongid");
+                   
+                    if(data.length==0&&page==1){
+                          lazy.datanull("暂无数据")
+                     }
+                     
+                    for(var i=0;i<data.length;i++){
+                       
+                        
+                        var s={
+                                "ids":data[i].answerid,
+                                "icon" : getIP()+data[i].userpicture.replace(/\\/g,"/"),
+                                "h1" : data[i].updateuser,
+                                "h2" : data[i].content,
+                                "img":data[i].filepatharray,
+                                "h3" : lazy.format(data[i].updatetime,"MM-dd"),
+                                "pl": data[i].commentcount?data[i].commentcount:"0",
+                                "zan":data[i].agreecount?data[i].agreecount:"0",
+                                "zanstaute":data[i].isagree,
+                                "select":function(index,src){
+                                    lazy.showImage(src)
+                                },
+                                "pinglun":function(obj){
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.setParameter("type","8");
+                                    lazy.openWin("../faxian/pllist.html");
+                                },
+                                "dianzan":function(obj1,zan){
+                                    lazy.URLRequest(djconfig.dianzan+"activityid="+obj1.ids, function(js) {
+                                        //alert(obj1.zan)
+                                        zan.innerHTML=js.rows[0].agreecount;
+                                    },function(){},0)
+                                }
+                            }
+                       getData("quanzilist").one(s);
+                    }
+                    page++
+                },function(){lazy.closeBounce();})
+            }
+            lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

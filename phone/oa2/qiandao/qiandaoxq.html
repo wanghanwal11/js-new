@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            div[type=titlebtnlist2] .h2 {
+                padding-left: 1rem;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-image: url(../LazyUI/images/qiandao/dd.png);
+                background-size: 0.8rem;
+            }
+            div[type=label] {
+                background-color: #f6f6f6;
+                height: 1.5rem;
+                line-height: 1.5rem;
+            }
+            
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide()
+        var id = lazy.getParameter("qdid");
+        var url = config.signget+"id="+id;
+        lazy.setHeader({
+            "title":"签到",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        lazy.URLRequest(url,function(data){
+            var data = data.rows[0];
+            var imgs = [];
+            for(var i=0;i<data.allfiles.length;i++){
+                imgs.push(data.allfiles[i].replace(/\\/g,"/"));
+            }
+            var path = lazy.getParameter("qdicon");
+            if(data.picture!=""){
+                path = data.picture;
+                if(path.indexOf("http")<0) path = getIP()+data.picture;
+            }
+            var json = [{
+            "id" : "titlebtnlist1",
+            "type" : "titlebtnlist1",
+            "table" : [{
+                    "id" : data.userid,
+                    "icon" : path,
+                    "h1" : data.fullname,
+                    //"h2" : "等待审批",
+                    "onclick" : function(obj) {
+                        var mark = lazy.getParameter("mark")?lazy.getParameter("mark"):"";
+                        if(mark==""){
+                            lazy.setParameter("personid",obj.id);
+                            lazy.openWin("../person/person.html");
+                        }
+                    }
+                }]
+            },{
+                "type" : "process_xq",
+                "table" : [
+                    {
+                        "title" : "签到时间：",
+                        "value" : data.createtime
+                    },{
+                        "title" : "地点：",
+                        "value" : data.address
+                    },{
+                        "title" : "备注：",
+                        "value" : data.content
+                    },{
+                        "type" : "image",
+                        "title" : "图片:",
+                        "value" : imgs
+                    }
+                ]
+                
+            }];
+            // json.unshift({
+                // "id" : "headertoolbar",
+                // "type" : "headertoolbar",
+                // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                // "color" : "#fff",
+                // "border" : "none",
+                // "title" : '签到',
+                // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                // "select" : function(name, index) {
+                    // if(name=="left"&&index==0){
+                        // lazy.goBack();
+                    // }
+                    // if(name=="left"&&index==1){
+                        // lazy.close();
+                    // }
+                // }
+            // })
+            setData(json);
+        })
+    });
+    </script>
+</html>

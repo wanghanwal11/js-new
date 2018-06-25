@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <style>
+        #button1 .buttondiv{
+          margin-top: 2rem;
+        }
+        #button2 .buttondiv{
+            color: #FFFFFF;
+            background-color: #52ced6;
+        }
+    </style>
+    <body></body>
+    <script>
+        
+        start(function() {
+            lazy.demo(); 
+                var json = [{
+                    "id" : "login1",
+                    "type" : "login1",
+                    "user" : "LazyUI/js/login1/images/user.png",
+                    "password" : "LazyUI/js/login1/images/password.png",
+                    "tpinfo" : "用户名:",
+                    "tppass" : "密码:",
+                },{
+                    "id" : "button1",
+                    "type" : "btn",
+                    "label" : "登录",
+                    "onclick" : function() {
+                                var arr=getData("login1").getValue();
+                                var user = arr[0];
+                                var password = arr[1];
+                                if (user == "") {
+                                    lazy.alert2("请输入用户名")
+                                    return;
+                                }else if(password == ""){
+                                    lazy.alert2("请输入密码")
+                                    return;
+                                }else{
+                                    lazy.alert2("登录成功!")
+                                    lazy.openWin("index.html")
+                                }
+                                
+                            }
+                },{
+                    "id" : "button2",
+                    "type" : "btn",
+                    "label" : "群众模式"
+                }]
+                setData(json)
+        })
+
+    </script>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>任务办理</title>
+    </head>
+    <style>
+        body {
+            background-color: #efeef3 !important;
+        }
+        div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+    </style>
+    <script> 
+    start(function() {
+        var rwobj = lazy.getParameter("rw");
+        lazy.setHeader({
+            "title":"任务转派",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var json = [
+        // {
+                        // "id" : "headertoolbar",
+                        // "type" : "headertoolbar",
+                        // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        // "color" : "#fff",
+                        // "border" : "none",
+                        // "title" : '任务转派',
+                        // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        // "select" : function(name, index) {
+                            // if(name=="left"&&index==0){
+                                // lazy.goBack();
+                            // }
+                            // if(name=="left"&&index==1){
+                                // lazy.close();
+                            // }
+                        // }
+                // },
+                {
+                        "id" : "process",
+                        "type" : "process",
+                        "table" : [
+                             {
+                                "title" : "转派人员",
+                                "type" : "people",
+                                "url" : "address.html"
+                                //"url" : "peoplelist.html"                   
+                             }
+                          ]
+                    },{
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var arr = getData("process").getArray().table;
+                                if(arr[0].value.length<0) lazy.alert2("请选择转派人员");
+                                else {
+                                    var people = arr[0].value;
+                                    if(people.length==0){
+                                        lazy.alert2("请选择转派人员");
+                                        return;
+                                    }
+                                    var receid = [];
+                                    for(var i=0;i<people.length;i++){
+                                        receid.push(people[i].id);
+                                    }
+                                    var url = config.worktaskcomment+"pid="+rwobj.id;
+                                    url+='&receid='+receid+'&def1=zhuanfa';
+                                    lazy.URLRequest(url,function(){
+                                        alert("转派成功");
+                                        lazy.openWin("renwu.html");
+                                    })
+                                }
+                            }
+                        }]
+            setData(json)
+    });
+    </script>
+</html>

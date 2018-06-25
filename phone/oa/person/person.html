@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>个人信息</title>
+        <style>
+            body,html {
+                background-color: #efeef3 !important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+            var url = config.addressdetailMobile+"userid="+lazy.getParameter("personid");
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var img = data.picture?getIP()+data.picture.replace(/\\/g,"/"):"";
+                if(data.picture.indexOf("http://")>-1) img = data.picture;
+                var json = [{
+                        "type" : "geren",
+                        "icon" : img,
+                        "name" : data.fullname,
+                        "style" : {
+                            "background-color" : lazy.getParameter("Bgcolor")
+                        }
+                    },{
+                        "type" : "gerenxq",
+                        "title" : "个人信息",
+                        "table" : [
+                                     {
+                                         "h1" : data.phone?data.phone:"无记录",
+                                         "h2" : "手机联系人",
+                                         "type" : "phone"
+                                     },{
+                                         "h1" : data.email?data.email:"无记录",
+                                         "h2" : "Email"
+                                     },{
+                                         "h1" : data.orgname?data.orgname:"无记录",
+                                         "h2" : "部门"
+                                     }
+                                  ]
+                    }
+                ];
+                json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : '个人信息',
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                        if(name=="left"&&index==0){
+                            lazy.goBack();
+                        }
+                        if(name=="left"&&index==1){
+                            lazy.close();
+                        }
+                    }
+                })
+                setData(json)
+            })
+        });
+    </script>
+</html>

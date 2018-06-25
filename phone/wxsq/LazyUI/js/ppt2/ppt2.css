@@ -1,0 +1,44 @@
+div[type=ppt2]{
+	-webkit-box-sizing:border-box;
+	 -webkit-box-orient:vertical;
+	display: -webkit-box;
+	position:relative;
+	font-size:1rem;
+	background-color: #fff;
+}
+div[type=ppt2] .container {
+    overflow-x: hidden;
+ -webkit-transition: margin-left 0.5s;
+}
+div[type=ppt2] .content {
+      margin-left:1rem;
+      margin-bottom:1rem;
+}
+div[type=ppt2] .item {
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: cover;
+}
+div[type=ppt2] .h1 {
+   font-size: 1rem;
+   
+   line-height: 1.5rem;
+   width:100%;
+   color:#202227;
+}
+div[type=ppt2] .h2 {
+   color:#999999;
+   
+   line-height: 1.2rem;
+   font-size: 0.8rem;
+}
+
+div[type=ppt2] .tag {
+   position:absolute;
+   top:0.5rem;
+   padding:0.2rem 1rem;
+   background-color:#ffb401;
+   color:#ffffff;
+   font-size: 0.8rem;
+   border-radius: 0 1rem 1rem 0;
+}

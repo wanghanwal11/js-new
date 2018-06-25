@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body,html {
+                background-color: #efeef3 !important;
+            }
+            div[type=kaoqinlist] {
+                margin-top: 0.5rem;
+            }
+            #calendar .btn{
+                display: none;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setParameter("Bgcolor","#8764e6");
+        var time = "";
+        var page = 1;
+        var search = "";
+        var json = [
+            {
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '民情日志',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "right" : [lazy.url + "LazyUI/js/headertoolbar/jia.png"],
+                "select" : function(name, index) {
+                    if(name=="left"&&index==0){
+                        lazy.goBack();
+                    }
+                    if(name=="left"&&index==1){
+                        lazy.close();
+                    }
+                    if(name=="right"){
+                        lazy.openWin("tjmqrz.html")
+                    }
+                }
+            },
+            {
+                "type" : "datebutton",
+                "onclick" : function(val){
+                    time = val;
+                    load();
+                }
+            },
+            {
+                "type" : "sousuoinput_move",
+                "select" : function(val){
+                    page = 1;
+                    search = val;
+                    load();
+                }
+            },
+            {
+                "id" : "mqrz",
+                "type" : "mqrz",
+                "table" : [
+                    // {
+                        // "h1" : "交接城管资料",
+                        // "h2" : "2016-07-20 11:33:05",
+                        // "greenleft" : "日志编号:123412341234",
+                        // "greenright" : "上报人:郭亚楠",
+                        // "onclick" : function(){
+                        // }
+                    // }
+                ]
+            }
+        ]
+        setData(json,function(){
+            load();
+        })
+        function load(){
+            var url = config.mqlb+"rows=50&page="+page+"&time="+time+"&condition="+search;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                for(var i=0;i<data.length;i++){
+                    var onejson = {
+                        "id" : data[i].id,
+                        "h1" : data[i].content,
+                        "h2" : data[i].createtime,
+                        "greenleft" : "日志编号:"+data[i].minqingid,
+                        "greenright" : "上报人:"+data[i].fullname,
+                        "onclick" : function(obj){
+                            lazy.setParameter("mq",obj);
+                            lazy.openWin("mqrzxq.html")
+                        }
+                    }
+                    getData("mqrz").add(onejson)
+                }
+                page++;
+            })
+        }
+    });
+    </script>
+</html>

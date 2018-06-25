@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            #listbar{
+                width:90%;
+                margin-left:5%;
+                margin-top:0.5rem;
+            }
+            #titlebtnlist4{
+                position: absolute!important;
+                width: 100%!important;
+                height: 100%!important;
+                z-index: 99999!important;
+                top: 0!important;
+            }
+            body{
+                background: white!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+          lazy.setHeader({"title": "发起活动",
+                          "rightbtn":[{
+                                "text":"提交",
+                                "onclick":function(){
+                                    save()
+                                }
+                            }]
+             });
+         var hd=true;
+         var json = [{
+             "id":"process",
+             "type":"process",
+             "table":[
+                {
+                    "title":"活动标题",
+                    "placeholder" : "请输入（必填）",  
+                    "type":"input"
+                },
+                {
+                    "type" : "select",
+                    "placeholder" : "请选择活动类型（必填）",
+                    "option" : [
+                                    {"html":"三会一课", "value" : "1"},
+                                    {"html":"主题活动", "value" : "2"},
+                               ],
+                    "title" : "活动类型",
+                    "sel":function(val){
+                        document.getElementsByTagName("input")[2].value="";
+                        if(val=="三会一课"){
+                            lazy.setHeader({"title": "发起活动",
+                          "rightbtn":[{
+                                "text":"提交",
+                                "onclick":function(){
+                                    save()
+                                }
+                            }]
+             });
+                            hd=true;
+                            document.getElementsByClassName("peopleall")[0].style.display="block"
+                            document.getElementsByClassName("textareaall")[0].style.display="block"
+                            document.getElementsByClassName("fileall")[0].style.display="block"
+                            document.getElementsByClassName("imageall")[0].style.display="block"
+                            getData('process').table[2].option=[
+                                    {"html":"支部党员大会", "value" : "支部党员大会"},
+                                    {"html":"支部委员会", "value" : "支部委员会"},
+                                    {"html":"党小组会", "value" : "党小组会"},
+                                    {"html":"党课", "value" : "党课"}
+                            ]
+                        }else{
+                            lazy.setHeader({"title": "发起活动",
+                          "rightbtn":[{
+                                "text":"申报",
+                                "onclick":function(){
+                                    save()
+                                }
+                            }]
+             });
+                            hd=false;
+                            getData('process').table[2].option=[
+                                    {"html":"党员志愿", "value" : "党员志愿"},
+                                    {"html":"党员帮扶", "value" : "党员帮扶"},
+                                    {"html":"党员承诺", "value" : "党员承诺"},
+                                    {"html":"党员洗礼", "value" : "党员洗礼"},
+                                    {"html":"党内关怀", "value" : "党内关怀"},
+                                    {"html":"自定义活动", "value" : "自定义活动"}
+                             ]
+                            document.getElementsByClassName("peopleall")[0].style.display="none"
+                            document.getElementsByClassName("textareaall")[0].style.display="none"
+                             document.getElementsByClassName("fileall")[0].style.display="none"
+                            document.getElementsByClassName("imageall")[0].style.display="none"
+                        }
+                        
+                    }
+                },
+                {
+                    "type" : "select",
+                    "placeholder" : "请选择活动分类（必填）",
+                    "option" : [],
+                    "title" : "活动类型分类",
+                    "sel":function(val){
+                        if(val=="自定义活动"){
+                            lazy.alerttxt1({
+                                type:'textarea',
+                                left:'自定义:',
+                                right:'确定'
+                            },function(value){
+                                 document.getElementsByTagName("input")[2].value=value;
+                            })
+                        }
+                    }
+                },
+                {
+                    "type" : "select",
+                    "placeholder" : "请选择活动种类（必填）",
+                    "option" : [
+                                    {"html":"线上", "value" : "线上"},
+                                    {"html":"线下", "value" : "线下"},
+                               ],
+                    "title" : "活动种类",
+                },{
+                    "title":"活动地址",
+                    "placeholder" : "请输入",
+                    "type":"input",
+                },
+                {
+                    "title":"开始时间",
+                    "placeholder" : "请选择（必填）",
+                    "type":"datetime",
+                },
+                {
+                    "title":"活动时长",
+                    "placeholder" : "请选择时长（必填）",
+                    "type":"number"
+                },
+                {
+                    "title" : "图片",
+                    "type" : "image",
+                    "httpurl" : config.oa.fileupload
+                },
+                {
+                    "title":"附件",
+                    "type" : "file",
+                    "httpurl" : config.oa.fileupload
+                },
+                {
+                    "title":"活动内容",
+                    "type" : "textarea",
+                     "placeholder" : "添加内容",
+                },
+                {
+                    "title":"活动人员",
+                    "type":"people",
+                    "onclick":function(){
+                        getData('process').display();
+                        getData('titlebtnlist4').block();
+                       /* lazy.openWebview("/dj2Gy/sanhuiyike/peoplelist.html",function(){
+                             lazy.getCache("key",function(obj){
+                                 getData("process").setProcessPeople(obj);
+                             });
+                             
+                        })*/
+                    }
+                }
+             ],
+             // "title":[
+                   // ["会议标题"],["会议类型"],["会议类别"],["会议开始时间"],["会议时长"],["参会人员"]
+             // ],
+             // "inputtype":[
+                   // ["text"],
+                   // [[{"html":"支部党员大会"},{"html":"支部委员会"},{"html":"党小组会"},{"html":"党课"}]],
+                   // [[{"html":"集中学习"},{"html":"专题学习讨论"},{"html":"民主评议党员"},{"html":"民主生活会"},{"html":"其他"}]],
+                   // ["date"],
+                   // ["number"],
+                   // [function(){
+                       // lazy.openWin("peoplelist.html");
+                   // }]
+             // ]
+         },{
+                "id" : "titlebtnlist4",
+                "type" : "titlebtnlist4",
+                "table" : [
+                ]
+            }
+            
+         ]
+         setData(json,function(){load(); getData('titlebtnlist4').display();})
+         function load(){
+             lazy.URLRequest(getIP()+"/party/Partymember/getmemberbypartyid.ht",function(data){
+               var data=data.rows;
+               for(var i=0;i<data.length;i++){
+                   var s={
+                        "icon" : "",//90*90
+                        "h1" : data[i].name,
+                        "h2" : data[i].partypostname,
+                        "ids":data[i].id,
+                        "onclick" : function(obj) {
+                            getData('titlebtnlist4').display();
+                            getData('process').block();
+                            getData("process").setProcessPeople(obj);
+                        }
+                    }
+                   getData("titlebtnlist4").add(s)
+               }
+           })
+         }
+         window.save=function(){
+             var arr=getData("process").getArray().table;
+             for(var h=0;h<7;h++){
+                 if(h!=4){
+                     if(arr[h].value==""||arr[h].value=="请选择活动类型（必填）"||arr[h].value=="请选择活动种类（必填）"||arr[h].value=="请选择活动类型（必填）"){
+                         lazy.alert2(arr[h].title+"不能为空");
+                         return;
+                     }
+                 }
+             }
+             var arr7=arr[7].value;
+             var picid=[];
+             for(var p=0;p<arr7.length;p++){
+                 picid.push(arr7[p].annexid)
+             }
+             var arr8=arr[8].value;
+             var fileid=[];
+             for(var o=0;o<arr8.length;o++){
+                 fileid.push(arr8[o].annexid)
+             }
+             var arr9=arr[10].value;
+             if(arr9.length<=0&&hd){
+                 lazy.alert2("请添加活动人员")
+                 return;
+             }
+             var name=[];
+             var ids=[];
+             for(var s=0;s<arr9.length;s++){
+                 name.push(JSON.parse(arr9[s].replace(/\\/g,"")).h1)
+                 ids.push(JSON.parse(arr9[s].replace(/\\/g,"")).ids)
+             }
+             lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/save.ht?mtitle="+arr[0].value+"&mtypename="+arr[1].value+"&mkind="+arr[3].value+"&mcategoryname="+arr[2].value+"&maddress="+arr[4].value+"&mstarttime="+(arr[5].value).replace("T"," ")+"&mlength="+arr[6].value+"&mparticipantsid="+ids+"&mparticipantsname="+name+"&mphoto="+picid+"&mfile="+fileid+'&mcontent='+arr[9].value,function(data){
+                 alert("发起成功");
+                 lazy.goBack1();
+             })
+         }
+        });
+    </script>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人员列表</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var mark = "";
+            if(lazy.getParameter("mark")){
+                mark = lazy.getParameter("mark");
+            }
+            if(mark=="dj") lazy.setHeaderHide()
+            var page = 1;
+            var json = [
+                        {
+                            "type" : "sousuoinput1",
+                            "select" : function(val){
+                                page = 1;
+                                getData("titlebtnlist2").clean();
+                                load(val);
+                            }
+                        },{
+                            "id" : "titlebtnlist2",
+                            "type" : "titlebtnlist2",
+                            "table" : [
+                                ]
+                    }
+            ];
+            json.unshift({
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '人员列表',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "select" : function(name, index) {
+                    if(name=="left"&&index==0){
+                        lazy.goBack();
+                    }
+                    if(name=="left"&&index==1){
+                        lazy.close()
+                    }
+                }
+            })
+            setData(json,function(){
+                load()
+            })
+            function load(str){
+                var url = config.getmybooklistMobile+"type=all&rows=30&page="+page;
+                if(str) url += "&fullname="+str;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    page++;
+                    if(data.length<30) lazy.stopBounce();
+                    for(var i=0;i<data.length;i++){
+                        var _data = data[i].userlist;
+                        for(var j=0;j<_data.length;j++){
+                            var img = _data[j].picture?getIP()+_data[j].picture.replace(/\\/g,"/"):"";
+                            if(_data[j].picture.indexOf("http://")>-1) img = _data[j].picture
+                            var tmp = {
+                                "id":_data[j].userid,
+                                "h1":_data[j].name,
+                                "h2":_data[j].orgname,
+                                "icon":img,
+                                "onclick":function(obj){
+                                    lazy.setParentJs("setProcessPeople", obj);
+                                    // lazy.setParameter("personid",obj.id);
+                                    // lazy.openWin("gerenxq.html")
+                                }
+                            }
+                            getData("titlebtnlist2").add(tmp);
+                        }
+                    }
+                },function(){
+                    lazy.stopBounce();
+                })
+            }
+             lazy.bounce({
+                    "up" : function(){
+                        load();
+                    }
+                 });    
+        });
+    </script>
+</html>

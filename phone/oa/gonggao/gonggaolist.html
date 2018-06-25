@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+        start(function() {
+               var json =[{
+                                "type" : "titlebtnlist_radio",
+                                "table" : [
+                                    {
+                                        "h1" : "大冠",
+                                        "h2" : "2016-2-3",
+                                        "point" : true,
+                                        "radio" : "on",
+                                        "onchange" : function(radio, obj) {
+                                            // alert(radio);
+                                            // alert(JSON.stringify(obj));
+                                        },
+                                        "onclick" : function(obj) {
+                                            
+                                        }
+                                    },{
+                                        "h1" : "大冠2",
+                                        "h2" : "2016-2-2223",
+                                        "point" : true,
+                                        "radio" : "off",
+                                        "onchange" : function(radio, obj) {
+                                            alert(radio);
+                                            alert(JSON.stringify(obj));
+                                        },
+                                        "onclick" : function(obj) {
+                                            
+                                        }
+                                    },{
+                                        "h1" : "大冠3",
+                                        "h2" : "2016-2-2223",
+                                        "point" : true,
+                                        "onclick" : function(obj) {
+                                            
+                                        }
+                                    },{
+                                        "h1" : "大冠3",
+                                        "h2" : "2016-2-2223",
+                                        "onchange" : function(radio, obj) {
+                                            alert(radio);
+                                            alert(JSON.stringify(obj));
+                                        },
+                                        "onclick" : function(obj) {
+                                            
+                                        }
+                                    }
+                                ]
+                         }];
+            setData(json);                      
+        });
+    </script>
+</html>

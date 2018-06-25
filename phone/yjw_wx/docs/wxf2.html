@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>docs</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+        div[type = plugins]{
+            height:100% !important;
+        }
+    </style>
+</head>
+<body></body>
+<script>
+    start(function() {
+        setData([
+            /*
+            {
+                "type":"b",
+                "list":[{
+                    "class":"button",
+                    "href":"wxf_button.js",
+                },{
+                    "class":"input",
+                    "href":"input.js",
+                }]
+            }*/
+           {
+               type : 'group',
+               list : [{
+                   type : 'button',
+                   label : '11',
+                   onclick : function() {
+                       lazy.new('',function(dom) {
+                           getData('group').renderer(dom.init());
+                       })
+                       
+                   }
+               },{
+                   type : 'button',
+                   label : '11',
+                   onclick : function() {
+                       lazy.new('',function(dom) {
+                           getData('group').renderer(dom.init());
+                       })
+                       
+                   }
+               },{
+                   type : 'button',
+                   label : '11',
+                   onclick : function() {
+                       lazy.new('',function(dom) {
+                           getData('group').renderer(dom.init());
+                       })
+                       
+                   }
+               },{
+                   type : 'button',
+                   label : '11',
+                   onclick : function() {
+                       lazy.new('',function(dom) {
+                           getData('group').renderer(dom.init());
+                       })
+                       
+                   }
+               }]
+           },{
+               id : 'group',
+               type : 'group',
+               list : []
+           }
+        ]);
+    });
+</script>
+</html>

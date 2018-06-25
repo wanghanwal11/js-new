@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var id=lazy.getParameter("hyid");
+            var json = [{
+                            "id":"hyry",
+                            "type" : "hyry",
+                            "table" : []
+                            
+                        }];
+            setData(json,function(){load()})
+            function load(){
+                 lazy.URLRequest(djconfig.hyry+"id="+id+"&rows=20&page="+page, function(data) {
+                    var data=data.rows;
+                        for(var i=0;i<data.length;i++){
+                        var people=data[i].innerpostname?("-"+data[i].innerpostname):""
+                        var f={
+                            "src":data[i].picture?data[i].picture:"../LazyUI/images/morenpeople.png",
+                            "name":data[i].name+people,
+                        }
+                        getData("hyry").add(f);
+                        }
+                    page++;
+                },function(){lazy.closeBounce();}, 0)
+            }
+             lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

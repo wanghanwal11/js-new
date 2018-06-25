@@ -1,0 +1,34 @@
+body[type=body] div[type=tuwen]{
+	position:relative;
+	height: auto;
+	height: 6rem;
+	background: white;
+}
+div[type=tuwen] .tuwen{
+    width: 90%;
+    margin: 0 auto;
+}
+div[type=tuwen] .left{
+    float: left;
+    width: 6rem;
+    height: 5rem;
+    margin-top: 0.5rem;
+}
+div[type=tuwen] .left img{
+    width: 100%;
+    height: 100%;
+}
+div[type=tuwen] .right{
+    float: left;
+    margin-left: 1rem;
+    height: 5rem;
+}
+div[type=tuwen] .h1{
+    text-align: right;
+}
+div[type=tuwen] .h2{
+    font-size: 0.9rem;
+    text-align: right;
+    line-height: 0.5rem;
+    color: #aaaaaa;
+}

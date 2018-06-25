@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var fenlei=2;
+             lazy.setHeader({
+                            "title":"活动",
+                            "rightbtn": [
+                                {
+                                    "icon": "search.png",
+                                    "onclick" : function() {
+                                         lazy.openWin("sousuohd1.html")
+                                    }
+                                }
+                            ]
+                        },function(){
+                            lazy.personmessage(function(o){
+                            var id=o.rows[0].userId;
+                            lazy.setParameter("peid",id);
+                            var json = [{
+                                             "type":"movebutton",
+                                             "index":0,
+                                             "table":[{
+                                                 "label":"我发起的",
+                                                 "onclick":function(){
+                                                     page=1;
+                                                     fenlei=2;
+                                                     getData("huodonglist").clean()
+                                                     load()
+                                                 }
+                                             },{
+                                                 "label":"我参与的",
+                                                 "onclick":function(){
+                                                     page=1
+                                                     fenlei=1;
+                                                     getData("huodonglist").clean()
+                                                     load()
+                                                 }
+                                             }]
+                                         },{
+                                            "id":"huodonglist",
+                                            "type" : "huodonglist",
+                                            "table" : []
+                                            
+                                        }];
+                            setData(json,function(){load()})
+                            function load(bool){
+                                var url="";
+                                if(fenlei==1){
+                                    url=djconfig.cjdhd+"creator="+id+"&rows=20&page="+page+"&isreport=1"
+                                }else if(fenlei==2){
+                                    url=djconfig.fqdhd+"creator="+id+"&rows=20&page="+page
+                                }
+                                 lazy.URLRequest(url, function(data) {
+                                     lazy.closeBounce();
+                                     var data=data.rows;
+                                     if(data.length==0&&page==1){
+                                              if(!document.getElementsByClassName("zwsjXT")[0]){
+                                                 lazy.datanull("暂无数据",document.getElementsByClassName("table")[1])
+                                             }
+                                         }
+                                     for(var i=0;i<data.length;i++){
+                                         var time="";
+                                         time=lazy.format(data[i].begintime,"MM-dd")
+                                         var list={
+                                                        "ids":data[i].activityid,
+                                                        "icon" :data[i].baseimagepath?lazy.getImagePx(data[i].baseimagepath, 180, 120):"../LazyUI/images/mr.jpg",
+                                                        "h1" : data[i].servicetheme,
+                                                        "h1s":"<span style=\"color:#f90;\">"+data[i].hdtypename+"</span>"+"&nbsp;|&nbsp;"+"<span style=\"color:#f90;\">"+data[i].integralname+"积分</span>",
+                                                        "h2" : time+"&nbsp;|&nbsp;"+data[i].place+"...&nbsp;|&nbsp;"+(data[i].reportcount?data[i].reportcount:"0")+"人/"+data[i].peoplecount+"人",
+                                                        "pl" : data[i].commentcount?data[i].commentcount:"0",
+                                                        "pinglun" : function(obj) {
+                                                            lazy.setParameter("huodongid",obj.ids);
+                                                            lazy.openWin("../faxian/pllist.html");
+                                                        },
+                                                        "onclick" : function(obj) {
+                                                            lazy.setParameter("huodongid",obj.ids);
+                                                            lazy.openWin("../faxian/huodongxq.html");
+                                                        }
+                                                    }
+                                         getData("huodonglist").add(list);
+                                     }
+                                     page++
+                                 },function(){lazy.closeBounce();},bool?bool:"")
+                            }
+                             lazy.bounce({"up":function(){
+                                load(0)
+                               }}); 
+                            })
+                        });
+        })
+    </script>
+</html>

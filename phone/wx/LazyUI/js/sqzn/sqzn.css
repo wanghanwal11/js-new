@@ -1,0 +1,67 @@
+body[type=body] div[type=sqzn]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=sqzn] .table {
+    width:100%;
+    height:auto;
+}
+div[type=sqzn] .tr_img {
+    width:100%;
+}
+div[type=sqzn] .tr1{
+    background-color : #FFFFFF;
+    padding: 1rem;
+    border-bottom: 1px solid #eeeeee;
+}
+div[type=sqzn] .tr2{
+    background-color : #FFFFFF;
+    
+}
+div[type=sqzn] .tr2 .hh{
+    padding: 1rem;
+}
+div[type=sqzn] .tr{
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 0.5rem;
+}
+div[type=sqzn] .tr:nth-last-child(1){
+    border-bottom: 0px;
+}
+div[type=sqzn] .jf {
+    background-position:0 center;
+    background-size: 1.3rem;
+    background-repeat:no-repeat;
+    padding-left: 2.4rem;
+    line-height: 2rem;
+}
+div[type=sqzn] .jf span{
+    font-size: 1rem;
+}
+div[type=sqzn] .pm {
+    background:url(pm.png);
+    background-position:0 center;
+    background-size: 1.3rem;
+    background-repeat:no-repeat;
+    padding-left: 2.4rem;
+}
+div[type=sqzn] .text {
+    background:url(xia.png);
+    background-position:right center;
+    background-size: cover;
+    background-repeat:no-repeat;
+    padding-right: 2.5rem;
+}
+div[type=sqzn] .text span{
+    font-size: 1rem
+}
+div[type=sqzn] .text1 {
+    background:url(shang.png);
+    background-position:right center;
+    background-size: cover;
+    background-repeat:no-repeat;
+    padding-right: 2.5rem;
+}

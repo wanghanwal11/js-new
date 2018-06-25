@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <title>政策咨询</title>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=label]{
+                display: none;
+            }
+            #bounceLoading{
+                display: none;
+            }
+            body{
+                background-color: #efefef !important;
+            }
+        </style>
+    </head>
+    
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var val="";
+            var ids=lazy.geturlstr("wxinitId");
+            lazy.setParameter("ids",ids)
+            var json=[{
+                            "type" : "sousuoinput",
+                            "select" : function(val1){
+                            },
+                            "onfocus":function(){
+                                lazy.openWin("chaxunxq.html?biaoshi=biaoshi&wxinitId="+ids)
+                            }
+                        }]
+               lazy.URLRequest(getIP()+"/wechat/weixinzczx/zcfl.ht?typeName=wiki_ctfl&parentid=0&initid="+ids, function(data) {
+                   var data=data.rows;
+                    for(var i=0;i<data.length;i++){
+                        var h={
+                            "type" : "table12",
+                            "id":data[i].id,
+                            "title":[{
+                                "text":data[i].text,
+                                "icon":data[i].iconCls,
+                                "onclick":function(id){
+                                   lazy.openWin("chaxunxq.html?wxinitId="+ids+"&id="+id)
+                                }
+                                }],
+                            "col" : 2,
+                            "table" : [],
+                        }
+                     json.push(h)
+                     
+                    }
+                    setData(json, function() {
+                    	for(var i=0;i<data.length;i++){
+                    		load(data[i].id)
+                    	}
+                    })
+                    function load(id){
+                        lazy.URLRequest(getIP()+"/wechat/weixinzczx/zcfl.ht?typeName=wiki_ctfl&parentid="+id+"&initid="+ids, function(datas) {
+                         var datas=datas.rows;
+                         for(var j=0;j<datas.length;j++){
+                             var s={
+                                "icon" : datas[j].iconCls?(datas[j].iconCls.replace(/\\/g,"/")):'',
+                                "label" : datas[j].text,
+                                "id":datas[j].id,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("chaxunxq.html?wxinitId="+ids+"&id="+obj.id)
+                                }
+                             }
+                            // for(var k = 0; k<5 ; k++)
+                                    getData(id).adds(s);
+                         }
+                         if(datas.length>6){
+                             var h={
+                               //"icon" : lazy.url + "LazyUI/js/table11/more.png",
+                               "icon" : "",
+                                "label" : "更多",
+                                "onclick" : function(obj,el) {
+                                    var table = el.getElementsByClassName("table")[0];
+                                    table.style.height = 'auto';
+                                    
+                                    var more = el.getElementsByClassName("more")[0];
+                                    more.style.display='none';
+                                    //td.style.display = 'none';
+                                    //lazy.openWin("tree.html?wxinitId="+ids+"&id="+id)
+                                }
+                             }
+                            getData(id).addmore(h);
+                             var h1={
+                                //"icon" : lazy.url + "LazyUI/js/table11/shouqi.png",
+                                "icon" : "",
+                                "label" : "收起",
+                                "color":"#3399ff",
+                                "onclick" : function(obj,el) {
+                                    var table = el.getElementsByClassName("table")[0];
+                                    table.style.height = '10.8rem';
+                                    var more = el.getElementsByClassName("more")[0];
+                                    more.style.display='';
+                                    //lazy.openWin("tree.html?wxinitId="+ids+"&id="+id)
+                                }
+                             }
+                            getData(id).adds(h1);
+                            var temp = document.getElementById(id);
+                            var table = temp.getElementsByClassName("table")[0];
+                                    table.style.height = '10.8rem';
+                         }
+                         
+                     },function(){},0)
+                    }
+               })
+             
+        })
+    </script>
+</html>

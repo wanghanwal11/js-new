@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body,html {
+                background-color: #efeef3 !important;
+            }
+            div[type=kaoqinlist] {
+                margin-top: 0.5rem;
+            }
+            #calendar .btn{
+                display: none;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var kqid = lazy.getParameter("kqid")?lazy.getParameter("kqid"):"";
+        lazy.setParameter("Bgcolor","#f75e5d");
+        var nowdate = new Date();
+        var year = nowdate.getFullYear();
+        var month = nowdate.getMonth()+1;
+        var day = nowdate.getDate();
+        var nowdatestr = year+"/"+month+"/"+day+" 0:0:0";//lazy.format(nowdate.getTime(), 'yyyy-MM-dd');
+        var kqobj = {};
+        var otherobj = {};
+        var json = [{
+            "id" : "calendar",
+            "type" : "calendar",
+            "date" : nowdatestr,
+            "content" : [],
+            "url" : "tongji.html",
+            "onchange" : function(datestr) {
+                datestr = datestr.replace(/-/g, "/");
+            	var date = new Date(datestr);
+            	var year = date.getFullYear();
+                var month = date.getMonth()+1;
+            	var str = year+"-"+month;
+                if(kqobj[str]){
+                    load(datestr)
+                }else{
+                    var url1 = config.getCheckattendance+"year="+year+"&month="+month;
+                	load(datestr, url1);
+                }
+            	/*
+            	getData("calendar").add(date, [
+                            {
+                                "state" : "正常",
+                                "event_time" : "2016-6-8"
+                            },{
+                                "state" : "迟到",
+                                "event_time" : "2016-6-9"
+                            }
+                        ]);
+                */
+            }
+        },{
+            "id" : "kqlist",
+            "type" : "kaoqinlist",
+            "table" : []
+        }];
+        json.unshift({
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '考勤',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "select" : function(name, index) {
+                    if(name=="left"){
+                        lazy.close();
+                    }
+                }
+        })
+        
+        setData(json, function() {
+        	/*
+        	var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth()+1;
+            var url1 = config.getCheckattendance+"year="+year+"&month="+month;
+            if(kqid!="") url1 += "&id="+kqid;
+            load(url1)
+        	*/
+        	var year = nowdate.getFullYear();
+            var month = nowdate.getMonth()+1;
+        	var url1 = config.getCheckattendance+"year="+year+"&month="+month;
+        	load(nowdatestr,url1);
+        });
+        function load(datestr, url){
+        	getData("kqlist").clean();
+            var str = new Date(datestr).getFullYear()+"-"+(new Date(datestr).getMonth()+1);
+            var time = new Date(datestr).getTime();
+        	if(url){
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    kqobj[str] = data[0];
+                    var arr = [];
+                    for(var str1 in data[0]){
+                        var tmp1 = data[0][str1];
+                        tmp1.event_time = lazy.format(str1*1,'yyyy-MM-dd');
+                        arr.push(tmp1);
+                    }
+                    if(data[0][time]){
+                        var obj = data[0][time];
+                        var img = obj.picture?getIP()+obj.picture.replace(/\\/g,"/"):"";
+                        if(obj.picture.indexOf("http://")>-1) img = obj.picture;
+                        var tmp = {
+                            "icon" : img,
+                            "state" : obj.state,
+                            "h1" : obj.name,
+                            "h2" : "",
+                            "time" : [],
+                        }
+                        if(obj.am&&obj.am!="") tmp.time.push(obj.am);
+                        if(obj.pm&&obj.pm!="") tmp.time.push(obj.pm);
+                        getData("kqlist").add(tmp);
+                    }
+                  //添加日历上的样式
+                  getData("calendar").add(datestr, arr);
+                })
+        	}else{
+        	    if(kqobj[str]){
+        	        if(kqobj[str][time]){
+        	            var obj = kqobj[str][time];
+        	            var img = obj.picture?getIP()+obj.picture.replace(/\\/g,"/"):"";
+                        if(obj.picture.indexOf("http://")>-1) img = obj.picture
+                        var tmp = {
+                            "icon" : img,
+                            "state" : obj.state,
+                            "h1" : obj.name,
+                            "h2" : "",
+                            "time" : [],
+                        }
+                        if(obj.am&&obj.am!="") tmp.time.push(obj.am);
+                        if(obj.pm&&obj.pm!="") tmp.time.push(obj.pm);
+                        getData("kqlist").add(tmp);
+        	        }
+        	    }
+        	}
+        	loadother(datestr,time)
+        }
+        function loadother(datestr,time){
+            if(otherobj[time]){
+                var data = otherobj[time];
+                for(var i=0;i<data.length;i++){
+                    var obj = data[i];
+                    var img = obj.picture?getIP()+obj.picture.replace(/\\/g,"/"):"";
+                    if(obj.picture.indexOf("http://")>-1) img = obj.picture
+                    var tmp = {
+                        "icon" : img,
+                        "state" : obj.status,
+                        "h1" : obj.name,
+                        "h2" : "",
+                        "time" : [],
+                    }
+                    if(obj.begtime&&obj.begtime!="") tmp.time.push(obj.begtime);
+                    if(obj.endtime&&obj.endtime!="") tmp.time.push(obj.endtime);
+                    getData("kqlist").add(tmp);
+                }
+            }else{
+                var year = new Date(datestr).getFullYear();
+                var month = new Date(datestr).getMonth()+1;
+                var day = new Date(datestr).getDate();
+                var qxurl = config.getAttendanceByRights+"year="+year+"&month="+month+"&day="+day;
+                lazy.URLRequest(qxurl,function(data){
+                    if(data.newPrimaryKeys.rights&&data.newPrimaryKeys.rights=="1"){
+                        document.getElementById("calendar").getElementsByClassName("btn")[0].style.display = "block"
+                    }
+                    var data = data.rows;
+                    otherobj[time] = data;
+                    for(var i=0;i<data.length;i++){
+                        var obj = data[i];
+                        var img = obj.picture?getIP()+obj.picture.replace(/\\/g,"/"):"";
+                        if(obj.picture.indexOf("http://")>-1) img = obj.picture
+                        var tmp = {
+                            "id" : obj.userid,
+                            "icon" : img,
+                            "state" : obj.status,
+                            "h1" : obj.name,
+                            "h2" : "",
+                            "time" : [],
+                            "onclick" : function(obj){
+                                lazy.setParameter("personid",obj.id);
+                                lazy.openWin("../person/person.html")
+                            }
+                        }
+                        if(obj.begtime&&obj.begtime!="") tmp.time.push(obj.begtime);
+                        if(obj.endtime&&obj.endtime!="") tmp.time.push(obj.endtime);
+                        getData("kqlist").add(tmp);
+                    }
+                })
+            }
+        }
+    });
+    </script>
+</html>

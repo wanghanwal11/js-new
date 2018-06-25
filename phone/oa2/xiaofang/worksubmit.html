@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>工作指导管理</title>
+        <style type="text/css">
+            body{
+                background-color: white!important;
+            }
+        </style>
+    </head>
+    <script> 
+        start(function() {
+            lazy.personmessage(function(obj){
+                lazy.setHeader({
+                    "title":"工作指导管理",
+                    "color":lazy.getParameter("Bgcolor"),
+                    "rightbtn" : [
+                        {
+                         "icon" : "dui.png",
+                         "onclick" : function() {
+                             var arr = getData("fire_process").getArray();
+                             var url = getIP() + "/firesys/F_Workinstruction/save.ht?orgid="+userAreaId+"&orgname="+orgName;
+                             url+="&orgpath="+userAreaPath;
+                             if(arr[0]==""){
+                                 lazy.alert2("请输入指导单位");
+                                 return;
+                             }
+                             url+="&directedunit="+arr[0];
+                             if(arr[1]==""){
+                                 lazy.alert2("请选择指导时间");
+                                 return;
+                             }
+                             url+="&guidancetime="+arr[1];
+                             if(arr[2]==""){
+                                 lazy.alert2("请输入指导记录");
+                                 return;
+                             }
+                             url+="&detailsinfo="+arr[2];
+                             url+="&otherproblems="+arr[3];
+                             if(arr[4].length>0){
+                                 var imgids = [];
+                                 var imgsarr = arr[4];
+                                 for(var i=0;i<imgsarr.length;i++){
+                                     imgids.push(imgsarr[i].id)
+                                 }
+                                 url += '&imgurl='+imgids;
+                             }
+                             lazy.URLRequest(url,function(){
+                                 alert("提交成功");
+                                 window.history.go(-1);
+                             })
+                         }
+                     }
+                    ]
+                });
+                var userAreaId = obj.rows[0].userAreaId?obj.rows[0].userAreaId:"1234";
+                var userAreaPath = obj.rows[0].userAreaPath?obj.rows[0].userAreaPath:"1234";
+                var orgName = obj.rows[0].orgName?obj.rows[0].orgName:"123412341";
+                var json = [
+                    {
+                        "id":"fire_process",
+                        "type":"fire_process",
+                        "table":[
+                            {
+                                "title":"指导单位",
+                                "type":"input",
+                            },{
+                                "title":"指导时间",
+                                "type":"datetime",
+                            },{
+                                "title":"指导记录",
+                                "type":"textarea",
+                            },{
+                                "title":"其他问题",
+                                "type":"textarea",
+                            },{
+                                "type":"image",
+                            }
+                        ]
+                    }
+                ]
+                setData(json);
+           })
+        })
+    </script> 
+</html>

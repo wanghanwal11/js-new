@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <style>
+        body {
+            background-color: #efeef3 !important;
+        }
+        div[type=titlebtnlist1] .table {
+            padding: 0 0.5rem;
+        }
+        div[type=titlebtnlist1] .tr{
+            border-bottom: 1px solid #ebebeb;
+        }
+        div[type=titlebtnlist1] .td{
+            border-bottom: none !important;
+        }
+        div[type=process_xq] .title span{
+            display: none!important;
+        }
+    </style>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide()
+    	//办理过程
+    	var blicon = [];
+    	var blh1 = [];
+    	var blh2 = [];
+    	var blh3 = [];
+    	
+    	//图片
+    	var annexpath = [];
+        var annexid = [];
+
+        var spobj = lazy.getParameter("spobj");
+        var taskId = spobj.taskid?spobj.taskid:0;
+    	var runId = spobj.runid;
+    	var phones = {};
+    	var url = config.phoneBl + "taskId=" + taskId + "&runId=" + runId//config.getPhoneForm + "0" + "&taskId=" + taskId + "&runId=" + runId;//获取表字段
+   		 lazy.URLRequest(url,function(data){
+   			process =  eval('(' + data.rows[0].json + ')');
+   			lazy.setParameter("objvalues",data.rows[0].form);
+   	 		var json = process;
+   	 		var check = spobj.taskStatus;
+   	 		var tbl = {
+                "id" : "titlebtnlist1",
+                "type" : "titlebtnlist1",
+                "table" : [{
+                    "icon" : "",
+                    "h1" : spobj.h1,
+                    "h2" : spobj.shenpi?"已审批":"等待审批",
+                }]
+            }
+            json.unshift(tbl)
+   	 		if(check=="2"){
+               var chuo = {
+                   "id" : "chuo",
+                   "type" : "chuo",
+                   "result" : "yes"
+               }
+               json.unshift(chuo);
+            }else if(check=="3"){
+                var chuo = {
+                   "id" : "chuo",
+                   "type" : "chuo",
+                   "result" : "no"
+               }
+               json.unshift(chuo);
+            }
+   	 		if (taskId != 0) {
+                //公文
+                if(spobj.processName.indexOf("公文")>-1){
+                    var userid = spobj.userid;
+                    var creatorId = spobj.creatorId;
+                    if(spobj.taskDefinitionKey=="SignTask1"){
+                        if(userid == creatorId){//同意补签
+                            var bottombuttons = {
+                                "type" : "bottombuttons",
+                                "table" : [
+                                        {
+                                            "label" : "同意",
+                                            "onclick" : function() {
+                                                lazy.setParameter("buttonId",1)
+                                                lazy.openWin("shenqingbanli.html");
+                                            }
+                                        },
+                                         {
+                                            "label" : "补签",
+                                            "onclick" : function() {
+                                                lazy.setParameter("buttonId",7)
+                                                lazy.openWin("shenqingbanli.html");
+                                            }
+                                        }
+                                    ]
+                            }
+                        }else{//审批
+                            var bottombuttons = {
+                                "type" : "bottombuttons",
+                                "table" : [
+                                        {
+                                            "label" : "审核",
+                                            "onclick" : function() {
+                                                var url1 = config.getEndtimeByTaskid + "taskid=" + taskId;
+                                                lazy.URLRequest(url1,function(data1){
+                                                    if(data1.rows[0].endtime==""){
+                                                        lazy.setParameter("buttonId",999);
+                                                        lazy.openWin("shenqingbanli.html");
+                                                    }else{
+                                                        lazy.alert2("已审核,请勿重新审核")
+                                                    }
+                                                })
+                                            }
+                                        },
+                                    ]
+                            }
+                        }
+                        json.push(bottombuttons)
+                    }else{
+                        if(userid == creatorId){
+                             var bottombuttons = {
+                                "type" : "bottombuttons",
+                                "table" : [
+                                    {
+                                        "label" : "办理",
+                                        "onclick" : function() {
+                                            lazy.setParameter("buttonId",null)
+                                            lazy.openWin("shenqingbanli.html");
+                                        }
+                                    }
+                                ]
+                            }
+                            json.push(bottombuttons)
+                        }
+                    }
+                }else{
+                    var bottombuttons = {
+                        "type" : "bottombuttons",
+                        "table" : [
+                            {
+                                "label" : "办理",
+                                "onclick" : function() {
+                                    lazy.setParameter("buttonId",null)
+                                    lazy.openWin("shenqingbanli.html");
+                                }
+                            }
+                        ]
+                    }
+                    json.push(bottombuttons)
+                }
+            }
+              json.unshift({
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : spobj.h1,
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                        if(name=="left"&&index==0){
+                            lazy.goBack();
+                        }
+                        if(name=="left"&&index==1){
+                            lazy.close()
+                        }
+                    }
+                })
+           setData(json);
+   	 });
+    });
+    </script>
+</html>

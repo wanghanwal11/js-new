@@ -1,0 +1,17 @@
+body[type=body] div[type=xinwenlb]{
+    position:relative;
+    width: 100%;
+    height: auto;
+    background-color:#fff;
+    -webkit-box-sizing: border-box;
+}
+div[type=xinwenlb] .tr{
+    padding: 1rem;
+    border-bottom: 1px solid #efefef;
+}
+div[type=xinwenlb] .title{
+  margin-right: 0.5rem;  
+}
+div[type=xinwenlb] .date span{
+    color:#999999;
+}

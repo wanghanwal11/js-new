@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>           
+        start(function() {
+            lazy.bounce();
+            var json = [
+                            {
+                                "type" : "tree1",
+                                "child" : [],
+                                "onclick" : function(data, group, c) {
+                                    load(data.id, function(arr) {
+                                        data.add(arr, group, c);
+                                    },function(){
+                                        lazy.var({
+                                            "id" : data.id,
+                                            "title" : data.title
+                                        });
+                                       lazy.alertyesno("确定报到?",function(){
+                                           var url=getIP()+"/party/DJ_CommunityReport/saveRecord.ht?reportorgid="+data.id+"&reportorgname="+data.title
+                                           lazy.URLRequest(url, function(data) {
+                                               alert("报到成功");
+                                               lazy.setParentJs("lazy.close()","dzz");
+                                               lazy.setParentJs("lazy.refresh()","sqbd");
+                                           })
+                                       },function(){lazy.setParentJs("lazy.refresh()","dzz")})
+                                    });
+                                }
+                            }
+                        ];
+            load(0, function(arr) {
+                json[0].child = arr;
+                setData(json);
+            });
+            function load(id,back,lastback) {
+               var url=getIP()+"/party/DJ_Partyplatform/getByTreeMobile.ht?parentid="+id;
+               lazy.URLRequest(url, function(data) {
+                   var arr = data.rows;
+                   if(arr.length == 0) {
+                       //触发跳转事件
+                       lastback();
+                       //
+                   }else {
+                       var child = [];
+                       for(var i = 0; i < arr.length; i++) {
+                           child.push({
+                               "id": arr[i].id,
+                               "title": arr[i].text,
+                               "child" : []
+                           })
+                       }
+                       back(child);
+                   }
+                   
+               });
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=wendalist] .tr{
+                border-bottom:0!important;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+         start(function() {
+            //lazy.bounce();
+            var id=lazy.geturlstr("id")?lazy.geturlstr("id"):0;
+            var ids=lazy.geturlstr("wxinitId");
+            var id2=lazy.geturlstr("wxopenid");
+            
+            var json = [
+                            {
+                                "type" : "tree1",
+                                "child" : [],
+                                "onclick" : function(data, group, c) {
+                                    load(data.id, function(arr) {
+                                        data.add(arr, group, c);
+                                    });
+                                }
+                            }
+                        ];
+            load(id, function(arr){
+                json[0].child = arr;
+                setData(json);
+            });
+            function load(id,back,lastback) {
+               var url=getIP()+"/wechat/weixinTzyjw/getZSKCategory.ht?isshow=是&parentid="+id+"&initid="+ids;
+               lazy.GET(url, function(data) {
+                   
+                   var arr = data.rows;
+                   
+                      
+                       var child = [];
+                       for(var i = 0; i < arr.length; i++) {
+                           child.push({
+                               "id": arr[i].id,
+                               "title": arr[i].text,
+                               "child" : [],
+                               "sel":function(obj){
+                                    lazy.openWin("chaxunxq1.html?id="+obj.id+"&wxinitId="+ids+"&wxopenid="+id2)
+                               }
+                           })
+                       }
+                       back(child);
+                   
+                   
+               },function(){}, null);
+            }
+        });
+    </script>
+</html>

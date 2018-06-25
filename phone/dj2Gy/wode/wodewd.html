@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=wendalist] .tr{
+                border-bottom:0!important;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var fenlei=2;
+            lazy.setHeader({
+                            "title":"问答",
+                            "rightbtn": [
+                                {
+                                    "icon": "search.png",
+                                    "onclick" : function() {
+                                         lazy.openWin("sousuowd1.html")
+                                    }
+                                }
+                            ]
+                        },function(){
+                            lazy.personmessage(function(o){
+            var id=o.rows[0].userId;
+            lazy.setParameter("peid",id);
+            var json=[{
+                             "type":"movebutton",
+                             "index":0,
+                             "table":[{
+                                 "label":"我发起的",
+                                 "onclick":function(){
+                                     page=1;
+                                     fenlei=2;
+                                     getData("wendalist").clean()
+                                     load()
+                                 }
+                             },{
+                                 "label":"我参与的",
+                                 "onclick":function(){
+                                     page=1
+                                     fenlei=1;
+                                     getData("wendalist").clean()
+                                     load()
+                                 }
+                             }]
+                         },{
+                "id" : "wendalist",
+                "type" : "wendalist",
+                "table" : []
+            }]
+            setData(json,function(){load()})
+            function load(bool){
+                 var url="";
+                if(fenlei==1){
+                    url=djconfig.cjdwd+"creator="+id+"&rows=20&type=1&page="+page
+                }else if(fenlei==2){
+                    url=djconfig.fqdwd+"creator="+id+"&rows=20&type=1&page="+page
+                }
+                lazy.URLRequest(url, function(data) {
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    if(data.length==0&&page==1){
+                                              if(!document.getElementsByClassName("zwsjXT")[0]){
+                                                 lazy.datanull("暂无数据",document.getElementsByClassName("table")[1])
+                                             }
+                                         }
+                    for(var i=0;i<data.length;i++){
+                        var s={
+                                "ids":data[i].answerid,
+                                "h2" : data[i].content,
+                                "img":data[i].filepatharray,
+                                "h3" : lazy.format(data[i].createtime,"MM-dd"),
+                                "pl":data[i].commentcount?data[i].commentcount:"0",
+                                "yue":data[i].concerncount?data[i].concerncount:"0",
+                                "del":fenlei==2?true:false,
+                                 "delfun":function(obj){
+                                     lazy.alert("<span style=\"color:#f20;\">确定删除？</span>",{
+                                        "yesfun" : function(){
+                                              lazy.URLRequest(getIP()+"/basicactivities/Activity_Answer/del.ht?"+"answerid="+obj.ids, function(js) {
+                                                    lazy.refresh()
+                                                },function(){},0)
+                                        },
+                                        "close" : function() {
+                                            
+                                        }
+                                     });
+                                },
+                                "people":[{"src":data[i].userpicture,"name":data[i].createuser}],
+                                "onclick":function(obj){
+                                    var objs=encodeURIComponent(JSON.stringify(obj))
+                                    lazy.setParameter("data",obj);
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.openWin("../faxian/wendaxq.html?id="+obj.ids+"&objs="+objs);
+                                },
+                                "pinglun":function(obj){
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.openWin("../faxian/pllist.html");
+                                }
+                            }
+                       getData("wendalist").one(s);
+                    }
+                    page++
+                },function(){lazy.closeBounce();},bool?bool:"")
+            }
+            lazy.bounce({"up":function(){
+                load(0)
+               }}); 
+           })
+                        });
+        })
+    </script>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=label] {
+                color: #5e97f6;
+                height: 2rem !important;
+                line-height: 2.5rem !important;
+                background-color: #fff;
+                border-top: 1px solid #e1e1e0;
+                margin-top: 0.5rem;
+                padding-left: 1.2rem !important;
+            }
+            div[type=label] span{
+                font-size: 0.85rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var url = djconfig.getgonggaoxq+"id="+lazy.getParameter("ggid");
+             lazy.setHeader({
+                            "title":"公告详情"
+                        });
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var json = [{
+                    "type" : "news",
+                    "title" : data.title,
+                    "username" : data.fullname,
+                    "time" : data.createtime,
+                    "content" : data.content,
+                }];
+                if(data.allfiles.length>0){
+                    var files = data.allfiles;
+                    var filesPath = [];
+                    var filesName = [];
+                    for(var i=0;i<files.length;i++){
+                        filesPath.push(files[i].url.replace(/\\/g,"/"));
+                        filesName.push(files[i].name);
+                    }
+                	var processxq = {
+                        "id" : "process",
+                        "type" : "process_xq",
+                        "table" : [{
+                              	"type" : "file",
+                              	"title" : "附件",
+                              	"value" : filesPath,
+                              	"name" : filesName
+                         }]
+                	}
+                	json.push(processxq)
+                }
+                setData(json)
+            })
+        });
+    </script>
+</html>

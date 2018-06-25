@@ -1,0 +1,20 @@
+body[type=body] div[type=btn]{
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=btn] .buttondiv {
+    width: 90%;
+    margin: 2rem auto 0 auto;
+    text-align: center;
+    height: 2.4rem;
+    line-height: 2.4rem;
+    color: #52ced6;
+    background-color: #FFFFFF;
+    border: 1px solid #ccc;
+    border-radius: 0.2rem;
+    -webkit-tap-highlight-color: rgba(201, 224, 253, 0.5);
+}

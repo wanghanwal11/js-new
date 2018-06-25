@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+     start(function() {
+         lazy.setHeader({
+                            "title":"人才统计"
+                        });
+           var page=1;
+           var json = [{
+                           "id":"listbar",
+                           "type" : "listbar",
+                           "table":[]
+                       }];
+           setData(json,function(){
+               list();
+           });
+           function list(){
+               lazy.URLRequest(getIP()+'/szllMobile.ht?'+"rows=10&page="+page, function(data) {
+                      lazy.closeBounce();
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){     
+                         var d={
+                                 "title":"姓名："+data[i].name,
+                                 "ids":data[i].id,
+                                 "h" : [
+                                    "学科类别：" + data[i].subject,
+                                    "文化程度：" + data[i].degree,
+                                    "职称：" + data[i].teacher,
+                                 ],
+                                 "onclick":function(obj){
+                                    lazy.setParameter("szllid",obj.ids)
+                                    lazy.openWin("szllxq.html")
+                                 }
+                            }
+                          getData("listbar").add(d);
+                      }
+                      page++;
+                 },function(){
+                     lazy.closeBounce();
+                 });
+           }    
+                            
+            lazy.bounce({"up":function(){
+                list();
+            }}); 
+        });
+    </script>
+</html>

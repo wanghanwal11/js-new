@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        	body,html {
+                background-color: #efeef3 !important;
+            }
+        	.timediv {
+        		height: 0 !important;
+        		padding: 0 !important;
+        	}
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        lazy.setHeader({
+            "title":"我提交的",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var page = 1;
+        var search = "";
+        var json = [{
+            "type" : "sousuoinput_move",
+            "select" : function(val){
+                page = 1;
+                getData("titlebtnlist2").clean();
+                search = val;
+                load(search);
+            }
+        },{
+            "id" : "titlebtnlist2",
+            "type" : "titlebtnlist2",
+            "table" : []
+        }];
+        setData(json,function(){
+            lazy.bounce({
+                "up" : function(){
+                    load(search);
+                }
+            })
+            load(search);
+        });
+        
+        function load(search){
+            var url = config.mobileloglist + "rows=20&listtype=own&page="+page+"&title="+search;//+"&mark=oa";
+            if(mark!="") url += "&mark="+mark;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+                for(var i=0;i<data.length;i++){
+                	var str = "日志";
+                	if(data[i].type=="week") str = "周报";
+                	if(data[i].type=="month") str = "月报";
+                     var tmp = {
+                        "id" : data[i].id,
+                        "userid":data[i].userid, //后加的
+                        "icon" : data[i].picture?(getIP()+data[i].picture).replace(/\\/g,""):"",
+                        "h1" : data[i].title,
+                        "h2" : data[i].def1,
+                        "logtype" : str,
+                        "state" : data[i].logtime,
+                        "h3" : [lazy.format(data[i].createtime,"yyyy-MM-dd")],
+                        "onclick" : function(obj){
+                            lazy.setParameter("personobj",obj);
+                            if(obj.logtype=="日志"){
+                                lazy.openWin("rizhidetail.html")
+                            }else if(obj.logtype=="周报"){
+                                lazy.openWin("zhoubaodetail.html")
+                            }else{
+                                lazy.openWin("yuebaodetail.html")
+                            }
+                        }
+                    };
+                    getData("titlebtnlist2").add(tmp);
+                }
+            },function(){})
+        }
+           
+    });
+    </script>
+</html>

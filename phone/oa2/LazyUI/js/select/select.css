@@ -1,0 +1,33 @@
+body[type=body] div[type=select]{
+	-webkit-box-sizing:border-box;
+	position:relative;
+	background-color: white;
+	width: 100%;
+}
+div[type=select] .question{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+div[type=select] .title{
+    margin-left: 1rem;
+}
+div[type=select] .one{
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}
+div[type=select] .left{
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid #c1c1c1;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+div[type=select] .check_true{
+    background-image: url(dui.png);
+    background-repeat: no-repeat;
+    background-size: 1.5rem 1.5rem;
+}
+div[type=select] .check_false{
+    
+}

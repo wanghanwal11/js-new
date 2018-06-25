@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Document</title>
+    <script src="LazyUI2.0/admin/admin.js"></script>
+    <style>
+        .cs {
+            margin-top: 100px;   
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+   <div class="cs">
+    <a href="#login">login</a>
+    <a href="#login0">login0</a>
+    <a href="#login1">login1</a>
+    <a href="#login2">login2</a>
+    <a href="#login3">login3</a>
+    </div>
+</body>
+<script>
+    //
+    var config = {
+        debug : true,
+        dir : 'LazyUI2.0', //目录路径   默认为LazyUI2.0
+        iosName : 'vitoios',    //判断原生态ios凭据  webvie的头文件中 navigator.userAgent
+        androidName : 'vitoandroid',    //判断是否原生态android凭据 webvie的头文件中
+        firstPage : 'login', //首页名称
+        data : {
+            map:{}
+        },  //存储任意数据
+        //
+        map : {     //注册页面拦截器
+            login0 : {
+                animate : 0,
+            },
+            login1 : {
+                animate : 1,
+                css : true
+            },
+            login : {
+                animate : 1,
+                cache : true,   //常住内存
+                before : function(obj) {
+                    //预执行函数
+                    //alert('日志开始');
+                    //obj.clear();
+                    //obj.next();
+                    config.data.map.login1 = obj.clear;
+                    obj.next();
+                }
+            },
+            login2 : {
+                animate : 2,
+            },
+            login3 : {
+                animate : 3,
+                before : function(obj) {
+                    if(config.data.map.login1)config.data.map.login1();
+                    obj.next();
+                }
+            },
+            rizhiRizhixq : {
+                animate : 1,
+                before : function(obj) {
+                    //预执行函数
+                    //alert('日志开始');
+                    obj.next();
+                },
+                after : function() {
+                    //加载完成后函数
+                    //alert('日志结束');
+                }
+            }
+        },
+        //
+        beforeJs : [],  //method 前加载 
+        afterJs : [],   //method 后加载
+        css : [],
+        //
+        UI : {
+            width : 720,
+            screen : 'v',   //横屏h 竖屏v
+            pc : false, //是否兼容pc字体
+            fontSize : 30
+        }
+    }
+    start(function() {
+        
+    }, config);
+    
+</script>
+</html>

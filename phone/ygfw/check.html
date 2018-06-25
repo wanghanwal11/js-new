@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Document</title>
+    <script src="LazyUI/js/admin.js"></script>
+    <style>
+        body {
+            background-color: #ffe7cd!important
+        }
+        div[type=process]{
+            margin-top: 4rem;
+        }
+        div[type=button] {
+            padding: 0 0.8rem;
+            margin: 1rem 0 0.8rem 0;
+        }
+        div[type=button] .buttondiv {
+            border: none !important;
+            background-color: #0db09b !important;
+        }
+        div[type=button] span {
+            font-size: 0.8rem !important;
+        } 
+    </style>
+</head>
+<body></body>
+<script>
+    start(function() {
+        lazy.setHeader({
+            "title":"尿检记录",
+            "color":"#ff9f2d",
+        });
+        setData([
+            {
+                id : "process",
+                type : "process",
+                table : [
+                    {
+                        type : "input",
+                        placeholder : "请输入(必填)",
+                        title : "尿检单号"
+                    }
+                ]
+            },{
+                type : "button",
+                label : "提交",
+                onclick : function(){
+                    var danhao = getData("process").getArray().table[0].value;
+                    if(danhao=="") lazy.alert3("尿检单号不能为空");
+                    else{
+                        var date = new Date().getTime();
+                        var url = getIP() + "/compre/ZHZL_Urine/save.ht?urinenum="+danhao+"&urinetime="+date;
+                        lazy.URLRequest(url,function(){
+                            alert("提交成功");
+                            lazy.openWin("checklist.html")
+                        })
+                    }
+                }
+            }
+        ]);
+        
+    });
+</script>
+</html>

@@ -1,0 +1,81 @@
+body[type=body] div[type=renzheng]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=renzheng] .table {
+    width:100%;
+    height:auto;
+}
+
+div[type=renzheng] .tr {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+   
+    background-color: #fff;
+    
+
+}
+div[type=renzheng] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+
+}
+div[type=renzheng] .title{
+   height:1.5rem;
+   line-height:1.5rem;
+   margin-left: 0.3rem;
+}
+div[type=renzheng] input{
+   border: none;
+   text-align: right;
+   position: absolute;
+   right: 2rem;
+}
+div[type=renzheng] .right {
+    width:1.5rem;
+    height:1.5rem;
+    background:url(right.png);
+    background-position: right;
+    background-size: 100% 100%;
+    background-repeat:no-repeat;
+    -webkit-box-sizing:border-box;
+    position: absolute;
+    right: 0;
+}
+div[type=renzheng] .last{
+   height: 0.5rem;
+   width: 100%;
+   background-color: #efefef;
+}
+.shequIframe {  
+    -webkit-overflow-scrolling: touch;  
+    overflow-y: scroll;
+     
+    width: 100%;
+    height: 100%;
+    left: 100%;
+    top: 0;
+    z-index: 1000;
+    position: fixed;
+}
+.iframe {
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	border: none;
+}
+@-webkit-keyframes shequIframe_an {
+    from {left: 100%;}
+    to {left: 0%;}
+}
+@-webkit-keyframes shequIframe_an1 {
+    from {left: 0%;}
+    to {left: 100%;}
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            .group {
+                height: 2.5rem !important;
+                line-height:2.5rem !important;
+                background-color: #fff;
+                margin-top: 0.5rem;
+                border-bottom: 1px solid #cfcfcf;
+            }
+            div[type=button]{
+            position: fixed!important;
+            bottom: 0rem!important;
+          }
+        </style>
+	</head>
+	<body></body>
+	<script>
+	start(function() {
+	    lazy.bounce();
+	    var page = 1; 
+        var json = [
+                 {
+                    "type":"button",
+                    "label":"签到",
+                    "onclick":function(){
+                        lazy.openWin("addqd.html")
+                    }
+                 }
+        ];
+        if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '驻村工作',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+        setData(json,function() {
+            qdlist();
+        });
+            
+        function qdlist(){
+            lazy.URLRequest(getIP()+"/mysignlist.ht?rows=10&page=" + page,function(data){
+                var arr = data.rows;
+                if(arr.length > 0) {
+                    for(var i = 0; i < arr.length; i++) {
+                        var label1 = {
+                            "class" : "group",
+                            "type" : "iconlabel",
+                            "icon" : "../LazyUI/images/qd/shijian.png",
+                            "text" : "签到时间：" + arr[i].signtime,
+                        }
+                        var label2 = {
+                            "type" : "iconlabel",
+                            "icon" : "../LazyUI/images/qd/dd.png",
+                            "text" : "地点：" + arr[i].weizhi,
+                        }
+                        var label3 = {
+                            "type" : "iconlabel",
+                            "icon" : " ",
+                            "text" : "内容：" + arr[i].remark,
+                        }
+                        var files = arr[i].files;
+                        var patharr = [];
+                        for(var j = 0; j < files.length; j++) {
+                            patharr.push(files[j].path);
+                        }
+                        var fujian = {
+                                           "type" : "fujian",
+                                           "content" : patharr,
+                                            "select" : function(n,src) {
+                                                lazy.showPhoto([src]);
+                                            }
+                                       }
+                        //path
+                        json.push(label1);
+                        json.push(label2);
+                        json.push(label3);
+                        json.push(fujian);
+                    }
+                    page++;
+                    setData(json);
+                }
+                
+            },function(e) {
+                alert(e)   
+            })
+        }            
+      lazy.bounce({
+                    "up" : function(){
+                        lazy.closeBounce();
+                        qdlist();
+                    }
+                 });    
+    });
+	</script>
+</html>

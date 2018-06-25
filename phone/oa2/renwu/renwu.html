@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>任务</title>
+        <style>
+            #movebutton_iframe .change {
+                color: #3cc397;
+            }
+            #movebutton_iframe .line div {
+               border: 2px solid #3cc397;
+            }
+            #titlebtnlist1 .jzsj{
+                float: right;
+                color: #f20;
+                padding-left: 1rem;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-size: 0.8rem;
+                background-image: url(../LazyUI/images/renwu/shijian.png);
+            }
+            #titlebtnlist1 .point {
+                display: none;
+            }
+            .hong {
+                color: #f20;
+            }
+            .cheng {
+                color: #f60;
+            }
+            div[type=titlebtnlist1] .td {
+                margin-left: 1rem;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setParameter("Bgcolor","#3cc397");
+        lazy.setHeader({
+                "title":"任务",
+                "color":lazy.getParameter("Bgcolor"),
+                "url" : "close",
+                "rightbtn" : [{
+                     "icon" : "edit.png",
+                     "onclick" : function() {
+                         lazy.openWin("addrenwu.html");
+                     }
+                 }]
+            });
+        var page = 1;
+        var index = 0;
+        var str = "";
+        var json =[
+            {
+                "id" : "movebutton_iframe",
+                "type" : "movebutton_iframe",
+                "table" : [
+                    {
+                        "label" : "收到",
+                        "onclick" : function(i){
+                            if(index!=0){
+                                page = 1;
+                                getData("titlebtnlist1").clean();
+                                str = "";
+                                loadsd(str);
+                            }
+                            index=0;
+                        }
+                    },{
+                        "label" : "完成",
+                        "onclick" : function(i){
+                            if(index!=1){
+                                page = 1;
+                                getData("titlebtnlist1").clean();
+                                str = "";
+                                loadwc(str);
+                            }
+                            index=1;
+                        }
+                    },{
+                        "label" : "发出",
+                        "onclick" : function(i){
+                            if(index!=2){
+                                page = 1;
+                                getData("titlebtnlist1").clean();
+                                str = "";
+                                loadfc(str);
+                            }
+                            index=2;
+                        }
+                    }
+                    // ,{
+                        // "label" : "自动发出",
+                        // "onclick" : function(i){
+                            // if(index!=3){
+                                // page = 1;
+                                // getData("titlebtnlist1").clean();
+                                // str = "";
+                                // loadpc(str);
+                            // }
+                            // index=3;
+                        // }
+                    // }
+                    
+                ]
+            },{
+            "type" : "sousuoinput_move",
+            "select" : function(val){
+                    page = 1;
+                    getData("titlebtnlist1").clean();
+                    str = val;
+                    if(index==0){
+                        loadsd(val);
+                    }else if(index==1){
+                        loadwc(val);
+                    }else if(index==2){
+                        loadfc(val);
+                    }
+                    // else{
+                        // loadpc(val);
+                    // }
+                }
+            },{
+                "id" : "titlebtnlist1",
+                "type" : "titlebtnlist1",
+             }];
+         setData(json,function(){
+            loadsd(str);
+         });
+         function loadsd(val){
+            var url = config.worktasklist+"type=shoudao&rows=20&page="+page;
+            if(val!="") url+="&title="+val;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(page==1&&data.length==0){
+                    if(document.getElementById("label")){
+                        document.getElementById("label").style.display = "block";
+                    }else{
+                        var label = {
+                            "id" : "label",
+                            "type" : "label",
+                            "text" : "暂无数据",
+                        }
+                        json.push(label);
+                        setData(json);
+                    }
+                    return;
+                }else{
+                    if(document.getElementById("label")){
+                        document.getElementById("label").style.display = "none";
+                    }
+                }
+                
+                for(var i=0;i<data.length;i++){
+                    var str = data[i].username;
+                    if(str.length>3){
+                        str = data[i].username.substring(0,3)+"...";
+                    }
+                    var num = i+1+(page-1)*10;
+                    var tmp = {
+                        "id" : data[i].id,
+                        "h1" : num+"."+data[i].title,
+                        "h3" : lazy.autoFormat(data[i].createtime),
+                        "h2" : "发起人："+str+jzsj(new Date(data[i].endtime)),
+                        "rwtype" : "sd",
+                        "isRead":data[i].def2=="weidu"?1:0,
+                        "onclick" : function(obj){
+                            lazy.setParameter("rw",obj);
+                            parent.lazy.openWin("renwuxq.html");
+                        }
+                    }
+                    getData("titlebtnlist1").add(tmp)
+                }
+                
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+            })
+            lazy.bounce({
+                    "up" : function(){
+                        loadsd(str);
+                    }
+                })
+         }
+         function loadwc(val){
+            var url = config.worktasklist+"type=wancheng&rows=20&page="+page;
+            if(val!="") url+="&title="+val;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(page==1&&data.length==0){
+                    if(document.getElementById("label")){
+                        document.getElementById("label").style.display = "block";
+                    }else{
+                        var label = {
+                            "id" : "label",
+                            "type" : "label",
+                            "text" : "暂无数据",
+                        }
+                        json.push(label);
+                        setData(json);
+                    }
+                    return;
+                }else{
+                    if(document.getElementById("label")){
+                        document.getElementById("label").style.display = "none";
+                    }
+                }
+                
+                for(var i=0;i<data.length;i++){
+                    var str = data[i].recename;
+                    if(str.length>3){
+                        str = data[i].recename.substring(0,3)+"...";
+                    }
+                    var num = i+1+(page-1)*10;
+                    var tmp = {
+                        "id" : data[i].id,
+                        "h1" : num+"."+data[i].title,
+                        "h3" : lazy.autoFormat(data[i].createtime),
+                        "h2" : "负责人："+str+jzsj(new Date(data[i].endtime)),
+                        "rwtype" : "wc",
+                        "isRead":data[i].def2=="weidu"?1:0,
+                        "onclick" : function(obj){
+                            lazy.setParameter("rw",obj);
+                            parent.lazy.openWin("renwuxq.html");
+                        }
+                    }
+                    getData("titlebtnlist1").add(tmp)
+                }
+                
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+            })
+            lazy.bounce({
+                    "up" : function(){
+                        loadwc(str);
+                    }
+                })
+         }
+         function loadfc(val){
+             var url = config.worktasklist+"type=fachu&rows=20&page="+page;
+            if(val!="") url+="&title="+val;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(page==1&&data.length==0){
+                    if(document.getElementById("label")){
+                        document.getElementById("label").style.display = "block";
+                    }else{
+                        var label = {
+                            "id" : "label",
+                            "type" : "label",
+                            "text" : "暂无数据",
+                        }
+                        json.push(label);
+                        setData(json);
+                    }
+                    return;
+                }else{
+                    if(document.getElementById("label")){
+                        document.getElementById("label").style.display = "none";
+                    }
+                }
+                
+                for(var i=0;i<data.length;i++){
+                    var str = data[i].recename;
+                    if(str.length>3){
+                        str = data[i].recename.substring(0,3)+"...";
+                    }
+                    var num = i+1+(page-1)*10;
+                    var tmp = {
+                        "id" : data[i].id,
+                        "h1" : num+"."+data[i].title,
+                        "h3" : lazy.autoFormat(data[i].createtime),
+                        "h2" : "负责人："+str+jzsj(new Date(data[i].endtime)),
+                        "rwtype" : "fq",
+                        "isRead":data[i].def2=="weidu"?1:0,
+                        "onclick" : function(obj){
+                            lazy.setParameter("rw",obj);
+                            parent.lazy.openWin("renwuxq.html");
+                        }
+                    }
+                    getData("titlebtnlist1").add(tmp)
+                }
+                
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+            })
+            lazy.bounce({
+                    "up" : function(){
+                        loadfc(str);
+                    }
+                })
+         }
+         function loadpc(val){
+             var url = config.worktasklist+"type=pc&rows=20&page="+page;
+            if(val!="") url+="&title="+val;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(page==1&&data.length==0){
+                    if(document.getElementById("label")){
+                        document.getElementById("label").style.display = "block";
+                    }else{
+                        var label = {
+                            "id" : "label",
+                            "type" : "label",
+                            "text" : "暂无数据",
+                        }
+                        json.push(label);
+                        setData(json);
+                    }
+                    return;
+                }else{
+                    if(document.getElementById("label")){
+                        document.getElementById("label").style.display = "none";
+                    }
+                }
+                
+                for(var i=0;i<data.length;i++){
+                    var str = data[i].recename;
+                    if(str.length>3){
+                        str = data[i].recename.substring(0,3)+"...";
+                    }
+                    var num = i+1+(page-1)*10;
+                    var tmp = {
+                        "id" : data[i].id,
+                        "h1" : num+"."+data[i].title,
+                        "h3" : lazy.autoFormat(data[i].createtime),
+                        "h2" : "负责人："+str+jzsj(new Date(data[i].endtime)),
+                        "rwtype" : "fq",
+                        "isRead":data[i].def2=="weidu"?1:0,
+                        "onclick" : function(obj){
+                            lazy.setParameter("rw",obj);
+                            parent.lazy.openWin("renwuxq.html");
+                        }
+                    }
+                    getData("titlebtnlist1").add(tmp)
+                }
+                
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+            })
+            lazy.bounce({
+                    "up" : function(){
+                        loadpc(str);
+                    }
+                })
+         }
+         //截至日期
+        function jzsj(time) {
+            return '<span class="jzsj">截至时间：'+lazy.autoFormat(time)+'</span>';
+        }
+    });
+    </script>
+</html>

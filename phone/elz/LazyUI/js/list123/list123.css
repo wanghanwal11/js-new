@@ -1,0 +1,38 @@
+body[type=body] div[type=list123]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    background-color: white;
+    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+}
+div[type=list123] .table2{
+    height: 5rem;
+}
+div[type=list123] .table2 .left{
+     border-right: 1px solid #dcdcdc;
+}
+div[type=list123] .table2 .left,div[type=list123] .table2 .right{
+    -webkit-box-flex: 1;
+}
+div[type=list123] .table2 a{
+    padding: 1rem;
+}
+div[type=list123] .table2 a span.bg{
+    display: block;
+    width: 2.7rem;
+    height: 2.7rem;
+}
+div[type=list123] .table2 a .txt{
+    -webkit-box-flex: 1;
+}
+div[type=list123] .table2 a .txt span{
+    display: block;
+    padding-left: 1rem;
+}
+div[type=list123] .table2 a .txt span:nth-child(2){
+    color: #ff6262;
+    line-height: 2rem;
+}

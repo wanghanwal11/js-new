@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>投诉</title>
+<script src="../LazyUI/js/admin.js"></script>
+<style type="text/css">
+     body{
+         background-color: #efefef !important;
+     }
+     #button2{
+         margin-top: 3rem; 
+     }
+     #label{
+         color:#999;
+         text-align: center;
+         margin-top: 0.5rem;
+         display: inline-block !important;
+         margin-bottom:2rem;
+     }
+     #label123{
+         width:auto !important;
+     }
+     #button{
+         position: absolute!important;
+         top: 28rem!important;
+     }
+     #button .button_a{
+         background-color: #ffb401;
+     }
+     #button1{
+         position: absolute!important;
+         top: 32rem!important;
+     }
+     #button1 .button_a{
+         border: 1px solid #ffb401;
+         background-color: #fff;
+     }
+     #button1 .button_a span{
+         color:#ffb401;
+     }
+     .button_a{
+         border-radius: 0.3rem !important;
+     }
+     textarea{
+         padding-left:0 !important;
+     }
+     input{
+         padding-left:0 !important;
+     }
+     div[type=input] .icon{
+        background-size: 1.2rem !important;
+    }
+    div[type=image] .add {
+        background-image: url('../LazyUI/images/suqiu/takepicture.png') !important;
+        width:6rem !important;
+    }
+    div[type=wode] .table{
+        margin-bottom:0rem !important;
+        border-bottom:1px solid #efefef;
+    }
+    div[type=wode] .tr{
+        padding:1rem !important;
+    }
+    div[type=wode] .text{
+        padding-right:0rem !important;
+    }
+    div[type=wode] .jf span{
+        color:#222222 !important;
+    }
+    div[type=wode] .text span{
+        color:#777777 !important;
+    }
+    div[type=div2]  .content{
+        color:#777777;
+        text-align: center;
+    }
+    #xieyi{
+        background-color: transparent !important;
+    }
+    div[type=wode] .text{
+        background-size: 0rem !important;
+    }
+    .content{
+        word-wrap: break-word;
+    }
+    
+</style>
+</head>
+<body>
+</body>
+<script>
+    start(function() {
+        var id = lazy.geturlstr("id");
+        var initid = lazy.geturlstr("initid");
+        var openid = lazy.geturlstr("openid");
+        var username = lazy.geturlstr("username");
+        var headpicture = lazy.geturlstr("headpicture");
+        var def3 = ''
+       
+       
+        var json = [
+                      {
+                            id:"input_ts",
+                            type:"input",
+                            inputtype:"textarea",
+                            readOnly:true,
+                            placeholder:"请输入投诉内容",
+                            
+                           
+                        },{
+                            id: "image",
+                            type: "image",
+                            key:"tsxqkey"+id,
+                            label: "附件",
+                        },{
+                             id:"map_button",
+                             type:"input",
+                             placeholder:"定位",
+                             readOnly:true,
+                             icon:"../LazyUI/images/suqiu/address.png",
+                             onclick:function(bol){
+                                
+                              }
+                         },{
+                        "id":"ping",
+                        "type":"group",
+                        "list":[
+                            {
+                                "id" : "wode",
+                                "type" : "wode",
+                                "table" : [{
+                                    "h1":"社区回复",
+                                    "h2":"2017-07-26",
+                                    "icon":"../LazyUI/images/suqiu/huifu.png",
+                                }]
+                            },{
+                                "id":"div2",
+                                "type":"div2",
+                                "text":""
+                            }
+                        ]     
+                    }];
+        
+            setData(json, function() {
+                setTimeout(function(){
+                    getContent()
+                },500)
+                
+               
+            });
+       
+        function getContent(){
+            var url = getIP()+'/wx/wechat/weixinevent/get.ht?eventid='+id;
+                                    //alert(url)
+               
+                lazy.GET(encodeURI(url), function(data) {
+                    data = data.rows[0];
+                    def3 = data.def3;
+                    getData("map_button").add(data.address);
+                    getData("input_ts").add(data.content);
+                    var pics = [];
+                    for(var i=0 ; i<data.imageList.length; i++){
+                        var obj = {
+                             imgurl:'',
+                         }
+                    obj.imgurl = lazy.getImagePx(data.imageList[i].imgurl, 100);
+                    pics.push(obj)
+                    }
+                    console.log(pics)
+                    lazy.setParameter("tsxqkey"+id+"pics","")
+                    lazy.setParameter("tsxqkey"+id+"upids","")
+                    getData("image").setPic(pics);
+                    getData("image").readonly(true);
+                    // 0: 已撤回     1: 待处理    2: 已上报    3: 已受理   4: 已办结
+                    //刚提交的应该叫待处理 可以撤回
+                    //然后PC那边上报到三维叫已上报 也可以撤回
+                       
+                 
+                      getData("ping").show();
+                      //getData("div2").addtext('我觉得，这个问题可以是张泽阳解决的，我觉得，这个问题可以是张泽阳解决的，我觉得，这个问题可以是张泽阳解决的，我觉得，这个问题可以是张泽阳解决的，')
+                      getData("div2").addtext(data.reply)
+                      
+                }, function(e) {
+                    lazy.alert2(e);
+                }, 0);
+        }
+       
+ 
+    })
+</script>
+</html>

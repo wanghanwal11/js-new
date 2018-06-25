@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>我的申请</title>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide()
+        var page = 1;
+        var json = [{
+            "id" : "titlebtnlist2",
+            "type" : "titlebtnlist2",
+            "table" : []
+        }];
+        json.unshift({
+            "id" : "headertoolbar",
+            "type" : "headertoolbar",
+            "backgroundColor" : lazy.getParameter("Bgcolor"),
+            "color" : "#fff",
+            "border" : "none",
+            "title" : '我的申请',
+            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+            "select" : function(name, index) {
+                if(name=="left"&&index==0){
+                    lazy.goBack();
+                }
+                if(name=="left"&&index==1){
+                    lazy.close()
+                }
+            }
+        })
+        setData(json,function(){
+            loadmyattend();
+        })
+        function loadmyattend(){
+            var url = config.vitoMyStart+"&rows=10&page="+page;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                for(var i=0;i<data.length;i++){
+                    var h2 = ""
+                    if(data[i].status=="2") h2='<span style="color:#ccc">已完结</span>';
+                    else if(data[i].status=="6") h2='<span style="color:red">被驳回</span>';
+                    else if(data[i].status=="5") h2='<span style="color:gray">已追回</span>';
+                    else if(data[i].status=="4") h2='<span style="color:orange">保存草稿</span>';
+                    else if(data[i].status=="1") h2='<span style="color:green">办理中</span>';
+                    else if(data[i].status=="3") h2='<span style="color:#00AAFF">直接办结</span>';
+                    var tmp = {
+                        "id" : data[i].businessKey,
+                        "taskid" : data[i].id,
+                        "runid" : data[i].runId,
+                        "taskStatus" : data[i].taskStatus,
+                        "icon" : data[i].picture?getIP() + data[i].picture.replace(/\\/g,"/"):"",
+                        "h1" : data[i].subject,
+                        "name" : data[i].creator,
+                        "h2" : h2,
+                        "h3" : lazy.format(data[i].createTime,"yyyy-MM-dd"),
+                        "onclick" : function(obj){
+                            if(obj.taskStatus=="2"||obj.taskStatus=="3") obj.shenpi = true;//已审批
+                            else obj.shenpi = false;//待审批
+                            lazy.setParameter("spobj",obj);
+                            lazy.openWin("shenpiguocheng.html");
+                        }
+                    };
+                    getData("titlebtnlist2").add(tmp);
+                }
+                page++;
+            })
+        }
+        lazy.bounce({
+            "up" : function(){
+                    loadmyattend()
+            }
+        })
+    });
+    </script>
+</html>

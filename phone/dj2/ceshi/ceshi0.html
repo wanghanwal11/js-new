@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=xuanzeti] .ts{
+                height:auto!important;
+                line-height: 1.3rem!important;
+                margin-bottom: 3rem;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.bounce();
+            var tp="";
+            lazy.setHeader({
+                            "title":"开始测试"
+                        });
+             var json=[{
+                    "id" : "xuanzeti",
+                    "type" : "xuanzeti",
+                    "content" : [],
+                    "back" : function(arr, index) {
+                        arr=JSON.stringify(arr);
+                        lazy.URLRequest(getIP()+"/party/DJ_Selectrecord/savedayrecord.ht?data="+arr+"&testpaperid="+tp,function(data) {
+                           var str = "答对"+data.newPrimaryKeys.truecount+"题,获得"+data.newPrimaryKeys.score+"分";
+                           alert(str);                     
+                           lazy.goBack1()
+                       },function(e){
+                           alert(e);
+                           lazy.goBack1()
+                       })
+                    }
+            }];
+                 var url = getIP()+"/party/DJ_Testquestion/getdayquestions.ht";
+                lazy.URLRequest(url,function(data){
+                    tp=data.newPrimaryKeys.testpaperid;
+                    var data = data.rows;
+                    for(var i=0;i<data.length;i++){
+                          var arrs=[];
+                          arrs.push({
+                                        "key" : data[i].selecta,
+                                        "value" : "a"
+                                    })
+                          arrs.push({
+                                        "key" : data[i].selectb,
+                                        "value" : "b"
+                                    })
+                          if(data[i].selectc){
+                              arrs.push({
+                                        "key" : data[i].selectc,
+                                        "value" : "c"
+                                    })
+                          }
+                          if(data[i].selectd){
+                              arrs.push({
+                                        "key" : data[i].selectd,
+                                        "value" : "d"
+                                    })
+                          }
+                          var s={
+                                    "id" : data[i].id,
+                                    "testanswer":data[i].testanswer,
+                                    "title" : "("+data[i].questiontypename+")"+(i+1)+'.'+data[i].questiontitle,
+                                    "type":data[i].questiontypename,
+                                    "knowpoint":data[i].knowpoint,
+                                    "answer" : arrs,
+                
+                                }
+                         json[0].content.push(s)       
+                      }
+                      json[0].title="共"+(data.length)+"题";
+                      setData(json)
+                },function(e){
+                    alert(e);
+                    lazy.goBack1()
+                })
+        });
+    </script>
+</html>

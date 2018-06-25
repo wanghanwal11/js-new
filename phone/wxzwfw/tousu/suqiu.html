@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script type="text/javascript"
+	src="https://webapi.amap.com/maps?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+<script src="../LazyUI/js/admin.js"></script>
+<title>诉求</title>
+<style type="text/css">
+#process .title {
+	display: none
+}
+#process1 .title {
+	display: none
+}
+#process1{
+	margin-bottom: 0.5rem;
+}
+#process2 .title span{
+	font-size:0.9rem !important;
+	padding-left: 0.8rem;
+}
+#process2 .tr_input{
+	background-image: url(../LazyUI/images/phone2.png);
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1.5rem;
+}
+div[type=button] .buttondiv {
+	width: 90% !important;
+	border-radius: 1rem;
+	position: fixed;
+	top: 28rem !important;
+	left: 50%;
+	margin-left: -45%;
+	background-color: #999999;
+}
+
+#button1 a {
+	width: 90% !important;
+	border-radius: 1rem;
+	position: fixed;
+	bottom: 1rem !important;
+	left: 50%;
+	margin-left: -45%;
+	background-color: #ffffff !important;
+}
+
+#button1 span {
+	color: #3399fd !important;
+}
+
+div[type=process] .inputdiv  textarea {
+	height: 100px;
+}
+
+#process1 .tr {
+	padding-left: 1.3rem !important;
+}
+
+div[type=image] .pic {
+	width: 5.5rem;
+	height: 4rem;
+}
+
+div[type=image] .add {
+	width: 4rem;
+	height: 4rem;
+	-webkit-box-sizing: border-box;
+	background-image: url(../LazyUI/js/image/add.png);
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+div[type=image] .zu {
+	width: 6rem;
+	height: 4rem;
+}
+
+div[type=image] .cha {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 1rem;
+	background-color: #fb3d3d;
+	position: absolute;
+	top: -0.5rem;
+	right: 0.1rem;
+	background-image: url(../LazyUI/js/image/cha.png);
+	background-position: center;
+	background-size: 80% 80%;
+	background-repeat: no-repeat;
+}
+
+div[type=label] {
+	color: #3399ff;
+	height: 2rem !important;
+	line-height: 2rem !important;
+	background-color: #efefef !important;
+	position: absolute !important;
+	right: 0rem !important;
+	width: 4.5rem !important;
+}
+
+.shequIframe {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: scroll;
+	width: 100%;
+	height: 100%;
+	left: 100%;
+	top: 0;
+	z-index: 1000;
+	position: fixed;
+}
+
+.iframe {
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	border: none;
+}
+
+@
+-webkit-keyframes shequIframe_an {
+	from {left: 100%;
+}
+
+to {
+	left: 0%;
+}
+
+}
+@
+-webkit-keyframes shequIframe_an1 {
+	from {left: 0%;
+}
+
+to {
+	left: 100%;
+}
+}
+</style>
+</head>
+<body>
+	<script>
+	var address = '';
+		start(function() {
+			var page = 1;
+			var page_status = 0;
+			var count = 0;
+			var max = 3;
+			var temp = 0;
+			var chacha = 0;
+			var pre_tr1;
+			var pre_tr2;
+			var position_data = '';
+			var wxinitId = lazy.geturlstr("wxinitId");
+			var wxopenid = lazy.geturlstr("wxopenid");
+			
+			var json = [
+					{
+						"id" : "title2",
+						"type" : "title2",
+
+						"ps" : page_status,
+						"left" : [ {
+							"content" : '我要诉求',
+							"onclick" : function() {
+								//cleanZwsj('szyw');
+								document.getElementById('process').style.display = '';
+								document.getElementById('button').style.display = '';
+								document.getElementById('process1').style.display = '';
+								document.getElementById('process2').style.display = '';
+								document.getElementById('image').style.display = '';
+								document.getElementById('label').style.display = '';
+
+								//document.getElementById('sousuoinput1').style.display = 'none';
+								document.getElementById('tsjl').style.display = 'none';
+							}
+						} ],
+						"right" : [ {
+							"content" : '诉求记录',
+							"onclick" : function() {
+								//cleanZwsj('dyfc');
+								document.getElementById('process').style.display = 'none';
+								document.getElementById('button').style.display = 'none';
+								document.getElementById('process2').style.display = 'none';
+								document.getElementById('process1').style.display = 'none';
+								document.getElementById('image').style.display = 'none';
+								document.getElementById('label').style.display = 'none';
+								//document.getElementById('sousuoinput1').style.display = '';
+								document.getElementById('tsjl').style.display = '';
+								getlist(1)
+							}
+						} ],
+					},
+					{
+						"id" : "process",
+						"type" : "process",
+						"table" : [ {
+							"type" : "textarea",
+							"placeholder" : "输入投诉内容"
+						} ]
+					},
+					{
+						"id" : "image",
+						"type" : "image",
+						"label" : "附件",
+						"src" : "../LazyUI/images/zhibu/default.jpg",
+						"onclick" : function() {
+							photo();
+						}
+					},
+					{
+						"id" : "process1",
+						"type" : "mapbutton",
+						"onclick" : function(iframe) {
+							map(iframe)
+						}
+					},
+					{
+		                "id" : "process2",
+		                "type" : "process",
+		                "table" : [{
+		                    "title":"电话",
+		                    "type":"input"
+		                }]
+		             },
+
+					{
+						"id" : "label",
+						"type" : "label",
+						"text" : "诉求说明"
+					},
+					{
+						"id" : "button",
+						"type" : "button",
+						"label" : "提交",
+						"onclick" : function() {
+							var arr = getData("process").getArray().table;
+							var content = arr[0].value;
+							if (content.length == 0) {
+								alert("请填写诉求内容");
+								return;
+							}
+
+							var src_string = '';
+							var list = document.getElementsByClassName("zu");
+							for (var i = 0; i < list.length; i++) {
+								var upid = list[i].getElementsByTagName("img")[0]
+										.getAttribute("upid");
+								src_string += upid
+										+ (i == list.length - 1 ? '' : ',');
+							}
+							//address = lazy.getParameter("address");
+                            var mobile = document.getElementById("process2").getElementsByTagName("input")[0].value;
+                            if(mobile.length != 11){
+                            	alert("请输入正确的电话号码！")
+                            }else{
+                            	var url = getIP()
+								+ '/wechat/weixinevent/save.ht?content='
+								+ content + '&initid=' + wxinitId
+								+ '&openid=' + wxopenid + '&address='
+								+ address + '&addressgps='
+								+ JSON.stringify(obj) + '&file='
+								+ src_string + '&def2=' + mobile;
+								lazy.URLRequest(url, function(data) {
+		
+									lazy.alert3("提交成功", "感谢您的投诉，我们会尽快处理，请您耐心等待。");
+									clear()
+								}, function(e) {
+									lazy.alert(e);
+								}, 2);
+                            }
+							
+
+						}
+					},
+					/* {
+						"id" : "sousuoinput1",
+						"type" : "sousuoinput1"
+					// page = 1;
+					// getData("view").clean();
+					// if(val!=""){
+					// search = val;
+					// load(search);
+					// }
+					//                                         
+					//                                         
+					// }
+
+					},  */
+					{
+						"id" : "tsjl",
+						"type" : "tsjl",
+
+					} ]
+			setData(
+					json,
+					function() {
+						//document.getElementById('gpslist').style.display='none';
+						//document.getElementById('sousuoinput1').style.display = 'none';
+						document.getElementById('tsjl').style.display = 'none';
+						document.getElementsByClassName("buttondiv")[0].style.backgroundColor = '#999999';
+
+						document.getElementsByClassName("textarea")[0].onkeyup = function() {
+							document.getElementsByClassName("buttondiv")[0].style.backgroundColor = '#3399fd';
+						}
+
+						document.getElementById("label").onclick = function() {
+							lazy.openWin("../wode/sqzn.html");
+
+						}
+
+					});
+			function getlist(action) {
+				
+				var url = getIP() + '/wechat/weixinevent/list.ht?initid='
+						+ wxinitId + '&openid=' + wxopenid + '&page=' + page
+						+ '&rows=10';
+
+				lazy.URLRequest(url, function(data) {
+					var arr = data.rows;
+					if(action==1){
+						getData("tsjl").clean();
+						
+					}
+					for (var i = 0; i < arr.length; i++) {
+						var d = {
+							"id" : arr[i].code,
+							"title" : arr[i].title ? arr[i].title:'',
+							"content" : arr[i].content,
+							"statename" : arr[i].statename ? arr[i].statename: '核实中',
+							"address" : arr[i].eventaddr,
+							"date" : arr[i].eventtime ? lazy.autoFormat(arr[i].eventtime) : '',
+							"fileid" : arr[i].filestr,
+							"initid" : arr[i].phone,
+							"openid" : arr[i].openid,
+							"onclick" : function(data) {
+								lazy.setParameter("id", data.id);
+								lazy.setParameter("content", data.content);
+								lazy.setParameter("address", data.address);
+								lazy.setParameter("fileid", data.fileid);
+								lazy.setParameter("statename", data.statename);
+								lazy.setParameter("openid", data.openid);
+								lazy.setParameter("initid", data.initid);
+								lazy.openWin("tsxq.html");
+
+							}
+						}
+						getData("tsjl").add(d);
+					}
+					lazy.closeBounce();
+				}, function(e) {
+					lazy.alert(e);
+					lazy.closeBounce();
+				}, 2);
+			}
+			lazy.bounce({
+				"up" : function() {
+					page++;
+					getlist(0);
+				}
+			});
+
+			function photo() {
+				lazy.startPhoto(function(pics, upids) {
+					var addnode = document.getElementsByClassName("add")[0];
+
+					var pic_line = document.getElementsByClassName("line")[0];
+
+					count = count + pics.length;
+					if (count <= max) {
+						temp = pics.length;
+					} else {
+						temp = pics.length - (count - max);
+					}
+					count = count - pics.length;
+
+					for (var i = 0; i < temp; i++) {
+						var zu = lazy.creat("div", "zu zu" + (i + count)
+								+ " ub");
+						var pic = lazy.creat("img", "pic ub");
+						var src = pics[i];
+						pic.setAttribute('src', src);
+						pic.setAttribute('upid', upids[i]);
+
+						var cha = lazy.creat("div", "cha", {
+							"index" : chacha
+						});
+						chacha++;
+						cha.onclick = function() {
+
+							chacha--;
+							var index = this.getAttribute("index") * 1;
+
+							pic_line.removeChild(document
+									.getElementsByClassName("zu" + index)[0]);
+
+							addnode.style.display = '';
+							count--;
+						}
+
+						zu.appendChild(pic);
+						zu.appendChild(cha);
+
+						pic_line.insertBefore(zu, addnode);
+					}
+					count = document.getElementsByClassName("zu").length;
+
+					if (count >= max) {
+						addnode.style.display = 'none';
+					}
+
+				});
+			}
+			function add() {
+				var pic_line = document.getElementsByClassName("line")[0];
+				var add = lazy.creat("div", "add ub");
+				pic_line.appendChild(add);
+				add.onclick = function() {
+					photo();
+				}
+			}
+
+			function map(iframe) {
+
+				if (position_data == '') {
+
+					lazy.getGps(function(point) {
+						lazy.gpsToAmap(point, function(_point) {
+							var p = JSON.stringify(_point);
+							lazy.getGpsName(_point, function(res) {
+								console.log(res)
+
+								position_data = res;
+
+								iframe.contentWindow.aa(point);
+
+							});
+						});
+					});
+				} else {
+
+				}
+			}
+			/*
+			window.namemap = function(data) {
+				address = data.title;
+				var name = slhfun(data.title)
+				obj = {
+					"x":data.point.lng,
+					"y":data.point.lat
+				}
+				document.getElementsByClassName("mapdiv")[0].innerHTML = '<span>'
+						+ name + '</span>';
+				var shequIframe = document
+						.getElementsByClassName("shequIframe")[0];
+				shequIframe.style.left = "100%";
+				shequIframe.style.webkitAnimation = "shequIframe_an1 0.5s";
+
+			}*/
+			function clear() {
+				document.getElementsByClassName("textarea")[0].value = '';
+				document.getElementsByClassName("mapdiv")[0].innerHTML = '<span>位置</span>';
+				document.getElementById("process2").getElementsByTagName("input")[0].value='';
+				var pic_line = document.getElementsByClassName("line")[0];
+				var length = document.getElementsByClassName("zu").length;
+				for (var i = 0; i < length; i++) {
+					pic_line.removeChild(document.getElementsByClassName("zu"
+							+ i)[0]);
+				}
+				if (!document.getElementsByClassName("add")[0]) {
+					add()
+				}
+			}
+
+		})
+
+		function slhfun(str) {
+			var len = lazy.getStringByteLength(str) / 2 * lazy.fontSize;
+			var len2 = (document.body.clientWidth - (6.75 + 5) * lazy.fontSize) * 2;
+			if (len > len2) {
+				str = str.substring(0, parseInt(len2 / lazy.fontSize)) + "...";
+			}
+			return str;
+		}
+		var obj = {};
+		function namemap(data) {
+			address = data.title;
+			lazy.setParameter("address", address)
+			var name = slhfun(data.title)
+			obj = {
+				"x":data.point.lng,
+				"y":data.point.lat
+			}
+			document.getElementsByClassName("mapdiv")[0].innerHTML = '<span>'
+					+ name + '</span>';
+			
+			var shequIframe = document.getElementsByClassName("shequIframe")[0];
+			shequIframe.style.left = "100%";
+			shequIframe.style.webkitAnimation = "shequIframe_an1 0.5s";
+
+		}
+	</script>
+</body>
+</html>

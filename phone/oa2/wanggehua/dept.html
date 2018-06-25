@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>部门列表</title>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                "title":"部门列表",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var json = [
+                {
+                    "id":"titlebtnlist2",
+                    "type" : "titlebtnlist2_no",
+                    "table" : []
+                }
+            ];
+            setData(json,function(){
+                if(lazy.getParameter("mp")&&lazy.getParameter("mp")=="true"){//外网
+                    lazy.personmessage(function(obj){
+                        var url = getIP()+"/nloginByPhone.ht?phone="+obj.rows[0].phone;
+                        lazy.URLRequest(url,function(){
+                            load();
+                        })
+                    })
+                }else{
+                    load();
+                }
+            })
+            function load(){
+                var url = config.getOrgMobile;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    // var tbl = 
+                    for(var i=0;i<data.length;i++){
+                        var tmp = {
+                            "id" : data[i].id,
+                            "h1" : data[i].text,
+                            "h2" : "",
+                            "onclick" : function(obj){
+                                //lazy.setParentJs(lazy.var(), obj);
+                                obj.only = true;
+                                lazy.setCache(encodeURI(JSON.stringify({
+                                    'overtime' : JSON.stringify(obj)
+                                })));
+                                lazy.closeWebview();
+                            }
+                        }
+                        getData("titlebtnlist2").add(tmp)
+                        //tbl.table.push(tmp);
+                    }
+                    // var json = [];
+                    // json.push(tbl);
+                    // setData(json)
+                })
+            }
+        });
+    </script>
+</html>

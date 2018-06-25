@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        html,body {
+            background-color: #fff !important;
+        }
+        div[type=news] .content{
+            word-break: break-all;
+        }
+        body[type=body] div[type=label]{
+            height: auto!important;
+            padding: 1rem;
+            word-wrap:break-word;
+        }
+        div[type=geass]{
+        }
+        div[type=commentbox] .biaoqing{
+            display: none;
+        }
+        div[type=commentbox] .biaoqingzw{
+            display: none;
+        }
+        body[type=body] div[type=commentbox]{
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+         start(function() {
+             lazy.setHeader({
+                            "title":"咨询服务"
+                        });
+           var id=lazy.getParameter("szllid");
+           var title=lazy.getParameter("title")
+           var page=1;
+           var a=true;
+               var json=[{
+                    "type" : "label",
+                    "text":title
+               },{
+                    "id":"geass",
+                    "type" : "geass",
+                    "content":[]
+               }]
+               if(a){
+                   json.push({
+                       "type" : "commentbox",
+                       "send" : function(str) {
+                           lazy.URLRequest(getIP()+'/party/consultserver/replyquestion.ht?'+"replycontent="+str+"&questionid="+id, function(data) {
+                               lazy.refresh();
+                           })
+                       }
+                   })
+               }
+               setData(json,function(){add()})
+           function add(){
+               lazy.URLRequest(getIP()+"/party/consultserver/getreplylist.ht?"+"questionid="+id+"&page="+page+"&rows=10", function(_data) {
+                   lazy.closeBounce();
+                   var data=_data.rows;;
+                   for(var j=0;j<data.length;j++){
+                       var d={
+                            "icon":data[j].picture?getIP()+(data[j].picture).replace(/\\/g,"/"):"",
+                            "con":data[j].replycontent,
+                            "bumen":data[j].createuser+"</br><span style='font-size:0.6rem'>"+data[j].partyname+"</span>",
+                            "tim":data[j].replytime?lazy.autoFormat(data[j].replytime):""
+                       }
+                       getData("geass").add(d);
+                   }
+                   page++;
+               },function(){lazy.closeBounce();})
+           }
+            lazy.bounce({"up":function(){
+                       add();
+                }});
+         });     
+    </script>
+</html>

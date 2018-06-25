@@ -1,0 +1,208 @@
+body[type=body] div[type=tsxq]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=tsxq] .table {
+    width:100%;
+    height:auto;
+}
+
+div[type=tsxq] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+
+div[type=tsxq] .content span{
+    font-size: 1rem;
+}
+div[type=tsxq] .title {
+    margin-bottom: 0.5rem;
+}
+div[type=tsxq] .pic {
+    width: 5rem;
+    height: 3.5rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 0.7rem;
+    margin-top: 0.5rem;
+}
+
+div[type=tsxq] .tr4 {
+    width: 90%;
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+}
+div[type=tsxq] .progress {
+    width: 100%;
+    height:auto;
+    overflow:auto;
+    padding-bottom: 0.5rem;
+}
+div[type=tsxq] .x {
+    width: 1px;
+    height: 100%;
+    background-color: #7ace06;
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+}
+div[type=tsxq] .x1 {
+    width: 1px;
+    height: 100%;
+    background-color: #CCCCCC;
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+}
+div[type=tsxq] .x2 {
+    width: 1px;
+    height: 80%;
+    background-color: #CCCCCC;
+    position: absolute;
+    left: 0.5rem;
+    top: 20%;
+}
+div[type=tsxq] .q {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-clip: padding-box;
+    background-color: #7ace06;
+    position: absolute;
+    left: 0;
+    top: 1rem;
+}
+div[type=tsxq] .yes {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-color: #7ace06;
+    background-image: url(img/yes.png);
+    background-size: 75% 75%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    top: 1rem;
+}
+div[type=tsxq] .no {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-color: #CCCCCC;
+    background-image: url(img/yes.png);
+    background-size: 75% 75%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    top: 1rem;
+}
+div[type=tsxq] .right {
+    width: 100%;
+    height: 100%;
+    margin-left: 1.6rem;
+}
+
+div[type=tsxq] .triangle{
+    width:90%;
+    border:1px solid #e3e3e3;
+    border-radius: 0.5rem;
+    height:100%;
+    position:relative;
+    margin-left:0.6rem;
+    margin-right:auto;
+    background-color: #fff;
+}
+div[type=tsxq] .triangle em,.triangle span{
+    font-style:normal;
+    font-size:1rem;
+    position:absolute;
+    left:-0.6rem;
+    top: 0.8rem;
+    color:#e3e3e3;
+}
+div[type=tsxq] .triangle span{
+    left:-0.5rem;
+    top: 0.8rem;
+    color:white;
+}
+div[type=tsxq] .right_content {
+    width: 85%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 3rem;
+}
+div[type=tsxq] .icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    margin-top: 1.5rem;
+}
+div[type=tsxq] .r1 {
+    width: 70%;
+    margin-left: 0.8rem;
+    margin-top: 1rem;
+}
+div[type=tsxq] .r3 span{
+    color: #999999;
+}
+div[type=tsxq] .r4{
+    margin-top: 0.5rem;
+}
+div[type=tsxq] .r4 span{
+    color: #7ace06;
+}
+div[type=tsxq] .r5{
+    margin-top: 0.2rem;
+}
+div[type=tsxq] .r5 span{
+    color: #666666;
+}
+div[type=tsxq] .wb span{
+color: #999999;
+}
+div[type=tsxq] .tr_blank{
+    height: 4rem;
+    margin-top: -0.5rem;
+    background-color: #efefef;
+}
+div[type=tsxq] .ub-f2 {
+    -webkit-box-flex: 2;
+    position: relative;
+}
+div[type=tsxq] .org_box{
+    height:80px;
+    line-height:80px; 
+    margin-bottom:30px; 
+    padding-left:2em;
+    background:#F3961C; 
+    position:relative; 
+}
+div[type=tsxq] .org_bot_cor{
+    width:0; 
+    height:0; 
+    font-size:0; 
+    border-width:15px; 
+    border-style:solid; 
+    border-color:#f3961c transparent transparent; 
+    _border-color:#f3961c white white; 
+    overflow:hidden; 
+    position:absolute; 
+    left:60px; 
+    bottom:-30px;
+}

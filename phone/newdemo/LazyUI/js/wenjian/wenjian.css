@@ -1,0 +1,55 @@
+body[type=body] div[type=wenjian]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=wenjian] .table {
+    width:100%;
+    height:auto;
+    background: white;
+}
+div[type=wenjian] .icon {
+    display:-webkit-box;
+    height:3rem;
+    line-height: 3rem;
+    border-bottom: 1px solid #f2f2f2;
+}
+div[type=wenjian] .tt{
+    line-height: 3rem;
+}
+div[type=wenjian] .tr {
+    height: 3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+div[type=wenjian] .icon img{
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.8rem;
+    vertical-align: middle;
+}
+div[type=wenjian] .icon .txt{
+    font-size:0.8rem;
+    color: #9c9c9c;
+}
+div[type=wenjian] .right{
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: url(right.png);
+    background-size: 2rem;
+    background-repeat: no-repeat;
+    margin-top: 0.5rem;
+}
+div[type=wenjian] .title{
+    width: 100%;
+    line-height: 3rem;
+    background: white;
+    font-size: 0.8rem;
+}
+div[type=wenjian] .title span{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}

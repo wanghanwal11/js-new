@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>随手拍</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+        body{
+            background: #EBEBEB!important;
+        }
+        div[type=plugins]{
+            height: 100%!important;
+        }
+        #input1, #input2{
+            padding: 0.5rem 0.5rem;
+            background: white;
+            padding-left: 0.5rem;
+        }
+        #image span{
+            padding-left: 0.5rem
+        }
+        #process span{
+            padding-left: 0.5rem
+        }
+        #input1 .cell input{
+            width: 100%;
+        }
+        #input2,#image,#image1{
+            margin-top: 0.5rem;
+        }
+        #input2 textarea{
+            width: 100%;
+            height: 7rem;
+        }
+        div[type=process] .tr{
+            border: none!important;
+        }
+        
+       
+    </style>
+</head>
+<script>
+    start(function() {
+       
+       // var id1=lazy.geturlstr("wxinitId");
+       //s var id2=lazy.geturlstr("wxopenid");
+        var datahc=lazy.getParameter("data");
+        var pics=[];
+        var sound=[];
+        //lazy.loadWxJs(function(){
+            var json = [{
+                id:"input1",
+                type : 'input',
+                placeholder : '事件类别:',
+                inputtype : 'text',
+                readOnly:true,
+            },{
+                id:"input2",
+                type : 'input',
+                placeholder : '描述:',
+                inputtype : 'textarea',
+                readOnly:true,
+            },{
+                "id" : "image",
+                "type" : "image",
+                "label" : "图片",
+                "src" : "../LazyUI/images/zhibu/default.jpg"
+            },{
+                id:"process",
+                type:"process",
+                table:[{
+                    type:"sound",
+                    title:"录音   "
+                },{
+                    type:"map",
+                    title:"定位",
+                    onclick:function(){
+                        
+                    }
+                }]
+            }];
+            setData(json,function(){
+                
+                lazy.GET(getIP()+"/wechat/weixinTzyjw/sspUrlList.ht?id="+datahc.id,function(data){
+                     var arr=data.rows;
+                     lazy.for(arr,function(obj,i){
+                         //if(arr[i].type == 'vioce') sound.push(arr[i].imgurl)
+                         if(arr[i].type == 'img') pics.push(arr[i].imgurl)
+                     })
+                     getData("input1").add(datahc.typeeventname);
+                     getData("input2").add(datahc.content);
+                     getData("process").addgps(datahc.eventaddr);
+                      //alert(123)
+                    // getData("image").download('MSEW83guulVgPjfFf_3Vu2eqOoq-Bo8MNFfcVrh7s6tftKvCCgf-dtRM8AY3qkto');
+                    alert(pics)
+                     getData("image").setPic(pics);
+                     getData("process").addly(datahc.localvoiceid);
+                     //lazy.playVoice(datahc.localvoiceid)
+                     if(!datahc.localvoiceid){
+                         document.getElementsByClassName("bofang")[0].style.display='none'
+                     }
+                     //var src = ["../LazyUI/images/address.png","../LazyUI/images/default.png"];
+                     
+                });
+                
+            });
+        //})
+         
+       
+    });
+</script>
+</html>

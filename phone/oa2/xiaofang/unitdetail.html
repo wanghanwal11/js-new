@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>消防安全</title>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"单位信息详情",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var url = getIP() + "/firesys/F_Fireunit/get.ht?id="+lazy.getParameter("unitobj").id;
+            lazy.URLRequest(url,function(_data){
+                var data = _data.rows;
+                var json = [
+                    {
+                        "type":"process_xq",
+                        "table":[
+                            {
+                                "title":"单位名称：",
+                                "value":data[0].name
+                            },{
+                                "title":"单位地址：",
+                                "value":data[0].address
+                            },{
+                                "title":"楼层信息：",
+                                "value":data[0].unitfloorinfo
+                            }
+//                             ,{
+//                                 "title":"所属楼层：",
+//                                 "value":data[0].floor
+//                             },{
+//                                 "title":"房间号：",
+//                                 "value":data[0].housenum
+//                             }
+                            ,{
+                                "title":"自动消防设备：",
+                                "value":data[0].autoinfo
+                            },{
+                                "title":"负责人：",
+                                "value":data[0].corp
+                            },{
+                                "title":"联系方式：",
+                                "value":data[0].tel
+                            },{
+                                "title":"场所类型：",
+                                "value":data[0].areatypename
+                            },{
+                                "title":"备注：",
+                                "value":data[0].remark?data[0].remark:"无"
+                            }
+                        
+                        ]
+                    }
+                ];
+                if(_data.newPrimaryKeys.imgurl&&_data.newPrimaryKeys.imgurl!=""){
+                    var arr = _data.newPrimaryKeys.imgurl.split(",");
+                    json[0].table.push({
+                        "title" : "图片：",
+                        "type" : "image",
+                        "value" : arr
+                    })
+                }
+                setData(json)
+            })
+        })
+    </script> 
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+<script type="text/javascript"
+    src="https://webapi.amap.com/maps?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+<script src="../LazyUI/js/admin.js"></script>
+<title>我的诉求</title>
+<style type="text/css">
+       img{
+           width: 100% !important;
+       }  
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    lazy.loadWxJs(function(){
+		        /*lazy.getGpsWX(function(_point){
+		            console.log(_point)
+                   alert(JSON.stringify(_point))
+                   lazy.getGpsName(_point, function(obj) {
+                       alert(obj.regeocode.formattedAddress)
+                        console.log(point)
+                        
+                        
+                    });
+                })
+		        var point = { lng : 116.4105, lat : 40.03966};
+                lazy.getGpsName(point, function(obj) {
+                   console.log(obj.regeocode.formattedAddress)
+                    console.log(point)
+                    
+                    
+                });*/
+		    })
+		    
+		    var json = [{
+		        'type':'button',
+		        'label':'dingwei',
+		        'onclick':function(){
+		            lazy.getGpsWX(function(_point){
+                       alert(JSON.stringify(_point))
+                      
+                    })
+		        }
+		        
+		    },{
+                       "id":"pic",
+                       "type" : "imgmapdiv",
+                       "src" : "../LazyUI/images/developing.png",
+                       "rect" : []
+                   }];
+		    
+			setData(json)
+	    });
+	</script>
+</body>
+</html>

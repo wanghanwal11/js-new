@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        
+        <script src="../LazyUI/js/admin.js"></script>
+
+        <title>认证信息</title>
+        <style type="text/css">
+           body{
+               background-color: #efefef !important;
+           }
+           div[type=input] {
+               border-bottom:1px solid #efefef;
+               margin-bottom: 0rem !important;
+               padding:0.2rem 0;
+           }
+           
+            .text{
+                color:#999999;
+                margin-left: 0.5rem;
+                height:3rem;
+                line-height: 2rem;
+            }
+            input:disabled{
+                opacity: 1 !important;
+            }
+            #input5{
+                margin-top: 1rem;
+            }
+            #input6{
+                margin-top: 1rem;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+        start(function() { 
+            lazy.clearCache();
+            var code=''; //验证码
+            var pwd='';//验证码 用户输入
+            var yemian = 0;//0 证照 1 材料
+             var wxinitId = lazy.geturlstr("wxinitId");
+             var wxopenid = lazy.geturlstr("wxopenid");
+             var phone = lazy.getParameter("mobile")?lazy.getParameter("mobile"):'';
+             var communityid = '';
+			 if(lazy.getParameter('communityid')) communityid = lazy.getParameter('communityid');
+			  //var communityid = lazy.getParameter('communityid')?lazy.getParameter('communityid'):'';
+             var orgpath = lazy.getParameter('orgpath')?lazy.getParameter('orgpath'):'';
+             /*var mima = lazy.getParameter('mima');
+             var date = new Date();
+             var isSendYanzheng = 1;//判断是否需要重新发送验证码  1需要 0不需要
+             if(mima){
+                 var mima_tmp = new Date(mima);
+                if(mima_tmp.toDateString() == date.toDateString() && date.getHours()-mima_tmp.getHours()<2){
+                   isSendYanzheng = 0;
+                }
+             }*/
+            
+              
+                var json = [{
+                    "id":"input1",
+                    "type":"input",
+                     "title":"姓名",
+                     //"key":"rzname",
+                     "placeholder":"请填写姓名",
+                 },{
+                     "id":"input2",
+                     "type":"input",
+                     "title":"身份证号",
+                     // "key":"rzid",
+                     "placeholder":"请填写身份证号码",
+                },{
+                    "id":"input3",
+                    "type":"input",
+                     "title":"手机号码",
+                     "readOnly":true,
+                     "value":phone,
+                     "placeholder":"请输入手机号码",
+                },{
+                     "id":"input4",
+                     "type":"input",
+                     "title":"社区",
+                     "readOnly":true,
+                     "placeholder":"请选择您所在的社区",
+                     "icon":"../LazyUI/images/right.png",
+                     /*"key":"rzsq",*/
+                     "foc":function(){
+                      
+                    }
+                },{
+                     "id":"input5",
+                     "type":"input",
+                     "title":"证照夹",
+                     "readOnly":true,
+                     "placeholder":"",
+                     "icon":"../LazyUI/images/right.png",
+                     /*"key":"rzsq",*/
+                     "onclick":function(){
+                           /*if(isSendYanzheng){
+                                getYanzheng(lazy.getParameter("mobile"));
+                                getData('password').show();
+                                yemian=0;
+                            }else{
+                                 lazy.openWin("zhengzhao.html?idcard="+lazy.getParameter("idcard")+"&wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                            }*/
+                          isYanzheng(function(yz){
+                            if(yz){
+                                getYanzheng(lazy.getParameter("mobile"))
+                                getData('password').show()
+                                yemian=0;
+                            }else{
+                                lazy.openWin("zhengzhao.html?idcard="+lazy.getParameter("idcard")+"&wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                            }
+                        })      
+                    }
+                },{
+                     "id":"input6",
+                     "type":"input",
+                     "title":"材料库",
+                     "readOnly":true,
+                     "placeholder":"",
+                     "icon":"../LazyUI/images/right.png",
+                     /*"key":"rzsq",*/
+                     "onclick":function(){
+                        isYanzheng(function(yz){
+                            if(yz){
+                                getYanzheng(lazy.getParameter("mobile"))
+                                getData('password').show()
+                                yemian=1;
+                            }else{
+                                lazy.openWin("wenjian.html?idcard="+lazy.getParameter("idcard")+"&wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                            }
+                        })
+                        
+                    }
+                },{
+                       "id":'password',
+                       "type":'password',
+                       "title1":'请输入验证码',
+                       "title2":'验证码两小时内有效,无需重新输入',
+                       "onclick":function(passWord){
+                           pwd = passWord.join("");
+                           if(pwd.length!=6 || pwd != code){
+                               lazy.alert2('验证码输入错误');
+                               return;
+                           }else{
+                               getData('password').hide()
+                               var tmp = new Date()
+                               lazy.setParameter("mima",tmp)
+                               if(!yemian){
+                                   lazy.openWin("zhengzhao.html?idcard="+lazy.getParameter("idcard")+'&wxinitId='+lazy.geturlstr("wxinitId")+'&wxopenid='+lazy.geturlstr("wxopenid"));
+                               }else{
+                                   lazy.openWin("wenjian.html?idcard="+lazy.getParameter("idcard")+'&wxinitId='+lazy.geturlstr("wxinitId")+'&wxopenid='+lazy.geturlstr("wxopenid"));
+                               }
+                           }
+                       }
+                   
+                    }]
+        	   setData(json,function(){
+        	       getData('password').hide()
+        	       if(lazy.getParameter("ps") != 1 ){
+        	           if(lazy.getParameter("name")) getData("input1").add(lazy.getParameter("name"))
+                       if(lazy.getParameter("idcard")) getData("input2").add(lazy.getParameter("idcard"))
+                       getData("input4").add(lazy.getParameter("communityname"))
+                       communityid = lazy.getParameter("communityid");
+                       orgpath = lazy.getParameter("orgpath");
+                       //alert(lazy.getParameter("picurl"))
+                       
+                        var input = document.getElementsByTagName("input");
+                        for(var i = 0 ; i<6 ; i++){
+                             input[i].readOnly = true;
+                             input[i].disabled = true;
+                        }
+                       
+        	       }
+        	       
+                   
+                   
+        	   });
+                  
+            
+        	function getYanzheng(phone){
+                var url = getIP() +'/sendRandom.ht?mobile='+phone;
+                lazy.GET(url, function(data){
+                      code = data.newPrimaryKeys.checkcode;
+                 },function(e){
+                     lazy.alert2(e);
+                 },0);
+            }
+            
+            function isYanzheng(back){
+                 var mima = lazy.getParameter('mima');
+                 var date = new Date();
+                 var isSendYanzheng = 1;//判断是否需要重新发送验证码  1需要 0不需要
+                 if(mima){
+                     var mima_tmp = new Date(mima);
+                    if(mima_tmp.toDateString() == date.toDateString() && date.getHours()-mima_tmp.getHours()<2){
+                       isSendYanzheng = 0;
+                    }
+                 }
+               back(isSendYanzheng)
+            }
+        })
+        
+    </script>
+    </body>
+</html>

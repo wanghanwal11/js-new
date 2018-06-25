@@ -1,0 +1,62 @@
+body[type=body] div[type=jdbglb]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=jdbglb] .table {
+    width:100%;
+    height:auto;
+}
+div[type=jdbglb] .titlelb{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+div[type=jdbglb] .icon {
+    width: 6rem;
+    height: 4rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=jdbglb] .trzw {
+    height:3rem;
+}
+div[type=jdbglb] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=jdbglb] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=jdbglb] .h1 {
+    height: 2.5rem;
+    line-height: 1rem;
+}
+div[type=jdbglb] .h1 span {
+    font-size: 0.9rem;
+}
+
+div[type=jdbglb] .h2 span {
+     color: #aaa;
+}
+div[type=jdbglb] .yp{
+     margin-top: 0.5rem;
+}
+
+div[type=jdbglb] .text {
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+    color: #aaaaaa;
+}
+div[type=jdbglb] .date{
+    color: #aaaaaa;
+}

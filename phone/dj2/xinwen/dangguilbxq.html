@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+        <base target="_blank">
+    </head>
+    <body>
+        
+    </body>
+    <script>
+    
+        start(function() {
+            lazy.setHeader({
+                            "title": "党规",
+                            
+                        });
+            lazy.setParameter("on","right");
+             var json = [
+             /*
+             {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  //lazy.openWin("../dzdg.html")
+                                                  //history.go(-1);
+                                                  lazy.setParameter("on","right");
+                                                  
+                                                  lazy.goBack1()
+                                              }   
+                                            },
+                                             {
+                                              "content" : lazy.url + "LazyUI/js/header/images/cha1.png",
+                                              "onclick" : function(name, index) {
+                                                  lazy.close()
+                                              }   
+                                            }
+                                          ],
+                           
+                            
+                            "button" : [
+                                              {
+                                                  "content" : "党规",
+                                                  "onclick" : function() {
+                                                        iframe.src = "./xinwen/dangzhanglb.html";
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },*/
+                        {
+                            "id" : "dangzhanglb",
+                            "type" : "dangzhanglb",
+                            "table" : []
+                            
+                        }];
+            setData(json,function(){
+                
+                list()
+                
+            });
+            function list(){
+                var dglbxqid=lazy.getParameter("dglbxqid")
+                var url = djconfig.dangzhanglb+"?id="+dglbxqid+"&_time="+new Date().getTime() ;               
+                lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+                //console.log(data);
+                    for(var i = 0; i < arr.length; i++) {
+                    if(arr[i].state=="T" && arr[i+1].state == "F")
+                          arr[i+1].state="L";  
+                    if(i == 0 && arr[i+1].state == "F")
+                          arr[i].state="L"; 
+                    var d={
+                             "h1" : arr[i].learntitle+'  '+arr[i].title,
+                             "status": arr[i].state,
+                             "jifen":arr[i].integration,
+                             "peoplenumber" : arr[i].learnnumber,
+                             "ping" : arr[i].expnumber,
+                             "time" : arr[i].timelong,
+                             "id" : arr[i].id,
+                             "onclick" : function(data) {
+                                 if(data.status == "F"){
+                                  
+                                 }else{
+                                      lazy.setParameter("dzxqid",data.id)
+                                
+                                      lazy.setParameter("type","1");
+                                      lazy.setParameter("ping",data.ping);
+                                      lazy.setParameter("status",data.status);
+                                      lazy.setParameter("jifen",data.jifen);
+                                      parent.lazy.openWin("dangzhangxq.html");
+                                 }
+                               
+                              }
+                           }
+                        getData("dangzhanglb").add(d);
+                    
+                    
+                        }//for
+                        
+                        
+                        
+                    }, function(e) {
+                        alert(e);
+                },1);
+            }
+            
+            
+        })
+        
+    </script>
+</html>

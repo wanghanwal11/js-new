@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>docs</title>
+    <script src="../LazyUI/js/admin.js"></script>
+</head>
+<body></body>
+<script>
+    start(function() {
+        setData([
+            {
+                type : 'button',
+                label : '按钮',
+                onclick : function() {
+                    lazy.openWin('button.html');
+                    //pageStart('buttonPage')
+                }
+            }
+        ]);
+    });
+</script>
+</html>

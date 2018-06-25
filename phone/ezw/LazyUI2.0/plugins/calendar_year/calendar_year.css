@@ -1,0 +1,115 @@
+div[type=calendar_year]{
+	width:100%;
+	height:100%;
+	position:absolute;
+	font-size:1rem;
+    overflow: hidden;
+    -webkit-box-sizing:border-box;
+}
+div[type=calendar_year] .year{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    overflow: hidden;
+    z-index: 1;
+    
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+div[type=calendar_year] i {
+    list-style: none;
+    font-style: normal;
+    display: block;
+}
+div[type=calendar_year] .calendar_mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    opacity: 0;
+    z-index: 5;
+    
+}
+div[type=calendar_year] .leftDom {
+    left: -100%;
+}
+div[type=calendar_year] .centerDom {
+    left: 0;
+}
+div[type=calendar_year] .rightDom {
+    left: 100%;
+}
+
+div[type=calendar_year] .yeardiv {
+    padding: 0 1rem 1rem 1rem;
+}
+div[type=calendar_year] .yeartitle{
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    -webkit-box-sizing:border-box;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0 1rem;
+}
+div[type=calendar_year] .yeartitle span {
+    font-size: 1.6rem;
+}
+div[type=calendar_year] .moon_h {
+    width: 100%;
+    height: auto;
+}
+div[type=calendar_year] .moon {
+    width: 30%;
+    height: auto;
+}
+div[type=calendar_year] .moontitle {
+    height: 1.5rem;
+    line-height: 1.5rem;
+}
+div[type=calendar_year] .weekbar {
+    width: 100%;
+    height: 1rem;
+}
+div[type=calendar_year] .day_h {
+    width: 100%;
+}
+div[type=calendar_year] .td {
+    text-align: center;
+    height: 0.7rem;
+    width: 0.7rem;
+    line-height: 0.7rem;
+}
+div[type=calendar_year] .now {
+    color: #fff;
+    background-color: #f20;
+    display: block;
+    border-radius: 1rem;
+    height: 1rem;
+    width: 1rem;
+    line-height: 1rem;
+}
+div[type=calendar_year] .nowbtn {
+    background-image: url(now.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2rem;
+    height: 2rem;
+    width: 2rem;
+}
+
+div[type=calendar_year] .color {
+    color: #3399ff;
+}
+div[type=calendar_year] .bgcolor {
+    background-color: #3399ff;
+}

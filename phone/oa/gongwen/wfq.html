@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>公文</title>
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page = 1;
+            var json = [{
+                    "id" : "titlebtnlist2",
+                    "type" : "titlebtnlist2",
+                    "table" : []
+                }
+            ];
+            setData(json,function(){
+                load();
+            })
+            function load(){
+                lazy.URLRequest(config.mobilefilesend+"?rows=10&page="+page, function(data){
+                    var data = data.rows;
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].value=="已经逾期") h3 = '<span style="color:red">已经逾期</span>';
+                        else if(data[i].value=="即将逾期") h3 = '<span style="color:orange">即将逾期</span>';
+                        else if(data[i].value=="正在处理") h3 = '<span style="color:green">正在处理</span>';
+                        else if(data[i].value=="已审批") h3 = '<span style="color:blue">已审批</span>';
+                        var tmp = {
+                            "id" : data[i].id,
+                            "h1" : data[i].title,
+                            "h2" : "公文编号:"+data[i].receid,
+                            "h3" : h3,
+                            "finish" : data[i].finish,
+                            "gwtype" : "fq",
+                            "onclick" : function(obj){
+                                lazy.setParameter("gwxq",obj);
+                                parent.lazy.openWin("gwxq.html");
+                            }
+                        }
+                        getData("titlebtnlist2").add(tmp);
+                    }
+                    page++;
+                })
+            }
+            lazy.bounce({
+                    "up" : function(){
+                        load();
+                    }
+                 });   
+        });
+    </script>
+</html>

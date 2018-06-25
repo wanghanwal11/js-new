@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>社区活动</title>
+<style type="text/css">
+       img{
+           width: 100% !important;
+       }  
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    var json = [{
+                       "id":"pic",
+                       "type" : "imgmapdiv",
+                       "src" : "images/hd.jpg",
+                       "rect" : [
+                            {
+                                "coords" : "0,145,720,400",
+                                "href" :'hdxq.html?index=1',
+                            },{
+                                "coords" : "0,400,720,630",
+                                "href" :'hdxq.html?index=2',
+                            },{
+                                "coords" : "0,630,720,875",
+                                "href" :'hdxq.html?index=3',
+                            },{
+                                "coords" : "0,875,720,1120",
+                                "href" :'hdxq.html?index=4',
+                            }
+                       ]
+                   }];
+		    
+			setData(json)
+	    });
+	</script>
+</body>
+</html>

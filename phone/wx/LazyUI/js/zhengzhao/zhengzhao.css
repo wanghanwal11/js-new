@@ -1,0 +1,49 @@
+body[type=body] div[type=zhengzhao]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+	
+	background-color: #ffffff;
+}
+div[type=zhengzhao] .table{
+    padding-left:5%;
+    padding-right:5%;
+    
+    color:#ffffff;
+     /*-webkit-box-shadow:0px -5px 0px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow:0px -5px 0px rgba(0,0,0,0.1) inset; 
+  box-shadow:0px -5px 0px rgba(0,0,0,0.1) inset;
+ box-shadow:0px 0px 0px #f00,0px 0px 0px #000,inset 0px 2px 8px #9e038a,0px 0px 0px #0f0;*/
+box-shadow:0 -9px 18px -10px #bbb inset;  
+}
+div[type=zhengzhao] .tr{
+    margin-top:1rem;
+    border-radius:10px 10px 0 0;
+     height:6rem;
+     width:100%;
+  
+  box-shadow: 0 -2px 9px -2px #aaa;    
+}
+div[type=zhengzhao] .tr1{
+   
+    border-radius:10px 10px 0 0;
+     height:6rem;
+     width:100%;
+     box-shadow:0 -9px 9px -9px #bbb inset; 
+}
+
+div[type=zhengzhao] .td1{
+   padding:1rem 1rem 0 1rem;
+     
+}
+div[type=zhengzhao] .td2{
+   padding:1rem 1rem 0 1rem;
+   text-align: right;
+     
+}
+
+div[type=zhengzhao] .number{
+    text-align: right;
+}

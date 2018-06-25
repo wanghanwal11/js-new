@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: rgb(254, 148, 62) !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+            div[type=process] input{
+                text-align: right;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                "title":"公告",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var json = [
+                {
+                    "id" : "process",
+                    "type" : "process",
+                    "table" : [
+                        {
+                            "type" : "input",
+                            "title" : "标题",
+                            "placeholder" : "请输入(必填)"
+                        },{
+                            "type" : "textarea",
+                            "title" : "内容",
+                            "placeholder" : "请输入(必填)"
+                        },{
+                            "type" : "date",
+                            "title" : "截止日期",
+                            "placeholder" : "请选择时间(必填)"
+                        },{
+                            "type" : "file",
+                            "title" : "附件",
+                            "httpurl" : config.docUpoad
+                        }
+                    ]
+                },{
+                    "type" : "button",
+                    "label" : "提交",
+                    "onclick" : function() {
+                        var arr = getData("process").getArray().table;
+                        var title = arr[0].value;
+                        if(title==""){
+                            lazy.alert2("标题不能为空");
+                            return;
+                        }
+                        var content = arr[1].value;
+                        if(content==""){
+                            lazy.alert2("内容不能为空");
+                            return;
+                        }
+                        var losetime = arr[2].value;
+                        if(losetime==""){
+                            lazy.alert2("截止日期不能为空");
+                            return;
+                        }
+                        var filesid = [];
+                        for(var i=0;i<arr[3].value.length;i++){
+                            filesid.push(arr[3].value[i].annexid);
+                        }
+                        var url = config.subgonggao+"title="+title+"&content="+content+"&losetime="+losetime;
+                        if(filesid.length>0) url += "&filesid="+filesid;
+                        lazy.URLRequest(url,function(data){
+                            alert("提交成功");
+                            window.history.go(-1)
+                        })
+                    }
+                }
+            ];
+            // json.unshift({
+                // "id" : "headertoolbar",
+                // "type" : "headertoolbar",
+                // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                // "color" : "#fff",
+                // "border" : "none",
+                // "title" : '公告',
+                // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                // "select" : function(name, index) {
+                    // if(name=="left"&&index==0){
+                        // lazy.goBack();
+                    // }
+                    // if(name=="left"&&index==1){
+                        // lazy.close();
+                    // }
+                // }
+            // });
+            setData(json)
+        });
+    </script>
+</html>

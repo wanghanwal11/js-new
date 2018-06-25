@@ -1,0 +1,54 @@
+body[type=body] div[type=sousuoinput_move]{
+    width: 100%;
+    height: 2.5rem;
+    font-size: 1rem;
+    position: relative;
+    background-color: #f9f9f9;
+    padding: 0.5rem;
+    -webkit-box-sizing: border-box;
+}
+div[type=sousuoinput_move] .tr {
+    width: 100%;
+    height: 100%;
+}
+div[type=sousuoinput_move] .td {
+    border-radius: 0.2rem;
+    background-color: #e0e0e0;
+    width: 100%;
+    height: 100%;
+    -webkit-transition: background 0.5s;	
+    -webkit-box-sizing: border-box;
+    overflow: hidden;
+    padding-right: 3rem;
+}
+div[type=sousuoinput_move] .icon {
+    height: 100%;
+    width: 50%;
+    background-image: url(sousuo.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: 0.7rem;
+    -webkit-transition: width 0.5s;	
+}
+div[type=sousuoinput_move] .inputdiv {
+    height: 100%;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+}
+div[type=sousuoinput_move] .qx {
+    padding-left: 0.5rem;
+    color: #11aeff;
+}
+div[type=sousuoinput_move] .qx span {
+    font-size: 0.7rem;
+}
+div[type=sousuoinput_move] .input {
+    font-size: 0.7rem;
+    width: 100%;
+    background: none;
+    border: none;
+    line-height: 1rem;
+}
+div[type=sousuoinput_move] .qx {
+    display: none;
+}

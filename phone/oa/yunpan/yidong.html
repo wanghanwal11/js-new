@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>云盘</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=07591c420d03d958748c20628252d46e"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide();
+        var pid = lazy.response("pid");
+        var idstr = lazy.response("ids");
+        var foldername = lazy.response("foldername");
+        var json = [{
+                        "id" : "yunpan_dir",
+                        "type" : "yunpan_dir",
+                        "select" : function(name, obj) {
+                            selectFun(name, obj);
+                        },
+                        "table" : []
+                    }];
+        setData(json, function() {
+            var url = config.filelist + "pid=" + pid +"&ids=" + idstr;
+            lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+                for(var i = 0; i < arr.length; i++) {
+                    if(arr[i].filename!="共享文件" && arr[i].filename!="我收到的") {
+                        if(arr[i].url.indexOf("http://")>-1){
+                            url = arr[i].url;
+                        }else{
+                            url = getIP() + (arr[i].url?arr[i].url.replace(/\\/g,"/"):"");
+                        }
+                        getData("yunpan_dir").add({
+                            "type" : arr[i].filetype,
+                            "id" : arr[i].id,
+                            "url" : url,
+                            "h1" : arr[i].filename,
+                            "h2" : lazy.format(arr[i].createtime, 'yyyy-MM-dd HH:mm'),
+                            "h3" : arr[i].filesize,
+                            "select" : function(name, obj) {
+                                selectFun(name, obj);
+                            }
+                        });
+                    }
+                    
+                    
+                }
+            }, function(e) {
+                lazy.alert2(e);
+            });
+        });
+        function selectFun(name, obj) {
+            switch(name) {
+                case "列表" :
+                    if(obj.type == "folder")
+                    lazy.openWin("yidong.html?pid="+obj.id+"&ids=" + idstr+"&foldername="+obj.h1);
+                break;
+                case "取消" :
+                    parent.moveover();
+                break;
+                case "新建文件夹" :
+                    //alert(name);
+                break;
+                case "移动到当前目录" :
+                    var url = config.filesave + "pid=" + pid + "&ids=" + idstr;
+                    lazy.URLRequest(url, function(data){
+                        //lazy.refresh();
+                        parent.lazy.openWin("yunpan.html?pid="+pid+"&foldername="+foldername);
+                    }, function(e) {
+                        lazy.alert2(e);
+                    });
+                break;
+            }
+            
+        }
+    });
+    </script>
+</html>

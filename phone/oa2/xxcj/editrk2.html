@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>人口编辑</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important
+            }
+            div[type=geren] .title{
+                color:black
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+                var rkobj = lazy.getParameter("rk");
+                var lyobj = lazy.getParameter("ly");
+                var url = config.rkxq+"id="+rkobj.id;
+                
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows[0];
+                    lazy.setHeader({
+                        "title":"人口编辑",
+                        "color":lazy.getParameter("Bgcolor"),
+                        "rightbtn" : [
+                            {
+                                "icon":"dui.png",
+                                "onclick":function(){
+                                    var orgid = data.orgid!=null?data.orgid:lyobj.orgid;
+                                    var orgname = data.orgname!=null?data.orgname:lyobj.orgname;
+
+                                    // var url=config.rktj+"orgid="+orgid+"&orgname="+orgname+"&photo="+photo;
+                                    // url+="&needAudit=true&"+"id="+rkobj.id;
+                                    var url=config.rktj+"orgid="+orgid+"&orgname="+orgname;
+                                    url+="&needAudit=true&"+"id="+rkobj.id;
+                                    var arr = getData("process").getArray().table;
+
+                                    if(arr[1].value=='身份证'){
+                                        isCardNo(arr[3].value);
+                                    }
+                                    for(var i=0;i<arr.length;i++){
+                                        //if(arr[i].value!=""){
+                                            if(arr[i].type=="select"){
+                                                if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                                if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                                //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                            }else{
+                                                url+="&"+arr[i].id+"="+arr[i].value
+                                            }
+                                        //}
+                                    }
+                                    if(url.indexOf("&name")==-1) url+="&name="+data.name;
+                                    if(url.indexOf("&cardno")==-1) url+="&cardno="+data.cardno;
+
+                                    if(url.indexOf('身份证')>-1){
+                                        url = url.replace('certificatename','cardno');
+                                    }
+                                    lazy.URLRequest(encodeURI(url),function(){
+                                        alert("提交成功");
+                                        //lazy.openWin("rkcx.html")
+                                        window.history.go(-1)
+                                        // lazy.goBack();
+                                    },function(e){
+                                        lazy.alert2(e)
+                                    })
+                                }
+                            }
+                        ]
+                    });
+                    var json = [
+                            {
+                                "id" : "process",
+                                "type" : "process",
+                                "icon" : "",
+                                "table" : [
+                                {
+                                    "id" : "name",
+                                    "title" : "姓名(必填)",
+                                    "value" : data.name,
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id":"cardtypeid",
+                                    "name" : "cardtypename",
+                                    "title" : "证件类型",
+                                    "type" : "select",
+                                    "option" : base_datas.cardtype,
+                                    "placeholder" : "请选择",
+                                    "value" : {"html":data.cardtypename,"value":data.cardtypeid},
+                                },
+                                {
+                                    "id" : "nationid",
+                                    "name" : "nationname",
+                                    "title" : "民族(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.nation,
+                                    "placeholder" : "请选择",
+                                    "value": {"html":data.nationname,"value":data.nationid}
+                                },
+                                {
+                                    "id" : "certificateid",
+                                    "title" : "证件号码",
+                                    "placeholder" : "请输入",
+                                    "value": data.cardno||data.certificatename
+                                },
+                                {
+                                    //"id" : "gender",
+                                    "name" : "gender",
+                                    "title" : "性别(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.genderStore,
+                                    "placeholder" : "请选择",
+                                    "value": {"html":data.gender,"value":data.gender}
+                                },
+                                {
+                                    "id" : "birthday",
+                                    "title" : "出生日期",
+                                    "type" : "date",
+                                    "value" : data.birthday?lazy.format(data.birthday,"yyyy-MM-dd"):"无记录"
+                                },
+                                {
+                                    "id" : "regionid",
+                                    "name" : "regionname",
+                                    "title" : "国家",
+                                    "type" : "select",
+                                    "option" : base_datas.region,
+                                    "value" : {"html":data.regionname,"value":data.regionid},
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue=="0") list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,7)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplaceprovince",
+                                    "title" : "户籍省", 
+                                    "type" : "select",
+                                    //"option" : base_datas.city,
+                                    "value" : {"html":data.nativeplaceprovince,"value":data.nativeplaceprovince},
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        if(name!="北京"){
+                                             document.getElementsByClassName("tr")[12].style.display="block"
+                                        }else{
+                                             document.getElementsByClassName("tr")[12].style.display="none"
+                                        }
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue==id) list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,8)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplacecity",
+                                    "title" : "户籍市",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "value" : {"html":data.nativeplacecity,"value":data.nativeplacecity},
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue==id) list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,9)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplacecounty",
+                                    "title" : "户籍区县",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "value": {"html":data.nativeplacecounty,"value":data.nativeplacecounty},
+                                    "select" : function(name,id){
+                                        if(name=="西城区"){
+                                             document.getElementsByClassName("tr")[10].style.display="block"
+                                        }else{
+                                             document.getElementsByClassName("tr")[10].style.display="none"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name" : "wheretohere",
+                                    "id" : "wheretohere",
+                                    "title" : "所属街道",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "value": {"html":data.wheretohere,"value":data.wheretohere}
+                                },
+                                {
+                                    "id" : "nativeplaceaddress",
+                                    "title" : "户籍地址",
+                                    "placeholder" : "请输入",
+                                    "value":data.nativeplaceaddress
+                                },{
+                                    "id" : "movetotime",
+                                    "title" : "离开户口登记地时间",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },{
+                                    "id" : "helpid",
+                                    "name" : "helpname",
+                                    "title" : "居住情况",
+                                    "option" : base_datas.jzqk,
+                                    "type" : "select",
+                                    "placeholder" : "请选择", 
+                                    "value": {"html":data.helpname,"value":data.helpid}
+                                }
+
+
+                                ,{
+                                   "id" : "vehicletype",
+                                    "title" : "汽车品牌",
+                                    "placeholder" : "请输入",
+                                    "value":data.vehicletype
+                                }
+                                ,{
+                                   "id" : "vehiclenumber",
+                                    "title" : "车牌号",
+                                    "placeholder" : "请输入",
+                                    "value":data.vehiclenumber
+                                }
+                                ,{
+                                   "id" : "issfyq",
+                                    "title" : "是否饲养家禽",
+                                    "type" : "select",
+                                    "option" : [{html:'是',value:'是'},{html:'否',value:'否'}],
+                                    "placeholder" : "请输入",
+                                    "value": {"html":data.issfyq,"value":data.issfyq}
+                                }
+                                ,{
+                                    "id" : "yangtype",
+                                    "title" : "家禽种类",
+                                    "type" : "select",
+                                    "option" : [{html:'鸽子类',value:'鸽子类'},{html:'鸡类',value:'鸡类'},{html:'鸭类',value:'鸭类'},{html:'鹅类',value:'鹅类'},{html:'鹌鹑类',value:'鹌鹑类'},{html:'鹦鹉类',value:'鹦鹉类'},{html:'其他养禽类',value:'其他养禽类'}],
+                                    "placeholder" : "请输入",
+                                    "value": {"html":data.yangtype,"value":data.yangtype}
+                                }
+                                ,{
+                                    "id" : "othernumber",
+                                    "title" : "家禽数量",
+                                    "placeholder" : "请输入",
+                                    "value":data.othernumber
+                                }
+                                ,{
+                                    "id" : "issfyg",
+                                    "title" : "是否饲养宠物",
+                                    "type" : "select",
+                                    "option" : [{html:'是',value:'是'},{html:'否',value:'否'}],
+                                    "placeholder" : "请输入",
+                                    "value": {"html":data.issfyg,"value":data.issfyg}
+                                }
+                                ,{
+                                    "id" : "cwlxtype",
+                                    "title" : "宠物种类",
+                                    "type" : "select",
+                                    "option" : [{html:'狗',value:'狗'},{html:'猫',value:'猫'},{html:'其他',value:'其他'}],
+                                    "placeholder" : "请输入",
+                                    "value": {"html":data.cwlxtype,"value":data.cwlxtype}
+                                }
+                                ,{
+                                    "id" : "cwlxnum",
+                                    "title" : "宠物数量",
+                                    "placeholder" : "请输入",
+                                    "value":data.cwlxnum
+                                }
+
+
+
+                                ,{
+                                    "id" : "englishname",
+                                    "title" : "英文名",
+                                    "value" : data.englishname
+                                },
+                                {
+                                    "id" : "formername",
+                                    "title" : "曾用名",
+                                    "value" : data.formername?data.formername:"无"
+                                },
+                                
+
+
+                                {
+                                    "id" : "issorgan",
+                                    "title" : "签发机关",
+                                    "value" : data.issorgan
+                                },
+                                {
+                                    "id" : "issdate",
+                                    "title" : "签发日期",
+                                    "type" : "date",
+                                    "value" : data.issdate
+                                },
+                                {
+                                    "id" : "raaddress",
+                                    "title" : "户籍地址",
+                                    "value" : data.raaddress
+                                },
+                                {
+                                    "id" : "nativeplaceaddress",
+                                    "title" : "籍贯详址",
+                                    "value" : data.nativeplaceaddress
+                                },
+                                {
+                                    "id" : "height",
+                                    "title" : "身高",
+                                    "value" : data.height
+                                },
+                                {
+                                    "id" : "bloodid",
+                                    "name" : "bloodname",
+                                    "title" : "血型",
+                                    "type" : "select",
+                                    "option" : base_datas.blood,
+                                    "placeholder" : data.bloodname,
+                                    "value":{"html":data.bloodname,"value":data.bloodid}
+                                },
+                                {
+                                    "id":"politicsid",
+                                    "name" : "politicsname",
+                                    "title" : "政治面貌",
+                                    "type" : "select",
+                                    "option" : base_datas.politics,
+                                    "value": {"html":data.politicsname,"value":data.politicsid},
+                                    "placeholder" : data.politicsname//"群众"
+                                },
+                                {
+                                    "id" : "partyjoindate",
+                                    "title" : "入党日期",
+                                    "type" : "date",
+                                    "value" : data.partyjoindate
+                                },
+                                {
+                                    "id" : "edulevelid",
+                                    "name" : "edulevelname",
+                                    "title" : "文化程度",
+                                    "type" : "select",
+                                    "option" : base_datas.edulevel,
+                                    "value" : {"html":data.edulevelname,"value":data.edulevelid},
+                                    "placeholder" : data.edulevelname//"大学"
+                                },
+                                {
+                                    "id" : "healthid",
+                                    "name" : "healthname",
+                                    "title" : "健康状况",
+                                    "type" : "select",
+                                    "option" : base_datas.health,
+                                    "value":{"html":data.healthname,"value":data.healthid},
+                                    "placeholder" : data.healthname//"大学"
+                                },
+                                {
+                                    "id" : "marryid",
+                                    "name" : "marryname",
+                                    "title" : "婚姻状况",
+                                    "type" : "select",
+                                    "option" : base_datas.marry, 
+                                    "value":{"html":data.marryname,"value":data.marryid},
+                                    "placeholder" : data.marryname//"未婚"
+                                },
+                                {
+                                    "id" : "firstmarrdate",
+                                    "title" : "初婚日期",
+                                    "type" : "date",
+                                    "value" : data.firstmarrdate
+                                },
+                                {
+                                    "id" : "marriedtypeid",
+                                    "name" : "marriedtypename",
+                                    "title" : "已婚分类",
+                                    "type" : "select",
+                                    "option" : base_datas.marriedtype, 
+                                    "value":{"html":data.marriedtypename,"value":data.marriedtypeid},
+                                    "placeholder" : data.marriedtypename
+                                },
+                                {
+                                    "id" : "militaryserviceid",
+                                    "name" : "militaryservicename",
+                                    "title" : "兵役状况",
+                                    "type" : "select",
+                                    "option" : base_datas.militaryservice, 
+                                    "value":{"html":data.militaryservicename,"value":data.militaryserviceid},
+                                    "placeholder" : data.militaryservicename
+                                },
+                                {
+                                    "id" : "faithid",
+                                    "name" : "faithname",
+                                    "title" : "宗教信仰",
+                                    "type" : "select",
+                                    "option" : base_datas.faith, 
+                                    "value":{"html":data.faithname,"value":data.faithid},
+                                    "placeholder" : data.faithname
+                                },
+                                {
+                                    "id" : "workstatusid",
+                                    "name" : "workstatusname",
+                                    "title" : "从业状况",
+                                    "type" : "select",
+                                    "option" : base_datas.workstatus, 
+                                    "value":{"html":data.workstatusname,"value":data.workstatusid},
+                                    "placeholder" : data.workstatusname
+                                },
+                                {
+                                    "id" : "socialposition",
+                                    "title" : "社会兼职",
+                                    "value" : data.socialposition
+                                },
+                                {
+                                    "id" : "specialty",
+                                    "title" : "特长",
+                                    "value" : data.specialty
+                                },
+                                {
+                                    "id" : "moveno",
+                                    "title" : "居住证号",
+                                    "value" : data.moveno
+                                },
+                                {
+                                    "id" : "staylength",
+                                    "title" : "居住时长(月)",
+                                    "type" : "number",
+                                    "value" : data.staylength
+                                },
+                                {
+                                    "id" : "tel",
+                                    "title" : "联系电话",
+                                    "value" : data.tel//"13581712350"
+                                },
+                                {
+                                    "id" : "servicespace",
+                                    "title" : "服务处所",
+                                    "value" : data.servicespace
+                                },
+                                {
+                                    "id" : "wheretohere",
+                                    "title" : "从何处迁入",
+                                    "value" : data.wheretohere
+                                },
+                                {
+                                    "id" : "joinwork",
+                                    "title" : "参加工作时间",
+                                    "type" : "date",
+                                    "value" : data.joinwork
+                                },
+                                {
+                                    "id" : "workunits",
+                                    "title" : "工作单位",
+                                    "value" : data.workunits
+                                },
+                                {
+                                    "name" : "profession",
+                                    "title" : "职业",
+                                    "type" : "select",
+                                    "option" : base_datas.profession,
+                                    "value":{"html":data.profession,"value":data.profession},
+                                    "placeholder" : data.profession//"程序员"
+                                },
+                                {
+                                    "id" : "companynature",
+                                    "title" : "单位性质",
+                                    "value" : data.companynature
+                                },
+                                {
+                                    "id" : "companyindustry",
+                                    "title" : "单位所属行业",
+                                    "value" : data.companyindustry
+                                },
+                                {
+                                    "id" : "goverjob",
+                                    "title" : "干部职务级别",
+                                    "value" : data.goverjob
+                                },
+                                {
+                                    "id" : "skill",
+                                    "title" : "专业技术职务",
+                                    "value" : data.skill
+                                },
+                                {
+                                    "id" : "companyjob",
+                                    "title" : "单位职务",
+                                    "value" : data.companyjob
+                                },
+                                {
+                                    "id" : "socialjob",
+                                    "title" : "社会职务",
+                                    "value" : data.socialjob
+                                },
+                                {
+                                    "id" : "cellphonenumber",
+                                    "title" : "手机号码",
+                                    "type" : "number",
+                                    "value" : data.cellphonenumber
+                                },
+                                {
+                                    "id" : "email",
+                                    "title" : "电子邮箱",
+                                    "value" : data.email
+                                },
+                                {
+                                    "id" : "retirementtime",
+                                    "title" : "离退休时间",
+                                    "type" : "date",
+                                    "value" : data.retirementtime
+                                },
+                                {
+                                    "id" : "state",
+                                    "title" : "状态",
+                                    "type" : "select",
+                                    "option" : base_datas.stateStore,
+                                    "value":{"html":data.state,"value":data.state},
+                                    "placeholder" : data.state
+                                },
+                                {
+                                    "id" : "statereason",
+                                    "title" : "注销原因",
+                                    "value" : data.statereason
+                                },
+                                {
+                                    "id" : "datasource",
+                                    "title" : "数据来源",
+                                    "value" : data.datasource
+                                },
+                                {
+                                    "id" : "remark",
+                                    "title" : "备注",
+                                    "value" : data.remark?data.remark:"无记录"
+                                }
+                                ]
+                            }
+                            /*,{
+                                "type" : "button",
+                                "label" : "保存",
+                                "onclick" : function() {
+                                    var orgid = data.orgid!=null?data.orgid:lyobj.orgid;
+                                    var orgname = data.orgname!=null?data.orgname:lyobj.orgname;
+
+                                    // var url=config.rktj+"orgid="+orgid+"&orgname="+orgname+"&photo="+photo;
+                                    // url+="&needAudit=true&"+"id="+rkobj.id;
+                                    var url=config.rktj+"orgid="+orgid+"&orgname="+orgname;
+                                    url+="&needAudit=true&"+"id="+rkobj.id;
+                                    var arr = getData("process").getArray().table;
+
+                                    // if(arr[1].value=='身份证'){
+                                    //     isCardNo(arr[3].value);
+                                    // }
+                                    for(var i=0;i<arr.length;i++){
+                                        //if(arr[i].value!=""){
+                                            if(arr[i].type=="select"){
+                                                if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                                if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                                //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                            }else{
+                                                url+="&"+arr[i].id+"="+arr[i].value
+                                            }
+                                        //}
+                                    }
+                                    if(url.indexOf("&name")==-1) url+="&name="+data.name;
+                                    if(url.indexOf("&cardno")==-1) url+="&cardno="+data.cardno;
+
+                                    if(url.indexOf('身份证')>-1){
+                                        url = url.replace('certificatename','cardno');
+                                    }
+                                    lazy.URLRequest(encodeURI(url),function(){
+                                        alert("提交成功");
+                                        //lazy.openWin("rkcx.html")
+                                        window.history.go(-1)
+                                        // lazy.goBack();
+                                    },function(e){
+                                        lazy.alert2(e)
+                                    })
+                                }
+                            }
+                           */       
+                    ];
+                    setData(json,function(){
+                        document.getElementsByClassName("tr")[10].style.display="none";
+                        document.getElementsByClassName("tr")[12].style.display="none";
+                    })
+                })
+
+                    function isCardNo(card){ 
+                            var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+                        if(reg.test(card) === false){ 
+                            lazy.alert2("身份证输入不合法"); 
+                            return false; 
+                        } 
+                    };
+        });
+    </script>
+</html>

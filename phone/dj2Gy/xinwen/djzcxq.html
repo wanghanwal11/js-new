@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+                var xwxqid=lazy.geturlstr("id")?lazy.geturlstr("id"):lazy.getParameter("xwxqid")
+                
+                var imgUrl = lazy.getParameter("img")
+                var ping = lazy.getParameter("ping")
+                var url = djconfig.xinwenxq + 'id='+xwxqid+"&_time="+new Date().getTime();
+                var title = lazy.getParameter("title")
+                //alert(title)
+                var type = lazy.getParameter("tag")
+                lazy.URLRequest(url, function(data){
+                var arr = data.rows[0];
+                var page_status;
+                if(type == 10){
+                   page_status = "left";
+                   lazy.setParameter("page_status","left");
+                }else if(type == 11){
+                   page_status = "center";
+                   lazy.setParameter("page_status","center");
+                }else{
+                   page_status = "right";
+                   lazy.setParameter("page_status","right");
+                }
+                lazy.setHeader({
+                            "title": title,
+                        });
+                var json = [{
+                            "id" : "xinwenxq",
+                            "type" : "xinwenxq",
+                            "table" : [
+                  
+                                           {    
+                                                "h1" : arr.title,
+                                                "user" : arr.seoTitle,
+                                                "date" : arr.addTime?lazy.format(arr.addTime , 'MM-dd'):"",
+                                                "time" : arr.addTime?lazy.format(arr.addTime , 'HH:mm'):"",
+                                                "content" : arr.content,
+                                           }
+                                        ]
+                            
+                        }, {
+                                "type" : "commentbox",
+                                "ping" : arr.commentcount,
+                                "fen" : arr.sharecount,
+                                "shou" : arr.collectioncount,
+                                "pingclick" : function() {
+                                   
+                                    lazy.setParameter("huodongid",arr.id)
+                                    lazy.setParameter("type",type)
+                                    lazy.openWin("../faxian/pllist.html");
+                                },
+                                "shouclick" : function() {
+                                    var img=imgUrl;
+                                    var url=lazy.geturlstr()+"?id="+arr.id;
+                                    
+                                    lazy.URLRequest(djconfig.sc+"relaid="+arr.id+"&title="+arr.title+"&type="+title+"&image="+img+"&url="+url+"&source="+arr.userName+"&def1="+arr.picture, function(data) {
+                                         
+                                         lazy.alert2("收藏成功");
+                                    })
+                                    
+                                    
+                                },
+                                "fenclick" : function() {
+                                    
+                                     var obj={};
+                                     if(lazy.geturlstr("id")){
+                                         obj.src=lazy.geturlstr();
+                                     }else{
+                                         obj.src=lazy.geturlstr()+"?id="+arr.id;
+                                     }
+                                     obj.title=arr.title;
+                                     //alert(obj.src)
+                                    
+                                    
+                                     
+                                     lazy.share(obj,function(){
+                                     lazy.URLRequest(djconfig.share+"activityid="+arr.id, function(data) {
+                                                          
+                                     })
+                                   })
+                                   
+                                }
+                            
+                            }
+                        ];
+            if(lazy.browserType=="weixin") {
+                json.splice(1,1);
+            }
+            setData(json)
+            }) 
+       });
+    </script>
+</html>

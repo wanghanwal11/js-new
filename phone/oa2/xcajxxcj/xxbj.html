@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>信息编辑</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=process] input{
+                text-align: right
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var rkobj = lazy.getParameter("rk");
+            lazy.setHeader({
+                "title":"信息编辑",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                        "icon":"dui.png",
+                        "onclick":function(){
+                            var arr = getData("process").getArray().table;
+                            var Relations = arr[1].value;
+                            if(arr[1].value==""){
+                                lazy.alert2("请选择关系")
+                            }else if(arr[2].value==""){
+                                lazy.alert2("请选择状态")
+                            }else{
+                                var gx = arr[1].returnObj.html;
+                                var ztid = arr[2].returnObj.value;
+                                var url=config.hzgx+"peopleid="+rkobj.id+"&livehouseid="+lazy.getParameter("fw").id+"&peoplename="+rkobj.name+"&Relations="+gx+"&type="+ztid;
+                                var url1=config.jzzt+"peopleid="+rkobj.id+"&livehouseid="+lazy.getParameter("fw").id+"&peoplename="+rkobj.name+"&type="+ztid;
+                                lazy.URLRequest(encodeURI(url1),function(data){
+                                    lazy.URLRequest(encodeURI(url),function(data1){
+                                        alert("保存成功！");
+                                        window.history.go(-1)
+                                        //lazy.openWin("rklb.html")
+                                    },function(e){
+                                        lazy.alert2(e)
+                                    });
+                                });
+                            }
+                        }
+                    }
+                ]
+            });
+            var json = [
+                    // {
+                        // "id" : "headertoolbar",
+                        // "type" : "headertoolbar",
+                        // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        // "color" : "#fff",
+                        // "border" : "none",
+                        // "title" : '信息编辑',
+                        // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        // "right" : [lazy.url + "LazyUI/js/headertoolbar/dui.png"],
+                        // "select" : function(name, index) {
+                            // if(name=="left"&&index==0){
+                                // lazy.goBack();
+                            // }
+                            // if(name=="left"&&index==1){
+                                // lazy.close();
+                            // }
+                            // if(name=="right"){
+                                // var arr = getData("process").getArray().table;
+                                // var Relations = arr[1].value;
+                                // if(arr[1].value==""){
+                                    // lazy.alert2("请选择关系")
+                                // }else if(arr[2].value==""){
+                                    // lazy.alert2("请选择状态")
+                                // }else{
+                                    // var gx = arr[1].returnObj.html;
+                                    // var ztid = arr[2].returnObj.value;
+                                    // var url=config.hzgx+"peopleid="+rkobj.id+"&livehouseid="+lazy.getParameter("fw").id+"&peoplename="+rkobj.name+"&Relations="+gx+"&type="+ztid;
+                                    // var url1=config.jzzt+"peopleid="+rkobj.id+"&livehouseid="+lazy.getParameter("fw").id+"&peoplename="+rkobj.name+"&type="+ztid;
+                                    // lazy.URLRequest(encodeURI(url1),function(data){
+                                        // lazy.URLRequest(encodeURI(url),function(data1){
+                                            // alert("保存成功！");
+                                            // lazy.openWin("rklb.html")
+                                        // },function(e){
+                                            // lazy.alert2(e)
+                                        // });
+                                    // });
+                                // }
+//                             
+                            // }
+                        // }
+                    // },
+                    {
+                        "id" : "process",
+                        "type" : "process",
+                        "table" : [
+                            {
+                                "title":"姓名",
+                                "value" : rkobj.name
+                            },{
+                                "title":"关系",
+                                "placeholder":"请选择",
+                                "type" : "select",
+                                "option" : base_datas.relations
+                            },{
+                                "title":"状态",
+                                "placeholder":"请选择",
+                                "type" : "select",
+                                "option" : base_datas.family
+                            }
+                        ]
+                        
+                    }
+            ];
+            setData(json)
+        });
+    </script>
+</html>

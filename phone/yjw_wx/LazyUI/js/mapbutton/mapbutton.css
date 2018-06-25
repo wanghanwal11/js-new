@@ -1,0 +1,20 @@
+body[type=body] div[type=mapbutton]{
+    width:100%;
+    height:auto;
+    display: -webkit-box;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=mapbutton] .mapdiv {
+    width: 100%;
+    height: 2.5rem;
+    line-height:2.5rem;
+    background-color:#FFFFFF;
+    -webkit-box-sizing:border-box;
+    background-image: url(dingwei.png);
+    background-size: 1.5rem 1.5rem;
+    background-position: 95% center;
+    background-repeat: no-repeat;
+    padding: 0 1.3rem;
+}

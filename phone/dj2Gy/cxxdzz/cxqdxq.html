@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+                var title=lazy.geturlstr("title")
+                var cxqdid=lazy.geturlstr("id")?lazy.geturlstr("id"):lazy.getParameter("cxqdid")
+                var cls=lazy.geturlstr("cls")
+                var imgUrl = lazy.getParameter("cxqdimg")
+                lazy.setHeader({
+                            "title": title,
+                            
+                        });
+                if(cls=='zbsjtdj'){
+                     var url = getIP()+"/servicedesk/article/getzbsjtdj.ht?"+ 'id='+cxqdid+"&_time="+new Date().getTime();
+                }else{
+                     var url = djconfig.xinwenxq + 'id='+cxqdid+"&_time="+new Date().getTime();
+                }
+               
+                lazy.URLRequest(url, function(data){
+                 console.log(data)   
+                    
+                var arr = data.rows[0];
+                var filesPath = [];
+                var filesName = [];
+                if(data.newPrimaryKeys.filelist){
+                     var files=data.newPrimaryKeys.filelist;
+                        for(var i=0;i<files.length;i++){
+                        filesPath.push((files[i].fileurl?files[i].fileurl:"").replace(/\\/g,"/"));
+                        filesName.push(files[i].filename);
+                    }
+                }
+                
+                var json = [{
+                            "id" : "xinwenxq",
+                            "type" : "xinwenxq",
+                            "table" : [
+                  
+                                           {    
+                                                "h1" : arr.title,
+                                                "user" : arr.seoTitle,
+                                                "date" : arr.addTime?lazy.format(arr.addTime , 'MM-dd'):"",
+                                                "time" : arr.addTime?lazy.format(arr.addTime , 'HH:mm'):"",
+                                                "content" : arr.content,
+                                           }
+                                        ]
+                            
+                        }
+                        ];
+              if(filesPath.length>0){
+                 var s= {
+                        "id" : "process",
+                        "type" : "process_xq",
+                        "table" : [{
+                                "type" : "file",
+                                "title" : "附件",
+                                "value" : filesPath,
+                                "name" : filesName
+                         }]
+                    }
+                    json.push(s)
+              }
+            
+            setData(json)
+            }) 
+       });
+    </script>
+</html>

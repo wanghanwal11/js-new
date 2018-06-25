@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=label]{
+                display: none;
+            }
+            #bounceLoading{
+                display: none;
+            }
+            
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var val="";
+            lazy.setHeader({
+                            "title": "党建之窗",
+                        });
+            var json=[
+            /*
+            {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  lazy.goBack()
+                                              }   
+                                            },{
+                                              "content" : lazy.url + "LazyUI/js/header/images/cha1.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.close()
+                                              }   
+                                            }   
+                                            
+                                          ],
+                            
+                            "button" : [
+                                              {
+                                                  "content" : "党建之窗",
+                                                  "onclick" : function() {
+                                                        // iframe.src = "./xinwen/dangzhanglb.html";
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },*/
+                        {
+                            "type" : "sousuoinput1",
+                            "select" : function(val1){
+                                if(val1!=""){
+                                   val=val1;
+                                   page=1;
+                                   getData("table9").hide();
+                                   getData("szlb").clean2(0);
+                                   getData("dflb").clean2(1);
+                                   getData("dylb").clean2(2);
+                                   load(val);
+                                }else{
+                                   getData("table9").show(); 
+                                   getData("szlb").clean2(0);
+                                   getData("dflb").clean2(1);
+                                   getData("dylb").clean2(2);
+                                }
+                            }
+                        },{
+                            "id":"table9",
+                            "type" : "table9",
+                            "col" : 3,
+                            "table" : [
+                            {
+                                "icon" : lazy.url + "LazyUI/images/zhibu/sz.png",
+                                "label" : "时政要闻",
+                                "onclick" : function() {
+                                    var url =djconfig.xinwenlist + 'tags=szyw&title=';
+                                    lazy.setParameter("sou",url)
+                                    lazy.setParameter("title","时政要闻")
+                                    lazy.openWin("view.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/zhibu/df.png",
+                                "label" : "党风廉政",
+                                "onclick" : function() {
+                                    var url =djconfig.xinwenlist + 'tags=dflz&title=';
+                                    lazy.setParameter("sou",url)
+                                    lazy.setParameter("title","党风廉政")
+                                    lazy.openWin("view.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/zhibu/dy.png",
+                                "label" : "党员风采",
+                                "onclick" : function() {
+                                    var url =djconfig.xinwenlist + 'tags=dyfc&title=';
+                                    lazy.setParameter("sou",url)
+                                    lazy.setParameter("title","党员风采")
+                                    lazy.openWin("view.html");
+                                }
+                            }
+                        ]
+                         },{
+                            "id":"szlb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                            
+                        },{
+                            "id" : "dflb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                        },{
+                            "id" : "dylb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                        }]
+             setData(json)
+            function load(value){
+                 lazy.URLRequest(djconfig.djsearch+'title='+value, function(data) {
+                     var data=data.newPrimaryKeys;
+                     var datasz=data.szyw;
+                     var datadf=data.dflz;
+                     var datady=data.dyfc;
+                     if(datasz.length<=0&&datadf.length<=0&&datady.length<=0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull("暂无数据")
+                         }
+                     }else{
+                         if(document.getElementsByClassName("zwsjXT")[0]){document.getElementsByClassName("zwsjXT")[0].remove()}
+                         loadsz(datasz)
+                         loaddf(datadf)
+                         loaddy(datady)
+                     }
+                     page++;
+                 })
+            }
+            function loadsz(data){
+                if(data.length>0){
+                    getData("szlb").add_title("时政要闻"); 
+                    //getData("szlb").appto2(0)
+                }
+                for(var i=0;i<data.length;i++){
+                         var time="";
+                         time=lazy.format(data[i].begintime,"MM-dd")
+                         var list={
+                                        "icon" : data[i].imgUrl?lazy.getImagePx(data[i].imgUrl, 180, 120):"../LazyUI/images/zhibu/default.jpg",
+                                        "h1" : data[i].title,
+                                        "yue" : data[i].count,
+                                        "ping" : data[i].commentcount,
+                                        "user" : data[i].seoTitle,
+                                        "date" : data[i].addTime?lazy.autoFormat(data[i].addTime):"",
+                                        "id" : data[i].id,
+                                        "onclick" : function(data) {
+                                            lazy.setParameter("xwxqid",data.id)
+                                            lazy.setParameter("img",data.icon)
+                                            lazy.setParameter("title","时政要闻");
+                                            lazy.setParameter("tag",10);
+                                            lazy.openWin("djzcxq.html");
+                                        }//onclick
+                                    }//list
+                         getData("szlb").add(list);
+                     }
+            }
+            function loaddf(data){
+                 if(data.length>0){
+                     getData("dflb").add_title("党风廉政"); 
+                     //getData("dflb").appto2(1)
+                 }
+                 for(var i=0;i<data.length;i++){
+                        var s={
+                                    "icon" : data[i].imgUrl?lazy.getImagePx(data[i].imgUrl, 180, 120):"../LazyUI/images/zhibu/default.jpg",
+                                    "h1" : data[i].title,
+                                    "yue" : data[i].count,
+                                    "ping" : data[i].commentcount,
+                                    "user" : data[i].seoTitle,
+                                    "date" : data[i].addTime?lazy.autoFormat(data[i].addTime):"",
+                                    "id" : data[i].id,
+                                    "onclick" : function(data) {
+                                            lazy.setParameter("xwxqid",data.id)
+                                            lazy.setParameter("img",data.icon)
+                                            lazy.setParameter("title","党风廉政");
+                                            lazy.setParameter("tag",11);
+                                            lazy.openWin("djzcxq.html");
+                                      }//onclick
+                            }
+                       getData("dflb").add(s);
+                    }
+            }
+            function loaddy(data){
+                 if(data.length>0){
+                     getData("dylb").add_title("党员风采"); 
+                     //getData("dylb").appto2(2)
+                 }
+                 for(var i=0;i<data.length;i++){
+                        var s={
+                                "icon" : data[i].imgUrl?lazy.getImagePx(data[i].imgUrl, 180, 120):"../LazyUI/images/zhibu/default.jpg",
+                                "h1" : data[i].title,
+                                "yue" : data[i].count,
+                                "ping" : data[i].commentcount,
+                                "user" : data[i].seoTitle,
+                                "date" : data[i].addTime?lazy.autoFormat(data[i].addTime):"",
+                                "id" : data[i].id,
+                                "onclick" : function(data) {
+                                            lazy.setParameter("xwxqid",data.id)
+                                            lazy.setParameter("img",data.icon)
+                                            lazy.setParameter("title","党员风采");
+                                            lazy.setParameter("tag",12);
+                                            lazy.openWin("djzcxq.html");
+                                                   
+                                 }//onclick
+                            }
+                       getData("dylb").add(s);
+                    }
+            }
+             lazy.bounce({"up":function(){
+               // load(val)
+               }}); 
+        })
+    </script>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        
+        <script src="../LazyUI/js/admin.js"></script>
+
+        <title>认证信息</title>
+        <style type="text/css">
+           body{
+               background-color: #efefef !important;
+           }
+           div[type=input] {
+               border-bottom:1px solid #efefef;
+               margin-bottom: 0rem !important;
+               padding:0.5rem 0;
+           }
+           div[type=button] .button_a{
+                width: 90%!important;
+                border-radius: 1.3rem !important;
+                position: fixed;
+                margin-top:2rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #3399fd !important;
+                border: none !important;
+            }
+            .text{
+                color:#999999;
+                margin-left: 0.5rem;
+                height:3rem;
+                line-height: 2rem;
+            }
+            input:disabled{
+                opacity: 1 !important;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+        start(function() { 
+            lazy.clearCache();
+            lazy.setParameter("sq",[])
+            lazy.setParameter("gb",0)
+             var wxinitId = lazy.geturlstr("wxinitId");
+             var wxopenid = lazy.geturlstr("wxopenid");
+             var phone = lazy.getParameter("mobile")?lazy.getParameter("mobile"):'15101011111';
+             var communityid = '';
+			 if(lazy.getParameter('communityid')) communityid = lazy.getParameter('communityid');
+			  //var communityid = lazy.getParameter('communityid')?lazy.getParameter('communityid'):'';
+             var orgpath = lazy.getParameter('orgpath')?lazy.getParameter('orgpath'):'';
+             lazy.loadWxJs(function(){  
+                  lazy.GET(getIP()+"/wechat/weixinCertificate/getCommunity.ht?parentid=0&initid="+wxinitId,function(data_tmp){ 
+                  lazy.GET(getIP()+"/wechat/weixinCertificate/getCommunity.ht?parentid="+data_tmp.rows[0].rows[0].id+"&initid="+wxinitId,function(data){      
+                        var data=data.rows[0].rows;
+                        var arr=[];
+                        var temparr=[];
+                        for(var i=0;i<data.length;i++){
+                             var obj={};
+                             obj.title=data[i].orgname;
+                             //orgtypeid
+                             obj.orgtypeid=data[i].id;
+                             obj.path=data[i].path;
+                             temparr.push(obj)
+                        }
+                        arr.push(temparr)
+                        var json = [{
+                            "id":"input1",
+                            "type":"input",
+                             "title":"姓名",
+                             //"key":"rzname",
+                             "placeholder":"请填写姓名",
+                         },{
+                             "id":"input2",
+                             "type":"input",
+                             "title":"身份证号",
+                             // "key":"rzid",
+                             "placeholder":"请填写身份证号码",
+                        },{
+                            "id":"input3",
+                            "type":"input",
+                             "title":"手机号码",
+                             "readOnly":true,
+                             "value":phone,
+                             "placeholder":"请输入手机号码",
+                        },{
+                             "id":"input4",
+                             "type":"input",
+                             "title":"社区",
+                             "readOnly":true,
+                             "placeholder":"请选择您所在的社区",
+                             "icon":"../LazyUI/images/right.png",
+                             /*"key":"rzsq",*/
+                             "foc":function(){
+                                 if(lazy.getParameter("ps") == 1 || lazy.getParameter("ps") == 2){
+                                    /*lazy.picker(arr,function(obj) {
+                                        console.log(obj)
+                                        getData("input4").add(obj[0].obj.title)
+                                        //orgtypeid
+                                        communityid = obj[0].obj.orgtypeid;
+                                        orgpath = obj[0].obj.path;
+                                        lazy.setParameter('communityid',communityid)
+                                        lazy.setParameter('orgpath',orgpath)
+                                    });*/
+                                  
+                                   var position = Math.ceil(arr[0].length/2)
+                                    if(arr[0].length == 1) position = 0;
+                                    if(arr[0].length == 0){
+                                        lazy.alert2("暂无可选择社区")
+                                        getData("input4").add('')
+                                        return;
+                                    }
+                                    //console.log(arr[0][position-1].orgtypeid)
+                                    getShequ(arr[0][position-1].orgtypeid,function(temp){
+                                        //console.log(temp)
+                                        //if(arr.length == 1) arr.push(temp[0])
+                                        var picker = lazy.picker2(arr, function(obj) {
+                                            //lazy.alert2(obj);
+                                            console.log(obj)
+                                            var objlength = obj.length
+                                            console.log(obj[0].obj.title)
+                                            var number = 1;
+                                            if(!obj[1].obj) number = 0;
+                                            /*getData("input4").add(obj[number].obj.title)
+                                            communityid = obj[number].obj.orgtypeid;
+                                            orgpath = obj[number].obj.path;*/
+                                           
+                                           getData("input4").add(obj[objlength-2].obj.title)
+                                            communityid = obj[objlength-2].obj.orgtypeid;
+                                            orgpath = obj[objlength-2].obj.path;
+                                           
+                                            lazy.setParameter('communityid',communityid)
+                                            lazy.setParameter('orgpath',orgpath)
+                                            
+                                        });
+                                       /* getShequ(arr[0][position-1].orgtypeid,function(temp){
+                                            picker.add(temp[0],0);
+                                         });*/
+                                        picker.onchange = function (i,obj,arr) {
+                                            
+                                            //console.log('obj')
+                                            //console.log(obj)
+                                            /*console.log('arr')
+                                            console.log(arr)*/
+                                            //var obj_temp = lazy.getParameter("sq");
+                                            /*switch(i) {
+                                                case 0 :
+                                                    if(obj_temp[i]){
+                                                            
+                                                        picker.add(obj_temp[i],1);
+                                                    }else{
+                                                        getShequ(obj.obj.orgtypeid,function(arr){
+                                                            //console.log(arr[0])
+                                                            picker.add(arr[0],1);
+                                                            obj_temp[obj.obj.orgtypeid] = arr[0];
+                                                            lazy.setParameter("sq",obj_temp)
+                                                        });
+                                                        
+                                                        
+                                                    }
+                                                break;
+                                            }*/
+                                           getShequ(obj.obj.orgtypeid,function(arr){
+                                                  //alert("getshequ: "+i)   
+                                                 // alert(arr[0])
+                                                 // alert(arr[0][0].title.indexOf("网格")>-1) 
+                                                  if(arr[0][0].title.indexOf("网格")>-1) {
+                                                      picker.add([],(i+1));
+                                                  }else{
+                                                      picker.add(arr[0],(i+1));
+                                                  }     
+                                                  
+                                                
+                                                            
+                                          });
+                                            
+                                        }
+                                        
+                                    });
+                                   
+                                }
+                                
+                            }
+                        },{
+                              "id": "image",
+                              "type": "image2",
+                              "label": "附件",
+                              /*"key":"rzkey",*/
+                              "title":['身份证正面','身份证背面'],
+                              "ps":'请分别上传身份证正面、身份证背面照片',
+                              "src": ["../LazyUI/images/zhibu/default.jpg","../LazyUI/images/zhibu/default.jpg"]
+                        },{
+                              "id":"button",
+                              "type":"button",
+                              "label":"提交",
+                              "onclick":function(){
+                                  	 var src_string = getData("image").getValue();
+                                     var name =  getData("input1").getValue();
+                                     var idcard =  getData("input2").getValue();
+                                      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+                                     
+                                       if(!idcard || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(idcard))  
+                                       {  
+                                           alert("身份证输入错误");  
+                                           return;  
+                                       }  
+                                     
+                                     var id = lazy.getParameter("id")?lazy.getParameter("id"):'';
+                                     var communityname = getData("input4").getValue();
+                                     var mobile = getData("input3").getValue();
+                             		if(name == ""){lazy.alert2("请填写姓名！");return;}
+                             		if(idcard == ""){lazy.alert2("请填写身份证号！");return;}
+                             		var fj = false;
+                             		lazy.for(src_string,function(obj,i){
+                                        if(!obj){
+                                            lazy.alert2("请将附件上传完整！");
+                                            fj = true;
+                                        }
+                                        
+                                    })
+                                    if(fj){return;}
+                                    
+                             		if(communityname == ""){lazy.alert2("请选择社区！");return;}
+                             		if(idcard.length != 18){lazy.alert2("身份证号输入错误！");return;}
+                             		
+                             		var result1=mobile.match(/^0\d{2}-?\d{8}$|^0\d{3}-?\d{7}$/);
+                                    var result2=mobile.match(/^1(3|4|5|7|8)\d{9}$/);
+                                     
+                                    if(!(result1||result2)){
+                                        alert("请填写有效的电话号码");
+                                        return;
+                                    }
+                                    var url = getIP()+ "/wechat/weixinevent/getByCardno.ht?cardno="+idcard+"&initid="+wxinitId;
+                                     lazy.GET(url,function(data){
+                                        var _data = data.rows[0];
+                                        var sub=0;
+                                        if(_data){
+                                            if(mobile != _data.cellphonenumber){lazy.alert2("手机号信息有误！");return;}
+                                           
+                                            if(name != _data.name){lazy.alert2("填写姓名有误！");return;}
+                                            if(communityid != _data.orgid){lazy.alert2("填写社区有误！");return;}
+                                           
+                                            //if(communityname != _data.orgname){lazy.alert2("填写社区2有误！");return;}
+                                            var url = getIP() + '/wechat/weixinCertificate/savePersonInfo.ht?initid='+wxinitId+'&openid='+wxopenid+'&id='+id+'&username='+name+'&mobile='+mobile+'&idcard='+idcard+'&file='+src_string+'&communityname='+communityname+'&communityid='+communityid+'&orgpath='+orgpath; 
+                                     		console.log(url)
+                                     		lazy.GET(url, function(data){
+                                     			document.getElementById("button").disabled=false;
+                                                  lazy.alert3("提交成功","信息已经提交，我们会尽快审核，请您耐心等待。",{
+                                                	  "yesfun" : function() {
+                                                		  lazy.setParameter("gb",1)
+                                                		  lazy.openWin('wode.html?wxopenid='+lazy.geturlstr("wxopenid")+'&wxinitId='+lazy.geturlstr("wxinitId"));
+                                                	  }
+                                                  });
+                                             },function(e){
+                                                 lazy.alert2(e);
+                                             },0);
+                                         }else{
+                                             lazy.alert2("您暂时无法使用本服务，请到线下办理")
+                                         }
+                                     }, function(e) {
+                                        lazy.alert2(e);
+                                     }, 0);
+                                }
+                        
+                        }]
+                	   setData(json,function(){
+                	       if(lazy.getParameter("ps") != 1 ){
+                	           if(lazy.getParameter("name")) getData("input1").add(lazy.getParameter("name"))
+                               if(lazy.getParameter("idcard")) getData("input2").add(lazy.getParameter("idcard"))
+                               getData("input4").add(lazy.getParameter("communityname"))
+                               communityid = lazy.getParameter("communityid");
+                               orgpath = lazy.getParameter("orgpath");
+                               //alert(lazy.getParameter("picurl"))
+                               
+                               if(lazy.getParameter("failed")){
+                                     getData("image").clear()
+                                     lazy.alert2("请重新上传附件")
+                                     
+                               }else{
+                                   if(lazy.getParameter("picurl")) getData("image").setPic(lazy.getParameter("picurl"));
+                                   var input = document.getElementsByTagName("input");
+                                   for(var i = 0 ; i<input.length ; i++){
+                                       input[i].readOnly = true;
+                                       input[i].disabled=true;
+                                   }
+                               }
+                	       }
+                	       if(lazy.getParameter("ps") == 3 ) getData("button").hide();
+                           
+                           
+                	   });
+                   },function(e){
+                	lazy.alert2("错误信息!:"+e);
+                    },0)//查街道
+                },function(e){
+                    lazy.alert2("错误信息!:"+e);
+                },0)//查区
+                
+                function getShequ(id,back){
+                    lazy.GET(getIP()+"/wechat/weixinCertificate/getCommunity.ht?parentid="+id+"&initid="+wxinitId,function(data){
+                        var data=data.rows[0].rows;
+                        var arr=[];
+                        var temparr=[];
+                        for(var i=0;i<data.length;i++){
+                             var obj={};
+                             obj.title=data[i].orgname;
+                             //orgtypeid
+                             obj.orgtypeid=data[i].id;
+                             obj.path=data[i].path;
+                             temparr.push(obj)
+                        }
+                        arr.push(temparr)  
+                        //console.log(arr)
+                        back(arr);
+                    },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                    },0)//查区
+                }
+                
+        	 });//loadjs
+        	
+        })
+        
+    </script>
+    </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>网格</title>
+        <style>
+            div[type=table9] .td{
+                color: #888 !important;
+                height: 5rem !important;
+            }
+            div[type=table9] .new {
+                background-image: url(../LazyUI/images/shenpi/new.png);
+                background-size: 2.5rem;
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
+            #headerbutton .tr{
+                background-color: #8764e6!important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+        lazy.setParameter("Bgcolor","#8764e6");
+        json = [
+            {
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '网格',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "select" : function(name, index) {
+                    if(name=="left"){
+                        lazy.close();
+                    }
+                }
+            },
+            {
+                "id" : "headerbutton",
+                "type" : "headerbutton",
+                "table" : [
+                    {
+                        "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                        "title" : "我的待办",
+                        "onclick" : function() {
+                            lazy.openWin("wodedaiban.html")
+                        }
+                    },{
+                        "icon" : lazy.url + "LazyUI/images/shenpi/wtjd.png",
+                        "title" : "我的办件",
+                        "onclick" : function() {
+                            lazy.openWin("wodebanjian.html")
+                        }
+                    }
+                 ]
+            },
+            {
+                "id" : "table9",
+                "type" : "table9",
+                "col" : 3,
+                "table" : [
+                            {
+                                "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                                "label" : "事件搜索",
+                                "color" : "#5fc9f7",
+                                "onclick" : function() {
+                                    lazy.openWin("shijiansousuo.html");
+                                }
+                            }
+                            ,{
+                                "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                                "label" : "延期审批",
+                                "color" : "#77bf70",
+                                "onclick" : function() {
+                                    lazy.openWin("yqsp.html");
+                                }
+                            }
+                        ]
+            }
+        ]
+        lazy.URLRequest(config.checkUserMobile, function(data){
+           var data=data.rows;
+           if(data[0]==1){
+               var tmp = {
+                    "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                    "label" : "新增事件",
+                    "color" : "#5c98f5",
+                    "onclick" : function() {
+                        lazy.setParameter("xname","xinzengshijian");
+                        lazy.setParameter("sjgl",null);
+                        lazy.setParameter("rid",null);
+                        lazy.setParameter("mapgps",null);
+                        lazy.setParameter("gps",null);
+                        lazy.setParameter("isSave",false);
+                        lazy.openWin("xinzengshijian.html");  
+                    }
+                }
+                json[2].table.push(tmp)
+           }
+           setData(json)
+        })   
+    });
+    </script>
+</html>

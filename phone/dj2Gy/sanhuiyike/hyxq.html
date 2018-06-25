@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+		<script src="../LazyUI/js/admin.js"></script>
+		<style type="text/css">
+            div[type=wxylistbar] .h {
+                width: 100%!important;
+            }
+        </style>
+	</head>
+	<script>
+	start(function() {
+	    var ids=lazy.getParameter("ids");
+	    lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/get.ht?id="+ids,function(data){
+	        var data=data.rows[0];
+	         setData([
+                {
+                    "type" : "group3",
+                    "header" : [{
+                                    "type" : "headertoolbar",
+                                    "title" : "会议",
+                                    "left" : ["../LazyUI/images/fanhui.png"],
+                                    "select" : function(name, index) {
+                                        if(name=="left"){
+                                            lazy.close()
+                                        }
+                                    }
+                        },{
+                            "type" : "wxylistbar",
+                            "icon" : "../LazyUI/js/listbar/images/dzzhd.png",
+                            "rl" : false,
+                            "title" :data.mtitle,
+                            "ids":data.id,
+                            "table" : [
+                                        "会议类型:"+data.mtitle+"-"+data.mkind,
+                                        "会议地址:"+data.maddress,
+                                        "开始时间:"+data.mstarttime,
+                                     ],
+                                     "style":{
+                                         "border":"none"
+                                     }
+                    },{
+                        "type":"movetabbar",
+                        "h1" : ["会议人员","文档"],
+                        "h2" : ["",""],
+                        "changecolor" : "red",
+                        "style" : {
+                            "border":"1px solid #c1c1c1",
+                            "background-color":"white"
+                        },
+                        "line":true,
+                        "select":function(i){
+                            //if(i==0) lazy.openIframe("hyxq_content.html");
+                            if(i==0) lazy.openIframe("hyry_content.html");
+                            if(i==1) lazy.openIframe("wd_content.html");
+                        }
+                    }
+                    ],
+                    "footer" : []
+               }
+            ]);
+	    })
+	    
+	    this.int=function(){
+	        lazy.openIframe("hyry_content.html");
+	    }
+        });
+	</script>
+</html>

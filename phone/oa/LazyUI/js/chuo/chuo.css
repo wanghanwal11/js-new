@@ -1,0 +1,26 @@
+body[type=body] div[type=chuo]{
+	-webkit-box-sizing:border-box;
+	position:absolute;
+    z-index: 3;
+    width: 5rem;
+    height: 5rem;
+    right: 1rem;
+    top: 3rem;
+    -webkit-animation: chuo_an 0.5s;
+    
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-size: 4rem;
+    opacity: 1;
+}
+@-webkit-keyframes chuo_an {
+    from {right: 0rem; top: 3.2rem; background-size: 5rem; opacity: 0;}
+    to {right: 1rem; top: 3rem; background-size: 4rem; opacity: 1;}
+}
+.chuo_yes {
+    background-image: url(tg.png);
+    
+}
+.chuo_no {
+    background-image: url(jj.png);
+}

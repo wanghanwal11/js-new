@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            #listbar{
+                width:90%;
+                margin-left:5%;
+                margin-top:0.5rem;
+                
+            }
+            div[type=process]{
+                margin-bottom: 2rem;
+            }
+             div[type=button]{
+            position: fixed!important;
+            bottom: 0rem!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+         var json = [{
+             "id":"process",
+             "type":"process",
+             "table":[
+                {
+                    "title":"会议标题",
+                    "placeholder" : "请输入（必填）",  
+                    "type":"input"
+                },
+                {
+                    "type" : "select",
+                    "placeholder" : "请选择会议类型（必填）",
+                    "option" : [
+                                    {"html":"支部党员大会", "value" : "1"},
+                                    {"html":"支部委员会", "value" : "2"},
+                                    {"html":"党小组会", "value" : "3"},
+                                    {"html":"党课", "value" : "4"},
+                               ],
+                    "title" : "会议类型",
+                },
+                {
+                    "type" : "select",
+                    "placeholder" : "请选择会议种类（必填）",
+                    "option" : [
+                                    {"html":"线上", "value" : "线上"},
+                                    {"html":"线下", "value" : "线下"},
+                               ],
+                    "title" : "会议种类",
+                },
+                {
+                    "type" : "select",
+                    "placeholder" : "请选择会议类型（必填）",
+                    "option" : [
+                                    {"html":"集中学习", "value" : "集中学习"},
+                                    {"html":"专题学习讨论", "value" : "专题学习讨论"},
+                                    {"html":"民主评议党员", "value" : "民主评议党员"},
+                                    {"html":"民主生活会", "value" : "民主生活会"},
+                                    {"html":"其他", "value" : "其他"},
+                               ],
+                    "title" : "会议类别",
+                },{
+                    "title":"会议地址",
+                    "placeholder" : "请输入",
+                    "type":"input",
+                },
+                {
+                    "title":"开始时间",
+                    "placeholder" : "请选择（必填）",
+                    "type":"datetime",
+                },
+                {
+                    "title":"会议时长",
+                    "placeholder" : "请选择时长（必填）",
+                    "type":"number"
+                },
+                {
+                    "title" : "图片",
+                    "type" : "image",
+                    "httpurl" : config.oa.fileupload
+                },
+                {
+                    "title":"附件",
+                    "type" : "file",
+                    "httpurl" : config.oa.fileupload
+                },
+                {
+                    "title":"会议人员",
+                    "type":"people",
+                    "url":"peoplelist.html"
+                }
+             ],
+             // "title":[
+                   // ["会议标题"],["会议类型"],["会议类别"],["会议开始时间"],["会议时长"],["参会人员"]
+             // ],
+             // "inputtype":[
+                   // ["text"],
+                   // [[{"html":"支部党员大会"},{"html":"支部委员会"},{"html":"党小组会"},{"html":"党课"}]],
+                   // [[{"html":"集中学习"},{"html":"专题学习讨论"},{"html":"民主评议党员"},{"html":"民主生活会"},{"html":"其他"}]],
+                   // ["date"],
+                   // ["number"],
+                   // [function(){
+                       // lazy.openWin("peoplelist.html");
+                   // }]
+             // ]
+         },{
+                            "id" : "button",
+                            "type" : "button",
+                            "label" : "发起会议",
+                            "onclick":function(){
+                                save();
+                            }
+                        }
+            
+         ]
+          if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '三会一课',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+         setData(json)
+         this.addperson = function(){
+             var obj = lazy.getParameter("person");
+             getData("process").setProcessPeople(obj);
+         }
+         this.save=function(){
+             var arr=getData("process").getArray().table;
+             for(var h=0;h<7;h++){
+                 if(h!=4){
+                     if(arr[h].value==""||arr[h].value=="请选择会议类型（必填）"||arr[h].value=="请选择会议种类（必填）"||arr[h].value=="请选择会议类型（必填）"){
+                         alert(arr[h].title+"不能为空");
+                         return;
+                     }
+                 }
+             }
+             var arr7=arr[7].value;
+             var picid=[];
+             for(var p=0;p<arr7.length;p++){
+                 picid.push(arr7[p].annexid)
+             }
+             var arr8=arr[8].value;
+             var fileid=[];
+             for(var o=0;o<arr8.length;o++){
+                 fileid.push(arr8[o].annexid)
+             }
+             var arr9=arr[9].value;
+             if(arr9.length<=0){
+                 alert("请添加会议人员")
+                 return;
+             }
+             var name=[];
+             var ids=[];
+             for(var s=0;s<arr9.length;s++){
+                 name.push(arr9[s].h1)
+                 ids.push(arr9[s].ids)
+             }
+             lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/save.ht?mtitle="+arr[0].value+"&mtypename="+arr[1].value+"&mkind="+arr[2].value+"&mcategoryname="+arr[3].value+"&maddress="+arr[4].value+"&mstarttime="+(arr[5].value).replace("T"," ")+"&mlength="+arr[6].value+"&mparticipantsid="+ids+"&mparticipantsname="+name+"&mphoto="+picid+"&mfile="+fileid,function(data){
+                 alert("发起成功");
+                 lazy.goBack();
+             })
+         }
+        });
+    </script>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>人口添加</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important;
+                margin-bottom:2rem;
+            }
+            div[type=geren] .title span{
+                color: black;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var lyobj = lazy.getParameter("ly");
+            var fwobj = lazy.getParameter("fw");
+            lazy.setHeader({
+                "title":"人口添加",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                        "icon":"dui.png",
+                        "onclick":function(){
+                            var path = getData("geren").returnPath()[0]?getData("geren").returnPath()[0]:"";
+                            var url = config.rktj+"houseid="+fwobj.id+"&orgid="+lyobj.orgid+"&orgname="+lyobj.orgname+"&photo="+path;
+                            var arr = getData("process").getArray().table;
+                            for(var i=0;i<arr.length;i++){
+                                if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                    lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                    return;
+                                }
+                                if(arr[i].value!=""){
+                                    if(arr[i].type=="select"){
+                                        if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                        if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                        //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                    }else{
+                                        url+="&"+arr[i].id+"="+arr[i].value
+                                    }
+                                }
+                            }
+                            lazy.URLRequest(encodeURI(url),function(){
+                                alert("添加成功");
+                                // lazy.openWin("rklb.html")
+                                window.history.go(-2)
+                            },function(e){
+                                lazy.alert2(e)
+                            })
+                        }
+                    }
+                ]
+            });
+                    var json = [
+                            // {
+                                // "id" : "headertoolbar",
+                                // "type" : "headertoolbar",
+                                // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                                // "color" : "#fff",
+                                // "border" : "none",
+                                // "title" : '人口添加',
+                                // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                                // "right" : [lazy.url + "LazyUI/js/headertoolbar/dui.png"],
+                                // "select" : function(name, index) {
+                                    // if(name=="left"&&index==0){
+                                        // lazy.goBack();
+                                    // }
+                                    // if(name=="left"&&index==1){
+                                        // lazy.close();
+                                    // }
+                                    // if(name=="right"){
+                                        // // if(getData("geren").returnPath().length==0) lazy.alert2("请上传头像");
+                                        // // else{
+                                            // var path = getData("geren").returnPath()[0]?getData("geren").returnPath()[0]:"";
+                                            // var url = config.rktj+"houseid="+fwobj.id+"&orgid="+lyobj.orgid+"&orgname="+lyobj.orgname+"&photo="+path;
+                                            // var arr = getData("process").getArray().table;
+                                            // for(var i=0;i<arr.length;i++){
+                                                // if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                                    // lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                                    // return;
+                                                // }
+                                                // if(arr[i].value!=""){
+                                                    // if(arr[i].type=="select"){
+                                                        // if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                                        // if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                                        // //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                                    // }else{
+                                                        // url+="&"+arr[i].id+"="+arr[i].value
+                                                    // }
+                                                // }
+                                            // }
+                                            // lazy.URLRequest(encodeURI(url),function(){
+                                                // alert("添加成功");
+                                                // lazy.openWin("rklb.html")
+                                            // },function(e){
+                                                // lazy.alert2(e)
+                                            // })
+                                        // }
+                                    // // }
+                                // }
+                            // },
+                        {
+                                "id":"geren",
+                                "type" : "geren",
+                                "icon" : "",
+                                "name" : "头像",
+                                "update" : function(obj){
+                                    getData("geren").changeImg(getIP()+obj.path.replace(/\\/g,"/"));
+                                }
+                        },
+                            {
+                                "id" : "process",
+                                "type" : "process",
+                                "icon" : "",
+                                "table" : [
+                                {
+                                    "id" : "name",
+                                    "title" : "姓名(必填)",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "formername",
+                                    "title" : "曾用名",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "genderStorename",
+                                    "name" : "gender",
+                                    "title" : "性别(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.genderStore,
+                                    "placeholder" : "请选择"
+                                },
+                                {
+                                    "id" : "nationid",
+                                    "name" : "nationname",
+                                    "title" : "民族(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.nation,
+                                    "placeholder" : "请选择"
+                                },
+                                {
+                                    "id" : "birthday",
+                                    "title" : "出生日期",
+                                    "type" : "date",
+                                    "placeholder" : "请选择"
+                                },
+                                {
+                                    "id" : "regionid",
+                                    "name" : "regionname",
+                                    "title" : "国家",
+                                    "type" : "select",
+                                    "option" : base_datas.region,
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue=="0") list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,6)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplaceprovince",
+                                    "title" : "籍贯省", 
+                                    "type" : "select",
+                                    //"option" : base_datas.city,
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue==id) list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,7)
+                                    }
+
+                                },
+                                {
+                                    "name" : "nativeplacecity",
+                                    "title" : "市",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue==id) list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,8)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplacecounty",
+                                    "title" : "区县",
+                                    "type" : "select",
+                                    "placeholder" : "请选择"
+                                },
+                                {
+                                    "id":"cardtypeid",
+                                        "name" : "cardtypename",
+                                        "title" : "证件类型(必填)",
+                                        "type" : "select",
+                                        "option" : base_datas.cardtype,
+                                        "placeholder" : "请选择"
+                                    },
+                                    {
+                                        "id" : "certificateid",
+                                        "title" : "证件号码(必填)",
+                                        "placeholder" : "请输入"
+                                    },
+                                    {
+                                        "id" : "raaddress",
+                                        "title" : "户籍地址",
+                                        "placeholder" : "请输入"
+                                    },
+                                    {
+                                        "id" : "tel",
+                                        "title" : "联系电话",
+                                        "placeholder" : "请输入"
+                                    },
+                                    {
+                                        "id":"politicsid",
+                                        "name" : "politicsname",
+                                        "title" : "政治面貌",
+                                        "type" : "select",
+                                        "option" : base_datas.politics,
+                                        "placeholder" : "请选择"
+                                    },
+                                    {
+                                        "id" : "marryid",
+                                        "name" : "marryname",
+                                        "title" : "婚姻状况",
+                                        "type" : "select",
+                                        "option" : base_datas.marry, 
+                                        "placeholder" : "请选择"
+                                    },
+                                    {
+                                        "id" : "edulevelid",
+                                        "name" : "edulevelname",
+                                        "title" : "文化程度",
+                                        "type" : "select",
+                                        "option" : base_datas.edulevel,
+                                        "placeholder" : "请选择"
+                                    },
+                                    {
+                                        "name" : "profession",
+                                        "title" : "职业",
+                                        "type" : "select",
+                                        "option" : base_datas.profession,
+                                        "placeholder" : "请选择"
+                                    },
+                                    {
+                                        "id" : "workunits",
+                                        "title" : "工作单位",
+                                        "placeholder" : "请输入"
+                                    },
+                                    {
+                                        "id" : "specialty",
+                                        "title" : "特长",
+                                        "placeholder" : "请输入"
+                                    },
+                                    {
+                                        "id" : "tubenum",
+                                        "title":"流管编号",
+                                        "placeholder":"请输入"
+                                    },
+                                ]
+                            }
+                    ];
+                    setData(json)
+        });
+    </script>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        
+        start(function() {
+            lazy.demo(); 
+                var json = [ {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#32c6d0",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/back.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.goBack()
+                                              }   
+                                            }
+                                          ],
+                            "button" : [
+                                              {
+                                                  "content" : "自我检测",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },{
+                             "id" : "piczw",
+                            "type" : "piczw",
+                            "pic":"zwjc.jpg",
+                            "onclick" : function() {
+                                 lazy.openWin("ceshi.html");
+                                        
+                             }
+                        }
+                ]
+                setData(json)
+        })
+
+    </script>
+</html>

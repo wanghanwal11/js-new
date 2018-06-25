@@ -1,0 +1,55 @@
+body[type=body] div[type=address]{
+	-webkit-box-sizing:border-box;
+	position:relative;
+	background-color: white;
+}
+div[type=address] .hang{
+    -webkit-box-sizing:border-box;
+    /*border-bottom: 1px solid #c1c1c1;
+    border-top: 1px solid #c1c1c1;*/
+}
+div[type=address] .sq{
+    background-image: url(sq.png);
+    background-size: 1.5rem 1.5rem;
+    background-repeat: no-repeat;
+    background-position-y: center;
+}
+div[type=address] .up{
+    background-image: url(dj.png);
+    background-size: 1.5rem 1.5rem;
+    background-repeat: no-repeat;
+    background-position-y: center;
+}
+div[type=address] .org{
+    height: 3rem;
+    line-height: 3rem;
+    padding-left: 1.5rem;
+}
+div[type=address] .person{
+    padding-top: 0.5rem;
+}    
+div[type=address] .icon{
+    width: 3rem;
+    height: 3rem;
+    margin-left: 1rem;
+}
+div[type=address] .icontitle{
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    line-height: 3rem;
+    border-radius: 50%;
+    color: white;
+}
+div[type=address] .iconimg{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: 3rem 3rem;
+}
+div[type=address] .name{
+    height: 3rem;
+    line-height: 3rem;
+    padding-left: 1rem;
+}

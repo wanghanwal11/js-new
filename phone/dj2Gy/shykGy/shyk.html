@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+             lazy.setHeader({
+                            "title":"组织生活"
+                        });
+            var json = [{
+                            "id":"shyk",
+                            "type" : "shyk",
+                            "table" : []
+                            
+                        }];
+            setData(json,function(){load()})
+            function load(){
+                 lazy.URLRequest(djconfig.shyklist+"rows=10&page="+page, function(data) {
+                     lazy.closeBounce();
+                     var data=data.rows;
+                     if(data.length==0&&page==1){
+                          lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                     }
+                     for(var i=0;i<data.length;i++){
+                         var time="";
+                         time=lazy.format(data[i].begintime,"MM-dd")
+                         var list={
+                                        "ids":data[i].id,
+                                        "icon" : lazy.getImagePx(data[i].mphoto, 180, 120),
+                                        "h1" : data[i].mtitle,
+                                        "h2" : data[i].mtypename,
+                                        "h3":lazy.format(data[i].mstarttime,"MM.dd")+"&nbsp;&nbsp;"+lazy.format(data[i].mstarttime,"HH:mm")+"—"+lazy.format(data[i].mendtime,"MM.dd")+"&nbsp;&nbsp;"+lazy.format(data[i].mendtime,"HH:mm"),
+                                        "onclick":function(obj){
+                                            lazy.setParameter("hyid",obj.ids);
+                                            lazy.setParameter("hyobj",obj);
+                                            lazy.openWin("shykxq.html");
+                                        }
+                                    }
+                         getData("shyk").add(list);
+                     }
+                     page++
+                 },function(){lazy.closeBounce();}, page>1?0:1)
+            }
+             lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

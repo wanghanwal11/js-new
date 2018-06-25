@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>办事指南</title>
+<style type="text/css">
+        body{
+            background-color: #ffffff !important;
+        }
+        div[type=button]{
+        	padding-top: 1rem !important;
+        }
+        div[type=button] .button_a {
+        	border-radius: 1rem;
+        	background-color: #3399fd  !important;
+        }
+       
+        div[type=div2] .content p{
+           margin-top: 0rem !important;
+        }
+        
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    var serviceId = lazy.getParameter("workid");
+            var wxinitId = lazy.geturlstr("wxinitId");
+		    var url = getIP()+"/wechat/weixinevent/getByDocServiceId.ht?docServiceId="+serviceId+"&initid="+wxinitId;
+            var status = lazy.getParameter("status");
+            var text = '';
+            var text2 = '';
+            switch(status){
+                case '1':
+                    text='本项业务需要申请预约，预约成功以后方可到现场办理';
+                    text2='去预约';
+                    lazy.setParameter("ys",0);
+                    lazy.setParameter("yy",1);
+                    lazy.setParameter("workid",serviceId);
+                    lazy.setParameter("text",text);
+                break;
+                case '3':
+                lazy.setParameter("text",'');
+                break;
+                case '4':
+                    text='本项业务需要申请预审，预审成功以后方可申请预约';
+                    text2='去预审';
+                    lazy.setParameter("ys",1);
+                    lazy.setParameter("yy",0);
+                    lazy.setParameter("workid",serviceId);
+                    lazy.setParameter("text",text);
+                    break;
+                case '5':
+                    text='本项业务需要申请预审，预审成功以后方可到现场办理';
+                    text2='去预审';
+                    lazy.setParameter("ys",1);
+                    lazy.setParameter("yy",0);
+                    lazy.setParameter("workid",serviceId);
+                    lazy.setParameter("text",text);
+                    break;
+                default:
+                    text2='去办理';
+                    lazy.setParameter("ys",0);
+                    lazy.setParameter("yy",0);
+                    lazy.setParameter("workid",serviceId);
+                    lazy.setParameter("text",'');
+                    break;
+                    
+            }
+            var json = []
+            lazy.GET(url,function(_data){
+                if(_data.rows[0]){
+                    json = [{
+                        "id" : "div2",
+                        "type" : "div2",
+                        "text" : decodeURIComponent(_data.rows[0].docContent).replace(/%20/g," "),
+                    }]
+                }
+                var button = {
+                        "id" : "button",
+                        "type" : "button",
+                        "label" : text2,
+                        "onclick" : function() {
+                            var url = "work.html?wxinitId="+wxinitId;
+                            lazy.openWin(url);
+
+                        }
+                    }
+                
+                var div = {
+                        "id" : "div",
+                        "type" : "div2",
+                        "text" : text,
+                }
+                if(status!=3){
+                    json.push(button)
+                    json.push(div)
+                }
+                
+                
+                setData(json);
+            });
+			
+			
+	    });
+	</script>
+</body>
+</html>

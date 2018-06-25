@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=xuanzeti1] .t2{
+                text-align: center!important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var year=new Date().getFullYear()+"";
+            var month=new Date().getMonth()+1;
+            if(month<9) month="0"+month
+            var sum=year+"-"+month;
+            lazy.setHeader({
+                            "title": year+"-"+month,
+                            "rightbtn":[{
+                                "icon":"seltime",
+                                "onclick":function(){
+                                    lazy.time("4",function(y){
+                                        lazy.setHeader({
+                                            "title": y,
+                                            "rightbtn":[{
+                                            "icon":"seltime"
+                                        }]
+                                        });
+                                        sum=y;
+                                        load();
+                                    })
+                                     
+                                }
+                            }]
+                        });
+             var color = ['rgba(62,148,209,.5)',
+                'rgba(0,176,96,.5)',
+                'rgba(255,165,64,.5)',
+                'rgba(67,125,212,.5)',
+                'rgba(94,196,205,.5)',
+                'rgba(177,101,212,.5)',
+                'rgba(245,73,85,.5)',
+                'rgba(255,209,0,.5)',
+                'rgba(52,207,190,.5)',
+                'rgba(152,63,213,.5)',
+                'rgba(134,179,45,.5)',
+                'rgba(213,70,70,.5)',
+                'rgba(42,163,95,.5)',
+                'rgba(255,141,64,.5)',
+                'rgba(155,132,46,.5)',
+                'rgba(128,200,89,.5)',
+                'rgba(105,151,211,.5)',
+                'rgba(207,95,211,.5)']
+                
+                load()
+                function load(){
+                var json=[{
+                type : 'chart',
+                width : 600,
+                chart_type : 'pie',
+                chart_data : {
+                        labels : ["答题数量","正确率"],
+                        datasets: [{
+                                    data: [],
+                                    backgroundColor: [
+                                        color[7],
+                                        color[8],
+                                        color[9]
+                                    ],
+                                    hoverBackgroundColor: [
+                                        color[7],
+                                        color[8],
+                                        color[9]
+                                    ]
+                                }]
+                    } 
+                 },{
+                    "type" : "xuanzeti1",
+                    "djs":0,
+                    "title" : 11111111111,
+                    "content" : []
+                }]
+                 lazy.URLRequest(getIP()+'/party/DJ_Selectrecord/getteststatisc.ht?datestr='+sum,function(_data){
+                     json[0].chart_data.datasets[0].data=[_data.newPrimaryKeys.allcount,_data.newPrimaryKeys.truecount];
+                     lazy.URLRequest(getIP()+'/party/DJ_Selectrecord/getmyfalsequestions.ht?datestr='+sum,function(data){
+                     var data=data.rows;
+                     for(var i=0;i<data.length;i++){
+                      var arrs=[];
+                          arrs.push({
+                                        "key" : data[i].selecta,
+                                        "value" : "a"
+                                    })
+                          arrs.push({
+                                        "key" : data[i].selectb,
+                                        "value" : "b"
+                                    })
+                          if(data[i].selectc){
+                              arrs.push({
+                                        "key" : data[i].selectc,
+                                        "value" : "c"
+                                    })
+                          }
+                          if(data[i].selectd){
+                              arrs.push({
+                                        "key" : data[i].selectd,
+                                        "value" : "d"
+                                    })
+                          }
+                      var s={
+                                "id" : data[i].id,
+                                "testanswer":data[i].testanswer,
+                                'trueanswer':data[i].testanswer,
+                                "cuowu":{'bol':true,'falseanswer':data[i].selectopoion},
+                                "title" : "("+data[i].questiontypename+")"+(i+1)+'.'+data[i].questiontitle,
+                                "type":data[i].questiontypename,
+                                "knowpoint":data[i].knowpoint,
+                                "answer" : arrs,
+            
+                            }
+                     json[1].content.push(s)
+                    }
+                    setData(json); 
+                    
+                    })
+                    
+                 })
+                
+                }
+                
+               
+        });
+    </script>
+</html>

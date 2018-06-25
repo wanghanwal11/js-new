@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>认证信息</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+            div[type=input]{
+                border-bottom: 1px solid #efefef;
+            }
+            #input1{
+                margin-bottom: 0 !important;
+            }
+            #input2{
+                 margin-bottom: 0 !important;
+            }
+            #button a{
+                width: 25%!important;
+                border-radius: 1rem;
+                position: absolute;
+                bottom: 0.3rem;
+                right: 5%;
+                margin-left: -45%;
+                background-color: #3399ff;
+                border: none !important;
+                font-size: 0.9rem;
+            }
+            #button2 a{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                top: 10rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #3399ff;
+                border: none !important;
+            }
+           
+        </style>
+    </head>
+    <script>
+        start(function() {
+             
+            var timer;
+            var code;
+            var status = 1;
+             var json=[{
+                    "id":"input1",
+                    "type":"input",
+                     "title":"手机号码",
+                     "key":"yztel",
+                     "placeholder":"请输入手机号码",
+                 },{
+                	 id : 'ts_group',
+                     type : 'group',
+                     list : [{
+  					   
+                         "id":"input2",
+                         "type":"input",
+                         "title":"验证码",
+                         "placeholder":"请填写验证码",
+              }, {
+                     "id":"button",
+                     "type":"button",
+                     "label":"获取验证码",
+                     "onclick":function(){
+                         var phone = document.getElementsByTagName("input")[0].value;
+                         var result=phone.match(/^1(3|4|5|7|8)\d{9}$/);
+                         if(!result){
+                             lazy.alert2("输入手机号位数错误")
+                         }else{
+                              if(status){
+                                    status = 0;
+                                     getYanzheng(phone)
+                                     var button = document.getElementById("button")
+                                     var text = button.getElementsByTagName("span")[0];
+                                     var a = button.getElementsByTagName("a")[0];
+                                     var time = 60;
+                                     text.innerHTML = time + 's';
+                                     a.style.backgroundColor = "#bbbbbb";
+                                     time--;
+                                     timer = setInterval(function(){
+                                         text.innerHTML = time + 's';
+                                         time--;
+                                         if(time < 0){
+                                             text.innerHTML = '获取验证码';
+                                             a.style.backgroundColor = "#3399fd";
+                                             clearInterval(timer);
+                                             status = 1;
+                                         }
+                                     },1000)
+                            }     
+                             
+                         }
+                        
+                     }
+                 
+                 
+              }]
+                 },
+                 /*
+                 {
+					   
+                            "id":"input2",
+                            "type":"input",
+                            "title":"验证码",
+                            "placeholder":"请填写验证码",
+                 }, {
+                        "id":"button",
+                        "type":"button",
+                        "label":"获取验证码",
+                        "onclick":function(){
+                            var phone = document.getElementsByTagName("input")[0].value;
+                            var result=phone.match(/^1(3|4|5|7|8)\d{9}$/);
+                            if(!result){
+                                lazy.alert2("输入手机号位数错误")
+                            }else{
+                                 if(status){
+                                       status = 0;
+                                        getYanzheng(phone)
+                                        var button = document.getElementById("button")
+                                        var text = button.getElementsByTagName("span")[0];
+                                        var a = button.getElementsByTagName("a")[0];
+                                        var time = 60;
+                                        text.innerHTML = time + 's';
+                                        a.style.backgroundColor = "#bbbbbb";
+                                        time--;
+                                        timer = setInterval(function(){
+                                            text.innerHTML = time + 's';
+                                            time--;
+                                            if(time < 0){
+                                                text.innerHTML = '获取验证码';
+                                                a.style.backgroundColor = "#3399fd";
+                                                clearInterval(timer);
+                                                status = 1;
+                                            }
+                                        },1000)
+                               }     
+                                
+                            }
+                           
+                        }
+                    
+                    
+                 }*/
+                 {
+                 "id":"button2",
+                 "type":"button",
+                 "label":"下一步",
+                 "onclick":function(){
+                     /*lazy.setParameter("mobile",document.getElementsByTagName("input")[0].value)
+                        lazy.setParameter("ps",'1')
+                        lazy.openWin("renzheng.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"))
+                      */
+                      if(code == document.getElementsByTagName("input")[1].value){
+                        lazy.setParameter("mobile",document.getElementsByTagName("input")[0].value)
+                        lazy.setParameter("ps",'1')
+                        lazy.openWin("renzheng.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"))
+                      } 
+                      else{
+                        lazy.alert2("验证码错误")  
+                      }
+                    
+                 }
+             }];
+            setData(json)
+            function getYanzheng(phone){
+                var url = getIP() +'/sendRandom.ht?mobile='+phone;
+                lazy.GET(url, function(data){
+                      code = data.newPrimaryKeys.checkcode;
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },0);
+            }
+        });
+    </script>
+</html>

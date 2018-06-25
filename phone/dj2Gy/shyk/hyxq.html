@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body{
+                background: white!important;
+                padding: 1rem!important;
+            }
+            .hyxq{
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var id=lazy.getParameter("hyid");
+            lazy.URLRequest(djconfig.shykxq+"id="+id, function(data) {
+                var div=lazy.creat("div","hyxq");
+                div.innerHTML=data.rows[0].mcontent;
+                document.body.appendChild(div)
+                //document.body.style.height=parent.document.body.offsetHeight-parent.document.getElementById("LazyAuto0").offsetHeight-parent.document.getElementById("shyk").offsetHeight
+            },function(){lazy.closeBounce()}, 0)
+        })
+    </script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>信息采集</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setParameter("Bgcolor","#f75e5d");
+            var json = [
+                    {
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '信息采集',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.close();
+                            }
+                        }
+                    },
+                   {
+                        "id" : "titlebtnlist2",
+                        "type" : "titlebtnlist2",
+                        "table" : [
+                            {
+                                "icon" : "../LazyUI/images/xxcj/rkcjicon.png",
+                                "h1" : "人口查询",
+                                "onclick" : function(){
+                                    lazy.openWin("rkcx.html")
+                                }
+                            },
+                            {
+                                "icon" : "../LazyUI/images/xxcj/frcjicon.png",
+                                "h1" : "法人查询",
+                                "onclick" : function(){
+                                    lazy.setParameter("ly",null);
+                                    lazy.openWin("frcx.html")
+                                }
+                            },
+                            {
+                                "icon" : "../LazyUI/images/xxcj/xxcjicon.png",
+                                "h1" : "信息采集",
+                                "onclick" : function(){
+                                    lazy.openWin("lylb.html")
+                                }
+                            }
+                        
+                         ]
+                }
+            ];
+            setData(json)
+        });
+    </script>
+</html>

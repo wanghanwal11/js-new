@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            
+                var dzxqid=lazy.getParameter("dzxqid")
+                var type = lazy.getParameter("type");
+                var ping = lazy.getParameter("ping");
+                var sound_status = 1;
+                var ptype = 4;
+                var titlename = "党章";
+                if(type == 1){
+                    titlename = "党规";
+                }else{
+                    titlename = "党章";
+                    ptype = 5; 
+                }
+                var url = djconfig.dangzhangxq + 'id='+dzxqid+"&_time="+new Date().getTime();
+                lazy.URLRequest(url, function(data){
+                    console.log(data);
+                var arr = data.rows[0];
+                var path = getIP() + arr.mppath.replace(/\\/g,"/");
+                var json = [{
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  if(lazy.browserType == "vitoios") {
+                                                      lazy.closeSound();
+                                                      setTimeout(function() {
+                                                           lazy.goBack();
+                                                      },100);
+                                                  }else {
+                                                      lazy.goBack();
+                                                  }
+                                              }   
+                                            },{
+                                              "content" : lazy.url + "LazyUI/js/header/images/cha1.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                  lazy.close()
+                                                                                                     
+                                              }   
+                                            }
+                                          ],
+                           "right" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/bf.png",
+                                              "onclick" : function(name, index, btn) {
+                                                  
+                                                  if(sound_status){
+                                                        var  src = lazy.url + "LazyUI/js/header/images/bbf.png"
+                                                        btn.style.backgroundImage = "url("+src+")";
+                                                        lazy.closeSound()
+                                                        sound_status = 0;
+                                                        
+                                                  }else{
+                                                        var  src = lazy.url + "LazyUI/js/header/images/bf.png"
+                                                        btn.style.backgroundImage = "url("+src+")";
+                                                        lazy.playSound(path)
+                                                        sound_status = 1;
+                                                       
+                                                        
+                                                  }
+                                                  
+                                              }   
+                                            }
+                                          ],
+                            
+                            "button" : [
+                                              {
+                                                  "content" : titlename,
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },{
+                            "id" : "dangzhangxq",
+                            "type" : "dangzhangxq",
+                            "table" : [
+                  
+                                           {
+                                                "id" : arr.id,
+                                                "h1" : arr.learntitle+arr.title,
+                                                "time" : arr.timelong,
+                                                "content" : arr.detail,
+                                                "mppath" : arr.mppath,
+                                           }
+                                        ]
+                            
+                        }, {
+                            "type" : "commentbox",
+                            "ping" : arr.commentcount,
+                            "pingclick" : function() {
+                                
+                                lazy.setParameter("huodongid",arr.id)
+                                lazy.setParameter("type",ptype)
+                                lazy.openWin("../faxian/pllist.html");
+                                }
+                            }
+                        ];
+             
+            setData(json)
+            },function(e){
+                lazy.alert2(e);
+            },1) 
+       });
+    </script>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人员列表</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var search = "";
+            lazy.setHeader({
+                "title":"人员列表",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [],
+                "leftbtn" : "iframeBack",
+            });
+            var json = [
+                {
+                    "type" : "sousuoinput_move",
+                    "select" : function(val){
+                        page = 1;
+                        getData("titlebtnlist2").clean();
+                        search = val;
+                        load(search);
+                    }
+                },
+                {
+                    "id" : "titlebtnlist2",
+                    "type" : "titlebtnlist2",
+                    "table" : []
+                }
+            ];
+            setData(json,function(){
+                load(search)
+            })
+            function load(val){
+                var url = config.getmybooklistMobile+"type=all";
+                if(val!="") url+="&fullname="+val;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    if(data.length>0){
+                        for(var i=0;i<data.length;i++){
+                            var _data = data[i].userlist;
+                            for(var j=0;j<_data.length;j++){
+                                var img = _data[j].picture?getIP()+_data[j].picture.replace(/\\/g,"/"):"";
+                                if(_data[j].picture&&_data[j].picture.indexOf("http://")>-1) img = _data[j].picture
+                                var tmp = {
+                                    "id":_data[j].userid,
+                                    "h1":_data[j].name,
+                                    "h2":_data[j].orgname,
+                                    "icon":img,
+                                    "onclick":function(obj){
+                                        //obj.only = true;
+                                        lazy.setParentJs(lazy.var(), obj);
+                                    }
+                                }
+                                getData("titlebtnlist2").add(tmp);
+                            }
+                        }
+                    }else{
+                        var url1 = config.getmybooklistMobile+"type=org";
+                        if(val!="") url1+="&fullname="+val;
+                        lazy.URLRequest(url1,function(data1){
+                            var data = data1.rows;
+                            for(var i=0;i<data.length;i++){
+                                var img = data[i].picture?getIP()+data[i].picture.replace(/\\/g,"/"):"";
+                                if(data[i].picture&&data[i].picture.indexOf("http://")>-1) img = data[i].picture
+                                var tmp = {
+                                    "id":data[i].userid,
+                                    "h1":data[i].name,
+                                    "h2":data[i].orgname,
+                                    "icon":img,
+                                    "onclick":function(obj){
+                                        lazy.setParentJs("setProcessPeople", obj);
+                                    }
+                                }
+                                getData("titlebtnlist2").add(tmp);
+                            }
+                        })
+                    }
+                })
+            }
+        });
+    </script>
+</html>

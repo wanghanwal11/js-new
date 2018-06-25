@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+	  start(function() {
+           lazy.setHeader({
+                            "title":"干部详情"
+                        });
+           var id=lazy.getParameter("gbid")
+           lazy.URLRequest(getIP()+'/party/unitcadre/get.ht?'+"id="+id, function(data) {
+               var data=data.rows;
+               var time=lazy.format(data[0].joinworktime,"yyyy-MM-dd")
+               setData([{
+                     "type": "wuping_dy",
+                      "title" : ["姓名","身份证号","性别","民族","政治面貌","联系方式","工作单位","参加工作时间","现任职务 ","积分 "],
+                      "placeholder" : ["","","","","","","","","",""],
+                      "inputtype" :   ["nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext","nochangetext"],
+                      "text" : [data[0].name,data[0].cardno,data[0].gender,data[0].nationname,data[0].politicsname,data[0].mobilephone,data[0].unitmanagename,time,data[0].companyjob,data[0].score],
+                     "style": {
+                         "line-height": "2.5rem !important",
+                      }
+                }]);
+           })
+           
+        });
+	</script>
+</html>

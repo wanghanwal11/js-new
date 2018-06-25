@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>楼宇</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=titlebtnlist1] .h2{
+                padding-left: 1rem;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page = 1;
+            var search = "";
+            var list = [];
+            lazy.setParameter('click',0);
+            lazy.setHeader({
+                "title":"房屋列表",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                        "text":"新增",
+                        "onclick":function(){
+                           lazy.openWin("addly.html");
+                        }
+                    }
+                ]
+            });
+            var json = [
+            {
+                    "type" : "sousuoinput_move",
+                    "select" : function(val){
+                        page = 1;
+                        search = val;
+                        load(search);
+                        setData(json);
+                    }
+                },
+                {
+                    "id" : 'titlebtnlist1',
+                    "type" : "titlebtnlist1",
+                    "table" : [],
+                    "style" : {
+                        "border-top" : "1px solid #DCDCDC"
+                    }
+                }
+            ];
+            setData(json,function(){
+            lazy.bounce({
+               "up" : function(){
+                   load();
+               }
+            });
+            load();
+        })
+            function load(val){
+                var url = config.fwlb+"page="+page+"&rows=10";
+                if(val!=''&&val!=undefined){
+                    url+='&buildingname='+val;
+                };
+                lazy.URLRequest(url,function(data){
+                    var arr = data.rows;
+                    
+                    for(var i = 0; i < arr.length; i++) {
+                        var onejson = {
+                            "id" : arr[i].id,
+                            "h1" : (((page-1)*10)+i+1) +'. '+arr[i].buildingname,
+                            "h2" : '联系电话：' +(arr[i].linktel||'无'),
+                            "h3" : arr[i].housenum,
+                            "onclick" : function(obj){
+                                lazy.setParameter("fwid",obj.id);
+                                lazy.openWin("rfxq.html");
+                            }
+                        };
+                        getData("titlebtnlist1").add(onejson);
+                    }
+                    page++;
+                    
+                    setData(json);
+                })
+            }
+        });
+    </script>
+</html>

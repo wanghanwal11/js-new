@@ -1,0 +1,30 @@
+div[type=bannertitle]{
+	-webkit-box-sizing:border-box;
+	position:relative;
+	width: 100%;
+	height: 1.4rem;
+	height: 7rem;
+	background-color: #dedede;
+	background-position: top left;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+div[type=bannertitle] .textdiv {
+    position: absolute;
+    min-width: 7rem;
+    background-color: #bf1e16;
+    height: auto;
+    z-index: 10;
+    bottom: 0.83rem;
+    right: 0.83rem;
+    color: #fff;
+    padding: 0.3rem;
+    text-align: right;
+}
+div[type=bannertitle] span {
+    font-size: 0.63rem;
+}
+div[type=bannertitle] p {
+    margin: 0;
+    padding: 0;
+}

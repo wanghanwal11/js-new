@@ -1,0 +1,55 @@
+body[type=body] div[type=shezhi]{
+    width:100%;
+    height:auto;
+    position:absolute;
+    top: 1rem;
+    font-size:1rem;
+    z-index: 99;
+}
+div[type=shezhi] .alljia{
+    position: absolute;
+    top: 0.5rem;
+    width: 100%;
+    height: 2rem;
+}
+div[type=shezhi] .alljia .left{
+    position:absolute;
+    left:1rem;
+    width:1.5rem;
+    height:1.5rem;
+    background: url(left.png) no-repeat;
+    background-size: cover;
+}
+div[type=shezhi] .alljia .szbj{
+    position:absolute;
+    top:1.8rem;
+    right:0.3rem;
+    width: 5rem;
+    height:7rem;
+    background: url(szbj.png) no-repeat;
+    background-size: cover;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+div[type=shezhi] .alljia .right{
+    position:absolute;
+    right:1rem;
+    width:1.5rem;
+    height:1.5rem;
+    background: url(right.png) no-repeat;
+    background-size: cover;
+}
+div[type=shezhi] .alljia .list{
+    font-size: 0.7rem;
+    color: white;
+    line-height: 1.8rem;
+    height:1.8rem;
+    padding-left: 1.6rem;
+    border-bottom: 1px solid #999999;
+}
+div[type=shezhi] .alljia a.list:nth-child(1){
+    margin-top: 1rem;
+}
+div[type=shezhi] .alljia a.list:nth-last-child(1){
+    border-bottom: none!important;
+}

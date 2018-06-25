@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        .tr_iframe { 
+                width:100%;
+                height: 100%;
+                border: none;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           lazy.demo(); 
+           var on = lazy.getParameter("on");
+           var tag = 0;
+           if(on=="right") tag=1;
+          
+           var json = [{
+                        "id" : "header",
+                        "type" : "header",
+                        "backgroundColor" : "#32c6d0",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "left" : [
+                                        {
+                                          "content" : lazy.url + "LazyUI/js/header/images/back.png",
+                                          "onclick" : function(name, index) {
+                                              lazy.openWin("wdjy.html");
+                                          }   
+                                        }
+                                      ],
+                       
+                        "button" : [
+                                          {
+                                              "content" : "谏言记录",
+                                              "onclick" : function() {
+                                                     iframe.src = "wdjyjl.html";
+                                              }   
+                                            },{
+                                              "content" : "反馈记录",
+                                              "onclick" : function() {
+                                                     iframe.src = "wdfkjl.html";
+                                              }   
+                                            }
+                                          
+                                          
+                                        ]
+                    }];
+           
+            setData(json,function(){
+                
+                iframe = lazy.creat("iframe","tr_iframe");
+                if(on == "right"){
+                    iframe.src = "wdfkjl.html";
+                }else{
+                    iframe.src = "wdjyjl.html";
+                }
+                document.body.appendChild(iframe);
+            });
+            
+           if(on == "right"){
+                lazy.setParameter("on","left");
+            }
+            
+        })
+        
+    </script>
+</html>

@@ -1,0 +1,72 @@
+body[type=body] div[type=inbox]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+}
+div[type=inbox] .table {
+    width:100%;
+    height:auto;
+    background-color: #FFFFFF;
+}
+div[type=inbox] .tr1{
+    width: 100%;
+    height: 8rem;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    border-bottom: 1px solid #efefef;
+    position: relative;
+}
+/*div[type=inbox] .icon{
+    width: 3rem;
+    height: 3rem;
+    border-radius:3rem;
+    background-color: #999999;
+    margin-left: 0.5rem;
+}*/
+div[type=inbox] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=inbox] .fitr{
+    margin-bottom: 0.5rem;
+}
+div[type=inbox] .moneyinfo{
+    margin-bottom: 0.5rem;
+}
+div[type=inbox] .date span{
+    font-size: 0.8rem;
+    color: #aaaaaa;
+}
+div[type=inbox] .date span:nth-of-type(1){
+    margin-right: 0.5rem;
+    
+}
+div[type=inbox] .infocontent span{
+    color: #aaaaaa;
+}
+div[type=inbox] .sf{
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #FF2200;
+    position: absolute;
+    top: 2rem;
+    left: 0.5rem;
+    
+}
+div[type=inbox] .st{
+    width: 5px;
+    height: 5px;
+    -moz-border-radius: 5px;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 2rem;
+    left: 0.4rem;
+}
+div[type=inbox] .addfj{
+    background: url(images/fj01.png) center no-repeat;
+    background-size: 0.8rem;
+    padding-right: 4.5rem;
+    
+}

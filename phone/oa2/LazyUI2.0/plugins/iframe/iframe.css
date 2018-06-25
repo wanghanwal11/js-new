@@ -1,0 +1,31 @@
+div[type=iframe]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=iframe] .iframe_content {
+    width:100%;
+	height:auto;
+}
+div[type=iframe] .iframe_footer_parent {
+    width:100%;
+	height:3rem;
+    position: relative;
+}
+div[type=iframe] .iframe_footer {
+    width:100%;
+	height:inherit;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    background-color: #fff;
+    border-top: 1px solid #bbb;
+}
+div[type=iframe] .iframe_footer_li {
+    background-size: 2rem 2.3rem;
+    background-position: center;
+    background-repeat: no-repeat;
+}

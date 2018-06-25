@@ -1,0 +1,83 @@
+div[type=geass]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	position:relative;
+	font-size:1rem;
+	-webkit-box-orient:vertical;
+}
+div[type=geass] .tr {
+    min-height: 4.4rem;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 0.3rem;
+    border-top: 1px solid #ccc;
+} 
+div[type=geass] .tr:last-child {
+    margin-bottom:0;
+}
+div[type=geass] .tit{
+    width:100%;
+    min-height: 2rem;
+    line-height: 2rem;
+}
+div[type=geass] .title{
+    width:100%;
+    -webkit-box-flex:1;
+    padding-left: 0.5rem;
+    overflow:hidden;
+    text-overflow:ellipsis; 
+}
+div[type=geass] .huifu{
+    width:2rem;
+    height: 1.2rem;
+    border: 1px solid #ccc;
+    line-height: 1.2rem;
+    margin-top: 0.4rem;
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+    text-align: center;
+}
+div[type=geass] .geren{
+    width:5.3rem;
+    overflow: hidden;
+}
+div[type=geass] .icon {
+    height:3.4rem;
+    width:5.3rem;
+    border-radius:0.3rem;
+    background-image: url("../../images/moren.png");
+    background-position-x: 1.3rem;
+    background-position-y: 0.5rem;
+    background-repeat: no-repeat;
+    background-size: 2.75rem 2.6rem;
+}
+div[type=geass] .bumen {
+    width:100%;
+    text-align: center;
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+div[type=geass] .iconname{
+    width:100%;
+}
+div[type=geass] .name {
+    min-height: 4.4rem;
+    position: relative;
+    -webkit-box-flex: 1;
+}
+div[type=geass] .txt {
+    min-height: 4rem;
+    white-space: normal;
+    word-break: break-all;
+    font-size: 0.9rem;
+    padding: 0.3rem;
+}
+div[type=geass] .time {
+    height: 1rem;
+    font-size: 0.8rem;
+    text-align: right;
+    padding-right: 0.3rem;
+}

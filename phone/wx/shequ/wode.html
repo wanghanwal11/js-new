@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>我的</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+           #wode .tr{
+               padding: 1rem !important;
+           }
+           #wode1{
+               margin-top:1rem;
+           }
+           #wode1 .tr{
+               padding: 1rem !important;
+           }
+           
+           
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.clearCache();
+            var clickbtn = true;
+			   /*if(lazy.getParameter("gb")==1){
+				    GoBackEvent = function() {
+						
+						wx.closeWindow();
+					}
+                    lazy.setGoBack();
+			   }*/
+           
+             var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'gh_b2308269120b';
+             var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'o4BZpwiUtfERlkrvJLme1S7t-ugk';
+             var json=[{
+                 "id":"ceshi",
+                 "type":"ceshi",
+                 "style":{"background":"white"},
+                 "table":[]
+             },{
+                 "id":"orderlist",
+                 "type":"orderlist",
+                 "table":[/*{
+                     "type":"冰箱维修",
+                     "status":"123",
+                     "address":"123123123",
+                     "time":"10293009",
+                     "money":"123"
+                 }*/]
+             }];
+             //验证是否绑定过手机号
+             var url = "http://192.168.0.27:8092/api/wx/checkinitidphone?openid="+openid+"&initid="+initid;
+             lazy.GET(url,function(data){
+                    if(data.code){
+                         //获取当前用户信息
+                        var url1 = "http://192.168.0.27:8092/api/wx/getweixinuserinfo?openid="+openid+"&initid="+initid;
+                        lazy.GET(url1,function(_data){
+                            
+                             if(_data.rows.length>0){
+                                
+                                var s={
+                                     "icon":_data.rows[0].headpicture?_data.rows[0].headpicture:"../LazyUI/images/morenpeople.png",
+                                     "h1":_data.rows[0].username,
+                                     "h2":"手机号："+_data.rows[0].mobile,
+                                     /*"select":function(){
+                                         lazy.startPhoto(function(pics,upids) {
+                                               document.getElementsByClassName("ceshi")[0].style.backgroundImage='url('+pics[0]+')';
+                                                lazy.alert("上传成功");
+                                                lazy.refresh();
+                                            });
+                                     }*/
+                                }
+                                 setData(json,function(){
+                                       getData("ceshi").add(s)
+                                       getOrderList()
+                                   })
+                                
+                            }
+                       
+                        },function(e){
+                            lazy.alert2("错误信息!:"+e);
+                        },0)
+                    }else{
+                        //绑定手机号
+                        lazy.openWin("yanzheng.html?openid="+openid+"&initid="+initid)
+                    }
+                },function(e){
+                    lazy.alert2("错误信息!:"+e);
+                },0)
+                function getOrderList(){
+                     var url = 'http://192.168.0.103:8098/SupOrder/supOrder/list?openid='+openid
+                     lazy.GET(url,function(data){
+                         _data = data.rows
+                        
+                         lazy.for(_data,function(obj){
+                             var status;
+                             switch(obj.orderflag){
+                                 case '0':
+                                    status = '派单中';
+                                    break;
+                                 case '1':
+                                    status = '上门中';
+                                    break;  
+                                 case '2':
+                                    status = '待评价';
+                                    break;  
+                                 case '3':
+                                    status = '已完成';
+                                    break;  
+                                 case '4':
+                                    status = '已取消';
+                                    break;  
+                             }
+                             var s={
+                                     "id":obj.id,
+                                     "type":obj.servicetype,
+                                     "address":obj.useraddress,
+                                     "status":status,
+                                     "time":obj.ordertime?lazy.format(obj.ordertime,"yyyy-MM-dd"):'',
+                                     "price":(obj.orderprice-obj.favourableprice)+'元',
+                                     "onclick":function(obj){
+                                         lazy.openWin("userorder.html?orderid="+obj.id)
+                                     }
+                                    
+                                }
+                                getData("orderlist").add(s)
+                         }) 
+                            
+                    },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                    },0)
+
+                }
+          
+            
+        });
+    </script>
+</html>

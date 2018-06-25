@@ -1,0 +1,125 @@
+body{
+    background-color: #FFFFFF;
+}
+
+body[type=body] div[type=xinwenxq]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+     
+}
+div[type=xinwenxq] .table {
+    width:100%;
+    height:auto;
+    background-color: #FFFFFF;
+}
+
+div[type=xinwenxq] .tr1 {
+    width: 100%;
+    height: 6rem;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=xinwenxq] .h {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=xinwenxq] .h1 {
+    height: 100%;
+    line-height: 1.3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+div[type=xinwenxq] .h1 span {
+   font-size: 1rem;
+   line-height: 1.4rem;
+}
+
+div[type=xinwenxq] .h2 span {
+     color: #aaaaaa;
+}
+div[type=xinwenxq] .content p {
+    width:100%;
+}
+div[type=xinwenxq] .content p img{
+    width: 100%!important;
+}
+div[type=xinwenxq] .text {
+    -webkit-box-sizing:border-box;
+    margin-top: 0.5rem;
+    line-height: 1.4rem;
+}
+div[type=xinwenxq] .text p{    
+    -webkit-box-sizing:border-box;    
+    margin-top: 0.5rem;
+    line-height: 2rem;
+    text-indent: 2rem
+}
+div[type=xinwenxq] p img {
+}
+div[type=xinwenxq] .image img{
+    width: 100%;
+
+}
+
+/*copy from huodonglist*/
+div[type=xinwenxq] .tr2 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding-right: 1rem;
+    background-color: #fff;
+    border-top: 1px solid #cfcfcf; 
+   
+}
+div[type=xinwenxq] .tr2 span {
+    font-size: 0.75rem;
+    color: #888;
+}
+div[type=xinwenxq] .write {
+    background-position: 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-image: url(images/write.png);
+    -webkit-box-sizing:border-box;
+    padding-left: 2.5rem;
+    height: 1.6rem;
+    line-height: 1.4rem;
+}
+div[type=xinwenxq] .write textarea{
+    background:transparent;
+    border-style:none;
+    overflow-y:hidden;
+}
+div[type=xinwenxq] .ping {
+    background-position: 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-image: url(images/ping.png);
+    -webkit-box-sizing:border-box;
+    padding: 0rem 0.75rem 0rem 2.5rem;
+    height: 1.6rem;
+    line-height: 1.4rem;
+    border-left: 1px solid #ccc;
+    margin-right: 0.5rem;
+    
+}
+
+div[type=xinwenxq] .share {
+    height: 1.6rem;
+    line-height: 1.4rem;
+    background-position: 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-image: url(images/share.png);
+    -webkit-box-sizing:border-box;
+    padding: 0rem 0.75rem 0rem 2.5rem;
+    border-left: 1px solid #ccc;
+}
+

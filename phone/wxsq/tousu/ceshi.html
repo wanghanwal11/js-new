@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+<script type="text/javascript"
+    src="https://webapi.amap.com/maps?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+<script src="../LazyUI/js/admin.js"></script>
+<title>我的诉求</title>
+<style type="text/css">
+       img{
+           width: 100% !important;
+       }
+       input:disabled{
+           opacity: 1;
+       }  
+       div[type=div2] .content {
+            white-space: pre;
+        }
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    alert(1)
+		     var isPageHide = false; 
+          window.addEventListener('pageshow', function () { 
+            if (isPageHide) { 
+              window.location.reload(); 
+            } 
+          }); 
+          window.addEventListener('pagehide', function () { 
+            isPageHide = true; 
+          }); 
+		    //alert(document.location.href)
+		    /*var url = 'http://192.168.0.14:8092/wechat/weixinevent/save.ht?content=123&initid=gh_442a157cb986&openid=obuYC0w65yI_h-UdjM0CTOdK2v-c&address=%E5%8C%97%E4%BA%AC%E5%B8%82%E6%9C%9D%E9%98%B3%E5%8C%BA%E5%A5%A5%E8%BF%90%E6%9D%91%E8%A1%97%E9%81%93%E5%8D%8E%E7%A7%91%E9%99%A2%E5%AE%B6%E5%B1%9E%E9%99%A2%E5%B0%8F%E5%8C%BA%E7%8E%AF%E7%A7%91%E9%99%A2%E5%AE%B6%E5%B1%9E%E9%99%A2%E5%B0%8F%E5%8C%BA&addressgps={%22y%22:0,%22x%22:0}&file=6gPSSv_kiqDOyZMkgAEhZTZ8w2GBUPbZAsBwAPb5n-HtA3K0407pYiRRHotmIFEL,KNhwgLGgpiFq50QAJ9hT4jiS6TKmYyYjJf56hbbN_-RhVmpZvPn_8tmcX9EftoDT&def2=&username=null'
+		   url = encodeURI(url)
+		   alert(url)
+		    console.log(url)
+		   lazy.loadWxJs(function(){
+		   })*/
+         //var url ='http://ceshi.vitoyun.cn/wx/wechat/weixinevent/list.ht'
+                
+        /* lazy.GET(url,function(data){
+            //getData("input7").add(data.total+'个')
+           
+         },function(e){
+                lazy.alert2("错误信息!:"+e);
+         },null)*/
+            
+            /* lazy.getGps(function(obj){
+                 alert(obj.lng)
+             })*/
+		    /*lazy.loadWxJs(function(){
+		        lazy.getGpsWX(function(_point){
+		            console.log(_point)
+                   alert(JSON.stringify(_point))
+                   lazy.getGpsName(_point, function(obj) {
+                       alert(obj.regeocode.formattedAddress)
+                        console.log(point)
+                        
+                        
+                    });
+                })
+		        var point = { lng : 116.4105, lat : 40.03966};
+                lazy.getGpsName(point, function(obj) {
+                   console.log(obj.regeocode.formattedAddress)
+                    console.log(point)
+                    
+                    
+                });
+		    })*/
+		    
+		    var json = [{
+                        "id" : "div2",
+                        "type" : "div2",
+                        "text" :'我的\r\n我的\n我的',
+                       // "text":'<p style=\'white-space:normal;\'>\r\n   <strong>一、诉求件处理流程：</strong>\r\n</p>\r\n<span style=\'white-space:normal;\'>市民发送诉求件→“民情通呼叫中心”转发诉求件至承办单位→承办单位接收诉求件后及时核实处理→承办单位回复办理意见答复市民→“民情通呼叫中心”回访市民</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'><strong>二、诉求件办理时限：</strong></span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>1.紧急事件办理时限：正常工作日24小时内。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>2.一般事件办理时限：正常工作日5个工作日内。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'><strong>三、注意事项：</strong></span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>1.投诉举报类诉求请市民留下真实联系方式，以便进一步了解情况，市民的电话号码和IP地址联系方式将受到保护。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>2.市民需承担因您的诉求件内容而直接或间接引起的法律责任。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>3.请您在发表诉求时使用文明用语，含有不文明用语的诉求件，系统不予受理。</span>'
+                    },{
+                 
+                 "id":"input1",
+                 "type":"input",
+                 "title":"真实姓名",
+                 "value":"王雪菲",
+                 "readOnly":true,
+                 "placeholder":"请填写您的真实姓名",
+                 "icon":"../LazyUI/images/right1.png",
+                 /*"key":"rzsq",*/
+                 "foc":function(){
+                     
+                 },
+                 "onclick":function(){
+                     alert(1)
+                     var name = getData("input1").getValue()
+                     //lazy.openWin("editname.html?peopleid="+peopleid+"&name="+name)
+                 }
+             },{
+		        'type':'button',
+		        'label':'dingwei',
+		        'onclick':function(){
+		            /*lazy.getGpsWX(function(_point){
+                       alert(JSON.stringify(_point))
+                      
+                    })*/
+                   window.location.reload();
+		        }
+		        
+		    },{
+                'type':'button',
+                'label':'dingwei1',
+                'onclick':function(){
+                    history.go(0)
+                   
+                }
+                
+            },{
+                'type':'button',
+                'label':'dingwei111',
+                'onclick':function(){
+                    window.location.href=window.location.href;
+                }
+                
+            },{
+                'type':'button',
+                'label':'dingwei13',
+                'onclick':function(){
+                    window.location.replace("ceshi.html");
+                }
+                
+            }];
+		    
+			setData(json,function(){
+			    var inputs = document.getElementsByTagName("input");
+                 for(var i=0;i<inputs.length;i++){
+                     inputs[i].disabled = true;
+                 }
+			})
+	    });
+	</script>
+</body>
+</html>

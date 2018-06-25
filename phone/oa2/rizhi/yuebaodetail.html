@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+	        body {
+	            background-color: #efeef3 !important;
+	        }
+	        div[type=titlebtnlist1] .table {
+	            padding: 0 0.5rem;
+	        }
+	        div[type=titlebtnlist1] .tr{
+	            border-bottom: 1px solid #ebebeb;
+	        }
+	        div[type=titlebtnlist1] .td{
+	            border-bottom: none !important;
+	        }
+	        div[type=process_xq] .title span{
+	            display: none!important;
+	        }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var arr =[];
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide();
+        lazy.setHeader({
+            "title":"月报",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+    	var personobj = lazy.getParameter("personobj");
+    	var url = config.mobilelogget+"id="+personobj.id;
+    	lazy.URLRequest(url,function(data){
+    		var data = data.rows[0];
+    		var byjh = JSON.parse(data.content).byjh;
+    		var bywc = JSON.parse(data.content).bywc;
+    		var wwc = JSON.parse(data.content).wwc;
+    		var gzfx = JSON.parse(data.content).gzfx;
+    		var fxdc = JSON.parse(data.content).fxdc;
+    		var gzsx = JSON.parse(data.content).gzsx;
+    		var xyjh = JSON.parse(data.content).xyjh;
+    		var files = data.files;
+            var filesPath = [];
+            var filesName = [];
+            for(var i=0;i<files.length;i++){
+                filesPath.push(files[i].url.replace(/\\/g,"/"));
+                filesName.push(files[i].name);
+            }
+    		var json = [{
+    			"type" : "titlebtnlist1",
+    			"table" : [{
+                    "id" :  data.userid,
+                    "icon" : personobj.icon,
+                    "h1" : personobj.h1,
+                    "h2" : personobj.h2,
+                    "onclick" : function(obj){
+                        lazy.setParameter("personid",obj.id);
+                        lazy.openWin("../person/person.html");
+                    }
+                    }]
+    		},{
+                "id" : "process",
+                "type" : "process_xq",
+                "table" : [
+                           {
+                             "title" : "日期：",
+                             "value" : lazy.format(data.logtime,"yyyy-MM")
+                           },
+                          {
+                             //组
+                             "list" : {
+                                  "table" : [
+                                               [
+                                                   {
+                                                       "title" : "本月计划：",
+                                                       "value" : cut(byjh)
+                                                   },
+                                                   {
+                                                       "title" : "本月完成：",
+                                                       "value" : cut(bywc)
+                                                   },
+                                                   {
+                                                       "title" : "未完成原因：",
+                                                       "value" : cut(wwc)
+                                                   }
+                                                ]
+                                   ],
+                               }  
+                           },
+                           {
+                               "title" : "工作分析：",
+                               "value" : gzfx
+                           },
+                           {
+                               "title" : "风险对策：",
+                               "value" : fxdc
+                            },
+                            {
+                               "title" : "关注事项：",
+                               "value" : gzsx
+                            },
+                            {
+                               "title" : "下月工作计划：",
+                               "value" : xyjh
+                            }
+                            // ,{
+                            	// "type" : "file",
+                            	// "title" : "附件",
+                            	// "value" : files
+                            // }
+                         ]
+            },{
+                        "id":"pinglun",
+                        "type" : "pinglun",
+                        "title" : "全部评论",
+                        "onclick" : function(obj){
+                            var userid = personobj.userid||'';
+                            var id = personobj.id||'';
+                            var content = lazy.getParameter('content')||'';
+                            if(content==''){
+                                lazy.alert2('请填写评论');
+                                return;
+                            }
+                            var url = config.sendpinglun + "receiver="+ userid +"&businessid="+id+"&content="+content;
+                            lazy.URLRequest(url,function(data){
+                                lazy.alert2('发送成功');
+                                window.location.reload(true);
+                            },function(e){
+                               alert(e); 
+                            })
+                        },
+                        "table" : pushTable(data.information||'')
+                       }
+            // ,{
+                // "type" : "peopleprocess",
+                // "result" : "yes",
+                // "table" : [
+                            // {
+                                // "icon" : "",
+                                // "h1" : "张三",
+                                // "h2" : "这里是意见各种意见",
+                                // "h3" : "2016-05 07：80",
+                            // },{
+                                // "icon" : "",
+                                // "h1" : "李四",
+                                // "h2" : "这里是意见各种意见",
+                                // "h3" : "2016-05 07：80",
+                            // }
+                         // ]
+            // },{
+                // "type" : "bottombuttons",
+                // "table" : [
+                                // {
+                                    // "label" : "评论",
+                                    // "onclick" : function() {
+                                        // lazy.alert2(1);
+                                    // }
+                                // }
+                            // ]
+            // }
+            ];
+            if(files.length>0){
+                json[1].table.push({
+                    "type" : "file",
+                    "title" : "附件",
+                    "value" : filesPath,
+                    "name" : filesName
+                })
+            }
+            // json.unshift({
+                // "id" : "headertoolbar",
+                // "type" : "headertoolbar",
+                // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                // "color" : "#fff",
+                // "border" : "none",
+                // "title" : '月报',
+                // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                // "select" : function(name, index) {
+                    // if(name=="left"&&index==0){
+                        // lazy.goBack();
+                    // }
+                    // if(name=="left"&&index==1){
+                        // lazy.close();
+                    // }
+                // }
+            // })
+	        setData(json)
+    	})
+    	function cut(arr) {
+    		var _html = '';
+    		if(lazy.isArray(arr)) {
+    			for(var i = 0; i < arr.length; i++) {
+        			_html += "<br/>&nbsp;●&nbsp;" + arr[i];
+        		}
+    		}else {
+    			_html = "<br/>&nbsp;●&nbsp;" + arr;
+    		}
+    		return _html;
+    	}
+    	
+    	function pushTable(pl){
+            if(pl==''){
+                var tmp = {
+                    "icon" : '',
+                    "name" : '',
+                    "date" : '',
+                    "content" : '暂无评论' 
+                }
+                 arr.unshift(tmp);
+            }else{
+                for(var i =0;i<pl.length;i++){
+                var tmp = {
+                    "icon" : pl[i].senderpicture,
+                    "name" : pl[i].sendername,
+                    "date" : lazy.format(pl[i].createtime,'yyyy-MM-dd'),
+                    "content" : pl[i].content
+                }
+                arr.unshift(tmp);
+               }
+            }
+            return arr;
+        }
+    });
+    </script>
+</html>

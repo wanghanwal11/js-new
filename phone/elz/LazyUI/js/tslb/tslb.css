@@ -1,0 +1,34 @@
+body[type=body] div[type=tslb]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+}
+div[type=tslb] .table {
+    width:100%;
+    height:auto;
+}
+div[type=tslb] .top{
+    background-color: #FFFFFF;
+    margin: 0.5rem 1rem;
+    padding: 0.2rem;
+}
+div[type=tslb] .title{
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+div[type=tslb] .time{
+    margin-bottom: 0.5rem;
+}
+div[type=tslb] .date{
+    margin-right: 0.5rem;
+    color: #AAAAAA;
+    font-size: 0.8rem;
+}
+div[type=tslb] .t{
+    color: #AAAAAA;
+    font-size: 0.8rem;
+}
+div[type=tslb] .content{
+    font-size: 0.9rem;
+    color: #666666;
+}

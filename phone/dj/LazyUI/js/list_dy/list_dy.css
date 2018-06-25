@@ -1,0 +1,20 @@
+div[type=list_dy] .list{
+    height: 3rem;
+    border-bottom: 1px solid #D9D9D9;
+    color: #ADADAD;
+    font-size: 0.8rem;
+}
+div[type=list_dy] .cs{
+    line-height: 3rem;
+}
+div[type=list_dy] .cs span{
+    color:black;
+    margin-left: 0.8rem;
+    vertical-align: middle;
+}
+div[type=list_dy] .photo{
+    display: inline-block;
+    background-size:100%;
+    width: 2rem;
+    height: 2rem;
+}

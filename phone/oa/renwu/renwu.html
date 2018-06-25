@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>任务</title>
+        <style>
+            #movebutton_iframe .change {
+                color: #3cc397;
+            }
+            #movebutton_iframe .line div {
+               border: 2px solid #3cc397;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setParameter("Bgcolor","#3cc397");
+        var json =[{
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '任务',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "right" : [lazy.url + "LazyUI/js/headertoolbar/edit.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.close();
+                            }
+                            if(name=="right"){
+                                lazy.openWin("addrenwu.html");
+                            }
+                        }
+                    },{
+                        "id" : "movebutton_iframe",
+                        "type" : "movebutton_iframe",
+                        "table" : [
+                                        {
+                                            "label" : "收到",
+                                            "url" : "wwcd.html"
+                                        },{
+                                            "label" : "完成",
+                                            "url" : "ywcd.html"
+                                        },{
+                                            "label" : "发出",
+                                            "url" : "wfqd.html"
+                                        }
+                                        
+                                    ]
+                    }];
+         setData(json);
+    });
+    </script>
+</html>

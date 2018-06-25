@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var invite = lazy.getParameter("invite");
+            var spaceid = lazy.getParameter("spaceid");
+           var json = [
+            {
+                "type" : "invite",
+                "project" : "dj",
+                "icon" : invite.picture,
+                "h1" : invite.username,//"谢宏博",
+                "h2" : invite.orgname,//"什么都是浮云",
+                "inputtype" : ["input","password","password"],
+                "placeholder" : ["真实姓名","输入密码","确认密码"],
+                "register" : true,
+                "back" : function(arr){
+                    if(arr[0]==""){
+                        lazy.alert2("真实姓名不能为空");
+                        return;
+                    }
+                    if(arr[1]==""){
+                        lazy.alert2("输入密码不能为空");
+                        return;
+                    }
+                    if(arr[2]==""){
+                        lazy.alert2("确认密码不能为空");
+                        return;
+                    }
+                    if(arr[1]!=arr[2]){
+                        lazy.alert2("俩次密码不一致");
+                        return;
+                    }
+                    var phone = lazy.getParameter("phone");
+                    var url = config.mobileRegister + "mobile=" + phone + "&password=" + arr[1] + "&confirmPassword=" + arr[2] + "&username=" +arr[0] +"&spaceid="+spaceid;
+                    lazy.URLRequest(url,function(data){
+                        lazy.setParameter("remind","您的申请已提交,正在等待管理员审核");
+                        lazy.openWin("invited.html");
+                    })
+                }
+                
+            }
+           ]
+           setData(json)
+        });
+    </script>
+</html>

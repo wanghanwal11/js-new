@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>我的</title>
+        <style>
+            body{
+                background-color: #efefef !important;
+            }
+           #wode .tr{
+               padding: 1rem !important;
+           }
+           #wode1{
+               margin-top:1rem;
+           }
+           #wode1 .tr{
+               padding: 1rem !important;
+           }
+           
+           
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.clearCache();
+            var clickbtn = true;
+           lazy.loadWxJs(function(){
+			   if(lazy.getParameter("gb")==1){
+				    GoBackEvent = function() {
+						
+						wx.closeWindow();
+					}
+             //if(lazy.getParameter("ps")==1 && clickbtn){
+                    lazy.setGoBack();
+             //}
+			   }
+           
+             
+             var json=[{
+                 "id":"ceshi",
+                 "type":"ceshi",
+                 "style":{"background":"white"},
+                 "table":[]
+             }];
+            var picurl = [];
+                var url = getIP()+"/wechat/weixinCertificate/getPersonInfo.ht?openid="+lazy.geturlstr("wxopenid")+"&initid="+lazy.geturlstr("wxinitId");
+                lazy.GET(url,function(data){
+                    for(var k = 1 ; k<data.rows.length ; k++){
+                        console.log(data.rows[k].imgurl)
+                        picurl.push(data.rows[k].imgurl)
+                    }
+                     var data=data.rows[0];
+                     
+                       // matchPeople(person)
+                     if(data.rows.length>0){
+						 var person = {
+                            "idcard" : data.rows[0].idcard,
+                            "targetId" : data.rows[0].peopleid?data.rows[0].peopleid:"1",
+                            "targetName" : data.rows[0].username,
+                            "areaid" : data.rows[0].communityid,
+                            "mobile":data.rows[0].mobile,
+                            "communityname" :data.rows[0].communityname
+                        }
+                        console.log(person)
+                    	 var state;
+                         switch(data.rows[0].state){
+        	                 case "0":
+        	                	 state='审核中';
+        	                	 break;
+        	                 case "1":
+        	                	 state='已认证';
+        	                	 break;
+        	                 case "2":
+        	                	 state='认证失败';
+        	                	 break;
+                        }
+                        matchPeople(person,function(sub){
+                        if(sub==4) state='认证失败';
+                        if(sub==5) state='认证失败';
+                        if(lazy.getParameter('matchperson')) state='认证失败';
+                    
+                        var s={
+                             "icon":data.rows[0].headpicture?data.rows[0].headpicture:"../LazyUI/images/morenpeople.png",
+                             "h1":data.rows[0].username,
+                             "h2":"手机号："+data.rows[0].mobile,
+                             "select":function(){
+                                 lazy.startPhoto(function(pics,upids) {
+                                       document.getElementsByClassName("ceshi")[0].style.backgroundImage='url('+pics[0]+')';
+                                        lazy.alert("上传成功");
+                                        lazy.refresh();
+                                    });
+                             }
+                        }
+                        var h={
+                                "id" : "wode",
+                                "type" : "wode",
+                                "style":{"margin-top":"0.8rem"},
+                                "table" : [{
+                                    "h1":"我的办事",
+                                    "icon":"../LazyUI/js/wode/wdbs.png",
+                                    "onclick" : function(data) {
+                                      // alert("审核中")
+                                      lazy.setParameter("gb",0)
+                                     clickbtn = false;
+                                      //var url = "../work/index.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId");
+									  lazy.openWin("../work/index.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"))
+                                      // lazy.openWin(url);
+                                    }
+                                },{
+                                    "h1":"我的诉求",
+                                    "icon":"../LazyUI/js/wode/wdsq.png",
+                                    "onclick" : function(data) {
+                                        lazy.setParameter("gb",0)
+                                        clickbtn = false;
+                                        var url = "../tousu/suqiu.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId");
+                                        lazy.openWin(url);
+                                    }
+                                }]
+                                
+                            }
+                            var h1={
+                                "id" : "wode1",
+                                "type" : "wode",
+                                "style":{"margin-top":"0.8rem"},
+                                "table" : [{
+                                    "h1":"所属社区",
+                                    "h2":data.rows[0].communityname,
+                                    "icon":"../LazyUI/js/wode/sssq.png",
+                                },{
+                                    "h1":"认证信息",
+                                    "h2":state,
+                                   //"h2":"认证失败",
+                                    "icon":"../LazyUI/js/wode/rzxx.png",
+                                    "username":data.rows[0].username,
+                                    "mobile":data.rows[0].mobile,
+                                    "idcard":data.rows[0].idcard,
+                                    "communityname":data.rows[0].communityname,
+                                    "file":data.rows[0].imgurl,
+                                    "id":data.rows[0].id?data.rows[0].id:'',
+                                    "orgpath":data.rows[0].orgpath,
+                                    "communityid":data.rows[0].communityid,
+                                    /*"username":'用户名',
+                                    "mobile":'15100000000',
+                                    "idcard":'120111111111111111',
+                                    "communityname":'社区1',
+                                    "file":'123',
+                                    "id":'',
+                                    "orgpath":"10000.00003.00089",
+                                    "communityid":"100000300089",*/
+                                    "onclick" : function(data) {
+                                         lazy.setParameter("name",data.username)
+                                         lazy.setParameter("mobile",data.mobile)
+                                         lazy.setParameter("idcard",data.idcard)
+                                         lazy.setParameter("communityname",data.communityname)
+                                         lazy.setParameter("file",data.file)
+                                         lazy.setParameter("id",data.id)
+                                         lazy.setParameter("communityid",data.communityid);
+                                         lazy.setParameter("orgpath",data.orgpath);
+                                         lazy.setParameter("picurl",picurl)
+                                         
+                                        if(data.h2 == '认证失败'){
+                                             lazy.setParameter("ps",'2')
+                                             lazy.setParameter("failed",'true')
+                                             lazy.openWin("renzheng.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                                         }else if(data.h2 == '已认证'){
+                                              lazy.setParameter("failed",'')
+                                             lazy.setParameter("ps",'3')
+                                             lazy.openWin("renzheng2.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                                         }else{
+                                             lazy.setParameter("failed",'')
+                                             lazy.setParameter("ps",'3')
+                                             lazy.openWin("renzheng.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                                         }
+                                             
+                                            
+                                             //lazy.openWin("renzheng.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                                        
+                                       
+                                    }
+                                }]
+                            }
+                            /*
+                            var h2={
+                                "id" : "wode2",
+                                "type" : "wode",
+                                "style":{"margin-top":"0.8rem"},
+                                "table" : [{
+                                    "h1":"邀请",
+                                    "icon":"../LazyUI/js/wode/yq.png",
+                                    "onclick" : function(data) {
+                                        
+                                       // lazy.openWin("../jfph/jfjl_zb.html");
+                                    }
+                                }]
+                                
+                            }*/
+                           json.push(h)
+                           json.push(h1)
+		                   setData(json,function(){
+		                       getData("ceshi").add(s)
+		                       var tr = document.getElementById("wode1");
+		                       var sqright = tr.getElementsByClassName("text")[0];
+		                       var rzright = tr.getElementsByClassName("text")[1];
+		                       sqright.style.backgroundImage="url('')";
+		                       sqright.style.paddingRight="0.5rem";
+		                       /*
+		                       if(state != '认证失败'){
+		                           rzright.style.backgroundImage="url('')";
+		                           rzright.style.paddingRight="0.5rem";
+		                       }
+		                       */
+		                        
+		                   })
+                       })
+                    }else{
+                     lazy.openWin("yanzheng.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId"));
+                    }
+               
+                },function(e){
+                	lazy.alert2("错误信息!:"+e);
+                },0)
+                
+                
+                /*----------------- 匹配人口库 ------------------*/
+                function matchPeople(people,back){
+                    var url = getIP()+ "/wechat/weixinevent/getByCardno.ht?cardno="+people.idcard+"&initid="+lazy.geturlstr("wxinitId");
+                    lazy.GET(url,function(data){
+                        var ip = data.newPrimaryKeys;
+                       lazy.setParameter("ip",ip)
+                        var _data = data.rows[0];
+                        var sub=0;
+                        if(!_data){
+                            sub = 5; //人口库无此人
+                        }else{
+                             //if(people.mobile == _data.cellphonenumber && people.targetName == _data.name && people.areaid == _data.orgid && people.communityname == _data.orgname){
+                            if(people.mobile == _data.cellphonenumber && people.targetName == _data.name && people.areaid == _data.orgid){
+                            
+                            }else{
+                                 sub = 4; //审核失败
+                            }
+                        }
+                        
+                       
+                       back(sub)
+                     }, function(e) {
+                        lazy.alert2(e);
+                     }, 0);
+                }
+                ///////////////////////////////////////////
+            
+           }) //loadjs
+            
+        });
+    </script>
+</html>

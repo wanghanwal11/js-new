@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>法人查询</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page = 1;
+            lazy.setHeader({
+                "title":lazy.getParameter("ly").name,
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                        "icon":"jia.png",
+                        "onclick":function(){
+                            lazy.alertlist([
+                                {
+                                    "title" : "房屋列表",
+                                    "onclick" : function() {
+                                        lazy.openWin("fjlb.html");
+                                    }
+                                },{
+                                    "title" : "法人添加",
+                                    "onclick" : function() {
+                                        lazy.openWin("frtj.html")
+                                    }
+                                }
+                                    
+                            ]);
+                        }
+                    }
+                ]
+            });
+            var json = [
+                    // {
+                        // "id" : "headertoolbar",
+                        // "type" : "headertoolbar",
+                        // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        // "color" : "#fff",
+                        // "border" : "none",
+                        // "title" : lazy.getParameter("ly").name,
+                        // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        // "right" : [lazy.url + "LazyUI/js/headertoolbar/jia.png"],
+                        // "select" : function(name, index) {
+                            // if(name=="left"&&index==0){
+                                // lazy.goBack();
+                            // }
+                            // if(name=="left"&&index==1){
+                                // lazy.close();
+                            // }
+                            // if(name=="right"){
+                                    // lazy.alertlist([
+                                        // {
+                                            // "title" : "房屋列表",
+                                            // "onclick" : function() {
+                                                // lazy.openWin("fjlb.html");
+                                            // }
+                                        // },{
+                                            // "title" : "法人添加",
+                                            // "onclick" : function() {
+                                                // lazy.openWin("frtj.html")
+                                            // }
+                                        // }
+//                                             
+                                    // ]);
+                                // }
+                        // }
+                    // },
+                    {
+                        "id" : "renyuan",
+                        "type" : "renyuan",
+                        "table" : []
+                    }
+            ];
+            setData(json,function(){
+                load();
+            })
+            function load(){
+                var url = config.frlb+"page="+page+"&rows=15&buildingid="+lazy.getParameter("ly").id;
+                lazy.URLRequest(url,function(data){
+                    var arr = data.rows;
+                    for(var i = 0; i < arr.length; i++) {
+                        var onejson = {
+                            "id" : arr[i].id?arr[i].id:"",
+                            "rynum" : i+1+((page-1)*15),
+                            "icon" : arr[i].photo?(getIP()+arr[i].photo.replace(/\\/g,"/")):"",
+                            "h1" : ["<span style='color:black'>"+arr[i].name+"</span>","法人："+(arr[i].corp?arr[i].corp:""),"机构类型："+(arr[i].typename?arr[i].typename:""),"行政区域："+(arr[i].orgname?arr[i].orgname:"")],
+                            "onclick" : function(obj){
+                                lazy.setParameter("fr",obj)
+                                lazy.openWin("frxq.html");
+                            }
+                        };
+                        getData("renyuan").add(onejson);
+                    }
+                    page++;
+                })
+            }
+            lazy.bounce({
+                "up" : function(){
+                    load(search);
+                }
+             });   
+        });
+    </script>
+</html>

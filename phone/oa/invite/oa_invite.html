@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var id = lazy.response("id");
+            var orgType = lazy.response("orgType");
+            var url = config.oainvite + "userid="+id+"&type="+orgType;
+           // var url = config.invite + "userid=80000002200055&type=appedj";
+           lazy.URLRequest(url,function(data){
+               var data = data.rows[0];
+               var spaceid = data.spaceid;
+               lazy.setParameter("invite",data);
+               lazy.setParameter("spaceid",spaceid);
+               var json = [
+                {
+                    "id" : "invite",
+                    "type" : "invite",
+                    "project" : "oa",
+                    "icon" : data.picture,//"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1471915583&di=5d47ebc124b20e777547157bc5a0d3d7&src=http://xianse.cc/upload/201410/1108211932.350x350.jpg",
+                    "h1" : data.username,//"谢宏博",
+                    "h2" : data.orgname,//"什么都是浮云",
+                    "inputtype" : ["phone","code"],
+                    "placeholder" : ["手机号码","验证码"],
+                    "back" : function(arr){
+                        var url2 = config.oacheckCode+"mobile="+arr[0]+"&code="+arr[1];
+                        lazy.URLRequest(url2,function(data){
+                            lazy.setParameter("phone",arr[0]);
+                            lazy.openWin("oa_register.html");
+                        },function(e){
+                            if(e=="验证码错误"){
+                                lazy.alert2("验证码错误,请重新输入");
+                                return;
+                            }
+                            var url3 = config.CheckZuzhi + "mobile=" + arr[0];
+                            lazy.URLRequest(url3,function(){
+                                lazy.setParameter("remind","此账号已经存在组织!请直接下载");
+                                lazy.openWin("oa_invited.html");
+                            },function(){
+                                lazy.setParameter("remind","您的申请已提交,正在等待管理员审核");
+                                lazy.openWin("oa_invited.html");
+                            })
+                        })
+                    },
+                    "getCode" : function(phone){
+                        var url1 = config.getCode + "mobile="+phone;//获取验证码
+                        lazy.URLRequest(url1,function(data){
+                            getData("invite").cleanCode();
+                        },function(e){
+                            lazy.alert2(e);
+                        })
+                    }
+                }
+               ]
+               setData(json)
+           })
+        });
+    </script>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>订单详情</title>
+<style type="text/css">
+       body{
+           background-color: #EFEFEF !important;
+       } 
+       div[type=wode]{
+           margin-top:1rem;
+       }
+       #wode3{
+           margin-top:0rem !important;
+           border-top:1px solid #efefef;
+       }
+       div[type=wode] .jf {
+           padding-left:1rem !important;
+           height:1.5rem;
+           line-height:1.5rem;
+           width:auto !important;
+           color:#63666d;
+       }
+       div[type=wode] .tr{
+           border-bottom:none !important;
+       }
+       div[type=wode] .text{
+           padding: 0 1rem !important;
+           background-image: none !important;
+           color:#202227;
+       }
+       #button{
+         position: absolute!important;
+         top: 32rem!important;
+         margin-left: 2% !important;
+         margin-right: 2% !important;
+         width:96% !important;
+     }
+     #button .button_a{
+         background-color: #ffb401;
+         border-radius: 6px !important;
+     }
+     #button2{
+         position: absolute!important;
+         top: 35.5rem!important;
+         margin-left: 2% !important;
+         margin-right: 2% !important;
+         width:96% !important;
+     }
+     #button2 .button_a{
+         background-color: #e0e0e2;
+         border-radius: 6px !important;
+         
+     }
+     #button2 .button_a span{
+         color:#84848e;
+     }
+     .kf{
+         position:absolute;
+         top: 43rem;
+         color:#92929a;
+         left: 50%;
+        width: 4rem;
+        margin-left: -2rem;
+        text-algin:center
+     }
+     div[type=serverinfo]{
+         margin-top:1rem;
+     }
+    div[type=serverinfo] .icon {
+        height: 1.5rem !important;
+        width: 1rem !important;
+        border: none !important;
+        border-radius: 0% !important;
+        background-position: center !important;
+    }
+    div[type=serverinfo] .name {
+       color:#202227;
+    }
+    div[type=serverinfo] .address {
+       color:#63676e;
+    }
+</style>
+</head>
+<body>
+	<script type='text/javascript'>
+      
+		start(function() {
+		           var providerid = lazy.geturlstr("providerid")?lazy.geturlstr("providerid"):'';
+		           var orderid = lazy.geturlstr("orderid")?lazy.geturlstr("orderid"):'';
+                   var url = "http://192.168.0.103:8098/SupOrder/supOrder/getOrderDetail?id="+orderid;
+                    lazy.GET(url,function(data){
+                         var _data = data.rows[0];
+                           var json = [{
+                               "id":'serverinfo',
+                               "type":'serverinfo',
+                               "table":[{
+                                   "icon":"dw.png",
+                                   
+                                   "name":_data.username+' '+_data.userphone,
+                                   "address":_data.useraddress?_data.useraddress:'暂无',
+                                   "tel":_data.userphone,
+                               }]
+                            },{
+                               "id":"wode1",
+                               "type":"wode",
+                               "table":[{
+                                   "h1":"订单编号",
+                                   "h2":_data.ordernum,
+                               },{
+                                   "h1":"下单时间",
+                                   "h2":_data.ordertime?lazy.format(_data.ordertime,"yyyy-MM-dd"):'',
+                               }]
+                           },{
+                               "id":"wode3",
+                               "type":"wode",
+                               "table":[{
+                                   "h1":"服务类型",
+                                   "h2":_data.servicetype,
+                               },{
+                                   "h1":"上门时间",
+                                   "h2":_data.providertime?lazy.format(_data.providertime,"yyyy-MM-dd"):'',
+                               }]
+                           },{
+                               "id":"wode2",
+                               "type":"wode",
+                               "table":[{
+                                   "h1":"定单金额",
+                                   "h2":"￥"+_data.orderprice+".00",
+                               },{
+                                   "h1":"优惠金额",
+                                   "h2":"￥"+_data.favourableprice+".00",
+                               },{
+                                   "h1":"订单总额",
+                                   "h2":"￥"+(_data.orderprice-_data.favourableprice)+".00",
+                               }]
+                           }];
+                           switch(_data.orderflag){
+                                 case '0':
+                                    var button1 ={
+                                       "id":"button",
+                                       "type":"button",
+                                       "label":'确认接单',
+                                       "onclick":function(){
+                                           changeState(1,"http://192.168.0.103:8083/WeixinOrder/WeixinOrder/updateOrderState?userid=3386350797456384&initId=gh_5c92f685a501&orderid=3389450174366720")
+                                       }
+                                   }
+                                   var button2 = {
+                                       "id":"button2",
+                                       "type":"button",
+                                       "label":'暂不接单',
+                                       "onclick":function(){
+                                            changeState(0,"http://192.168.0.103:8083/WeixinOrder/WeixinOrder/updateOrderState?userid=3386350797456384&initId=gh_5c92f685a501&orderid=3389450174366720")
+                                       }
+                                   }
+                                   json.push(button1)
+                                   json.push(button2)
+                                    break;
+                                 case '1':
+                                    if(_data.providerid == providerid){
+                                        var button1 ={
+                                           "id":"button",
+                                           "type":"button",
+                                           "label":'服务完成',
+                                           "onclick":function(){
+                                               completeOrder()
+                                               
+                                           }
+                                       }
+                                       json.push(button1)
+                                    }else{
+                                        var lable = {
+                                            "id":'label',
+                                            "type":'label',
+                                            'text':'该订单已被抢啦，下次早点来吧'
+                                        }
+                                        json.push(lable)
+                                    }
+                                    break;
+                             }
+                            setData(json,function(){
+                                 changeStyle()
+                                 
+                            })    
+                
+                         
+                         
+                    },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                    },3)  
+                   
+			    
+    			
+    			function changeStyle(){
+    			    var tr = document.getElementById("wode2").getElementsByClassName("tr")[2];
+                    console.log(tr)
+                    tr.style.borderTop ="1px solid #efefef";
+                    var title = tr.getElementsByClassName("jf")[0];
+                    title.style.height="2rem";
+                    title.style.lineHeight="2rem";
+                    var text = tr.getElementsByClassName("text")[0];
+                    text.style.color="#ffb401";
+                    text.getElementsByTagName("span")[0].style.fontSize="1.2rem";
+                    text.style.height="2rem";
+                    text.style.lineHeight="2rem";
+                    /*var yuan = lazy.create("span","yuan");
+                    yuan.innerHTML = "元";
+                    yuan.style.fontSize="0.8rem";
+                    text.appendChild(yuan)*/
+                    
+    			}
+    			
+    			function changeState(s,url){
+    			    if(s){
+    			        var url = 'http://192.168.0.103:8098/SupOrder/supOrder/updateOrderState?orderid='+orderid+'&providerid='+providerid;
+                        //var url = "http://192.168.0.103:8083/WeixinOrder/WeixinOrder/updateOrderState?userid=3386350797456384&initId=gh_5c92f685a501&orderid=3389450174366720";
+                        lazy.GET(url,function(data){
+                           
+                           lazy.alert2("您已接成功接单")
+                           setTimeout(function(){
+                                lazy.refresh()
+                            },2000)
+                           
+                        },function(e){
+                            lazy.alert2("错误信息!:"+e);
+                        },3)  
+    			    }else{
+    			        var url = 'http://192.168.0.103:8098/SupOrder/supOrder/cancleOrderState?orderid='+orderid+'&providerid='+providerid;
+                        //var url = "http://192.168.0.103:8083/WeixinOrder/WeixinOrder/updateOrderState?userid=3386350797456384&initId=gh_5c92f685a501&orderid=3389450174366720";
+                        lazy.GET(url,function(data){
+                           
+                               lazy.alert2("取消接单成功")
+                           
+                        },function(e){
+                            lazy.alert2("错误信息!:"+e);
+                        },3)  
+    			    }
+    			    
+    			}
+    			function completeOrder(){
+    			    var url = 'http://192.168.0.103:8098/SupOrder/supOrder/completeOrderState?orderid='+orderid;
+                        //var url = "http://192.168.0.103:8083/WeixinOrder/WeixinOrder/updateOrderState?userid=3386350797456384&initId=gh_5c92f685a501&orderid=3389450174366720";
+                    lazy.GET(url,function(data){
+                        lazy.alertCode('http://'+data.newPrimaryKeys.qrcode)
+                          // lazy.alert2("取消接单成功")
+                       
+                    },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                    },3)  
+    			}
+	    });
+	</script>
+</body>
+</html>

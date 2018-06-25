@@ -1,0 +1,61 @@
+body[type=body] div[type=pinglist]{
+	position:relative;
+	width: 100%;
+	height: auto;
+	font-size: 1rem;
+	-webkit-box-sizing: border-box;
+}
+div[type=pinglist] .title {
+    height: 1.7rem;
+    line-height: 1.7rem;
+    width: 100%;
+}
+div[type=pinglist] .title .ub-f1{
+    padding-left: 0.5rem;
+}
+div[type=pinglist] .more {
+    color: #f20;
+    padding-right: 0.83rem;
+}
+div[type=pinglist] .kuai {
+    width: 0.5rem;
+    height: 100%;
+    background-color: #f20;
+}
+div[type=pinglist] .tr {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #cfcfcf; 
+}
+div[type=pinglist] .td1 {
+    height: 2rem;
+    line-height: 2rem;
+    color: #006cd8;
+    padding-right: 0.83rem;
+}
+
+div[type=pinglist] .h2 {
+    min-height: 1rem;
+    line-height: 1.2rem;
+}
+div[type=pinglist] .h3{
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    color: #c2c2c2;
+}
+div[type=pinglist] .icon {
+    -webkit-box-sizing: border-box;
+    width: 3rem;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+}
+div[type=pinglist] .h3 .zuijia{
+    float: right;
+    margin-right: 2rem;
+}
+div[type=pinglist] .h3 img{
+    width: 1.1rem;
+    height: 1.3rem;
+    vertical-align: middle;
+    margin-right: 0.5rem
+}

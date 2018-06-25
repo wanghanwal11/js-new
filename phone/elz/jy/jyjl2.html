@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        .tr_iframe { 
+                width:100%;
+                height: 100%;
+                border: none;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           lazy.demo(); 
+           
+          
+           var json = [{
+                        "id" : "header",
+                        "type" : "header",
+                        "backgroundColor" : "#32c6d0",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "left" : [
+                                        {
+                                          "content" : lazy.url + "LazyUI/js/header/images/back.png",
+                                          "onclick" : function(name, index) {
+                                              lazy.goBack();
+                                          }   
+                                        }
+                                      ],
+                       
+                        "button" : [
+                                          {
+                                              "content" : "谏言记录",
+                                              "onclick" : function() {
+                                                     document.getElementById("xinwenlb2").style.display = "none";
+                                                     document.getElementById("xinwenlb").style.display = "";
+                                              }   
+                                            },{
+                                              "content" : "反馈记录",
+                                              "onclick" : function() {
+                                                    document.getElementById("xinwenlb").style.display = "none";
+                                                    document.getElementById("xinwenlb2").style.display = "";
+                                              }   
+                                            }
+                                          
+                                          
+                                        ]
+                    },{
+                        "id" :"xinwenlb",
+                        "type" : "lb",
+                        "table" : [{
+                            "h1":'白云区纪委对牛场乡卫生院前任院长、 现任院...',
+                            "h2":"近日，白云区纪委对牛场乡卫生院前任院长赵贵刚、现任院长赵文明以及出纳韦富祥的违纪问题进行了...",
+                            "source":"白云区纪委",
+                            "status":"未反馈",
+                            "type":"违纪问题",
+                            "date":"2016-09-08",
+                            "onclick" : function(data) {
+                                
+                                lazy.openWin("jyxq.html");
+                                
+                            }
+                        },{
+                            "h1":'白云区工业和信息化局主任科员周清荣存在违纪',
+                            "h2":"接到此诉求后，局领导高度重视，立即处理调查，目前正接受组织调查。立即处理调查白云区工业和信...",
+                            "source":"白云区纪委",
+                            "status":"未反馈",
+                            "type":"违纪问题",
+                            "date":"2016-09-08",
+                             "onclick" : function(data) {
+                                
+                                lazy.openWin("jyxq.html");
+                                
+                            }
+                        },{
+                            "h1":'白云区沙文镇沙文村村委会主任杨万林涉嫌严重',
+                            "h2":"接到此诉求后，局领导高度重视，立即处理调查， 白云区沙文镇沙文村村委会主任杨万林涉嫌严重违纪...",
+                            "source":"白云区纪委",
+                            "status":"已反馈",
+                            "type":"贪污问题",
+                            "date":"2016-09-08",
+                             "onclick" : function(data) {
+                                
+                                lazy.openWin("jyxq.html");
+                                
+                            }
+                        },{
+                            "h1":'白云区沙文镇沙文村村委会主任杨万林涉嫌严重',
+                            "h2":'接到此诉求后，局领导高度重视，立即处理调查， 白云区沙文镇沙文村村委会主任杨万林涉嫌严重违纪...',
+                            "source":"白云区纪委",
+                            "status":"已反馈",
+                            "type":"贪污问题",
+                            "date":"2016-09-08",
+                             "onclick" : function(data) {
+                                
+                                lazy.openWin("jyxq.html");
+                                
+                            }
+                        }]
+                        
+                    },{
+                        "id" :"xinwenlb2",
+                        "type" : "lb",
+                        "table" : [{
+                            "h1":'白云区沙文镇沙文村村委会主任杨万林涉嫌严重',
+                            "h2":"接到此诉求后，局领导高度重视，立即处理调查， 白云区沙文镇沙文村村委会主任杨万林涉嫌严重违纪...",
+                            "source":"白云区纪委",
+                            "status":"已反馈",
+                            "type":"交通问题",
+                            "date":"2016-09-08",
+                            "onclick" : function(data) {
+                                
+                                lazy.openWin("jyxq.html");
+                                
+                            }
+                        },{
+                            "h1":'白云区纪委对牛场乡卫生院前任院长、 现任院...',
+                            "h2":"近日，白云区纪委对牛场乡卫生院前任院长赵贵刚、现任院长赵文明以及出纳韦富祥的违纪问题进行了...",
+                            "source":"白云区纪委",
+                            "status":"已反馈",
+                            "type":"违纪问题",
+                            "date":"2016-09-08",
+                             "onclick" : function(data) {
+                                
+                                lazy.openWin("jyxq.html");
+                                
+                            }
+                        },{
+                            "h1":'白云区工业和信息化局主任科员周清荣存在违纪...',
+                            "h2":"接到此诉求后，局领导高度重视，立即处理调查，目前正接受组织调查。立即处理调查白云区工业和信...",
+                            "source":"白云区纪委",
+                            "status":"已反馈",
+                            "type":"违纪问题",
+                            "date":"2016-09-08",
+                             "onclick" : function(data) {
+                                
+                                lazy.openWin("jyxq.html");
+                                
+                            }
+                        },{
+                            "h1":'白云区沙文镇沙文村村委会主任杨万林涉嫌严重...',
+                            "h2":'接到此诉求后，局领导高度重视，立即处理调查， 白云区沙文镇沙文村村委会主任杨万林涉嫌严重违纪...',
+                            "source":"白云区纪委",
+                            "status":"已反馈",
+                            "type":"贪污问题",
+                            "date":"2016-09-08",
+                             "onclick" : function(data) {
+                                
+                                lazy.openWin("jyxq.html");
+                                
+                            }
+                        }]
+                        
+                    }];
+           
+            setData(json,function(){
+               
+                document.getElementById("xinwenlb2").style.display = "none";
+            });
+            
+            
+           
+            
+        })
+        
+    </script>
+</html>

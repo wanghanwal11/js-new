@@ -1,0 +1,44 @@
+body[type=body] div[type=jfpm]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=jfpm] .table {
+    width:100%;
+    height:auto;
+}
+div[type=jfpm] .tr_img {
+    width:100%;
+}
+div[type=jfpm] .tr1 {
+    background-color : #FFFFFF;
+    margin-bottom: 0.6rem;
+    padding: 0.8rem;
+}
+div[type=jfpm] .jf {
+    background:url(jf.png);
+    background-position:0 center;
+    background-size: 1.3rem;
+    background-repeat:no-repeat;
+    padding-left: 2.4rem;
+}
+div[type=jfpm] .pm {
+    background:url(pm.png);
+    background-position:0 center;
+    background-size: 1.3rem;
+    background-repeat:no-repeat;
+    padding-left: 2.4rem;
+}
+div[type=jfpm] .text {
+    background:url(right1.png);
+    background-position:right center;
+    background-size: 0.5rem;
+    background-repeat:no-repeat;
+    padding-right: 1rem;
+}
+div[type=jfpm] .text span{
+    color: #FB3D3D;
+}
+

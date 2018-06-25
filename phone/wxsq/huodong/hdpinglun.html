@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>精彩评论</title>
+<style type="text/css">
+        body{
+            background-color: #f7f8fa !important;
+        }
+       
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		   var id = lazy.geturlstr("id")
+		   var openid = lazy.geturlstr("openid")
+		   var initid = lazy.geturlstr("initid")
+		   var username = lazy.geturlstr("username")
+		   var headpicture = lazy.geturlstr("headpicture")
+		   var isLoadComplete = 1;
+		   var isLoad = 1;
+		   var page = 1;
+		    var json = [{
+                       "id":"commentbox",
+                       "type" : "commentbox",
+                       "divhide":false,
+                       "send" : function(str) {
+                    	   if(!str){
+                               lazy.alert2('您没留下任何评论哦~');
+                               return;
+                               
+                           }
+                           saveJudge(str)
+                       },
+                   },{
+                       "id":"commentlist",
+                       "type":"commentlist",
+                       "title":false,
+                       "table":[],
+                       
+                   }];
+		    
+			setData(json,function(){
+			    getJudgeList()
+			})
+			 /*评论列表*/
+          function getJudgeList(clean){
+			   isLoad = 0;
+               var url = getIP()+"/cmy/activity/cmyactivityqaa/getList?page="+page+"&rows=10&activityid="+id+"&openid="+openid+"&initid="+initid;
+               lazy.GET(url,function(data){
+            	  isLoadComplete =1
+				  isLoad = 1
+                  data = data.rows;
+                  if(page==1 && data.length == 0){
+                      //alert(1)
+                      getData("commentlist").datanull(true)
+                  }else{
+                       getData("commentlist").datanull(false)
+                       if(clean){
+                           //alert(1)
+                           getData("commentlist").clean()
+                       }
+                       //
+                  }
+                  for(var i=0; i<data.length; i++){
+                      var s = {
+                          "id":data[i].id,
+                           'ismy':data[i].myquestion,
+                           "icon":data[i].headpicture?data[i].headpicture:'../LazyUI/images/huodong/defaulthead.png',
+                           "username":data[i].username?data[i].username:'游客',
+                           "qlikes":data[i].qlikes,
+                           "isqlike":data[i].qlike,//
+                           "questiontime":lazy.autoFormat(data[i].questiontime),
+                           //"question":data[i].question,
+                           "question":entitiestoUtf16(data[i].question),
+                           "answer":data[i].answer,
+                           "alikes":data[i].alikes,
+                           "isalike":data[i].alike,//
+                           "answertime":lazy.autoFormat(data[i].answertime),
+                           "zanclick":function(obj,val,status,node){
+                               var qaaid = obj.id;
+                               var qlike = (val==1?1:0);
+                               var alike =(val==2?1:0)
+                               if(status){
+                                   saveZan(qaaid,qlike,alike,node)
+                               }else{
+                                   cancelZan(qaaid,qlike,alike,node)
+                               }
+                               
+                           },
+                           "delclick":function(obj){
+                               delJudge(obj.id)
+                           }
+                      }
+                      getData('commentlist').add(s)
+                  }
+                   page++;
+                   lazy.closeBounce();     
+                   //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+               },function(e){
+                    lazy.closeBounce();  
+                   lazy.alert2(e);
+               },0)   
+               
+           }
+           lazy.bounce({
+                   "up" : function() {
+                	   if(isLoad){
+							getJudgeList();
+						}
+                   } 
+                });
+           /*发布评论*/
+          function saveJudge(question){
+              question = encodeURIComponent(utf16toEntities(question));
+              //alert(question)
+               var url = getIP()+"/cmy/activity/cmyactivityqaa/question?activityid="+id+"&openid="+openid+"&initid="+initid+"&question="+question+"&username="+username+"&headpicture="+headpicture;
+               //alert(url)
+               lazy.GET(url,function(data){
+                  page = 1;
+                  getJudgeList("clean")
+                  
+                   //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+               },function(e){
+                   lazy.alert2(e);
+               },0)   
+           }
+            /*点赞*/
+          function saveZan(qaaid,qlike,alike,node){
+              
+        	  if(isLoadComplete){
+        	      isLoadComplete = 0
+				   var url = getIP()+"/cmy/activity/cmyactivityqaalike/like?qaaid="+qaaid+"&openid="+openid+"&initid="+initid+"&activityid="+id;
+				   if(qlike){
+					   url+="&qlike=1"
+				   }else{
+					   url+="&alike=1"
+				   }
+				   lazy.GET(url,function(data){
+					   //page = 1;
+					   isLoadComplete = 1
+					   getData("commentlist").addZan(qlike,alike,node)
+					  //getJudgeList("clean")
+					   //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+				   },function(e){
+					   lazy.alert2(e);
+				   },0) 
+			   }else{
+			       lazy.alert2('请不要频繁操作哦')
+			   }
+               
+           }
+            /*取消点赞*/
+          function cancelZan(qaaid,qlike,alike,node){
+              
+        	  if(isLoadComplete){
+        	      isLoadComplete = 0
+				   var url = getIP()+"/cmy/activity/cmyactivityqaalike/cancelLike?qaaid="+qaaid+"&openid="+openid+"&initid="+initid+"&activityid="+id;
+				   if(qlike){
+					   url+="&qlike=0"
+				   }else{
+					   url+="&alike=0"
+				   }
+				   lazy.GET(url,function(data){
+					   //page = 1;
+					   isLoadComplete = 1
+					   getData("commentlist").cancelZan(qlike,alike,node)
+					  //getJudgeList("clean")
+					   //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+				   },function(e){
+					   lazy.alert2(e);
+				   },0) 
+			   }else{
+					lazy.alert2('请不要频繁操作哦')
+			   } 
+               
+           }
+            /*删除评论*/
+          function delJudge(qaaid){
+               var url = getIP()+"/cmy/activity/cmyactivityqaa/del?id="+qaaid;
+               lazy.GET(url,function(data){
+                   lazy.alert2('删除成功')
+                   setTimeout(function(){
+                       getData("commentlist").clean()
+                       page=1;
+                        getJudgeList()
+                   },2000)
+                 
+                   //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+               },function(e){
+                   lazy.alert2(e);
+               },0)   
+               
+           }
+           
+           //表情转码
+          function utf16toEntities(str) {
+            var patt=/[\ud800-\udbff][\udc00-\udfff]/g;
+            // 检测utf16字符正则
+            str = str.replace(patt, function(char){
+                var H, L, code;
+                if (char.length===2) {
+                    H = char.charCodeAt(0);
+                    // 取出高位
+                    L = char.charCodeAt(1);
+                    // 取出低位
+                    code = (H - 0xD800) * 0x400 + 0x10000 + L - 0xDC00;
+                    // 转换算法
+                    return "&#" + code + ";";
+                } else {
+                    return char;
+                }
+            });
+            return str;
+        }
+         //表情解码
+         function entitiestoUtf16(str){
+            // 检测出形如&#12345;形式的字符串
+            var strObj=utf16toEntities(str);
+            var patt = /&#\d+;/g;
+            var H,L,code;
+            var arr = strObj.match(patt)||[];
+            for (var i=0;i<arr.length;i++){
+                code = arr[i];
+                code=code.replace('&#','').replace(';','');
+                // 高位
+                H = Math.floor((code-0x10000) / 0x400)+0xD800;
+                // 低位
+                L = (code - 0x10000) % 0x400 + 0xDC00;
+                code = "&#"+code+";";
+                var s = String.fromCharCode(H,L);
+                strObj.replace(code,s);
+            }
+            return strObj;
+        } 
+	    });
+	</script>
+</body>
+</html>

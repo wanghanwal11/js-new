@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=xuanzeti] .ts{
+                height:auto!important;
+                line-height: 1.3rem!important;
+                margin-bottom: 3rem;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.bounce();
+            var tp="";
+            var bol=true;
+            lazy.setHeader({
+                            "title":"十九大学习专题"
+                        });
+             var json=[{
+                    "id" : "xuanzeti",
+                    "type" : "xuanzeti",
+                    "content" : [],
+                    "back" : function(arr, index) {
+                       var pp=lazy.getParameter("paperid")
+                       var daan=arr[0].selectopoion
+                        daan=daan.split("")
+                        daan=daan.sort()
+                        daan=daan.join("")
+                       if(bol){
+                           bol=false
+                           lazy.URLRequest(getIP()+"/party/DJ_Selectrecord/bysaveselectrecords.ht?paperid="+pp+"&questionid="+arr[0].questionid+"&testanswer="+arr[0].testanswer+"&selectopoion="+daan+"&scorevalue=1",function(data) {
+                              bol=true
+                              if(data.newPrimaryKeys.counter==100){
+                                  lazy.goBack1()
+                              }                  
+                           },function(e){
+                               alert(e);
+                               lazy.goBack1()
+                           })
+                       }  
+                    }
+            }];
+                 var url = getIP()+"/party/DJ_Testquestion/onehundredquestions.ht";
+                lazy.URLRequest(url,function(data){
+                    var sss=lazy.setParameter("paperid",data.newPrimaryKeys.paperid)
+                    var counter=parseInt(data.newPrimaryKeys.counter);
+                    tp=data.newPrimaryKeys.testpaperid;
+                    var data = data.rows;
+                     if(counter==100){
+                          lazy.datanull("已完成题目")
+                     }
+                    var i=0;
+                    i=counter+i*counter;
+                    for(i;i<data.length;i++){
+                          var arrs=[];
+                          arrs.push({
+                                        "key" : data[i].selecta,
+                                        "value" : "a"
+                                    })
+                          arrs.push({
+                                        "key" : data[i].selectb,
+                                        "value" : "b"
+                                    })
+                          if(data[i].selectc){
+                              arrs.push({
+                                        "key" : data[i].selectc,
+                                        "value" : "c"
+                                    })
+                          }
+                          if(data[i].selectd){
+                              arrs.push({
+                                        "key" : data[i].selectd,
+                                        "value" : "d"
+                                    })
+                          }
+                          var s={
+                                    "id" : data[i].id,
+                                    "testanswer":data[i].testanswer,
+                                    "title" :"<span style='color:#4CB748'>知识点："+data[i].knowpoint+"</span></br>"+ "("+data[i].questiontypename+")"+(i+1)+'.'+data[i].questiontitle,
+                                    "type":data[i].questiontypename,
+                                    "knowpoint":data[i].knowpoint,
+                                    "answer" : arrs,
+                                    "counter":(100-counter)
+                                    
+                
+                                }
+                         json[0].content.push(s)       
+                      }
+                      json[0].title="共"+(100-counter)+"题";
+                      setData(json)
+                },function(e){
+                    alert(e);
+                    lazy.goBack1()
+                })
+        });
+    </script>
+</html>

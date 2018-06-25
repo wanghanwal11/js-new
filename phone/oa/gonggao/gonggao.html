@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setParameter("Bgcolor","#f6bf27");
+            var page = 1;
+            var json = [{
+                            "id" : "titlebtnlist_radio",
+                            "type" : "titlebtnlist_radio",
+                            "table" : [
+                                // {
+                                    // "icon" : "",//90*90
+                                    // "h1" : "郝建为",
+                                    // "h2" : "产品部",
+                                    // "onclick" : function(obj) {
+                                        // lazy.setParentJs("setProcessPeople", obj);
+                                    // }
+                                // },{
+                                    // "h1" : "大冠",
+                                    // "h2" : "产品部",
+                                    // "onclick" : function(obj) {
+                                        // lazy.setParentJs("setProcessPeople", obj);
+                                    // }
+                                // }
+                                ]
+                }
+            ];
+            lazy.URLRequest(config.getgonggaolist,function(data){
+                if(page==1){
+                    if(data.newPrimaryKeys.rights=="1"){
+                        json.unshift({
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '公告',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "right" : [lazy.url + "LazyUI/js/headertoolbar/edit.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"){
+                                    lazy.close();
+                                }
+                                if(name=="right"){
+                                    lazy.openWin("submit.html");
+                                }
+                            }
+                        })
+                    }else{
+                        json.unshift({
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '公告',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"){
+                                    lazy.close();
+                                }
+                            }
+                        })
+                    }
+                }
+                setData(json,function(){
+                    load();
+                })
+            })
+            function load(){
+                var url = config.getgonggaolist+"rows=50&page="+page;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    for(var i=0;i<data.length;i++){
+                        var tmp = {
+                            "id":data[i].id,
+                            "h1" : data[i].title,
+                            "h2" : data[i].username+"&nbsp;&nbsp;"+data[i].createtime,
+                            "point" : data[i].isread?false:true,
+                            "isdel" : data[i].isdel,
+                            "onclick" : function(obj) {
+                                lazy.setParameter("isdel",obj.isdel);
+                                lazy.setParameter("ggid",obj.id);
+                                lazy.openWin("gonggaoxq.html");
+                            }
+                        }
+                        if(data[i].islock!=undefined){
+                            tmp.onchange = function(radio,obj){
+                                var id = obj.id;
+                                var url = config.updateislock + "id="+id;
+                                if(radio == "on"){//禁用公告
+                                    url += "&islock=false";
+                                }else{
+                                    url += "&islock=true";
+                                }
+                                lazy.URLRequest(url,function(){})
+                            }
+                            if(data[i].islock==true){
+                                tmp.radio = "off";
+                            }else{
+                                tmp.radio = "on";
+                            }
+                        }
+                        getData("titlebtnlist_radio").add(tmp);
+                    }
+                    page++;
+                },function(){
+                    lazy.closeBounce();
+                })
+            }
+            lazy.bounce({
+                    "up" : function(){
+                        load();
+                    }
+                 });   
+        });
+    </script>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        div[type=lazyinput] {
+            background-color: #efefef !important;
+        }
+        div[type=lazyinput] .tr{
+            margin-bottom: 0rem !important;
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           var page=1;
+           var size = 0;
+           
+
+             var json = [];
+           
+            setData(json,function(){
+                list()
+            });
+           
+            function list(){
+                var url = djconfig.dfjl+'?rows=10&page='+page; 
+                lazy.URLRequest(url, function(data){
+                    if(data.newPrimaryKeys.isAdmin){
+                        lazy.setHeader({
+                           "title": "党费缴纳",
+                           "leftbtn":"CloseWebView",
+                           "rightbtn": [
+                                {
+                                    "text": "审核",
+                                    "onclick" : function() {
+                                         lazy.openWin("dfsh.html")
+                                    }
+                                }
+                            ]
+                       });
+                    }else{
+                        lazy.setHeader({
+                           "title": "党费缴纳",
+                           "leftbtn":"CloseWebView",
+                       });
+                    }
+                    
+                        var arr = data.rows;
+                       
+                        if(arr.length!=0){
+                            
+                            var register_Date = new Date(data.newPrimaryKeys.date);
+                            console.log(register_Date)
+                            var date = new Date(arr[arr.length-1].paymonth);
+                            for(var i =0 ; i<arr.length ; i++){
+                                var nowDate = new Date(arr[i].paymonth);
+                                addjson(date,nowDate)
+                            }
+                            
+                            setData(json,function(){
+                                adddata(arr)
+                                
+                            })
+                            
+                        }
+                       
+                        page++;
+                        lazy.closeBounce(); 
+                      
+                  }, function(e) {
+                    lazy.closeBounce();
+                    alert(e);
+                   
+                },0);
+            }
+            
+            function addjson(date,nowDate){
+                        
+                     var nowYear = nowDate.getFullYear();
+                       
+                     var year=0;
+                     
+                     var id = "lazyinput"+nowDate.getFullYear();
+                     var last = document.getElementById(id);
+                     
+                     if(last){
+                         
+                         year = parseInt(last.getElementsByTagName("span")[0].innerText)
+                         //alert("year"+year)
+                     }else{
+                         var date_temp = new Date();
+                         year = date_temp.getFullYear()+1;
+                     }
+                     if(nowDate.getFullYear()<year){
+                         //alert(nowDate.getFullYear())
+                         var json_temp = {
+                                    "id" : "lazyinput"+nowDate.getFullYear(),
+                                    "type" : "lazyinput",
+                                    "table" : [{
+                                        "title":nowDate.getFullYear(),
+                                        "widget":"text",
+                                        "content":""
+                                    }]
+                                }
+                                var json_temp2={
+                                    "id" : "dflb"+nowDate.getFullYear(),
+                                    "type" : "dflb",
+                                    "table" : []
+                                };
+                                json.push(json_temp);
+                                json.push(json_temp2);
+                     }
+                    
+            }
+            function adddata(arr){
+                for(var i = 0; i < arr.length; i++) {
+                       var mydate = new Date(arr[i].paymonth);
+                       var myYear = mydate.getFullYear();
+                       
+                       var myMonth = mydate.getMonth()+1;
+                       var d={
+                                "id" : arr[i].id,
+                                "year" : myYear,
+                                "money":arr[i].paycount?arr[i].paycount:'--',
+                                "date":myMonth,
+                                "way":arr[i].paymode?arr[i].paymode:"暂无",
+                                "status":arr[i].paystate?arr[i].paystate:"未缴纳",
+                                "onclick":function(data){
+                                    lazy.setParameter("month",data.year+'年'+data.date+'月')
+                                    lazy.setParameter("id",data.id)
+                                    lazy.setParameter("paystate",data.status)
+                                    lazy.openWin1("/dj2/zhibu/dfjn.html?reload=true")
+                                }
+                            }
+                       
+                        getData("dflb"+myYear).add(d);
+                        
+                        
+                    }//for
+                     
+                    
+            }
+            lazy.bounce({
+                   "up" : function() {
+                     
+                       list();
+                   } 
+                });
+        })
+        
+    </script>
+</html>

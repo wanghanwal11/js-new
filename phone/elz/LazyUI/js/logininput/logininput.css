@@ -1,0 +1,36 @@
+body[type=body] div[type=logininput]{
+	-webkit-box-sizing:border-box;
+	position:relative;
+	width: 100%;
+    height: auto;
+    border-top: 1px solid #d2d2d2;
+    border-bottom: 1px solid #d2d2d2;
+    padding: 0 0.83rem;
+    background-color: #ffffff;
+}
+div[type=logininput] .tr {
+    height: 2.7rem;
+    line-height:2.7rem;
+    width: 100%;
+    border-bottom: 1px solid #d2d2d2;
+    -webkit-box-sizing:border-box;
+    padding-left: 2rem;
+    background-repeat: no-repeat;
+    background-position: left center; 
+    background-size: 1.25rem;
+}
+div[type=logininput] .tr1  {
+    background-image: url(../../images/login/ren.png);
+}
+div[type=logininput] .tr2  {
+    background-image: url(../../images/login/suo.png);
+}
+div[type=logininput] .tr:last-child {
+    border-bottom: none;
+}
+div[type=logininput] .input {
+    font-size: 0.8rem;
+    width: 100%;
+    background: none;
+    border: none;
+}

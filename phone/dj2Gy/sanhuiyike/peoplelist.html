@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body{
+                background: white!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+          lazy.setHeader({"title": "会议人员"
+             });
+         var json = [
+            {
+                "id" : "titlebtnlist4",
+                "type" : "titlebtnlist4",
+                "table" : [
+                ]
+            }
+         ]
+         setData(json,function(){load()})
+         function load(){
+             lazy.URLRequest(getIP()+"/party/Partymember/getmemberbypartyid.ht",function(data){
+               var data=data.rows;
+               for(var i=0;i<data.length;i++){
+                   var s={
+                        "icon" : "",//90*90
+                        "h1" : data[i].name,
+                        "h2" : data[i].partypostname,
+                        "ids":data[i].id,
+                        "onclick" : function(obj) {
+                            obj=JSON.stringify(obj)
+                            var o={};
+                            o.key=obj;
+                            o=JSON.stringify(o)
+                            lazy.setCache(o,function(){
+                                lazy.goBack1();
+                            });
+                        }
+                    }
+                   getData("titlebtnlist4").add(s)
+               }
+           })
+         }
+        });
+    </script>
+</html>

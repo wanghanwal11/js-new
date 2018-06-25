@@ -1,0 +1,61 @@
+
+div[type=tool]{
+    width: 100%;
+    height: auto;
+    /*font-size: 1rem;*/
+    position: relative;
+}
+
+div[type=tool] .trzw {
+    width: 100%;
+    height: 3rem;
+}
+div[type=tool] .tr2 {
+    width: 100%;
+    height: 3rem;
+    line-height:3rem;
+    -webkit-box-sizing:border-box;
+    text-align:center;
+    color:#fff;
+    position: fixed;
+    top:3rem;
+    z-index: 10;
+    padding: 0 0.5rem;
+}
+
+div[type=tool] .title2{ 
+     padding: 0.7rem 0 ;
+}
+div[type=tool] .title2 span { 
+    font-size: 1rem;
+}
+
+div[type=tool] .middle2 {
+    width:12rem;
+    margin: 0 auto;
+     -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border: 1px solid #fff;
+    color:#32c6d0;
+    background-color: #fff;
+}
+div[type=tool] .common2 {
+    
+    text-align: center;
+    width: 50%;
+    height: 1.5rem;
+    line-height:1.5rem;
+    float: left;
+    display: inline-block;
+}
+div[type=tool] .common2 span{
+    font-size: 1rem;
+}
+
+div[type=tool] .choose { 
+    color:#fff;
+    background-color: #32c6d0;
+    background-clip: padding-box;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+}

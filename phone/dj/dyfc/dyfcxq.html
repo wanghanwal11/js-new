@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            html,body {
+                background-color: #fff !important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+         lazy.bounce();
+         var szywid=lazy.getParameter("fcid")
+           lazy.URLRequest(getIP()+"/party/DJ_ThreeOpen/getByIdMobile.ht?id="+szywid, function(data) {
+               var data=data.rows[0];
+               var json=[{
+                            "type" : "border",
+                            "index" : 13
+                    },
+               {
+                    "type" : "news",
+                    "title": data.title,
+                    "time": data.strtime,
+                    "role": "来源:&nbsp;&nbsp;"+data.author,
+                    "content":data.content
+               }
+             ]
+              if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '党员风采',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+                setData(json);
+           })
+        });
+    </script>
+</html>

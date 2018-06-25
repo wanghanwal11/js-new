@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #41affe !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        lazy.setHeader({
+            "title":"日志",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var json = [
+                        {
+                            "id" : "process",
+                            "type" : "process",
+                            "table" : [
+                                        {
+                                          "title" : "日期",
+                                          "type" : "date",
+                                          "placeholder" : "请选择(必填)"
+                                        },
+                                       {
+                                          //组
+                                          "list" : {
+                                                      "name":"工作项目记录",
+                                                       "table" : [
+                                                                    [
+                                                                        {
+                                                                            "title" : "上午",
+                                                                            "type" : "textarea",
+                                                                            "placeholder" : "请填写文字"
+
+                                                                        },{
+                                                                            "title" : "下午",
+                                                                            "type" : "textarea",
+                                                                            "placeholder" : "请填写文字"
+
+                                                                        }
+                                                                     ]
+                                                                ],
+                                                        "add" : "+添加项目工作记录"
+                                                    },
+                                        },
+                                        // {
+                                            // "title" : "上午",
+                                            // "type" : "textarea",
+                                            // "placeholder" : "如：日常办公必需品（必填）"  
+                                        // },{
+                                            // "title" : "下午",
+                                            // "type" : "textarea",
+                                            // "placeholder" : "如：日常办公必需品（必填）"  
+                                        // },
+                                        {
+                                            "type" : "file",
+                                            "title" : "附件",
+                                            "httpurl" : config.docUpoad
+                                        }
+                                      ]
+                        },{
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var allvalue = getData("process").getArray().table;
+                                var time = allvalue[0].value;
+                                var lists = allvalue[1].list.table;
+                                var am = [];
+                                var pm = [];
+                                for(var i=0;i<lists.length;i++){
+                                    am.push(lists[i][0].value);
+                                    pm.push(lists[i][1].value);
+                                }
+                                if(time=="") {
+                                    lazy.alert2("日期不能为空");
+                                    return;
+                                }else if(am.length==0&&pm.length==0){
+                                    lazy.alert2("至少填写1项");
+                                    return;
+                                }else{
+                                    var content = {"am":am,"pm":pm};
+                                    var url = config.mobilelogsave+"logtime="+time+"&content="+JSON.stringify(content)+"&type=day&issave=1";
+                                    if(allvalue[2].value[0]&&allvalue[2].value[0].annexid){
+                                        var imgs = allvalue[2].value;
+                                        var filesid = [];
+                                        for(var i=0;i<imgs.length;i++){
+                                            filesid.push(imgs[i].annexid)
+                                        }
+                                        url += "&filesid="+filesid;
+                                    }
+                                    lazy.alertyesno('确认提交？', function(){
+                                    	lazy.URLRequest(url,function(data){
+                                        	alert("提交成功");
+                                            window.history.go(-1)
+                                        }, function(e) {
+                                        	lazy.alert2(e);
+                                        })
+                                    },function(){
+                                    	
+                                    });
+                                    
+                                }
+                            }
+                        }
+                    ];
+        // json.unshift({
+            // "id" : "headertoolbar",
+            // "type" : "headertoolbar",
+            // "backgroundColor" : lazy.getParameter("Bgcolor"),
+            // "color" : "#fff",
+            // "border" : "none",
+            // "title" : '日志',
+            // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+            // "select" : function(name, index) {
+                // if(name=="left"&&index==0){
+                    // lazy.goBack();
+                // }
+                // if(name=="left"&&index==1){
+                    // lazy.close();
+                // }
+            // }
+        // })
+        setData(json);
+           
+    });
+    </script>
+</html>

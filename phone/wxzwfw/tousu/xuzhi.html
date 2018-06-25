@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script type="text/javascript"
+	src="https://webapi.amap.com/maps?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+<script src="../LazyUI/js/admin.js"></script>
+<title>用户须知</title>
+<style type="text/css">
+        body{
+            background-color: #ffffff !important;
+        }
+        div[type=button]{
+        	padding: 1rem;
+        }
+        div[type=button] .buttondiv {
+        	border-radius: 1rem;
+        	background-color: #3399fd  !important;
+        }
+        div[type=div]{
+           margin-bottom: 2rem;
+        }
+        div[type=div2] .content p{
+           margin-top: 0rem !important;
+        }
+        
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+			
+			var url = getIP() + "/wechat/weixineventdir/getDirByinitId.ht?initid="+lazy.geturlstr("wxinitId");
+            lazy.URLRequest(url,function(_data){
+                setData([
+                    {
+                        "id" : "div2",
+                        "type" : "div2",
+                        "text" : _data.rows[0].eventdirectory,
+                    },
+                    {
+                        "id" : "button",
+                        "type" : "button",
+                        "label" : "我已阅读并同意遵守上述内容",
+                        "onclick" : function() {
+                            var url = "suqiu.html?wxopenid="+lazy.geturlstr("wxopenid")+"&wxinitId="+lazy.geturlstr("wxinitId");
+                            lazy.openWin(url);
+
+                        }
+                    }
+                ]);
+            });
+			
+			
+			});
+	</script>
+</body>
+</html>

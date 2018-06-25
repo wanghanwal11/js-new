@@ -1,0 +1,107 @@
+body[type=body] div[type=commentlist]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    background-color:#ffffff;
+    font-size:1rem;
+    color:#202227;
+}
+div[type=commentlist] .title {
+    padding: 1rem;
+    border-bottom: 1px solid #eeeeee;
+}
+
+div[type=commentlist] .title_td2 {
+    color:#5e7da2;
+    padding-right: 1.5rem;
+    background-image: url("../../images/huodong/edit.png");
+    background-size: 1rem;
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+div[type=commentlist] .more {
+    color:#b2b3ba;
+    text-align: right;
+    line-height: 1rem;
+    width: 55%;
+}
+div[type=commentlist] .right {
+    width:45%;
+    height:1rem;
+    background-image: url("../../images/huodong/right.png");
+    background-size: 0.8rem;
+    background-repeat: no-repeat;
+    background-position: left 0.5rem center;
+}
+div[type=commentlist] .pllist {
+    padding: 1.2rem 1rem;
+}
+
+div[type=commentlist] .icon {
+    width:2.5rem;
+    height:2.5rem;
+    border-radius:50%;
+    border:1px solid #efefef;
+    background-size: 2.5rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 0.5rem;
+}
+div[type=commentlist] .name {
+        font-size: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    color:#333333;
+}
+div[type=commentlist] .zan {
+    width: 1.5rem;
+    height: 1rem;
+    background-position: left center;
+    background-size: 1rem;
+    background-repeat: no-repeat;
+    padding-left: 1.5rem;
+    color:#999999;
+}
+div[type=commentlist] .zan span{
+    height:1rem;
+    line-height: 1rem;
+}
+div[type=commentlist] .tr {
+     margin-top:0.5rem;
+     width:100%
+}
+div[type=commentlist] .ping {
+    color:#666666;
+    line-height: 1.5rem;
+    width:100%;
+    word-break: break-all;
+}
+div[type=commentlist] .del {
+    color:#5E7DA2;
+    line-height: 1.5rem;
+    margin-right:1rem;
+}
+div[type=commentlist] .tr3 {
+     margin-top:0.8rem;
+     color: #B2B3BA;
+}
+div[type=commentlist] .xian {
+     background-color: #ffb401;
+     height: 1rem;
+     width:4px;
+     margin-right: 0.5rem;
+}
+div[type=commentlist] .tr1 {
+    margin-top:0.8rem;
+    border-top:1px solid #f4f4f4;
+    padding-top:0.8rem;
+}
+div[type=commentlist] .datanull {
+    text-align: center;
+    padding: 1rem;
+    color: #666666;
+}
+div[type=commentlist] .del {
+    width: 2rem;
+    margin-left:0.5rem;
+}

@@ -1,0 +1,32 @@
+body[type=body] div[type=scan] {
+    width:100%;
+}
+div[type=scan] .circle{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    position: fixed;
+    left: 50%;
+    margin-left: -3rem;
+    top: 65%;
+}
+div[type=scan] .icon{
+    width: 5rem;
+    height: 3rem;
+    background-repeat: no-repeat;
+    background-size: 2rem 2rem;
+    background-position-x: 1.5rem;
+    background-position-y: 1rem;
+}
+div[type=scan] .text{
+    width: 5rem;
+    height: 1rem;
+    padding-top: 1.25rem;
+    padding-bottom: 0.5rem;
+    text-align: center;
+    color: white;
+}
+div[type=scan] .label{
+    text-align: center;
+    color: white;
+}

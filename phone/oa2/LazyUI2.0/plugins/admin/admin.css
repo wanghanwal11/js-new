@@ -1,0 +1,123 @@
+div[type=admin]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+    overflow: visible;
+}
+div[type=admin] .admin_header {
+    width:100%;
+    height: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    background-color:#3399ff;
+}
+div[type=admin] .admin_header_title {
+    width:100%;
+    height: 3rem;
+    background-color:#3399ff;
+    color: #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    opacity: 0;
+}
+div[type=admin] .admin_header_btn1 {
+    height: 1.8rem;
+    width: 1.8rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    margin-left: 2rem;
+}
+div[type=admin] .admin_qiandao1 {
+    background-image: url(../../images/admin/qiandao1.png);
+}
+div[type=admin] .admin_xiaoxi1 {
+    background-image: url(../../images/admin/xiaoxi1.png);
+}
+div[type=admin] .admin_saoyisao1 {
+    background-image: url(../../images/admin/saoyisao1.png);
+}
+
+div[type=admin] .admin_header_bg {
+    width:100%;
+    height: 13rem;
+    position: relative;
+    
+}
+div[type=admin] .admin_header_btn {
+    height: 5rem;
+    background-repeat: no-repeat;
+    background-position: center 0;
+    background-size: 3rem;
+    text-align: center;
+    color: #fff;
+    line-height: 8.5rem;
+}
+div[type=admin] .admin_qiandao {
+    background-image: url(../../images/admin/qiandao.png);
+}
+div[type=admin] .admin_xiaoxi {
+    background-image: url(../../images/admin/xiaoxi.png);
+}
+div[type=admin] .admin_saoyisao {
+    background-image: url(../../images/admin/saoyisao.png);
+}
+div[type=admin] .admin_header_bg_div {
+    width:100%;
+    height: 13rem;
+    padding-top: 7rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-box-sizing:border-box;
+    
+    background-image: url(../../images/admin/bg.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+div[type=admin] .admin_header_table {
+    width:100%;
+    height: 12rem;
+    background-color:#fff;
+    position: relative;
+}
+
+div[type=admin] .admin_content {
+    width:100%;
+    text-align: center;
+    height: auto;
+    min-height: 30rem;
+    position: absolute;
+    left: 0;
+    top: 25rem;
+    overflow: visible;
+    z-index: 2;
+}
+div[type=admin] .admin_canvas_div {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    left: 0;
+    top: 25.5rem;
+    z-index: 1;
+}
+div[type=admin] .admin_canvas {
+    position: relative;
+    top: 2rem;
+}
+div[type=admin] .admin_footer {
+    width:100%;
+    text-align: center;
+    height: 22rem;
+    background-color:#f00;
+    left: 0;
+    top : 40rem;
+    position: absolute;
+}

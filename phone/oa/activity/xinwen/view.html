@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var sou=lazy.getParameter("sou");
+            var title=lazy.getParameter("title");
+            var page=1;
+            var search = "";
+            var json = [{
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  lazy.goBack()
+                                              }   
+                                            },
+                                            
+                                          ],
+                            
+                            "button" : [
+                                              {
+                                                  "content" : title,
+                                                  "onclick" : function() {
+                                                        // iframe.src = "./xinwen/dangzhanglb.html";
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },{
+                            "id" : "sousuoinput_move",
+                            "type" : "sousuoinput_move",
+                            "select" : function(val){
+                                        page = 1;
+                                        getData("view").clean();
+                                        search = val;
+                                        load(search);
+                                        
+                            }
+                            },
+                          {
+                              "id" : "view",
+                              "type" : "view",
+                              "table" : []
+                        }];
+            setData(json,function(){
+                load(search);
+                
+            });
+           function load (val) {
+            var url = sou+val+'&page='+page+'&rows=50';
+            lazy.URLRequest(url,function(data){
+            var arr = data.rows;
+                for(var i = 0; i < arr.length; i++) {
+                    
+                    var d={
+                            "icon" : arr[i].imgUrl?(getIP()+arr[i].imgUrl).replace(/\\/g,"/"):"",
+                            
+                            "h1" : arr[i].title,
+                            "yue" : arr[i].count,
+                           "ping" : arr[i].commentcount,
+                            "user" : arr[i].seoTitle,
+                            
+                            "date" : lazy.autoFormat(arr[i].addTime),
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                
+                                lazy.setParameter("xwxqid",data.id)
+                                
+                                lazy.setParameter("img",data.icon)
+                                 
+                                lazy.openWin("xinwenxq.html");
+                                
+                            }
+                           }
+                        getData("view").add(d);
+                        }//for
+                        page++;
+                        lazy.closeBounce();
+                    }, function(e) {
+                    lazy.closeBounce();
+                    alert(e);
+                },1);
+           } 
+           lazy.bounce({
+                   "up" : function() {
+                       load(search);
+                   } 
+                });
+             
+        })
+        
+    </script>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        body{
+            background: white!important;
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var time="totalscore";
+            var leibie="party";
+            lazy.setHeader({
+                            "centerbtn": [
+                                {
+                                    "text": "总积分",
+                                    "onclick" : function() {
+                                        page=1;
+                                        time="totalscore";
+                                        getData("jfph").clean()
+                                        load()
+                                    }
+                                },
+                                {
+                                    "text": "本周积分",
+                                    "onclick" : function() {
+                                        page=1;
+                                        time="weekscore";
+                                        getData("jfph").clean()
+                                        load()
+                                    }
+                                }
+                            ]
+                        });
+            
+            var json=[{
+                "id":"header",
+                "type":"jfheader",
+                "title":"支部",
+                "select":function(){
+                    lazy.alertlist([{"title":"支部"},{"title":"党委"}],function(n){
+                        if(n.title=="支部"){
+                            leibie="party";
+                        }else{
+                            leibie="space"; 
+                        }
+                        getData("header").addsel(n.title);
+                        page=1;
+                        getData("jfph").clean()
+                        load();
+                    })
+                }
+            },{
+                "id":"jfph",
+                "type":"jfph",
+                "table":[]
+             }]
+            setData(json,function(){load()})
+              function load(){
+                lazy.URLRequest(djconfig.grpm+"timeType="+time+"&rows=20&page="+page+"&rankType="+leibie, function(data) {
+                    lazy.setHeaderStop();
+                    lazy.closeBounce();
+                    getData("header").setc(data.newPrimaryKeys.picture?lazy.getImagePx(data.newPrimaryKeys.picture, 165, 165):"../LazyUI/images/morenpeople.png",data.newPrimaryKeys.rank,data.newPrimaryKeys.score)
+                    var data=data.rows;
+                    for(var i=0;i<data.length;i++){
+                        var hh=(page-1)*20
+                        if((i+hh)<3){
+                            var s={
+                                "src":data[i].picture?lazy.getImagePx(data[i].picture, 63, 63):"../LazyUI/images/morenpeople.png",
+                                "name":data[i].partymembername,
+                                "left":"<span class='fg1 f"+i+"'></span>",
+                                "right":"总计<span class='fg'>"+data[i].score+"</span>分"
+                            }
+                        }else{
+                            var s={
+                                "src":data[i].picture?lazy.getImagePx(data[i].picture, 63, 63):"../LazyUI/images/morenpeople.png",
+                                "name":data[i].partymembername,
+                                "left":"<span class='fg1 f"+(i+hh)+"'>"+((i+1)+hh)+"</span>",
+                                "right":"总计<span class='fg'>"+data[i].score+"</span>分"
+                            }
+                        }
+                       getData("jfph").add(s);
+                    }
+                    page++;
+                },function(){lazy.setHeaderStop();lazy.closeBounce();}, page>1?0:1)
+            }
+            lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

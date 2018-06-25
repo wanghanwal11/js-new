@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../../LazyUI/js/admin.js"></script>
+<title>加入成功</title>
+<style type="text/css">
+       body{
+            background-color: #ffb401 !important;
+        }
+        #picbg{
+            position: fixed;
+            bottom: -5px;
+        }
+        #pic {
+            position: fixed;
+            top: 8rem;
+            left: -9rem;
+            margin-left: 50%;
+        }
+        #pic img{
+           width: 20rem !important;
+        } 
+        #picbg img{
+           width: 100% !important;
+        }
+        #label1 {
+           position: fixed;
+           top:12.5rem;
+           left: -7rem;
+            margin-left: 50%;
+            text-align:center;
+           color: #ffffff !important;
+        } 
+        #label1 span{
+            font-size: 1.1rem !important;
+        } 
+        #alertcode3{
+           position: fixed;
+           top:14rem;
+           background-color: transparent !important;
+        }
+        div[type=alertcode3] .alertdiv{
+           width:11rem !important;
+           height:11rem !important;
+           border: none !important;
+           background-color: rgba(255,255,255,0.3);
+        }
+        #label2 {
+           position: fixed;
+           top:25.5rem;
+           left: -5rem;
+            margin-left: 50%;
+            text-align:center;
+           color: #ffffff !important;
+        }  
+</style>
+</head>
+<body>
+    <script>
+    
+        start(function() {
+            
+            var initid = lazy.geturlstr("initid")?lazy.geturlstr("initid"):'';
+            var openid = lazy.geturlstr("openid")?lazy.geturlstr("openid"):'';
+            var streetorcommunity = lazy.geturlstr('streetorcommunity')?lazy.geturlstr('streetorcommunity'):lazy.getParameter('streetorcommunity')
+            var streetorcommunityid = lazy.geturlstr('streetorcommunityid')?lazy.geturlstr('streetorcommunityid'):lazy.getParameter('streetorcommunityid')
+            loadCommunity(function(obj){
+                lazy.loadWxJs(function(){
+                    lazy.share(obj)
+                    var json = [{
+                           "id":"picbg",
+                           "type" : "imgmapdiv",
+                           "src" : "../../LazyUI/images/huodong/bg.jpg",
+                           "rect" : [
+                           ]
+                       },{
+                           "id":"pic",
+                           "type" : "imgmapdiv",
+                           "src" : "../../LazyUI/images/huodong/1.png",
+                           "rect" : [
+                           ]
+                       }/*,{
+                           "id":"label1",
+                           "type":"label",
+                           "text":"长按识别二维码成为社工"
+                       }*/,{
+                           "id":"alertcode3",
+                           "type":"alertcode3",
+                           "onclick":function(){
+                               /*if(!state){
+                                   queryWX()
+                                   
+                               }*/
+                           }
+                       },{
+                           "id":"label2",
+                           "type":"label",
+                           "text":"长按二维码加入社工"
+                       }];
+                
+                    setData(json,function(){
+                        queryWX()
+                    })
+                })
+            })
+            function queryWX(){
+                var url2 = getIP()+'/wx/api/wx/getForeverCode?code=HD&initid='+initid
+                lazy.GET(url2,function(data){
+                      if(data.rows[0]){
+                          getData("alertcode3").changeUrl(data.rows[0],10)
+                           state =1;
+                      }else{
+                          getData("alertcode3").changeUrl("../LazyUI/images/refresh.png",10)
+                           state =0;
+                      }
+                },function(e){
+                    lazy.alert2("错误信息!:"+e);
+                },3) 
+            }
+            
+            function loadCommunity(back){
+                var url = getIP()+'/cmy/cmy/sCommunityinfo/list?streetorcommunity='+streetorcommunity+'&streetorcommunityid='+streetorcommunityid
+               lazy.GET(url,function(data){
+                   var objshare = {
+                        title:data.rows[0].streetorcommunityname,
+                        url:location.protocol+'//'+location.host+'/wechat/shequ/sg/sgregister.html?streetorcommunityid='+streetorcommunityid+'&streetorcommunity='+streetorcommunity+'&initid='+initid,
+                        img:data.rows[0].photopath,
+                        summary:data.rows[0].streetorcommunityname+'， 邀请您加入'
+                    }
+                    console.log(objshare)
+                    lazy.setParameter('share',objshare)
+                    
+                    back(objshare)
+                },function(e){
+                 alert('123'+e)
+                },null)
+            }
+        });
+    </script>
+</body>
+</html>

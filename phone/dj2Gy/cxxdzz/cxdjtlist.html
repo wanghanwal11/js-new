@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        div[type=xinwenlb] .ping{
+            display: none;
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           var page=1;
+           lazy.setHeader({
+                            "title": '创新大家谈',
+                               "rightbtn": [
+                                    {
+                                        "text": "添加",
+                                        "onclick" : function() {
+                                             lazy.openWin1("/dj2Gy/cxxdzz/cxdjt.html?reload=true");
+                                        }
+                                    }
+                                ]
+                        });
+
+             var json = [
+         
+                        {
+                            "id" : "xinwenlb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                            
+                        }];
+            setData(json,function(){
+                
+                list()
+                
+            });
+            function list(){
+                var url = getIP()+'/party/DJ_ThreeOpen/list.ht?modeltype=7&page='+page+'&rows=10'; 
+                lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+                if(arr.length==0&&page==1){
+                    if(!document.getElementsByClassName("zwsjXT")[0])
+                         zwsj =  lazy.datanull("还没有数据哦…",null)
+                     
+                }else{
+                for(var i = 0; i < arr.length; i++) {
+                    
+                    var d={
+                            "icon" : arr[i].photo?lazy.getImagePx(arr[i].photo, 180, 120):"../LazyUI/images/zhibu/default.jpg",
+                            "h1" : arr[i].title, 
+                            "yue" : arr[i].readcount,
+                            "imgsc" :  arr[i].photo, 
+                            "date" : lazy.format(arr[i].createtime , 'MM-dd'),
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("cxdjtid",data.id)
+                                lazy.openWin("cxdjtxq.html")
+                                
+                            }
+                           }
+                        getData("xinwenlb").add(d);
+                    
+                    
+                        }//for
+                    }
+                        page++;
+                        lazy.closeBounce();
+                    }, function(e) {
+                    //lazy.
+                    lazy.closeBounce();
+                    alert(e);
+                },status);
+            }
+            lazy.bounce({
+                   "up" : function() {
+                       list();
+                   } 
+                });
+            
+        })
+        
+    </script>
+</html>

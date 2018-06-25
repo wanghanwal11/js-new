@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+          html,body {
+              background-color: #fff !important;
+          }
+          div[type=listbar] .icon{
+              display: none;
+          }
+          div[type=button]{
+            position: fixed!important;
+            bottom: 0rem!important;
+          }
+        </style>
+    </head>
+    <body></body>
+    <script>
+         start(function() {
+            var page=1;
+          /*  var state=0;
+           var clear=false;*/
+           var partyname="";
+            var json = [ {
+                    "type":"button",
+                    "label":"报到",
+                    "onclick":function(){
+                        lazy.openWin("dzz.html")
+                    }
+                 },{
+                           "id":"listbar",
+                           "type" : "listbar",
+                           "table":[]
+                       }]
+           setData(json,function(){fenye()})
+               function fenye(){
+                            lazy.URLRequest(getIP()+"/party/DJ_CommunityReport/getByPartyMemberid.ht?rows=10"+"&page="+page, function(data) {
+                                    lazy.closeBounce();
+                                    var data=data.rows;
+                                    for(var i=0;i<data.length;i++){
+                                        var itb={
+                                                "h":[
+                                                        "报道组织:&nbsp;&nbsp;"+(data[i].reportorgname?data[i].reportorgname:""),
+                                                        "原来组织:&nbsp;&nbsp;"+(data[i].originalorgname?data[i].originalorgname:""),
+                                                        "报道时间:&nbsp;&nbsp;"+(data[i].reporttimestr?data[i].reporttimestr:""),
+                                                    ],
+                                         }
+                                         getData("listbar").add(itb);
+                                    }
+                                    page++;
+                           },function(){
+                                 lazy.closeBounce();
+                           });
+               }
+               lazy.bounce({"up":function(){
+                       fenye();
+                }});
+         });     
+    </script>
+</html>

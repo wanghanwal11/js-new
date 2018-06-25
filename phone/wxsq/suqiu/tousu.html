@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>我要诉求</title>
+<style type="text/css">
+       body{
+           background-color: #f7f8fa !important;
+       }
+       
+       div[type=wode] .jf {
+           height:2.5rem !important;
+           line-height:2.5rem !important;
+           padding-left:2rem !important;
+       }
+       div[type=wode] .jf span{
+          color:#333333 !important;
+       }
+       div[type=wode] .tr{
+           border-bottom:none !important;
+           padding-left:1rem !important;
+       }
+       div[type=wode] .text{
+           padding: 0 1rem !important;
+           background-image: none !important;
+       }
+       #input_ts textarea{
+           height:6rem !important;
+       }
+       #input_ts{
+           margin-top:0.5rem !important;
+           margin-bottom:1rem !important;
+       }
+       #map_button{
+           margin-top:1rem
+       }
+       #button{
+         margin-top:4rem;
+         margin-left: 2% !important;
+         margin-right: 2% !important;
+         width:96% !important;
+     }
+     #button .button_a{
+         background-color: #ffb401;
+         border-radius: 4px !important;
+     }
+     div[type=input] .icon{
+         background-size: 1.2rem !important;
+     }
+</style>
+</head>
+<body>
+	<script>
+	
+		start(function() {
+		    var point = { lng : 116.397428, lat : 39.90923};
+		    
+		    var json = [{
+		         id : 'ts_group',
+                 type : 'group',
+                 list : [
+        	    {
+        	        "id" : "wode",
+                    "type" : "wode",
+                    "table" : [{
+                        "h1":"图片",
+                        "icon":"../LazyUI/images/suqiu/picture.png",
+                        "onclick" : function(data) {
+                        }
+                    }]
+        	    },{
+                    id: "img",
+                    type: "img",
+                    label: "",
+                    key:"tskey",
+                    src: "../LazyUI/images/zhibu/default.jpg",
+                    addclick:function(pics,upids){
+                        console.log(pics)
+                         console.log(upids)
+                    }
+                },{
+                    id:"input_ts",
+                    type:"input",
+                    inputtype:"textarea",
+                    key:"tsnr",
+                    placeholder:"请描述一下您要上报的事件内容...",
+                   
+                },{
+                    "id" : "wode1",
+                    "type" : "wode",
+                    "key":"tag",
+                    "table" : [{
+                        "h1":"事件标签",
+                        "icon":"../LazyUI/images/suqiu/tag.png",
+                        "onclick" : function(data) {
+                            getData('tag3').add({
+                                "id":"1001",
+                                "title":"生活垃圾"
+                            })
+                            getData('tag3').add({
+                                "id":"1002",
+                                "title":"垃圾"
+                            })
+                            
+                        }
+                    }]
+                },{
+                     id:"map_button",
+                     type:"input",
+                     placeholder:"定位中...",
+                     key:"tsdw",
+                     icon:"../LazyUI/images/suqiu/address.png",
+                     onclick:function(){
+                            lazy.setGoBack();
+                            getData('map').show();
+                            getData('ts_group').hide();
+                      }
+                },{
+                     "id":"button",
+                     "type":"button",
+                     "label":'提交',
+                     "onclick":function(){
+                         changeState(1,getIP()+'/WeixinOrder/WeixinOrder/updateOrderState.ht?providerid='+providerid+'&orderid='+orderid)
+                     }
+                }]
+            }];
+		    
+			setData(json)
+	    });
+	</script>
+</body>
+</html>

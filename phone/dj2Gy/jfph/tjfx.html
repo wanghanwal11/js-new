@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        body{
+            background: white!important;
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+             lazy.setHeader({
+                            "title": "统计分析"
+                        });
+           var year=new Date().getFullYear()+"";
+            lazy.URLRequest(getIP()+'/party/DJ_PartyScore/getstastic.ht?'+"year="+year, function(datas) {
+                var datas=datas.rows;
+                var num=0;
+                if(datas.length>10){
+                    num=10;
+                }else{
+                    num=datas.length;
+                }
+                var arr=[];
+                var color = ['rgba(62,148,209,.5)',
+                'rgba(0,176,96,.5)',
+                'rgba(255,165,64,.5)',
+                'rgba(67,125,212,.5)',
+                'rgba(94,196,205,.5)',
+                'rgba(177,101,212,.5)',
+                'rgba(245,73,85,.5)',
+                'rgba(255,209,0,.5)',
+                'rgba(52,207,190,.5)',
+                'rgba(152,63,213,.5)',
+                'rgba(134,179,45,.5)',
+                'rgba(213,70,70,.5)',
+                'rgba(42,163,95,.5)',
+                'rgba(255,141,64,.5)',
+                'rgba(155,132,46,.5)',
+                'rgba(128,200,89,.5)',
+                'rgba(105,151,211,.5)',
+                'rgba(207,95,211,.5)']
+                for(var i=0;i<num;i++){
+                    var obj={};
+                    obj["label"]=datas[i].name;
+                    obj["backgroundColor"]=color[i];
+                    obj["borderColor"]=color[i];
+                    obj["borderWidth"]=1;
+                    obj["fill"]=false;
+                    obj["data"]=[datas[i].score1,datas[i].score2,datas[i].score3,datas[i].score4,datas[i].score5,datas[i].score6,datas[i].score7,datas[i].score8,datas[i].score9,datas[i].score10,datas[i].score11,datas[i].score12]
+                    arr.push(obj);
+                }
+                var json=[{
+                'type':'chart',
+                'chart_type' : 'line',
+                'width' : 300,
+                'chart_data' : {
+                        'labels' : ["1月","2月","3月","4月","5月","6月","7月",'8月','9月','10月','11月','12月'],
+                        'datasets': arr
+                    }
+               
+               }]
+               setData(json);
+            })
+           
+        })
+    </script>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+     start(function() {
+             var page=1;
+             var json = [{
+                   "id" : "newslist",
+                   "type" : "newslist",
+                   "list" : []
+               }];
+               if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '党风廉政',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+               setData(json,function(){
+                   list()
+               });
+               function list(){
+                   lazy.URLRequest(getIP()+"/party/DJ_ThreeOpen/getAntiCorruption.ht?"+"page="+page+"&rows=10", function(data) {
+                      lazy.closeBounce();
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                          var d={
+                            "icon" :(getIP()+data[i].photo).replace(/\\/g,"/"),
+                            "h1" : data[i].title,
+                            "h2" : data[i].strtime+"&nbsp;&nbsp;&nbsp;&nbsp;"+data[i].author,
+                            "ids":data[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("ffclid",data.ids)
+                                lazy.openWin("ffclxq.html")
+                            }
+                        }
+                          getData("newslist").add(d);
+                      }
+                      page++;
+                  },function() {
+                      lazy.closeBounce();
+                  })     
+               }
+            lazy.bounce({"up":function(){
+                list();
+            }}); 
+        });
+    </script>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>事件类型</title>
+    </head>
+    <script> 
+    start(function() {
+        var url = config.getEventtypeMobile;
+       //if(lazy.getParameter("version")!=null) url += "?version="+lazy.getParameter("version");
+       lazy.setHeader({
+            "title":"事件类型",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : [],
+        });
+        lazy.URLRequest(url,function(data){
+                if(data.rows.length>0){
+                   var v = data.message.substring(data.message.indexOf(" ")+1);
+                   var version = v;
+                   lazy.setParameter("version",version)
+                   var data=data.rows;
+                   lazy.setParameter("evttype",data);
+               }else{
+                   var data =  lazy.getParameter("evttype");
+               }
+               var cp={
+                     "id" : "collapsible",
+                     "type" : "collapsible",
+                     "color":["green"],
+                     "select" : function(id,n,name) {
+                        if(n==3) {
+                            lazy.setCache(encodeURI(JSON.stringify({
+                                'overtime' : JSON.stringify({"id":id,"h1":name,"h2":"","only":true})
+                            })));
+                            lazy.closeWebview();
+                             // lazy.setParentJs(lazy.var(), {"id":id,"h1":name,"h2":"","only":true});
+                         }
+                    },
+               }
+               var first=[];
+               for(var i=0;i<data.length;i++){
+                   var tmp={};
+                   tmp.id=i+1;
+                   tmp.name=data[i].bigtype;
+                   tmp.checkbox="false";
+                   if(data[i].important&&data[i].important=="1") tmp.show = "true";
+                   else tmp.show = "false";
+                   tmp.child=[];
+                   var second=data[i].childclass;
+                   for(var j=0;j<second.length;j++){
+                       var tmper={};
+                       tmper.id=second[j].id;
+                       tmper.name=second[j].smalltype;
+                       tmper.checkbox="false";
+                       if(second[j].important&&second[j].important=="1") tmper.show = "true";
+                       else tmper.show = "false";
+                       tmper.child=[];
+                       tmp.child.push(tmper);
+                       var third=second[j].subclass;
+                       for(var n=0;n<third.length;n++){
+                           var tmpest={};
+                           tmpest.id=third[n].id;
+                           tmpest.name=third[n].subtype;
+                           if(third[n].important&&third[n].important=="1") tmpest.show = "true";
+                           else tmpest.show = "false";
+                           tmpest.checkbox="false";
+                           tmper.child.push(tmpest)
+                       }
+                   }
+                   first.push(tmp)
+               }
+               cp.child=first;
+               var json = [];
+               json.push(cp);
+               var table = {
+                   "type" : "titlebtnlist1",
+                   "style" : {
+                       "height":"6rem"
+                   }
+               }
+               json.push(table)
+               // json.unshift({
+                   // "id" : "headertoolbar",
+                   // "type" : "headertoolbar",
+                   // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                   // "color" : "#fff",
+                   // "border" : "none",
+                   // "title" : '事件类型',
+                   // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                   // "select" : function(name, index) {
+                       // if(name=="left"&&index==0){
+                           // lazy.goBack();
+                       // }
+                       // if(name=="left"&&index==1){
+                           // lazy.close();
+                       // }
+                   // }
+               // })
+                setData(json)
+        })
+    });
+    </script>
+</html>

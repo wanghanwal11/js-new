@@ -1,0 +1,25 @@
+body[type=body] div[type=jfjl]{
+	position:relative;
+	height: auto;
+	background: white;
+}
+div[type=jfjl] .h{
+    border-bottom: 1px solid #eeeeee;
+}
+div[type=jfjl] .right{
+    width: 5rem;
+    text-align: center;
+    line-height: 4rem;
+    color: #fb3d3d;
+}
+div[type=jfjl] .left div{
+    line-height: 1.5rem;
+    padding-left: 1rem;
+}
+div[type=jfjl] .left .h2{
+    font-size: 0.8rem;
+    color: #aaaaaa;
+}
+div[type=jfjl] .left .h1{
+    padding-top: 0.7rem;
+}

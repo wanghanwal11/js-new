@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            div[type=titlebtnlist2] .h2 {
+                padding-left: 1rem;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-image: url(../LazyUI/images/qiandao/dd.png);
+                background-size: 0.8rem;
+            }
+            div[type=label] {
+                background-color: #f6f6f6;
+                height: 1.5rem;
+                line-height: 1.5rem;
+            }
+            
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        var page = 1;
+        var json = [];
+       setData(json,function(){
+            lazy.bounce({
+                "up" : function(){
+                    load();
+                }
+            })
+            load();
+       })
+        function load(){
+            var url = config.signlist+"type=own&rows=20&page="+page;
+            if(mark!="") url += "&mark="+mark;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+                for(var i=0;i<data.length;i++){
+                    var label = {
+                        "type" : "label",
+                        "text" : data[i].date
+                    }
+                    json.push(label);
+                    var list = [];
+                    var perdate = data[i].perdate;
+                    for(var j=0;j<perdate.length;j++){
+                        var path = perdate[j].picture;
+                        if(path.indexOf("http")<0) path = getIP() + perdate[j].picture;
+                        var tmp = {
+                            "id" : perdate[j].id,
+                            "h1" : perdate[j].name,
+                            "h2" : perdate[j].address,
+                            "h3" : perdate[j].time,
+                            "icon" : path,
+                            "onclick" : function(obj){
+                                var id = obj.id;
+                                lazy.setParameter("qdid",id);
+                                lazy.setParameter("qdicon",obj.icon);
+                                parent.lazy.openWin("qiandaoxq.html");
+                            }
+                        }
+                        list.push(tmp)
+                    }
+                    var tbl = {
+                        "type" : "titlebtnlist2",
+                        "table" : list
+                    }
+                    json.push(tbl);
+                }
+                setData(json)
+            })
+        }
+    });
+    </script>
+</html>

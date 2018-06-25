@@ -1,0 +1,23 @@
+div[type=lazyframe]{
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+    position: absolute;
+    left: -50%;
+    top: 0;
+}
+
+div[type=lazyframe] .left {
+    position: fixed;
+    width: 50%;
+    height: 100%;
+    top:0;
+        overflow: hidden;
+}
+div[type=lazyframe] .right{
+    left:50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+

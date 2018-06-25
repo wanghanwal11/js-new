@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>楼宇详情</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var lylb_id = lazy.getParameter("ly").id;
+            var url = config.fjlb+"buildingid="+lylb_id;
+            var json = [
+                    {
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : lazy.getParameter("ly").name,
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "right" : [lazy.url + "LazyUI/js/headertoolbar/jia.png",lazy.url + "LazyUI/js/headertoolbar/sousuobai.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                                lazy.goBack();
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                            if(name=="right"&&index==0){
+                                lazy.alertlist([
+                                    {
+                                        "title" : "法人列表",
+                                        "onclick" : function() {
+                                            lazy.openWin("frlb.html");
+                                        }
+                                    },{
+                                        "title" : "房屋添加",
+                                        "onclick" : function() {
+                                            lazy.openWin("fwtj.html")
+                                        }
+                                    }
+                                        
+                                ]);
+                            }
+                            if(name=="right"&&index==1){
+                                lazy.openWin("lyxq.html");
+                            }
+                        }
+                    }
+            ];
+            setData(json)
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                var unit = [];
+                var floor = [];
+                var house = [];
+                for(var i=0;i<data.length;i++){
+                    if(unit.indexOf(data[i].unit)==-1){
+                        unit.push(data[i].unit);
+                    }
+                    var tmp1 = {
+                        "unit" : data[i].unit,
+                        "floor" : data[i].floor,
+                        "house" : [],
+                    }
+                    floor.push(tmp1)
+                    var tmp = {
+                        "id" : data[i].id,
+                        "unit" : data[i].unit,
+                        "floor" : data[i].floor,
+                        "housenum" : data[i].housenum,
+                        "color" : base_datas.fjcolor(data[i].usename),
+                        "onclick" : function(obj){
+                            lazy.setParameter("fw",obj);
+                            lazy.openWin("rklb.html");
+                        }
+                    }
+                    house.push(tmp)
+                }
+               var table = [];
+               unit = unit.sort(function(a,b){
+                   return a-b
+               });
+               for(var i=0;i<unit.length;i++){
+                   var tmp = {
+                       "unit" : unit[i],
+                       "floor" : []
+                   }
+                   table.push(tmp);
+               }
+               for(var i=0;i<floor.length;i++){
+                   for(var j=0;j<floor.length;j++){
+                       if(i!=j&&floor[i].floor==floor[j].floor&&floor[i].unit==floor[j].unit){
+                          floor[j]=-1;
+                       }
+                  }
+               }
+               var floors = [];
+               for(var i=0;i<floor.length;i++){
+                   if(floor[i]!=-1) floors.push(floor[i])
+               }
+               floors = floors.sort(function(a,b){
+                   return a.floor-b.floor
+               });
+               for(var i=0;i<floors.length;i++){
+                   for(var j=0;j<house.length;j++){
+                       if(floors[i].unit==house[j].unit&&floors[i].floor==house[j].floor){
+                           floors[i].house.push(house[j]);
+                       }
+                   }
+               }
+               for(var i=0;i<table.length;i++){
+                   for(var j=0;j<floors.length;j++){
+                       if(table[i].unit==floors[j].unit){
+                           table[i].floor.push(floors[j]);
+                       }
+                   }
+               }
+               var danyuan = {
+                   "type" : "danyuan",
+                   "table" : table
+               }
+               json.push(danyuan);
+                setData(json)
+            })
+        });
+    </script>
+</html>

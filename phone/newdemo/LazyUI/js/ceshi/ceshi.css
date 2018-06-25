@@ -1,0 +1,52 @@
+body[type=body] div[type=ceshi]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=ceshi] .table {
+    width:100%;
+    height:auto;
+}
+div[type=ceshi] .icon {
+    width: 4rem;
+    height: 4rem;
+    background-color: #efefef;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    border: 5px solid #f2f2f2;
+}
+div[type=ceshi] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    padding: 1rem;
+}
+div[type=ceshi] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=ceshi] .h1,div[type=ceshi] .h3{
+    line-height: 2.5rem;
+}
+div[type=ceshi] .h2{
+    line-height: 1.5rem;
+}
+div[type=ceshi] .h1 span {
+    font-size: 1rem;
+}
+div[type=ceshi] .h2 span,div[type=ceshi] .h3 span{
+     color: #ccc;
+}
+div[type=ceshi] .jifen{
+    padding: 1rem 0.9rem;
+    background-image: url(jifen.png);
+    background-repeat: no-repeat;
+    background-position-y: 1.1rem;
+    background-position-x: 0.5rem;
+    background-size: 1rem;
+}

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人房详情</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #ed3f14!important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+            div[type=process_xq] .tr{
+                margin-bottom:0.2rem;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var fwid = lazy.getParameter("fwid");
+            var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+            lazy.setHeader({
+                "title":"人房详情",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                        "icon":"edit.png",
+                        "onclick":function(){
+                            lazy.openWin("editfw.html");
+                        }
+                    }
+                    ]
+            });
+            
+            
+            var click = lazy.getParameter('click')||0;
+            var json = [
+                {
+                    "type" : "movebutton",
+                    "index" : click,
+                    "table" : [
+                                    {
+                                        "label" : "房屋详情",
+                                        "onclick" : function() {
+                                            click = 0;
+                                            if(document.getElementById("process_xq2")){
+                                                 document.getElementById("process_xq2").style.display="none";
+                                                 // document.getElementById("button2").style.display="none";
+                                                 // document.getElementById("button_add").style.display="none";
+                                            }
+                                            if(document.getElementById("process_xq1")){
+                                                document.getElementById("process_xq1").style.display="block"; 
+                                                document.getElementById("button1").style.display="block"; 
+                                            }
+                                            loadfw();
+                                            // getData("process1").clean();
+                                        } 
+                                    },{
+                                        "label" : "人口列表",
+                                        "onclick" : function() {
+                                            click = 1;
+                                            page = 1;
+                                            if(document.getElementById("process_xq1")){
+                                                document.getElementById("process_xq1").style.display="none";
+                                                document.getElementById("button1").style.display="none";
+                                            }
+                                            if(document.getElementById("process_xq2")){
+                                                document.getElementById("process_xq2").style.display="block";
+                                                // document.getElementById("button2").style.display="block";
+                                                // document.getElementById("button_add").style.display="block";
+                                            }
+                                            // getData("process").clean();
+                                            loadrk();
+                                        } 
+                                    }
+                                    
+                                ]
+                }];
+                setData(json,function(){
+                    lazy.bounce({
+                        "up" : function(){
+                            if(click==1){
+                                loadrk();
+                            }
+                        }
+                    })
+                    if(click==1){
+                        loadrk();
+                    }else{
+                        loadfw()
+                    }
+                })
+            
+                function loadfw(){
+                    var url = config.rfxq+"id="+fwid;
+                    lazy.URLRequest(url,function(data){
+                        var data = data.rows[0];
+                        lazy.setParameter('data_fw',data);
+                        lazy.setParameter('livehouseid',data.houseid||10000001770259);
+                        // lazy.setParameter('livehouseid',data.livehouseid);
+                        var obj ={
+                            "id" : "process_xq1",
+                            "type" : "process_xq",
+                            "table" : [
+                                    {
+                                        "title" : "楼宇名称：",
+                                        "value" : data.buildingname||''
+                                    },
+                                    {
+                                        "title" : "所属区域：",
+                                        "value" : data.orgname||''
+                                    },
+                                    {
+                                        "title" : "门牌号：",
+                                        "value" : data.df5||''
+                                    },
+                                    {
+                                        "title" : "单元号：",
+                                        "value" : data.houseunit||''
+                                    },
+                                    {
+                                        "title" : "所在层：",
+                                        "value" : data.housefloor||'',
+                                    },
+                                    {
+                                        "title" : "房间号：",
+                                        "value" : data.housenum||'',
+                                    },
+                                    {
+                                        "title" : "房屋性质：",
+                                        "value" : data.typename,
+                                    },
+                                    
+                                    
+                                    {
+                                        "id" : "mj",
+                                        "title" : "面积：",
+                                        "value" : data.practicalarea||'',
+                                    },
+                                    {
+                                        "id" : "sfzr",
+                                        "title" : "是否住人：",
+                                        "value" : data.df7
+                                    },
+                                    {
+                                        "id" : "dwmc",
+                                        "title" : "单位名称：",
+                                        "value" : data.df9
+                                    },
+                                    
+                                    
+                                    {
+                                        "title" : "居住信息：",
+                                        "value" : data.houseusename||'',
+                                    },{
+                                        "title" : "联系人类型：",
+                                        "value" : data.df8,
+                                    },{
+                                        "title" : "联系人名称：",
+                                        "value" : data.df6,
+                                    },{
+                                        "title" : "联系电话：",
+                                        "value" : data.houselinktel,
+                                    },{
+                                        "title" : "采集编号：",
+                                        "value" : data.codeno,
+                                    },{
+                                        "title" : "采集人：",
+                                        "value" : data.collectuser,
+                                    },{
+                                        "title" : "登记日期：",
+                                        "value" : data.collecttime?lazy.format(data.collecttime,"yyyy-MM-dd"):"无记录",
+                                    }]
+                        };//obj
+                        json.push(obj);
+                        json.push({
+                            "id" : "button1",
+                            "type" : "button",
+                            "label" : "删除",
+                            "onclick" : function() {
+                                var url = config.scfw + 'id='+ fwid;
+                                lazy.URLRequest(url,function(){
+                                    lazy.alert2('删除成功');
+                                    window.history.go(-1);
+                                })
+                            }
+                                })
+                        
+                        setData(json,function(){
+                            if(data.typename=='自建房'){
+                                getData("process_xq1").show('mj');
+                                getData("process_xq1").show('sfzr');
+                            }else if(data.typename=='单位直管公房'){
+                                getData("process_xq1").show('dwmc');
+                            }else{
+                                getData("process_xq1").hide('mj');
+                                getData("process_xq1").hide('sfzr');
+                                getData("process_xq1").hide('dwmc');
+                            }
+                            
+                        });
+                     })
+            }
+            function loadrk(){
+                var livehouseid = lazy.getParameter('livehouseid');
+                var url = config.rfxq_r+"livehouseid="+livehouseid+"&state=正常";
+                lazy.URLRequest(url,function(data){
+                    var arr = data.rows;
+                    console.log(data);
+                    lazy.setParameter('data_rk',data);
+                    var list = [];
+                    for(var i = 0; i < arr.length; i++) {
+                        var onejson = {
+                            "h1" : '姓名：' +arr[i].peoplename,
+                            "h2" : '家庭关系：' +(arr[i].relations||'无'),
+                            "h3" : lazy.format(arr[i].createtime,"yyyy-MM-dd"),
+                            // "onclick" : function(obj){
+                            // }
+                        };
+                        list.push(onejson);
+                    }
+                    
+                    var obj = {
+                                "id" : "process_xq2",
+                                "type" : "titlebtnlist1",
+                                "style" : {
+                                    "border-top" : "1px solid #DCDCDC"
+                                },
+                                "table" : list
+                        };
+                    json.push(obj);
+                    /*json.push({
+                            "id" : "button_add",
+                            "type" : "button",
+                            "label" : "新增人口",
+                            "onclick" : function() {
+                                lazy.openWin('addrk.html');
+                            }
+                          })
+                      json.push({
+                        "id" : "button2",
+                        "type" : "button",
+                        "label" : "删除",
+                        "onclick" : function() {
+                            var url = config.scrk+"id=";
+                        }
+                      })*/
+                    setData(json); 
+                    
+                });//url
+                
+                /*var rk = {
+                    "id" : "process2",
+                    "type" : "process",
+                    "table" : [{
+                                    "id" : "unit",
+                                    "title" : "单222(必填)",
+                                    "type" : "number",
+                                    "value" : "请输入"
+                                }]
+                            }*/
+            }
+            setData(json)
+        });
+    </script>
+</html>

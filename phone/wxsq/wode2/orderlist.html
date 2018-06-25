@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>我的订单</title>
+        <style>
+            body{
+                background-color: #f7f8fa !important;
+            }
+           .zwsjXT{
+               margin-top:6rem !important;
+               background-size: 100% !important;
+           }
+           
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.clearCache();
+             var page=1;
+
+             //var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'gh_b2308269120b';
+             //var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'o4BZpwiUtfERlkrvJLme1S7t-ugk';
+             var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+             var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+             
+             var json=[{
+                 "id":"orderlist",
+                 "type":"orderlist",
+                 "table":[]
+             }];
+             setData(json,function(){
+                 getOrderList()
+             })
+                function getOrderList(){
+                     //var url = 'http://192.168.0.103:8098/SupOrder/supOrder/list?openid='+openid
+                     var url = getIP()+'/order/SupOrder/supOrder/list?page='+page+'&useropenid='+openid
+                     lazy.GET(url,function(data){
+                         _data = data.rows
+                        if(_data.length==0&&page==1){
+                              if(!document.getElementsByClassName("zwsjXT")[0]){
+                                 lazy.datanull2(document.getElementsByClassName("table")[0])
+                             }
+                         }
+                         lazy.for(_data,function(obj){
+                             var status;
+                             switch(obj.orderflag){
+                                 case '0':
+                                    status = '派单中';
+                                    break;
+                                 case '1':
+                                    status = '上门中';
+                                    break;  
+                                 case '2':
+                                    status = '待确认';
+                                    break;  
+                                 case '3':
+                                    status = '已完成';
+                                    break;  
+                                 case '4':
+                                    status = '已取消';
+                                    break; 
+                                 case '5':
+                                    status = '派单中';//服务提供者暂不接单
+                                    break; 
+                                 case '6':
+                                    status = '派单中';//服务提供者暂不接单后重新派单
+                                    break;  
+                                 case '7':
+                                    status = '已评价';//服务提供者暂不接单后重新派单
+                                    break;  
+                             }
+                             var s={
+                                     "id":obj.id,
+                                     "type":obj.servicetype,
+                                     "address":obj.useraddress,
+                                     "status":status,
+                                     "time":obj.ordertime?lazy.format(obj.ordertime,"yyyy-MM-dd HH:mm:ss"):'',
+                                     "price":(obj.orderprice-obj.favourableprice)+'元',
+                                     "onclick":function(obj){
+                                         lazy.openWin("userorder.html?orderid="+obj.id)
+                                     }
+                                    
+                                }
+                                getData("orderlist").add(s)
+                         }) 
+                         page++;
+                        lazy.closeBounce();   
+                    },function(e){
+                         lazy.closeBounce();
+                        lazy.alert2("错误信息!:"+e);
+                    },0)
+
+                }
+                lazy.bounce({
+                   "up" : function() {
+                       getOrderList();
+                   } 
+                });
+            
+        });
+    </script>
+</html>

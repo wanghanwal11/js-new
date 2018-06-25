@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>评价</title>
+<style type="text/css">
+
+div[type=judgestar] {
+    margin-top:1rem;
+}
+         #button{
+         position: absolute!important;
+         top: 32rem!important;
+         margin-left: 2% !important;
+         margin-right: 2% !important;
+         width:96% !important;
+     }
+     #button .button_a{
+         background-color: #ffb401;
+         border-radius: 6px !important;
+     }
+</style>
+</head>
+<body>
+    <script>
+    
+        start(function() {
+           
+                var json = [
+                  {
+                    "id":'judgepeople',
+                    "type":'judgepeople',
+                     "icon":lazy.geturlstr('providerphoto'),
+                     "name":lazy.geturlstr('providername')
+                  },{
+                       "id":"judgestar",
+                       "type":"judgestar",
+                       "title":'服务质量',
+                       "yes":'../LazyUI/js/judgestar/ystar.png',
+                       "no":'../LazyUI/js/judgestar/gstar.png',
+                       "content":['非常差','差','一般','好','非常好']
+                   },{
+                       "id":"judgecontent",
+                       "type":"judgecontent",
+                   },{
+                       "id":"button",
+                       "type":"button",
+                       "label":'提交评价',
+                       "onclick":function(){
+                          //getData('judgestar').getLevel()
+                       }
+                   }]; 
+                
+                 setData(json,function(){
+                       
+                   })
+                    
+                
+           
+            
+        });
+    </script>
+</body>
+</html>

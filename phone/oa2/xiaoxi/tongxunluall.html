@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人员列表</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                "title":"人员列表",
+                "color":"#0ec0a9",
+                "leftbtn" : "iframeBack",
+                "rightbtn" : []
+            });
+            var json = [
+                {
+                    "type" : "sousuoinput1",
+                    "select" : function(val){
+                        getData("titlebtnlist2").clean();
+                        load(val);
+                    }
+                },{
+                    "id" : "titlebtnlist2",
+                    "type" : "titlebtnlist2",
+                    "table" : []
+                }
+            ];
+            setData(json,function(){
+                load()
+            })
+            function load(str){
+                var url = config.getmybooklistMobile+"type=all";
+                if(str) url += "&fullname="+str;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    for(var i=0;i<data.length;i++){
+                        var _data = data[i].userlist;
+                        for(var j=0;j<_data.length;j++){
+                            var img = _data[j].picture?getIP()+_data[j].picture.replace(/\\/g,"/"):"";
+                            if(_data[j].picture&&_data[j].picture.indexOf("http://")>-1) img = _data[j].picture;
+                            var tmp = {
+                                "id":_data[j].userid,
+                                "h1":_data[j].name,
+                                "h2":_data[j].orgname,
+                                "icon":img,
+                                "onclick":function(obj){
+                                    lazy.setParentJs("setProcessPeople", obj);
+                                }
+                            }
+                            getData("titlebtnlist2").add(tmp);
+                        }
+                    }
+                })
+            }
+        });
+    </script>
+</html>

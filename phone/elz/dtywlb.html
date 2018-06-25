@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        
+        start(function() {
+            lazy.demo(); 
+                var json = [ {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#32c6d0",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/back.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.goBack()
+                                              }   
+                                            }
+                                          ],
+                            "button" : [
+                                              {
+                                                  "content" : "动态要闻",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },{
+                            "id" : "title",
+                            "type" : "title",
+                           
+                            // "ps":page_status,
+                            "left":[{
+                                "content":'时政要闻',
+                                "onclick": function(){
+                                    //cleanZwsj('szyw');
+                                }
+                            }],
+                            "center":[{
+                                "content":'区内要闻',
+                                "onclick": function(){
+                                    //cleanZwsj('dflz');
+                                }
+                            }],
+                            "right":[{
+                                "content":'纪律审查',
+                                "onclick": function(){
+                                     //cleanZwsj('dyfc');
+                                }
+                            }],
+                            
+                        },
+                {
+                    "id" : "dtywlb",
+                    "type" : "dtywlb",
+                    "table" : [{
+                        "icon" : "LazyUI/js/fg/images/icon1.jpg",
+                        "h1" : "【巡察在基层】安徽南陵:查核问题向群众交满意答卷 ",
+                        "date" : "07-28",
+                        "time" : "11:08",
+                        "user" : "中央纪委监察部",
+                         "onclick" : function(data) {
+                         lazy.openWin("dtywxq.html");
+                                
+                     }
+                    },{
+                        "icon" : "LazyUI/js/fg/images/icon2.jpg",
+                        "h1" : "数据铁笼编制工作座谈会",
+                        "date" : "07-28",
+                        "time" : "11:08",
+                        "user" : "新华社",
+                        "onclick" : function(data) {
+                         lazy.openWin("dtywxq.html");
+                                
+                     }
+                    }
+                    ]
+                    
+                }]
+                setData(json)
+        })
+
+    </script>
+</html>

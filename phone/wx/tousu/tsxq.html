@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>投诉</title>
+<script src="../LazyUI/js/admin.js"></script>
+<style type="text/css">
+     body{
+         background-color: #efefef !important;
+     }
+     #button2{
+         margin-top: 3rem;
+     }
+     #label{
+         color:#999;
+         text-align: center;
+         margin-top: 0.5rem;
+         display: inline-block !important;
+         margin-bottom:2rem;
+     }
+     #label123{
+         width:auto !important;
+     }
+     #button{
+         position: absolute!important;
+         top: 28rem!important;
+     }
+     #button .button_a{
+         background-color: #3399ff;;
+     }
+     #button1{
+         position: absolute!important;
+         top: 32rem!important;
+     }
+     #button1 .button_a{
+         border: 1px solid #3399ff;
+         background-color: transparent;
+     }
+     #button1 .button_a span{
+         color:#3399ff;
+     }
+     textarea{
+         padding-left:0 !important;
+     }
+     input{
+         padding-left:0 !important;
+     }
+</style>
+</head>
+<body>
+</body>
+<script>
+    start(function() {
+        
+        lazy.setParameter("page_status",1)
+        var map_obj={ y : 0, x : 0};
+        var id = lazy.getParameter("id")?lazy.getParameter("id"):"";
+        var fileid = lazy.getParameter("fileid")?lazy.getParameter("fileid"):"";
+        var content = lazy.getParameter("content")?lazy.getParameter("content"):"";
+        var address = lazy.getParameter("address")?lazy.getParameter("address"):"";
+        var statename = lazy.getParameter("statename")?lazy.getParameter("statename"):"";
+        var phone = lazy.getParameter("phone")?lazy.getParameter("phone"):"";
+        var wxinitId = lazy.geturlstr("wxinitId");
+        var wxopenid = lazy.geturlstr("wxopenid");
+        var pics = [];
+        GoBackEvent2 = function() {
+                getData('map').hide();
+                getData('xq_group').show();
+                getData('button').show();
+                getData('button1').show();
+                getData('button2').hide();
+                getData('label123').hide();
+            }
+        lazy.loadWxJs(function(){
+        var json = [{
+                        id : 'xq_group',
+                        type : 'group',
+                        list : [{
+                            id:"input_ts",
+                            type:"input",
+                            inputtype:"textarea",
+                            value:content,
+                            readOnly:true,
+                            placeholder:"请输入投诉内容",
+                            
+                           
+                        },{
+                            id: "image",
+                            type: "image",
+                            key:"tsxqkey"+id,
+                            label: "附件",
+                        },{
+                             id:"map_button",
+                             type:"input",
+                             value:address,
+                             placeholder:"定位",
+                             readOnly:true,
+                             icon:"../LazyUI/images/address.png",
+                             onclick:function(bol){
+                                 /*
+                                 alert(bol)
+                                    lazy.setGoBack();
+                                    getData('map').show();
+                                    getData('xq_group').hide();
+                                    getData('button').hide();
+                                    getData('button1').hide();
+                                    getData('button2').hide();
+                                    getData('label').hide();
+                                    */
+                                   mapclick(bol)
+                              }
+                         },{
+                             id:"tele_button",
+                             type:"input",
+                             placeholder:"电话",
+                             readOnly:true,
+                             value:phone,
+                             onclick:function(){
+                                 
+                              }
+                         },{
+                            "id":"qipao",
+                            "type":"qipao",
+                            "table":[],
+                         }]
+                     },{
+                         id:'button',
+                         type : 'button',
+                         label : '提交',
+                         disabled : false,
+                         onclick : function() {
+                            submit()
+                        }
+                     },{
+                         id:'button1',
+                         type : 'button',
+                         label : '清空',
+                         disabled : false,
+                         onclick : function() {
+                            clear()
+                        }
+                     },{
+                          "id":"button2",
+                          "type":"button",
+                          "label":"撤回",
+                          "disabled":true,
+                          "onclick":function(){
+                              
+                              
+                                    lazy.alert("要撤回已提交的投诉吗？",{
+                                            "close":true,
+                                            "yestitle":"确定",
+                                            "yesfun" : function() {
+                                                
+                                                edit()
+                                                var url = getIP() + '/wechat/weixinevent/revoke.ht?def5='+fileid+'&code='+id+'&initid='+wxinitId;
+                                                 lazy.GET(url, function(data){
+                                                      lazy.alert2("撤回成功");
+                                                      
+                                                       
+                                                 },function(e){
+                                                     lazy.alert2(e);
+                                                 },0);
+                                                 
+                                            },
+                                            "notitle":"取消",
+                                            "nofun":function(){
+                                                
+                                            }
+                                     });
+                                    //////撤销
+                                     
+                                    
+                            }
+                       },{
+                            id:"label123",
+                            type : 'label',
+                            text:'已经进入诉求流程，不能撤回！'
+                       },{
+                        id : 'map',
+                        type : 'map',
+                        showHide : 'hide',
+                        onclick : function(obj) {
+                            map_obj.y=obj.gps.lat;
+                            map_obj.x=obj.gps.lng;
+                            lazy.goBack(GoBackEvent2);
+                            getData('map').hide();
+                             
+                            getData('xq_group').show();
+                            getData('button').show();
+                            getData('button1').show();
+                            getData('button2').hide();
+                            getData('label123').hide();
+                           getData("map_button").add(obj.address);
+                        }
+                    }];
+        
+            setData(json, function() {
+               
+                getData("map").hide();
+                 getData("button").hide();
+                getData("button1").hide();
+                if(statename=='已接收'){
+                    getData("label123").hide();
+                    getData('button2').change(false);
+                    getData('button2').change_color('#3399fd');
+                    getData('button').change(false);
+                    
+                    
+                }
+                if(statename=='撤销'){
+                   edit()
+                    
+                    
+                }else{
+                    list(fileid)
+                }
+                //alert(fileid)
+               
+                
+            });
+        });
+        function mapclick(bol){
+            if(!bol){
+                lazy.setParameter("otherreturn",1)
+                 lazy.setGoBack();
+                 getData('map').show();
+                                    getData('xq_group').hide();
+                                    getData('button').hide();
+                                    getData('button1').hide();
+                                    getData('button2').hide();
+                                    getData('label123').hide();
+            }
+            
+        }
+        function list(fileid) {
+            //alert(fileid.length)
+            var url = getIP() + '/wechat/weixinevent/listimage.ht?eventid='+ fileid;
+            lazy.URLRequest(url, function(data) {
+                var arr = data.rows;
+                
+                for (var i = arr.length-1; i >= 0; i--) {
+                    var obj = {
+                             imgurl:'',
+                         }
+                    console.log(arr[i].imgurl)
+                    obj.imgurl = lazy.getImagePx(arr[i].imgurl, 100);
+                    //obj.imgurl = arr[i].imgurl
+                    pics.push(obj)
+                    //pics.push(arr[i].imgurl);
+
+                }//for
+                console.log(pics)
+                lazy.setParameter("tsxqkey"+id+"pics","")
+                lazy.setParameter("tsxqkey"+id+"upids","")
+                getData("image").setPic(pics);
+                getData("image").readonly(true);
+            }, function(e) {
+                lazy.alert2(e);
+            }, 0);
+            var url = getIP() + '/wechat/weixinevent/get.ht?openid='+wxopenid+'&initid='+wxinitId+'&id='+ id;
+            lazy.GET(url, function(data) {
+                var arr = data.rows[0].process;
+                arr  = JSON.parse(arr);
+                getData("qipao").clean();
+                console.log(arr)
+                if(arr.length>1){
+                    lazy.setParameter("statename","")
+                    /*getData("label123").show();
+                    getData('button2').change(false);
+                    getData('button2').change_color('#aaaaaa');
+                    */
+                }
+                for (var i = arr.length-1; i >=0; i--) {
+                    var t = arr[i].opinion.indexOf('未读');
+                    var state_t = 0;
+                    if(t>0){
+                        state_t = 7;
+                    }
+                    var s = {
+                            "user": arr[i].orgName,
+                            "photo": arr[i].photo?arr[i].photo:'../LazyUI/images/morenpeople.png',
+                            "date": arr[i].starttime?lazy.autoFormat(arr[i].starttime):'',
+                            "src":'',
+                            "status": arr[i].stateCode?arr[i].stateCode:0,
+                            "status_t":state_t,
+                            "backcontent":arr[i].opinion,
+                    }
+                    
+                    getData("qipao").add(s);
+
+                }//for
+               
+
+            }, function(e) {
+
+                alert(e);
+            }, 0);
+            
+        }
+        function edit(){
+            getData("button").show();
+            getData("button1").show();
+            getData("button2").hide();
+            getData("label123").hide();
+            getData("qipao").hide();
+            getData("input_ts").readonly(false);
+            getData("map_button").readonly(false);
+            getData("tele_button").readonly(false);
+            getData("image").clear();
+            getData("image").readonly(false);
+             document.getElementsByTagName("textarea")[0].oninput = function(){
+                        getData('button').change_color('#3399fd');
+                        getData('button1').change_bordercolor('#3399fd');
+                        getData('button1').change_textcolor('#3399fd');
+                        getData('button').change(false);
+                        getData('button1').change(false);
+                       
+                    }
+        }
+        function submit(){
+                var content=getData("input_ts").getValue();
+                if (content.length == 0) {
+                    alert("请填写诉求内容");
+                    return;
+                }
+                var photo=getData("image").getValue();
+                var address=getData("map_button").getValue();
+                
+                var mobile=getData("tele_button").getValue();
+                var result1=mobile.match(/^0\d{2}-?\d{8}$|^0\d{3}-?\d{7}$/);
+                var result2=mobile.match(/^1(3|4|5|7|8)\d{9}$/);
+
+                if(!(result1||result2)){
+                    alert("请填写有效的电话号码");
+                    return;
+                }
+                
+                getData('button').disabled_change(true);
+                getData('button').change_title('提交中...');
+                getData('button1').disabled_change(true);
+                getData('button1').change_textcolor('#aaa');
+                
+                 getData('button').change_color('#aaa');
+                getData('button1').change_bordercolor('#aaa');
+                //getData('button1').change_textcolor('#aaa');
+                //getData('button').change(true);
+                //getData('button1').change(true);   
+                
+                var url = getIP() + '/wechat/weixinevent/save.ht?content='
+                                    + content + '&initid=' + wxinitId
+                                    + '&openid=' + wxopenid + '&address='
+                                    + address + '&addressgps='
+                                    + JSON.stringify(map_obj) + '&file='
+                                    + photo + '&def2=' + mobile+"&id="+fileid+'&def3='+id;
+                lazy.GET(encodeURI(url), function(data) {
+                    lazy.alert3("提交成功", "感谢您的投诉，我们会尽快处理，请您耐心等待。",{
+                        "yesfun":function(){
+                            //alert("tsxqkey"+id+"pics")
+                            lazy.setParameter("tsxqkey"+id+"pics","")
+                            lazy.setParameter("tsxqkey"+id+"upids","")
+                            lazy.goBack()
+                        }
+                    });
+                    
+                }, function(e) {
+                    lazy.alert2(e);
+                }, 0);
+            }
+            function clear() {
+                getData('button').change_title('提交');
+                getData("input_ts").clear();
+                
+                getData("map_button").clear();
+                getData("tele_button").clear();
+                getData('button').change_color('#aaa');
+                getData('button1').change_bordercolor('#aaa');
+                getData('button1').change_textcolor('#aaa');
+                getData('button').change(true);
+                getData('button1').change(true);
+                getData("image").clear();
+                 getData("image").readonly(false);
+            }
+ 
+    })
+</script>
+</html>

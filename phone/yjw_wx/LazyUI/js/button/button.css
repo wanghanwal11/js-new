@@ -1,0 +1,30 @@
+body[type=body] div[type=button] {
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+	position:relative;
+    display: -webkit-box;
+	-webkit-box-sizing:border-box;
+}
+div[type=button] .button_a{
+    -webkit-box-sizing:border-box;
+    border: 1px solid;
+    width:100%;
+    text-align: center;
+    line-height: 2.5;
+    background-color: currentColor;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+div[type=button] .button_a:first-line {
+  color: #fff;
+}
+div[type=button] .nobg {
+    background: none;
+}
+div[type=button] .nobg:active {
+    background: #fff;
+}
+div[type=button] .nobg:first-line {
+  color: currentColor;
+}

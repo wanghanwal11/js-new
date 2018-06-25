@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           lazy.demo(); 
+           var link =1;
+          
+           var json = [{
+                        "id" : "header",
+                        "type" : "header",
+                        "backgroundColor" : "#32c6d0",
+                        "color" : "#fff",
+                        "border" : "none",
+                       "right" : [
+                                        {
+                                          "content" : "积分记录",
+                                          "onclick" : function(name, index) {
+                                              if(link){
+                                                  lazy.openWin("bmjf.html")
+                                              }else{
+                                                  lazy.openWin("wdjf.html")
+                                              }
+                                          }   
+                                        }
+                                      ],
+                        
+                        "button" : [
+                                          {
+                                              "content" : "积分",
+                                              "onclick" : function() {
+                                                    
+                                              }   
+                                            }
+                                          
+                                        ]
+                    },{
+                        "id" : "tool",
+                        "type" : "tool",
+                        "backgroundColor" : "#fff",
+                        "color" : "#fff",
+                        "border" : "none",
+                        
+                        "button" : [
+                                          {
+                                              "content" : "部门积分",
+                                              "onclick" : function() {
+                                                    link = 1;
+                                              }   
+                                            },{
+                                              "content" : "我的积分",
+                                              "onclick" : function() {
+                                                    link = 0;
+                                              }   
+                                            }
+                                          
+                                        ]
+                    },{
+                         "id" : "piczw",
+                        "type" : "piczw",
+                        "pic":"jf.jpg",
+                    },{
+                                "type":"div",
+                                "style":{"height":"4rem","background-color": "#efefef"}
+                            },{
+                                           "id" : "footertoolbar",
+                                           "type" : "footertoolbar",
+                                           "name" : ["首页", "消息", "积分", "我"],
+                                           "icon" : ["sy", "xx", "jf", "w"],
+                                            "n" : 2,
+                                           "select" : function(name, i) {
+                                              switch(name) {
+                                                   case "首页" :
+                                                        lazy.openWin("../index.html");
+                                                   break;
+                                                   case "消息" :
+                                                        lazy.openWin("../tslb.html");
+                                                   break;
+                                                   case "积分" :
+                                                        lazy.openWin("jf/jf.html");
+                                                   break;
+                                                   case "我" :
+                                                       lazy.openWin("../wd.html");
+                                                   break;
+                                               }
+                                           }
+                                        }];
+           
+            setData(json)
+            
+           
+            
+        })
+        
+    </script>
+</html>

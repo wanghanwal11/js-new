@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>我已审批</title>
+    </head>
+    <script> 
+    start(function() {
+        var page = 1;
+        var str = "";
+        var json =[
+        {
+            "type" : "sousuoinput_move",
+            "select" : function(val){
+                page = 1;
+                getData("titlebtnlist2").clean();
+                str = val;
+                loadfaqi(val);
+            }
+        },{
+            "id" : "titlebtnlist2",
+            "type" : "titlebtnlist2",
+            "table" : []
+        }];
+        setData(json,function(){
+            lazy.bounce({
+                "up" : function(){
+                    loadfaqi(str)
+                }
+            })
+            loadfaqi();
+        })
+        function loadfaqi(val){
+            var url = config.vitoMyAttend+"&rows=20&page="+page;
+            if(val&&val!="") url += "&subject="+val;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+                for(var i=0;i<data.length;i++){
+                    var h2 = ""
+                    if(data[i].status=="2") h2='<span style="color:#ccc">已完结</span>';
+                    else if(data[i].status=="6") h2='<span style="color:red">被驳回</span>';
+                    else if(data[i].status=="5") h2='<span style="color:gray">已追回</span>';
+                    else if(data[i].status=="4") h2='<span style="color:orange">保存草稿</span>';
+                    else if(data[i].status=="1") h2='<span style="color:green">办理中</span>';
+                    else if(data[i].status=="3") h2='<span style="color:#00AAFF">直接办结</span>';
+                    var tmp = {
+                        "id" : data[i].businessKey,
+                        "taskid" : data[i].id,
+                        "runid" : data[i].runId,
+                        "status" : data[i].status,
+                        "icon" : data[i].picture?getIP() + data[i].picture.replace(/\\/g,"/"):"",
+                        "h1" : data[i].subject,
+                        "name" : data[i].creator,
+                        "h2" : h2,
+                        "h3" : lazy.format(data[i].createTime,"yyyy-MM-dd"),
+                        "onclick" : function(obj){
+                            lazy.CancelgoBack(true);
+                            if(obj.status=="2"||obj.status=="3") obj.shenpi = true;//已审批
+                            else obj.shenpi = false;//待审批
+                            // obj.shenpi = true; 
+                            lazy.setParameter("spobj",obj);
+                            parent.lazy.openWin("shenpiguocheng.html");
+                        }
+                    };
+                    getData("titlebtnlist2").add(tmp);
+                }
+            })
+        }
+    });
+    </script>
+</html>

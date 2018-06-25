@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人口详情</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important;
+            }
+            div[type=geren] .title{
+                display: none;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var rkobj = lazy.getParameter("rk");
+            var url = config.rkxq+"id="+rkobj.id;
+            var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var json = [
+                        {
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '人口详情',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "right" : [lazy.url + "LazyUI/js/headertoolbar/edit.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close();
+                                }
+                                if(name=="right"){
+                                    lazy.openWin("rkbj.html");
+                                }
+                            }
+                        },{
+                        "type" : "geren",
+                        "icon" : data.photo?getIP()+data.photo.replace(/\\/g,"/"):"",
+                        "name" : "",
+                    },
+                        {
+                            "type" : "process_xq",
+                            "icon" : "",
+                            "table" : [
+                            {
+                                "title" : "姓名：",
+                                "value" : data.name//"李轩颐"
+                            },
+                            {
+                                "title" : "曾用名：",
+                                "value" : data.formername?data.formername:"无"
+                            },
+                            {
+                                "title" : "性别：",
+                                "value" : data.gender?data.gender:"无记录"
+                            },
+                            {
+                                "title" : "民族：",
+                                "value" : data.nationname?data.nationname:"无记录"
+                            },
+                            {
+                                "title" : "出生日期：",
+                                "value" : data.birthday?lazy.format(data.birthday,"yyyy-MM-dd"):"无记录"
+                            },
+                            {
+                                "title" : "国家：",
+                                "value" : data.regionname?data.regionname:"无记录"
+                            },
+                            {
+                                "title" : "籍贯省：",
+                                "value" : data.nativeplaceprovince?data.nativeplaceprovince:"无记录"
+                            },
+                            {
+                                "title" : "市：",
+                                "value" : data.nativeplacecity?data.nativeplacecity:"无记录"
+                            },
+                            {
+                                "title" : "区县：",
+                                "value" : data.nativeplacecounty?data.nativeplacecounty:"无记录"
+                            },
+                            {
+                                "title" : "证件类型：",
+                                "value" : data.cardtypename//"身份证"
+                            },
+                            {
+                                "title" : "证件号码：",
+                                "value" : data.certificateid//"6106********3412323"
+                            },
+                            {
+                                "title" : "户籍地址：",
+                                "value" : data.raaddress?data.raaddress:"无记录"//"陕西省西安市"
+                            },
+                            {
+                                "title" : "联系电话：",
+                                "value" : data.tel?data.tel:"无记录"
+                            },
+                            {
+                                "title" : "政治面貌：",
+                                "value" : data.politicsname?data.politicsname:"无记录"
+                            },
+                            {
+                                "title" : "婚姻状况：",
+                                "value" : data.marryname?data.marryname:"无记录"
+                            },
+                            {
+                                "title" : "文化程度：",
+                                "value" : data.edulevelname?data.edulevelname:"无记录"
+                            },
+                            {
+                                "title" : "职业：",
+                                "value" : data.profession?data.profession:"无记录"
+                            },
+                            {
+                                "title" : "工作单位：",
+                                "value" : data.workunits?data.workunits:"无记录"
+                            },
+                            {
+                                "title" : "特长：",
+                                "value" : data.specialty?data.specialty:"无记录"
+                            },
+                            {
+                                "title" : "流管编号：",
+                                "value" : data.tubenum?data.tubenum:"无记录"
+                            }
+                            ]
+                        },
+                        {
+                "id" : "table9",
+                "type" : "table9",
+                "col" : 3,
+                "table" : [
+                            {
+                                "icon" : lazy.url + "LazyUI/images/xxcj/hjxq.png",
+                                "label" : "户籍详情",
+                                "color" : colorarr[0],
+                                "onclick" : function() {
+                                    lazy.openWin("hjxq.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/xxcj/fw.png",
+                                "label" : "房屋",
+                                "color" : colorarr[1],
+                                "onclick" : function() {
+                                    lazy.openWin("fjlbrk.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/xxcj/qcjl.png",
+                                "label" : "迁移记录",
+                                "color" : colorarr[2],
+                                "onclick" : function() {
+                                    lazy.openWin("rkqyjl.html");
+                                }
+                            },
+                        ]
+            }
+                ];
+                setData(json)
+            })
+        });
+    </script>
+</html>

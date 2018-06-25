@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Document</title>
+    <script src="LazyUI/js/admin.js"></script>
+</head>
+<style>
+
+</style>
+<body></body>
+<script>
+    start(function() {
+        var content = lazy.getParameter("content");
+        var json = [{
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : "#787878",
+                "color" : "#fff",
+                "border" : "none",
+                "left" : lazy.url + "LazyUI/js/headertoolbar/logo.png",
+                "right" : '',
+                "onclick" : function() {
+                   
+                        lazy.goBack();
+                    
+                }
+            },{
+                "id":"xinwenxq",
+                "type":"xinwenxq",
+                "content":content,
+            }]
+        setData(json)
+    });
+</script>
+</html>

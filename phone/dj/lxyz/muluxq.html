@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+     start(function() {
+         var id=lazy.getParameter("zjid")
+         lazy.URLRequest(getIP()+"/party/DJ_Learndetail/getlearncontentmobile.ht?id="+id+"&state="+lazy.var(), function(data) {
+             var data=data.rows[0];
+             var json = [{
+                    "type" : "playtext",
+                    "title" : data.title,
+                    "content" : data.detail,
+                    "speed" : (data.timelong)*1000,
+                    "mp3" : (getIP()+data.mppath).replace(/\\/g,"/"),
+                    "back" : function() {
+                        if(lazy.var()=="ff"){
+                            lazy.URLRequest(getIP()+"/party/DJ_Learndetail/learndetail.ht?id="+id, function(data) {
+                             lazy.goBack();
+                             lazy.alert2(data.newPrimaryKeys.receipt)
+                            })
+                        }else{
+                            lazy.alert2("播放结束")
+                        }
+                         
+                    }
+                }]
+                 if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '党章党规',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+                setData(json)
+         },function(mes){
+             alert(mes)
+         })
+         this.stopsound = function() {
+             uexAudio.stop();
+         }
+        });
+    </script>
+</html>

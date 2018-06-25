@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>申请退回</title>
+        <style type="text/css">
+            div[type=process] .tr{
+                border-top:none!important;
+            }
+            div[type=process] input{
+                text-align: right;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: rgb(254, 148, 62) !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var url="";
+        var id=lazy.getParameter("rid");
+        var taskid=lazy.getParameter("taskid");
+        var json = [
+			{
+				"id" : "process",
+			    "type" : "process",
+			    "table" : [
+			        {
+			            "title" : "申请原因：",
+			            "type" : "textarea",
+			            "placeholder" : "请输入"
+			        },{
+			            "title" : "是否发送短信：",
+			            "type" :　"select",
+			            "option" :　[{"html":"是"},{"html":"否"}],
+			            "placeholder" : "请选择"
+			        }
+			    ]
+			},
+			{
+                "type" : "button",
+                "label" : "提交",
+                "onclick" : function(){
+                	var title = lazy.getParameter("sjbt");
+                	var url = config.sqth+"retreateventcode="+id+"&taskid="+taskid+"&title="+title;
+                	var arr = getData("process").getArray().table;
+                	var sqyy = arr[0].value;
+                	url += "&applicationcase="+sqyy;
+                	var isSms = arr[1].value;
+                	if(isSms=="是") url += "&issendmessage=1";
+                	lazy.URLRequest(url,function(data){
+                		lazy.openWin("shijianxiangqing.html");
+                	},function(e){
+                		lazy.alert2(e)
+                	})
+                }
+             }
+        ];
+         json.unshift({
+             "id" : "headertoolbar",
+             "type" : "headertoolbar",
+             "backgroundColor" : lazy.getParameter("Bgcolor"),
+             "color" : "#fff",
+             "border" : "none",
+             "title" : '申请退回',
+             "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+             "select" : function(name, index) {
+                 if(name=="left"&&index==0){
+                     lazy.goBack();
+                 }
+                 if(name=="left"&&index==1){
+                     lazy.close();
+                 }
+             }
+         });
+         setData(json)
+    });
+    </script>
+</html>

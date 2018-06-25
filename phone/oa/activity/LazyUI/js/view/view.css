@@ -1,0 +1,87 @@
+body[type=body] div[type=view]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=view] .table {
+    width:100%;
+    height:auto;
+}
+div[type=view] .icon {
+    width: 6rem;
+    height: 4rem;
+    background-color: #EFEFEF;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=view] .tr1 {
+    width: 100%;
+    height: 6rem;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=view] .h {
+    padding-left: 1rem;
+    -webkit-box-sizing:border-box;
+    height: 100%;
+}
+div[type=view] .h1 {
+    height: 2.5rem;
+    line-height: 1.3rem;
+}
+div[type=view] .h1 span {
+    font-size: 1rem;
+}
+
+div[type=view] .h2 span {
+     color: #aaa;
+}
+
+div[type=view] .yue {
+    background-position: 0.1rem center;
+    background-repeat: no-repeat;
+    background-size: 0.8rem;
+    background-image: url(images/yue.png);
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+}
+div[type=view] .yue span{
+   color: #aaaaaa;
+}
+
+div[type=view] .ping {
+    background-position: 0.1rem center;
+    background-repeat: no-repeat;
+    background-size: 0.8rem;
+    background-image: url(images/ping1.png);
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+}
+div[type=view] .ping span{
+   color: #aaaaaa;
+}
+div[type=view] .text {
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    
+}
+div[type=view] .text span{
+   color: #aaaaaa;
+}
+

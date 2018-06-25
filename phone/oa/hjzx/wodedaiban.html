@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>我的待办</title>
+        <style>
+            body {
+                background-color: white !important;
+            }
+            #titlebtnlist1 .yiban{
+                float: right;
+                color: #f20;
+                padding-left: 1rem;
+            }
+            #titlebtnlist1 .jinji{
+                float: right;
+                color: red;
+                padding-left: 1rem;
+            }
+            #titlebtnlist1 .point {
+                display: none;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page = 1;
+            var search = "";
+            var json = [{
+                    "type" : "sousuoinput_move",
+                    "select" : function(val){
+                        page = 1;
+                        getData("titlebtnlist1").clean();
+                        search = val;
+                        load(search);
+                    }
+                },{
+                    "id" : "titlebtnlist1",
+                    "type" : "titlebtnlist1",
+                    "table" : []
+                }];
+            setData(json,function(){
+                load(search)
+            });
+            function load(val){
+                var url = config.myMobileTask+"rows=50&page="+page;
+                if(val&&val!="") url+="&eventstring="+val;
+                lazy.URLRequest(url, function(data){
+                    var data = data.rows;
+                    if(data.length<50) lazy.stopBounce();
+                    for(var i=0;i<data.length;i++){
+                        var h2 = data[i].eventtime;
+                        if(data[i].levelname=="一般") h2+='<span class="yiban">'+data[i].levelname+'</span>';
+                        else h2+='<span class="jinji">'+data[i].levelname+'</span>';
+                        var tmp = {
+                            "id" : data[i].taskid,
+                            "eventcode" : data[i].eventcode,
+                            "h1" : data[i].eventname,
+                            "h2" : h2,
+                            "h3" : data[i].statecode,
+                            "onclick" : function(obj){
+                                lazy.setParameter("htype","待办");
+                                lazy.setParameter("hjzx",obj);
+                                parent.lazy.openWin("hjzxxq.html");
+                            }
+                        }
+                        getData("titlebtnlist1").add(tmp);
+                    }
+                    page++;
+                })
+            }
+            lazy.bounce({
+                    "up" : function(){
+                        load(search);
+                    }
+                 });   
+        });
+    </script>
+</html>

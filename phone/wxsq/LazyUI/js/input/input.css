@@ -1,0 +1,41 @@
+body[type=body] div[type=input] {
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+	position:relative;
+    display: -webkit-box;
+	-webkit-box-sizing:border-box;
+	background-color: #fff;
+	margin-bottom: 0.5rem;
+}
+div[type=input] .cell{
+    display: -webkit-box;
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    padding: 0 1rem;
+    position: relative;
+    height: auto;
+    width: 100%;
+}
+
+div[type=input] .input{
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    font-size: 1rem;
+}
+div[type=input] textarea{
+    height: 8rem;
+}
+div[type=input] .title{
+    padding: 0.7rem 0;
+    width:5rem;
+}
+div[type=input] .icon{
+    width: 2.5rem;
+    height: auto;
+    background-repeat: no-repeat;
+    background-position: 0.5rem center;
+    background-size: 1.5rem;
+}

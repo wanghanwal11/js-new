@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>审批</title>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        var page = 1;
+        var index = 0;
+        var str = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        var userid = "";
+        lazy.personmessage(function(o){
+            userid = o.rows[0].userId;
+        lazy.setParameter("Bgcolor","#5c98f5");
+        lazy.setHeader({
+            "title":"审批",
+            "color":lazy.getParameter("Bgcolor"),
+            "url":"close",
+            "rightbtn" : []
+        });
+        var json =[
+        {
+            "id" : "movebutton_iframe",
+            "type" : "movebutton_iframe",
+            "index" : 0,
+            "table" : [
+                {
+                    "label" : "待我审批的",
+                    "onclick" : function(i){
+                        if(index==1){
+                            page = 1;
+                            getData("titlebtnlist2").clean();
+                            loaddsp();
+                        }
+                        index=0;
+                    }
+                },{
+                    "label" : "我已审批的",
+                    "onclick" : function(i){
+                        if(index==0){
+                            page = 1;
+                            getData("titlebtnlist2").clean();
+                            loadysp();
+                        }
+                        index=1;
+                    }
+                }
+                
+            ]
+        },
+        {
+            "type" : "sousuoinput_move",
+            "select" : function(val){
+                page = 1;
+                getData("titlebtnlist2").clean();
+                str = val;
+                if(index==0){
+                    loaddsp(val);
+                }else{
+                    loadysp(val);
+                }
+            }
+        },{
+            "id" : "titlebtnlist2",
+            "type" : "titlebtnlist2",
+            "table" : []
+        }];
+        setData(json,function(){
+            loaddsp();
+        })
+        function loaddsp(val){
+            var url = config.vitoMyTask+"&rows=20&page="+page;
+            if(val&&val!="") url += "&subject="+val;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(page==1&&data.length==0){
+                    if(document.getElementsByClassName("zwsjXT").length==0){
+                        lazy.datanull(" ");
+                        return;
+                    }
+                    else{
+                        document.getElementsByClassName("zwsjXT")[0].style.display = "block";
+                        return;
+                    }
+                }
+                if(document.getElementsByClassName("zwsjXT").length>0){
+                    document.getElementsByClassName("zwsjXT")[0].style.display = "none";
+                }
+                if(data.length<20) lazy.stopBounce();
+                page++;
+                for(var i=0;i<data.length;i++){
+                    var path = data[i].picture;//(getIP() + data[i].picture).replace(/\\/g,"/");
+                    if(path.indexOf("http://")<-1) path = getIP()+data[i].picture;
+                    var tmp = {
+                        "id" : data[i].businessKey,
+                        "taskid" : data[i].id,
+                        "runid" : data[i].runId,
+                        "icon" : path,//data[i].picture?getIP() + data[i].picture.replace(/\\/g,"/"):"",
+                        "h1" : data[i].subject,
+                        "name" : data[i].creator,
+                        "serviceid" : data[i].busDescp,
+                        "taskStatus" : data[i].taskStatus,
+                        "processName" : data[i].processName,
+                        "creatorId" : data[i].creatorId,
+                        "h2" : "<span style='color:#f60'>待审批<span>",
+                        "h3" : lazy.format(data[i].createTime,"yyyy-MM-dd"),
+                        "userid" : userid,
+                        "taskDefinitionKey" : data[i].taskDefinitionKey,
+                        "onclick" : function(obj){
+                            obj.shenpi = false; //待审批
+                            lazy.setParameter("spobj",obj);
+                            lazy.openWin("shenpiguocheng.html");
+                        }
+                    };
+                    getData("titlebtnlist2").add(tmp);
+                }
+                lazy.bounce({
+                    "up" : function(){
+                        if(index==0){
+                            loaddsp(str);
+                        }
+                        if(index==1){
+                            loadysp(str);
+                        }
+                    }
+                })
+            })
+        }
+        function loadysp(val){
+            var url = config.vitoMyAttend+"&rows=20&page="+page;
+            if(val&&val!="") url += "&subject="+val;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(page==1&&data.length==0){
+                    if(document.getElementsByClassName("zwsjXT").length==0){
+                        lazy.datanull(" ");
+                        return;
+                    }
+                    else{
+                        document.getElementsByClassName("zwsjXT")[0].style.display = "block";
+                        return;
+                    }
+                }
+                if(document.getElementsByClassName("zwsjXT").length>0){
+                    document.getElementsByClassName("zwsjXT")[0].style.display = "none";
+                }
+                if(data.length<20) lazy.stopBounce();
+                page++;
+                for(var i=0;i<data.length;i++){
+                    var path = data[i].picture;//(getIP() + data[i].picture).replace(/\\/g,"/");
+                    if(path.indexOf("http://")<-1) path = getIP()+data[i].picture;
+                    var h2 = ""
+                    if(data[i].status=="2") h2='<span style="color:#ccc">已完结</span>';
+                    else if(data[i].status=="6") h2='<span style="color:red">被驳回</span>';
+                    else if(data[i].status=="5") h2='<span style="color:gray">已追回</span>';
+                    else if(data[i].status=="4") h2='<span style="color:orange">保存草稿</span>';
+                    else if(data[i].status=="1") h2='<span style="color:green">办理中</span>';
+                    else if(data[i].status=="3") h2='<span style="color:#00AAFF">直接办结</span>';
+                    var tmp = {
+                        "id" : data[i].businessKey,
+                        "taskid" : data[i].id,
+                        "runid" : data[i].runId,
+                        "status" : data[i].status,
+                        "icon" : path,//data[i].picture?getIP() + data[i].picture.replace(/\\/g,"/"):"",
+                        "h1" : data[i].subject,
+                        "name" : data[i].creator,
+                        "h2" : h2,
+                        "h3" : lazy.format(data[i].createTime,"yyyy-MM-dd"),
+                        "onclick" : function(obj){
+                            if(obj.status=="2"||obj.status=="3") obj.shenpi = true;//已审批
+                            else obj.shenpi = false;//待审批
+                            lazy.setParameter("spobj",obj);
+                            lazy.openWin("shenpiguocheng.html");
+                        }
+                    };
+                    getData("titlebtnlist2").add(tmp);
+                }
+                
+                lazy.bounce({
+                    "up" : function(){
+                        if(index==0){
+                            loaddsp(str);
+                        }
+                        if(index==1){
+                            loadysp(str);
+                        }
+                    }
+                })
+            })
+        }
+        })
+    });
+    </script>
+</html>

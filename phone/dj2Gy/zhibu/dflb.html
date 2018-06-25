@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        div[type=lazyinput] {
+            background-color: #efefef !important;
+        }
+        div[type=lazyinput] .tr{
+            margin-bottom: 0rem !important;
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           var page=1;
+           var size = 0;
+           var month=new Date().getMonth()+1;
+           month=Math.floor( ( month % 3 == 0 ? ( month/3) : ( month / 3 + 1 ) ) );
+           lazy.setHeader({
+                                "title": "第"+month+"季度",
+                                "rightbtn":[{
+                                    "icon":"seltime",
+                                    "onclick":function(){
+                                        var b=document.getElementsByClassName('alertlistmask')[0];
+                                        if(b){
+                                            return;
+                                        }
+                                        lazy.alertlist([{"title":"第1季度",'num':1},{"title":"第2季度",'num':2},{"title":"第3季度",'num':3},{"title":"第4季度",'num':4}],function(n){
+                                                 lazy.setHeader({"title": n.title,
+                                                                "rightbtn":[{
+                                                                "icon":"seltime"
+                                                            }]
+                                                })
+                                                page=1;
+                                                month=n.num;
+                                                getData('address').clean();
+                                                list();
+                                        })
+                                         
+                                    }
+                                }]
+                            });
+             var json = [{
+                 'id':'address',
+                 'type':'address',
+                 'table':[]
+             }];
+           
+            setData(json,function(){
+                list()
+            });
+           
+            function list(){
+                  lazy.URLRequest(getIP()+'/party/DJ_PartyPayDues/getpartysuit.ht?season='+month, function(data) {
+                      
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                          var color=data[i].color;
+                          if(color=='r')color='statred'
+                          if(color=='g')color='statgreen'
+                          if(color=='y')color='statyellow'
+                          var s={
+                             'type':'person',
+                             'title':data[i].username,
+                             'stat':color
+                            }
+                          getData("address").add(s,'',i)
+                      }
+                      
+                  })
+            }
+        })
+        
+    </script>
+</html>

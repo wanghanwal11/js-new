@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <title>生活百事通</title>
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+            div[type=label]{
+                display: none;
+            }
+            div[type=table11] .table{
+                height: auto !important;
+            }
+            div[type=table11] .icons{
+                width: auto !important;
+            }
+            #id1 .title{
+                display: none;
+            }
+        </style>
+    </head>
+    
+    <body></body>
+    <script>
+        start(function() {
+           
+            var ids=lazy.geturlstr("wxinitId");
+            lazy.setParameter("ids",ids)
+            var json=[{
+                            "type" : "table11",
+                            "id":'id1',
+                            "title":[{
+                                "text":'',
+                                "icon":''
+                            }],
+                            "table" : [{
+                                "icon" : 'LazyUI/images/shbst/tq.png',
+                                "label" :'天气查询',
+                                "id":'id1',
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.hao123.com/a/tianqi?z=2&tn=pc&level=1&page=index_h5&ver=2_android&pos=kztjfl_n2")
+                                }
+                            },{
+                                "icon" : 'LazyUI/images/shbst/jz.png',
+                                "label" :'家政服务',
+                                "id":'id1',
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.58.com/zhongdiangong/")
+                                }
+                            },{
+                                "icon" : 'LazyUI/images/shbst/sj.png',
+                                "label" :'手机归属地',
+                                "id":'id1',
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.46644.com/shouji/?tpltype=uc")
+                                }
+                            }],
+                      },{
+                            "type" : "table11",
+                            "id":'2',
+                            "title":[{
+                                "text":'便民服务',
+                                "icon":''
+                            }],
+                            "table" : [{
+                                "icon" : 'LazyUI/images/shbst/wz.png',
+                                "label" :'违章查询',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://cha.weiche.me/uc#index")
+                                }
+                            },{
+                                "icon" : 'LazyUI/images/shbst/kd.png',
+                                "label" :'快递查询',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.kuaidi100.com/uc/index.html")
+                                }
+                            },{
+                                "icon" : 'LazyUI/images/shbst/sfz.png',
+                                "label" :'身份证查询',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.46644.com/idcard/?tpltype=uc")
+                                }
+                            },
+                            /*{
+                                "icon" : 'LazyUI/images/shbst/jq.png',
+                                "label" :'查商品价',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.46644.com/idcard/?tpltype=uc")
+                                }
+                            }*/
+                            ],
+                      },{
+                            "type" : "table11",
+                            "id":'3',
+                            "title":[{
+                                "text":'生活服务',
+                                "icon":''
+                            }],
+                            "table" : [{
+                                "icon" : 'LazyUI/images/shbst/ct.png',
+                                "label" :'长途客运',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.46644.com/tool/bus/?tpltype=uc")
+                                }
+                            },{
+                                "icon" : 'LazyUI/images/shbst/xz.png',
+                                "label" :'幸运星座',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://infoapp.3g.qq.com/g/s?aid=astro&g_ut=3&g_f=20585#home")
+                                }
+                            },
+                            /*{
+                                "icon" : 'LazyUI/images/shbst/gj.png',
+                                "label" :'公交线路',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://gj.aibang.com/")
+                                }
+                            },*/
+                            {
+                                "icon" : 'LazyUI/images/shbst/ys.png',
+                                "label" :'影讯',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.mtime.cn/")
+                                }
+                            },{
+                                "icon" : 'LazyUI/images/shbst/dt.png',
+                                "label" :'地图导航',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://map.baidu.com/mobile/webapp/index/index/foo=bar/vt=map/?third_party=ucsearchbox")
+                                }
+                            },{
+                                "icon" : 'LazyUI/images/shbst/yb.png',
+                                "label" :'查邮编',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.46644.com/zipcode/?tpltype=uc")
+                                }
+                            },{
+                                "icon" : 'LazyUI/images/shbst/gz.png',
+                                "label" :'找工作',
+                                "id":1,
+                                "onclick" : function(obj,el) {
+                                    lazy.openWin("http://m.51job.com/?partner=uc3")
+                                }
+                            }],
+                      }]
+              setData(json)
+              
+             
+        })
+    </script>
+</html>

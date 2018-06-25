@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+     start(function() {
+         var json = [
+            {
+                "id" : "titlebtnlist4",
+                "type" : "titlebtnlist4",
+                "table" : [
+                ]
+            }
+         ]
+         if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '会议人员',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+         setData(json,function(){load()})
+         function load(){
+             lazy.URLRequest(getIP()+"/vitopartymember/vitopartymember/getallbyparty.ht",function(data){
+               var data=data.rows;
+               for(var i=0;i<data.length;i++){
+                   var s={
+                        "icon" : "",//90*90
+                        "h1" : data[i].name,
+                        "h2" : data[i].partypostname,
+                        "ids":data[i].userid,
+                        "onclick" : function(obj) {
+                            lazy.setParentJs("setProcessPeople",obj);
+                        }
+                    }
+                   getData("titlebtnlist4").add(s)
+               }
+           })
+         }
+        });
+    </script>
+</html>

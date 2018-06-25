@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=label] {
+                color: #5e97f6;
+                height: 2rem !important;
+                line-height: 2.5rem !important;
+                background-color: #fff;
+                border-top: 1px solid #e1e1e0;
+                margin-top: 0.5rem;
+                padding-left: 1.2rem !important;
+            }
+            div[type=label] span{
+                font-size: 0.85rem !important;
+            }
+            
+            div[type=news] .title{
+                text-align: center !important;
+            }
+            div[type=news] .title2{
+                margin-top: -2.2rem;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var url = config.help+"tags=help";
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var json = [{
+                    "type" : "news",
+                    "title" : data.title,
+                    "content" : data.content,
+                }];
+                
+                var tmp = {
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : "#F7F7F7",
+                    "color" : "#7f7f80",
+                    "border" : "none",
+                    "title" : '帮助',
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian.png"],
+                    //"right" : [lazy.url + "LazyUI/js/headertoolbar/del.png"],
+                    "select" : function(name, index) {
+                        if(name=="left"&&index==0){
+                            lazy.goBack();
+                        }
+                        if(name=="left"&&index==1){
+                            lazy.close();
+                        }
+                        if(name=="right"){
+                            var delurl = config.delgonggao + "id="+lazy.getParameter("ggid");
+                            lazy.URLRequest(delurl,function(data){
+                                alert("删除成功");
+                                lazy.openWin("gonggao.html");
+                            })
+                        }
+                    }
+                }
+                if(lazy.getParameter("isdel")==true){
+                    tmp.right = [lazy.url + "LazyUI/js/headertoolbar/del.png"]
+                }
+                json.unshift(tmp)
+                // json.unshift({
+                    // "id" : "headertoolbar",
+                    // "type" : "headertoolbar",
+                    // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    // "color" : "#fff",
+                    // "border" : "none",
+                    // "title" : '公告',
+                    // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    // "right" : [lazy.url + "LazyUI/js/headertoolbar/del.png"],
+                    // "select" : function(name, index) {
+                        // if(name=="left"&&index==0){
+                            // lazy.goBack();
+                        // }
+                        // if(name=="left"&&index==1){
+                            // lazy.close();
+                        // }
+                        // if(name=="right"){
+//                             
+                        // }
+                    // }
+                // })
+                setData(json)
+            })
+        });
+    </script>
+</html>

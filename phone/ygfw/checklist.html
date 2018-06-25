@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Document</title>
+    <script src="LazyUI/js/admin.js"></script>
+    <style>
+        body {
+            background-color: #ffe7cd!important
+        }
+    </style>
+</head>
+<body></body>
+<script>
+    start(function() {
+        // lazy.setHeader({
+            // "title":"尿检记录",
+            // "color":"#ff9f2d",
+        // });
+        setData([
+            {
+                id : "list1",
+                type : "list",
+                table : [
+                    {
+                        icon : "moren.png",
+                        h1 : "范伟",
+                        h2 : "今天还没有扫码签到",
+                        //right : "签到记录"
+                    }
+                ]
+            },
+            {
+                type : "caselist",
+                table : [
+                    {
+                        first : true,
+                        h1 : {
+                            icon : "LazyUI/js/caselist/time1.png",
+                            text : "12-01 11:28"
+                        },
+                        h2 : {
+                            icon : "LazyUI/js/caselist/address1.png",
+                            text : "盛天社区"
+                        },
+                    },
+                    {
+                        h1 : {
+                            icon : "LazyUI/js/caselist/time.png",
+                            text : "12-01 11:28"
+                        },
+                        h2 : {
+                            icon : "LazyUI/js/caselist/address.png",
+                            text : "盛天社区"
+                        },
+                    },
+                    {
+                        h1 : {
+                            icon : "LazyUI/js/caselist/time.png",
+                            text : "12-01 11:28"
+                        },
+                        h2 : {
+                            icon : "LazyUI/js/caselist/address.png",
+                            text : "盛天社区"
+                        },
+                    }
+                ]
+            }
+        ]);
+        
+    });
+</script>
+</html>

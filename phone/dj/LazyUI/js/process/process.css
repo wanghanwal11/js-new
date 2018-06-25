@@ -1,0 +1,388 @@
+div[type=process]{
+	-webkit-box-sizing:border-box;
+	position:relative;
+	width: 100%;
+	height: auto;
+    font-size: 1rem;
+    overflow: hidden;
+}
+div[type=process] .table {
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing:border-box;
+    overflow: hidden;
+}
+div[type=process] .zu {
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing:border-box;
+    overflow: hidden;
+    border-bottom: 1px solid #dad9de;
+}
+div[type=process] .zucontent {
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing:border-box;
+}
+div[type=process] .zu .tr {
+    border-bottom: none;
+}
+
+div[type=process] .table > div {
+    margin-bottom: 0.5rem;
+} 
+div[type=process] .tr {
+    border-top: 1px solid #dad9de;
+    border-bottom: 1px solid #dad9de;
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    padding: 0 0.5rem;
+    position: relative;
+    height: auto;
+    
+}
+div[type=process] .title span{
+     font-size: 0.8rem;
+}
+div[type=process] .title {
+    width: 4rem;
+    height: auto;
+    line-height: 1rem;
+    text-align: left;
+    padding: 0.65rem 0.5rem 0.65rem 0;
+}
+/*input*/
+div[type=process] .tr_input {
+    width: 100%;
+    min-height: 2.5rem;
+    line-height: 2.5rem;
+}
+div[type=process] .tr_input input {
+    font-size: 0.8rem;
+    width: 100%;
+    border: none;
+    background: none;
+}
+div[type=process] .tr_input textarea {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    margin: 0.5rem 0;
+    min-height: 3rem;
+    border:none;
+}
+div[type=process] .tr_input input::-webkit-input-placeholder {
+    line-height: 0.9rem;
+}
+/*datatime*/
+div[type=process] .datetimeinput {
+    text-align: right;
+    opacity: 0;
+    border: none;
+    background: none;
+}
+div[type=process] .datetimeinputdiv, div[type=process] .selectdiv {
+    position: absolute;
+    z-index: 1;
+    top:0;
+    right: 0;
+    height: 2.5rem;
+    line-height: 2.3rem;
+    pointer-events: none;
+    text-align: right;
+    padding-right: 1rem;
+    
+    background-image: url(../../images/jian.png);
+    background-repeat: no-repeat;
+    background-size: 0.5rem;
+    background-position: right center;
+}
+div[type=process] .datetimeinputdiv span {
+    font-size: 0.8rem;
+}
+/*select*/ 
+div[type=process] .select {
+    text-align: right;
+    opacity: 0;
+    width: 100%;
+    font-size: 1rem;
+    background: #fff;
+}
+div[type=process] .selectdiv span {
+    font-size: 0.8rem;
+}
+/*textarea*/
+div[type=process] .tr_textarea {
+    height: auto;
+    width: 100%;
+}
+div[type=process] .textarea {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    margin: 0.5rem 0;
+    min-height: 4rem;
+}
+div[type=process] .placeholder {
+    color: #888;
+    position: absolute;
+    z-index: 1;
+    font-size: 0.8rem;
+    width: 100%;
+    top: 0.65rem;
+    padding-left: 0.5rem;
+    pointer-events: none;
+    outline: none;
+    -webkit-user-modify:read-write-plaintext-only;
+}
+/*label*/
+div[type=process] .labeldiv {
+    height: 1rem;
+    line-height: 1rem;
+    padding: 0 0.5rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=process] .labeldiv2 {
+    margin: 0.3rem 0;
+}
+div[type=process] .labeldiv span {
+    font-size: 0.7rem;
+}
+/*button*/
+div[type=process] .buttondiv {
+    color: #169cff;
+    text-align: center;
+    min-height: 2.5rem;
+    line-height: 2.5rem;
+}
+div[type=process] .buttondiv span {
+    font-size: 0.8rem;
+}
+div[type=process] .addbutton {
+    color: #169cff;
+}
+/*peopleIframe*/
+.peopleIframe {
+    width: 100%;
+    height: 100%;
+    left: 100%;
+    top: 0;
+    z-index: 1000;
+    position: fixed;
+    border: none;
+}
+@-webkit-keyframes peopleIframe_an {
+    from {left: 100%;}
+    to {left: 0%;}
+}
+@-webkit-keyframes peopleIframe_an1 {
+    from {left: 0%;}
+    to {left: 100%;}
+}
+/*fileIframe*/
+.overtimeIframe {
+    width: 100%;
+    height: 100%;
+    left: 100%;
+    top: 0;
+    z-index: 1000;
+    position: fixed;
+    border: none;
+}
+/*icon*/
+div[type=process] .xline {
+    width: 2.3rem;
+    height: 5rem;
+    float: left;
+}
+div[type=process] .xline i {
+    width: 1.7rem;
+    height: 2rem;
+    display: block;
+    border-bottom: 1px dotted #999;
+}
+div[type=process] .addbtn {
+    border: 1px solid #999;
+}
+div[type=process] .iconli {
+    height: 5rem;
+    width: 2.3rem;
+    float: left;
+}
+div[type=process] .iconlititle {
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    width: 100%;
+}
+div[type=process] .iconlititle span{
+    font-size: 0.7rem;
+}
+div[type=process] .icon {
+    color: #fff;
+    text-align: center;
+    height: 2.3rem;
+    width: 2.3rem;
+}
+div[type=process] .icontitle1 {
+    margin: 0.83rem auto 0 auto;
+    width: 2.3rem;
+    height: 2.3rem;
+    line-height: 2.3rem;
+    border-radius: 2.3rem;
+}
+div[type=process] .icontitle1 span {
+    font-size: 0.7rem;
+}
+div[type=process] .iconimg {
+    margin: 0.83rem auto 0 auto;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 2.3rem;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+div[type=process] .sprtitle span{
+    font-size: 0.8rem;
+}
+/*tr_image*/
+div[type=process] .tr_image {
+    background-image: url(xj.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 1rem;
+}
+div[type=process] .imagediv {
+    
+}
+div[type=process] .imagekuang {
+    height: 4rem;
+    width: 4rem;
+    margin-right: 0.5rem;
+    float: left; 
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+div[type=process] .imageicon {
+    height: 3.5rem;
+    width: 3.5rem;
+    margin-top: 0.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 3.5rem;
+}
+div[type=process] .imagecha {
+    background-image: url(cha.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    position: absolute;
+    z-index: 10;
+    width: 1rem;
+    height: 1rem;
+    right: 0;
+    top: 0;
+}
+/*tr_file*/
+div[type=process] .tr_file {
+    background-image: url(fj.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 1rem;
+}
+div[type=process] .filediv {
+    width: 100%;
+    height: auto;
+}
+div[type=process] .filekuang {
+    height: 2.5rem;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+}
+div[type=process] .filediv .icon {
+    width: 2rem;
+    height: 2.5rem;
+    background-image: url(file.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 1.5rem;
+}
+div[type=process] .filediv .filekuang:last-child {
+    margin-bottom: 0.5rem;
+}
+div[type=process] .filediv .filecha {
+    width: 1.5rem;
+    height: 2.5rem;
+    background-image: url(cha.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 0.9rem;
+}
+div[type=process] .filediv .td {
+    border-bottom: 1px solid #d9d9d9;
+}
+div[type=process] .filediv .h1 {
+    height: 1.5rem;
+    line-height: 1.2rem;
+}
+div[type=process] .filediv .h1 span{
+    font-size: 0.7rem;
+}
+div[type=process] .filediv .h2 {
+    height: 1.5rem;
+    line-height: .3rem;
+}
+div[type=process] .filediv .h2 span{
+    font-size: 0.6rem;
+    color: #ccc;
+}
+/*tr_overtime*/
+div[type=process] .tr_overtime {
+    background-image: url(jia.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 1rem;
+}
+div[type=process] .newovertime {
+    height: 2.5rem;
+    border-bottom: 1px solid #dad9de;
+}
+div[type=process] .newovertime .h1 {
+    width:100%;
+    line-height: 1.5rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=process] .newovertime .h1 span {
+    font-size: 0.75rem;
+}
+div[type=process] .newovertime .h2 {
+    width:100%;
+    height: 1rem;
+    line-height: 0.5rem;
+    -webkit-box-sizing:border-box;
+    color:#717171;
+}
+div[type=process] .newovertime .h2 span {
+    font-size: 0.65rem;
+}
+div[type=process] .newovertime:last-child {
+    border-bottom: none;
+}
+/*tr_map*/
+div[type=process] .tr_map {
+    background-image: url(gps.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 1rem;
+}
+.mapIframe {
+    width: 100%;
+    height: 100%;
+    left: 100%;
+    top: 0;
+    z-index: 1000;
+    position: fixed;
+    border: none;
+}

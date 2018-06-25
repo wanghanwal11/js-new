@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>docs</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+    ::-webkit-scrollbar{
+        width:0px !important;
+        }
+        body{
+            font-size: 12px !important;
+        }
+        #label{
+               height:50px;
+               line-height:50px;
+               background-image: url(mobile.png);
+               background-position: center left 30px;
+               background-repeat: no-repeat;
+               background-size:20px;
+               background-color: #0099ff;
+               color: #fff;
+        }
+        #label span{
+               font-size: 12px;
+               line-height: 50px;
+        }
+        
+    </style>
+</head>
+<body></body>
+<script>
+    start(function() {
+        var typeid = 1;
+        setData([
+            {
+                        id:'label',
+                        type : 'label',
+                        text:'北科维拓手机组控件库',
+                        padding:'0 0 0 80px',
+                    },
+            {
+                id : 'group',
+                type:'group',
+                style:{width:'600px',margin:'0 auto'},
+                list:[{
+                        id:'content',
+                        type:'docontent',
+                        addContent:function(data){
+                            alert("data:"+data)
+                             addContent(typeid,data)
+                        }
+                }]
+                
+             }
+         ],function(){
+             
+             var url = getIP()+'/simpleCode/api/v1.0/weightList/query';
+             lazy.lbh_GET(url, function(data){
+                    var arr = data.data;
+                    var list = [];
+                    for(var i=0 ; i<arr.length;i++){
+                        var d = {
+                           id : arr[i].id,
+                           title : arr[i].name,
+                           onclick:function(obj){
+                               alert("id:"+obj.id)
+                               queryContent(obj.id)
+                               typeid=obj.id;
+                           }
+                        }
+                        list.push(d);
+                        
+                    }  
+                    getData('group') .renderer([{
+                        type:'doclist',
+                        list:list,
+                        add:function(data){
+                           
+                        }
+                    }],function(){
+                        queryContent(1)
+                        
+                    })      
+             })
+             /*
+                 getData('group').renderer([{
+                        type:'doclist',
+                        list:[{
+                            title:'button',
+                            onclick:function(){
+                                lazy.new('wxf_button.js',function(dom) {
+                                       getData('content').add(dom.init());
+                                   })
+                            }
+                        },{
+                            title:'input',
+                            onclick:function(){
+                                lazy.new('wxf_input.js',function(dom) {
+                                       getData('content').add(dom.init());
+                                   })
+                            }
+                        },{
+                            title:'banner',
+                            onclick:function(){
+                                lazy.new('wxf_banner.js',function(dom) {
+                                       getData('content').add(dom.init());
+                                   })
+                            }
+                        }],
+                        add:function(data){
+                            var url = getIP()+'/simpleCode/api/v1.0/weightList/add?type='+data;
+                            lazy.GET(url, function(data){
+                                
+                            })
+                        }
+                    },{
+                        id:'content',
+                        type:'docontent'
+                }],function() {
+                    lazy.new('wxf_button.js',function(dom) {
+                        console.log(dom.init())
+                         getData('content').add(dom.init());
+                    })
+                   
+                });
+              */ 
+         });
+         function queryContent(id){
+             var url = getIP()+'/simpleCode/api/v1.0/weightDetail/query?id='+id;
+             lazy.lbh_GET(url, function(data){
+                    var arr = data.data;
+                    
+                    var list = [];
+                    for(var i=0 ; i<arr.length ; i++){
+                        var d ={
+                            id:arr[i].id,
+                            code:arr[i].code,
+                        }
+                        list.push(d)
+                    } 
+                    alert(1)
+                    console.log(list)
+                    getData('content').add(list)   
+             })
+         } 
+         function addContent(id,data){
+             var url = getIP()+'/simpleCode/api/v1.0/weightDetail/add?id='+id+'&code='+data;
+             lazy.lbh_GET(url, function(data){
+                    
+                    queryContent(id) 
+                       
+             })
+         } 
+    });
+</script>
+</html>

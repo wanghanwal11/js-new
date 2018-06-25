@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>任务办理</title>
+    </head>
+    <style>
+        body {
+            background-color: #efeef3 !important;
+        }
+        div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+    </style>
+    <script> 
+    start(function() {
+        var rwobj = lazy.getParameter("rw");
+        lazy.setHeader({
+            "title":"任务办理",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var json = [
+        // {
+                            // "id" : "headertoolbar",
+                            // "type" : "headertoolbar",
+                            // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            // "color" : "#fff",
+                            // "border" : "none",
+                            // "title" : '任务办理',
+                            // "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            // "select" : function(name, index) {
+                                // if(name=="left"){
+                                    // lazy.close();
+                                // }
+                            // }
+                        // },
+                       {
+                        "id" : "process",
+                        "type" : "process",
+                        "table" : [
+                                     {
+                                        "title" : "处理意见",
+                                        "type" : "textarea",
+                                        "placeholder" : "请填写文字"                   
+                                     },{
+                                        "type" : "image",
+                                        "title" : "图片",
+                                        "httpurl" : config.docUpoad,
+                                    },{
+                                        "type" : "file",
+                                        "title" : "附件",
+                                        "httpurl" : config.docUpoad,
+                                    }
+                                  ]
+                    },{
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var arr = getData("process").getArray().table;
+                                if(arr[0].value=="") lazy.alert2("处理意见不能为空");
+                                else{
+                                    var img = [];
+                                    if(arr[1].value.length>0){
+                                        var imgs = arr[1].value;
+                                        for(var i=0;i<imgs.length;i++){
+                                            img.push(imgs[i].annexid)
+                                        }
+                                    }
+                                    var file = [];
+                                    if(arr[2].value.length>0){
+                                        var files = arr[2].value;
+                                        for(var i=0;i<files.length;i++){
+                                            file.push(files[i].annexid)
+                                        }
+                                    }
+                                    var url = config.worktaskcomment+"pid="+rwobj.id+"&content="+arr[0].value;
+                                    if(img.length>0) url += "&img="+img;
+                                    if(file.length>0) url += "&files="+file;
+                                    url+="&def1=banli";
+                                    lazy.URLRequest(url,function(){
+                                        alert("办理成功");
+                                        lazy.openWin("renwu.html");
+                                    })
+                                }
+                            }
+                        }]
+            setData(json)
+    });
+    </script>
+</html>

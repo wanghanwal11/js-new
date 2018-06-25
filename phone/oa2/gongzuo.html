@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="common/property.js"></script>
+        <script src="common/config.js"></script>
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+            body {
+               background-image: url("LazyUI/images/gongzuo/gzbj.png");
+               background-size: 100% 10rem;
+               background-repeat: no-repeat;
+               overflow: hidden;
+               padding-top: 10rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                "title":"工作",
+                "color":"#0DAF9A",
+                "url" : "close",
+                "rightbtn" : []
+            });
+            lazy.setParameter("mark","dj");
+                var json = [{
+                        "type" : "table9",
+                        "col" : 4,
+                        "table" : [
+                            {
+                                "label" : "日志",
+                                "menu" : "日志",
+                                "icon" : lazy.url + "LazyUI/images/gongzuo/oa_rz.png",
+                                "color" : "#9a89ba",
+                                "onclick" : function(){
+                                    lazy.openWin("rizhi/rizhi.html?mark=dj");
+                                }
+                            },
+                            {
+                                "label" : "签到",
+                                "menu" : "签到",
+                                "icon" : lazy.url + "LazyUI/images/gongzuo/oa_qd.png",
+                                "color" : "#0acfe1",
+                                "onclick" : function(){
+                                    lazy.openWin("qiandao/qiandao.html?mark=dj");
+                                }
+                            },
+                            // {
+                                // "label" : "申请",
+                                // "menu" : "申请",
+                                // "icon" : lazy.url + "LazyUI/images/gongzuo/oa_sq.png",
+                                // "color" : "#ff953c",
+                                // "onclick" : function(){
+                                    // lazy.openWin("shenpi/shenpi.html?mark=dj");
+                                // }
+                            // },
+                            // {
+                                // "label" : "审批",
+                                // "menu" : "审批",
+                                // "icon" : lazy.url + "LazyUI/images/gongzuo/oa_sp.png",
+                                // "color" : "#15c4c6",
+                                // "onclick" : function(){
+                                    // lazy.openWin("shenpi/daishenpi.html?mark=dj");
+                                // }
+                            // }
+                        ]//table
+                    }
+                ]
+                setData(json);
+            //显示
+             this.rightmenushow = function() {
+                 getData("rightmenu").show();
+             }
+        });
+    </script>
+</html>

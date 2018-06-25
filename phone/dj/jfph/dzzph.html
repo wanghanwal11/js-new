@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=comlist] .header div{
+                width: 33%!important;
+            }
+            div[type=comlist] .list div{
+                width: 33%!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+           var page=1;
+           var leibie=0;
+           var partyname='';
+             var json = [{
+                                        "type" : "sousuoinput",
+                                        "iconcolor" : "#ccc",
+                                        "placeholder":"请输入关键字",
+                                        "borderBottom" : "1px solid #ccc",
+                                        "select" : function(val){
+                                           page=1;
+                                            partyname=val;
+                                            getData("comlist").clean();
+                                            list()
+                                        }
+                       },{
+                    "type" : "movetabbar1",
+                    "title":["全区排名","同级排名"],
+                    "style":{"margin-bottom":"0.5rem"},
+                    "onclick":function(i){
+                        page=1;
+                        leibie=i;
+                        getData("comlist").clean();
+                        list()
+                    }
+                    
+                },{
+                   "id":"comlist",
+                   "type" : "list3",
+                   "style":{"height":"100%","background":"white"},
+                   "header":["名次", "所属党组织","总积分"],
+                   "content":[]
+               }];
+               if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '积分排行',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+               setData(json,function(){
+                   list()
+               });
+               function list(){
+                   lazy.URLRequest(config.dzzphMobile+"pagesize=10&page="+page+"&partyname="+partyname+"&sortstate="+leibie, function(data) {
+                      lazy.closeBounce();
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                         var d={
+                             "h1":data[i].rank,
+                             "h2":data[i].orgname,
+                             "h3":data[i].points,
+                             "ids":data[i].id
+                             }
+                          getData("comlist").add(d);
+                      }
+                      page++;
+                 },function(){
+                     lazy.closeBounce();
+                 })     
+               }
+            lazy.bounce({"up":function(){
+                list();
+            }}); 
+        });
+    </script>
+</html>

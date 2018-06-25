@@ -1,0 +1,19 @@
+body[type=body] div[type=alertcode2]{
+   width:100%;
+    position:relative;
+    -webkit-box-sizing:border-box;
+    background-color: white;
+}
+
+div[type=alertcode2] .alertdiv{
+    height:16rem;
+    width:16rem;
+    margin:0 auto;
+    border:1px solid #efefef;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+
+

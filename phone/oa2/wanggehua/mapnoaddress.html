@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script type="text/javascript" src="../../framework/gis/VitoGISFramework.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../framework/gis/leaflet.css"/>
+        <title>地图</title>
+        <style type="text/css">
+            body,html{
+                width:100%;
+                height:100%;
+            }
+            #map {
+                width:100%;
+                height:100%;
+                position: absolute;
+                z-index: 0;
+            }
+            #show{
+                position:absolute;
+                top:3.5rem;
+                left:1rem;
+                z-index:22;
+                width:1rem;
+                height:1rem;
+                background-image: url(../LazyUI/images/dwz.png);
+                background-size:70%;
+                background-position: 50%;
+                background-color:white;
+                border:1px solid #c1c1c1;
+                background-repeat:no-repeat;
+            }
+            #show2{
+                position:absolute;
+                top:5rem;
+                left:1rem;
+                z-index:22;
+                width:1rem;
+                height:1rem;
+                background-image: url(../LazyUI/images/qiehuan.png);
+                background-size:70%;
+                background-position: 50%;
+                background-color:white;
+                border:1px solid #c1c1c1;
+                background-repeat:no-repeat;
+            }
+            #add_button {
+                width:7rem;
+                height:2.6rem;
+                line-height:2.1rem;
+                color:#fff;
+                position:absolute;
+                z-index:2;
+                background-position:center;
+                background-repeat:no-repeat;
+                background-size : 100% 100%;
+                text-align:center;
+                top: 40%;
+                left: 50%;
+                margin-left: -3.5rem;
+                margin-top: -2rem;
+            }
+            #center_button {
+                width:3rem;
+                height:3.75rem;
+                position:absolute;
+                z-index:22;
+                background-position:center;
+                background-repeat:no-repeat;
+                background-size : 100% 100%;
+                top: 50%;
+                margin-top: -1.85rem;
+                left: 50%;
+                margin-left: -1.5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <div id="show"></div>
+        <div id="show2"></div>
+    </body>
+    <script> 
+    start(function() {
+        lazy.setHeader({
+            "title":"地图",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var json = []
+        setData(json)
+        var _html="";
+        _html += '<div id="add_button" style="background-image:url(../LazyUI/images/edit.png)">确定位置</div>';
+        _html += '<div id="center_button" style="background-image:url(../LazyUI/images/center.png)"></div>'
+        document.body.innerHTML += _html;
+        lazy.URLRequest(config.MapTiledUrlForMobile,function(data){
+            var projectName = data.newPrimaryKeys.projectName;
+            if(projectName=="guiyang"){
+                document.getElementById("show2").style.display = "none";
+            }
+            var data=data.rows[0];
+            gisdata=data.gisdata;
+            if(getIP().indexOf("10.0.0.2")>-1){
+                var str = getIP() + "/portal/LocatMapWkt/getGisConf.ht?name=dongying_yddx";
+            }else{
+                var str = getIP() + "/portal/LocatMapWkt/getGisConf.ht?name="+projectName;//+"&type=mobile";//conf_mobile.json";
+            }
+            //var str = getIP() + "/portal/LocatMapWkt/getGisConf.ht?name="+projectName;//+"&type=mobile";//conf_mobile.json";
+            var gis = null;
+            VitoGIS.init(str,function(e){
+                var dian = null;
+                var erwei = false;//二维
+                gis = e;
+                gis.layerManager.changeBaseLayer("defaultLayer");
+                var wkt = new Wkt.Wkt();
+                wkt.read(gisdata);
+                var feature = wkt.toObject();
+                var box = feature.getBounds()
+                gis.Events.on("TRANSFORM",function(_e1){
+                	var wkt = new Wkt.Wkt();
+                    wkt.read(gisdata);
+                    var feature = wkt.toObject();
+                    var box = feature.getBounds();
+                	if(erwei){
+	                    var center=_e1.degree25_to_gcj(box.getCenter().lat,box.getCenter().lng);
+	                    gis.mapManager.map.setView([center.lat,center.lng]);
+                	}else{
+                        gis.mapManager.map.setView(box.getCenter());
+                	}
+                });
+                function getArea(){
+                	var wkt = new Wkt.Wkt();
+                    wkt.read(gisdata);
+                    var feature = wkt.toObject();
+                    var box = feature.getBounds();
+                	if(erwei){
+	                    var center=gis.transform.degree25_to_gcj(box.getCenter().lat,box.getCenter().lng);
+	                    gis.mapManager.map.setView([center.lat,center.lng]);
+                	}else{
+                        gis.mapManager.map.setView(box.getCenter());
+                	}
+                }
+                function qiehuan(){
+                    if(erwei){
+                        erwei=false;
+                        gis.layerManager.changeBaseLayer("defaultLayer");
+                        getArea();
+                    }else{
+                        erwei=true;
+                        gis.layerManager.changeBaseLayer("amap");
+                        getArea();
+                    }
+             	}
+                document.getElementById("show").onclick = function(){
+                    if(erwei){
+                        var center=gis.transform.degree25_to_gcj(box.getCenter().lat,box.getCenter().lng);
+                        gis.mapManager.map.setView([center.lat,center.lng]);
+                    }else{
+                        gis.mapManager.map.setView(feature.getBounds().getCenter());
+                    }
+                }
+                document.getElementById("add_button").onclick = function(){
+                     var gps=gis.mapManager.map.getCenter();
+                     if(erwei){
+                          var bol=box.contains([gis.transform.gcj_to_25_degree(gps.lng,gps.lat)[0],gis.transform.gcj_to_25_degree(gps.lng,gps.lat)[1]]);
+                          if(bol){
+                              // lazy.setHeader({
+                                    // "title":"新增事件",
+                                    // "color":lazy.getParameter("Bgcolor"),
+                                    // "rightbtn" : []
+                                // });
+                              // if(projectName=="guiyang"){
+                                // lazy.setParentJs("setProcessMap",{
+                                    // "gps" : {"x":gps.lng,"y":gps.lat},
+                                    // "address" : "已定位"
+                                // })
+                                if(projectName=="guiyang"){
+                                    lazy.setCache(JSON.stringify({
+                                        'map' : JSON.stringify({
+                                            'gps':{'x':gps.lng,'y':gps.lat},
+                                            'address':"已定位"
+                                        })
+                                    }))
+                                }else{
+                                    var center=gis.transform.gcj_to_25_mec(gps.lat,gps.lng);
+                                    lazy.setCache(JSON.stringify({
+                                        'map' : JSON.stringify({
+                                            'gps':{"x":center[0],"y":center[1]},
+                                            'address':'已定位'
+                                        })
+                                    }))
+                                }
+                                lazy.closeWebview();
+                              // }else{
+                                // lazy.setParentJs("setProcessMap",{
+                                    // "gps" : {"x":center[0],"y":center[1]},
+                                    // "address" : "已定位"
+                                // })
+                              // }
+                        }else{
+                            alert("不在社区区域内，请重新定位");
+                        }
+                     }else{
+                        var gps=gis.mapManager.map.getCenter();
+                        var tmp=L.Projection.Mercator.project({"lat":gps.lat,"lng":gps.lng})
+                        var bol=box.contains([gps.lat,gps.lng]);
+                        if(bol){
+                            // lazy.setHeader({
+                                // "title":"新增事件",
+                                // "color":lazy.getParameter("Bgcolor"),
+                                // "rightbtn" : []
+                            // });
+                            if(projectName=="guiyang"){
+                                lazy.setCache(JSON.stringify({
+                                    'map' : JSON.stringify({
+                                        'gps':{'x':gps.lng,'y':gps.lat},
+                                        'address':"已定位"
+                                    })
+                                }))
+                                // lazy.setParentJs("setProcessMap",{
+                                    // "gps" : {"x":gps.lng,"y":gps.lat},
+                                    // "address" : "已定位"
+                                // })
+                            }else{
+                                lazy.setCache(JSON.stringify({
+                                    'map' : JSON.stringify({
+                                        'gps':{'x':tmp.x,'y':tmp.y},
+                                        'address':'已定位'
+                                    })
+                                }))
+                                // lazy.setParentJs("setProcessMap",{
+                                    // "gps" : {"x":tmp.x,"y":tmp.y},
+                                    // "address" : "已定位"
+                                // })
+                            }
+                            lazy.closeWebview();
+                            
+                        }else{
+                           alert("不在社区区域内，请重新定位");
+                        }
+                     }
+                }
+                document.getElementById("show2").onclick = function(){
+                	qiehuan();
+                }
+
+            })
+        })
+    });
+    </script>
+</html>

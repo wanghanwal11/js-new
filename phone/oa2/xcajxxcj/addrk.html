@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <script src="../LazyUI/js/xxcj2.js"></script>
+        <title>人口添加</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important;
+                margin-bottom:2rem;
+            }
+            div[type=geren] .title span{
+                color: black;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+            div[type=process] #issfyq .tr_input input{
+                width: 92%;
+                text-align:right;
+            }
+            div[type=process] #issfyg .tr_input input{
+                width: 92%;
+                text-align:right;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var build = lazy.getParameter("build");
+            var livehouseid = lazy.getParameter('livehouseid');
+            var pj = lazy.getParameter('pj');
+            var fwobj = lazy.getParameter("fw");
+            var url = config.fjxq+"id="+fwobj.id;
+            lazy.URLRequest(url,function(data){
+            var build = data.rows[0];
+            lazy.setHeader({
+                "title":"新增人口",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+                    var json = [
+                            {
+                                "id" : "process",
+                                "type" : "process",
+                                "table" : [
+                                {
+                                    "id" : "name",
+                                    "title" : "姓名(必填)",
+                                    "placeholder" : "请输入",
+                                },
+                                {
+                                    "id":"cardtypeid",
+                                    "name" : "cardtypename",
+                                    "title" : "证件类别(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.cardtype,
+                                    "placeholder" : "请选择",
+                                    "value":{"html":"身份证","value":10000004800000}
+                                },
+                                {
+                                    "id" : "nationid",
+                                    "name" : "nationname",
+                                    "title" : "民族(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.nation,
+                                    "placeholder" : "请选择",
+                                    "value":{"html":"汉族","value":10000004800005}
+                                },
+                                {
+                                    "id" : "certificatename",
+                                    "title" : "证件号码(必填)",
+                                    "placeholder" : "请输入",
+                                    "setValue":function(txtparm){
+                                        if(txtparm.length==18){
+　　                                                                                                                                                      var year = txtparm.substring(6,10);
+　　                                                                                                                                                      var month = txtparm.substring(10,12);
+　　                                                                                                                                                      var date=txtparm.substring(12,14);
+                                          getData("process").setValue(year+"-"+month+"-"+date,5);
+                                          getData("process").setselval({vl:GetGendeByIdCardNo(txtparm),ht:GetGendeByIdCardNo(txtparm)},4)
+                                        }else{
+　                                                                                                                       　　lazy.alert2("输入的身份证不正确！");
+                                         }
+                                    }
+                                },
+                                {
+                                    "name" : "gender",
+                                    "title" : "性别(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.genderStore,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "birthday",
+                                    "title" : "出生日期(必填)",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },{
+                                    "id" : "regionid",
+                                    "name" : "regionname",
+                                    "title" : "国家(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.region,
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue=="0") list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,7)
+                                        if(name!="中国"){
+                                             getData("process").setselval({vl:10000128911826,ht:"港澳台及外籍"},13)
+                                        }else{
+                                              getData("process").setselval({vl:'',ht:"请选择"},13)
+                                        }
+                                    },
+                                    "value":{"html":"中国","value":10000004800167}
+                                },
+                                {
+                                    "name" : "nativeplaceprovince",
+                                    "title" : "户籍省(必填)", 
+                                    "type" : "select",
+                                    // "option" : base_datas.city,
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        if(name!="北京"){
+                                             document.getElementsByClassName("tr")[12].style.display="block"
+                                             getData("process").setselval({vl:10000128911824,ht:"外地来京"},13)
+                                        }else{
+                                             document.getElementsByClassName("tr")[12].style.display="none";
+                                             getData("process").setselval({vl:'',ht:''},13)
+                                        }
+                                        // var list = [];
+                                        // var citys = base_datas.city
+                                        // for(var i=0;i<citys.length;i++){
+                                        //     if(citys[i].pvalue==id) list.push(citys[i]);
+                                        // }
+                                        // getData("process").setOption(list,8)
+                                        getData("process").setOption(getCode(id),8);
+                                        getData("process").setOption('',9);
+                                        getData("process").setselval({vl:'',ht:'请选择'},8)
+                                        getData("process").setselval({vl:'',ht:'请选择'},9)
+                                    },
+                                    "value":{"html":"北京","value":11000000000001}
+                                },
+                                {
+                                    "name" : "nativeplacecity",
+                                    "title" : "户籍市(必填)",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        // var list = [];
+                                        // var citys = base_datas.city
+                                        // for(var i=0;i<citys.length;i++){
+                                        //     if(citys[i].pvalue==id) list.push(citys[i]);
+                                        // }
+                                        // getData("process").setOption(list,9)
+                                        getData("process").setOption(getCode(id),9)
+                                        getData("process").setselval({vl:'',ht:'请选择'},9)
+                                    },
+                                    "value":{"html":"北京市","value":11000000000001}
+                                },
+                                {
+                                    "name" : "nativeplacecounty",
+                                    "title" : "户籍区县(必填)",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        if(name=="西城区"){
+                                             document.getElementsByClassName("tr")[10].style.display="block"
+                                        }else{
+                                             document.getElementsByClassName("tr")[10].style.display="none"
+                                        }
+                                    },
+                                    "value" : {'html':'西城区','value':111100000000002}
+
+                                },
+                                {
+                                    "name" : "wheretohere",
+                                    "title" : "所属街道",
+                                    "type" : "select",
+                                    "option" : base_datas.ssjd,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "raaddress",
+                                    // "id" : "nativeplaceaddress",
+                                    "title" : "户籍地址(必填)",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id" : "movetotime",
+                                    "title" : "离开户口登记地时间",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "helpid",
+                                    "name" : "helpname",
+                                    "title" : "居住情况(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.jzqk,
+                                    "placeholder" : "请选择", 
+                                },
+
+
+
+                                {
+                                    "id":"politicsid",
+                                    "name" : "politicsname",
+                                    "title" : "政治面貌(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.politics,
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "marryid",
+                                    "name" : "marryname",
+                                    "title" : "婚姻状况(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.marry, 
+                                    "placeholder" : "请选择",
+                                },
+                                {
+                                    "id" : "edulevelid",
+                                    "name" : "edulevelname",
+                                    "title" : "文化程度(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.edulevel,
+                                    "placeholder" : "请选择",
+                                },
+                                // {
+                                    // "id" : "workunits",
+                                    // "title" : "工作单位及职业",
+                                    // "placeholder" : "请输入"
+                                // },
+                                {
+                                    "id" : "workunits",
+                                    "title" : "工作单位",
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "name" : "profession",
+                                    "title" : "职业",
+                                    "type" : "select",
+                                    "option" : base_datas.profession,
+                                    "placeholder" : "请选择"
+                                },
+                                
+                                {
+                                   "id" : "vehicletype",
+                                    "title" : "汽车品牌(必填)",
+                                    "placeholder" : "请输入" 
+                                }
+                                ,{
+                                   "id" : "vehiclenumber",
+                                    "title" : "车牌号(必填)",
+                                    "placeholder" : "请输入" 
+                                }
+                                ,{
+                                   "id" : "issfyq",
+                                    "title" : "是否饲养家禽(必填)",
+                                    "bol":"true",
+                                    "type" : "select",
+                                    "option" : [{html:'是',value:'是'},{html:'否',value:'否'}],
+                                    "placeholder" : "请输入",
+                                    "select" : function(name,id){
+                                        if(name=="是"){
+                                             getData("process").show('yangtype');
+                                             getData("process").show('othernumber');
+                                        }else{
+                                             getData("process").hide('yangtype');
+                                             getData("process").hide('othernumber');
+                                        }
+                                    }
+                                }
+                                ,{
+                                   "id" : "yangtype",//17
+                                    "title" : "家禽种类",
+                                    "type" : "select",
+                                    "option" : [{html:'鸽子类',value:'鸽子类'},{html:'鸡类',value:'鸡类'},{html:'鸭类',value:'鸭类'},{html:'鹅类',value:'鹅类'},{html:'鹌鹑类',value:'鹌鹑类'},{html:'鹦鹉类',value:'鹦鹉类'},{html:'其他养禽类',value:'其他养禽类'}],
+                                    "placeholder" : "请输入" 
+                                }
+                                ,{
+                                   "id" : "othernumber",//18
+                                    "title" : "家禽数量",
+                                    "placeholder" : "请输入" 
+                                }
+                                ,{
+                                   "id" : "issfyg",
+                                    "title" : "是否饲养宠物(必填)",
+                                    "bol":"true",
+                                    "type" : "select",
+                                    "option" : [{html:'是',value:'是'},{html:'否',value:'否'}],
+                                    "placeholder" : "请输入",
+                                    "select" : function(name,id){
+                                        if(name=="是"){
+                                             getData("process").show('cwlxtype');
+                                             getData("process").show('cwlxnum');
+                                        }else{
+                                             getData("process").hide('cwlxtype');
+                                             getData("process").hide('cwlxnum');
+                                        }
+                                    }
+                                }
+                                ,{
+                                   "id" : "cwlxtype",
+                                    "title" : "宠物种类",
+                                    "type" : "select",
+                                    "option" : [{html:'狗',value:'狗'},{html:'猫',value:'猫'},{html:'其他',value:'其他'}],
+                                    "placeholder" : "请输入" 
+                                }
+                                ,{
+                                   "id" : "cwlxnum",
+                                    "title" : "宠物数量",
+                                    "placeholder" : "请输入" 
+                                }
+                    ]},{
+                            "type" : "button",
+                            "label" : "保存",
+                            "onclick" : function() {
+                                // var url = config.bcrk+'houseid='+build.id+'&orgpath='+build.orgpath+'&orgname='+build.orgname+'&orgid='+build.orgid+'&isdeath=1008611'+'&df10='+pj+'&df11='+livehouseid;
+                                var url = config.rktj+'houseid='+build.id+'&orgpath='+build.orgpath+'&orgname='+build.orgname+'&orgid='+build.orgid+'&df10='+pj+'&df11='+livehouseid;
+                                var arr = getData("process").getArray().table;
+                                if(arr[1].value=='身份证'){
+                                    IDCardValidate(arr[3].value);
+                                }
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                        lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                        return;
+                                    }
+                                    if(arr[i].value!=""){
+                                        if(arr[i].type=="select"){
+                                            if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                            if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                            //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                        }else{
+                                          url+="&"+arr[i].id+"="+arr[i].value;
+                                        }
+                                    }
+                                }
+                                if(url.indexOf('身份证')>-1){
+                                    url = url.replace('certificatename','cardno');
+                                }
+                                lazy.URLRequest(encodeURI(url),function(data){
+                                    alert('保存成功');
+                                    //lazy.goBack();
+                                    lazy.openWin('rklb.html');
+                                    //lazy.setParameter('click',1);
+                                    // window.history.go(-2);
+                                })
+                                
+                             }
+                           }]
+                    // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+                    /*function isCardNo(card){ 
+                        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+                        if(reg.test(card) === false) 
+                        { 
+                            lazy.alert2("身份证输入不合法"); 
+                            return false; 
+                        } 
+                       };*/
+                //根据身份证判断男女
+                function GetGendeByIdCardNo(idCard) {
+                    if (idCard.length == 18) {
+                        if (idCard.substring(14, 17) % 2 == 0) {
+                            return '女';
+                        } else {
+                            return '男';
+                        }
+                    }
+                    if (idCard.length == 15) {
+                        if (idCard.substring(14, 15) % 2 == 0) {
+                            return '女';
+                        } else {
+                            return '男';
+                        }
+                    }
+                }
+                //根据身份证判断是否合法 
+                function IDCardValidate(cardno){ 
+                         if(cardno==""){return cardno;}
+                         var url= config.cardno + "cardno="+cardno;
+                         var message="";
+                         lazy.URLRequest(url,function(data){
+                             if (!data.isSucceed) { 
+                                     message=data.message;
+                                     lazy.alert2(message);
+                                     return;
+                                 }      
+                     });
+                     /*$.ajax({
+                         type: 'post',
+                         url: url,
+                         async: false,
+                         dataType: 'json',
+                         success: function (ViewData) {
+                             if (!ViewData.isSucceed) { 
+                                 message=ViewData.message;
+                             }
+                         }
+                     }); 
+                     return message; */
+                }
+                    
+                    setData(json,function(){
+                        // document.getElementsByClassName("tr")[10].style.display="none";
+                        document.getElementsByClassName("tr")[12].style.display="none";
+
+                        getData("process").hide('cwlxtype');
+                        getData("process").hide('cwlxnum');
+                        getData("process").hide('yangtype');
+                        getData("process").hide('othernumber');
+                        // alert(document.getElementsByClassName('tr')[6])
+                            var list = [];
+                            var citys = base_datas.city
+                            for(var i=0;i<citys.length;i++){
+                                if(citys[i].pvalue=="0") list.push(citys[i]);
+                            }
+                            getData("process").setOption(list,7)
+                            getData("process").setOption(getCode(11000000000001),8)
+                            getData("process").setOption(getCode(11100000000001),9)
+                    })
+                })//url
+                    //省市区联动
+                    function getCode(value) {
+                        var arr = [];
+                        lazy.for(base_datas.city, function(obj) {
+                            if(value==obj.pvalue) {
+                                arr.push(obj);
+                            }
+                            // else if(obj.pvalue=='0'){
+                            //     arr.push(obj);
+                            // }
+                        });
+                        return arr;
+                   }
+        });
+    </script>
+</html>

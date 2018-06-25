@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #41affe !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide()
+        var json = [
+                        {
+                            "id" : "process",
+                            "type" : "process",
+                            "table" : [
+                                        {
+                                          "title" : "日期",
+                                          "type" : "date",
+                                           "placeholder" : "请选择(必填)"
+                                        },
+                                       {
+                                          //组
+                                          "list" : {
+                                              "name":"项目工作记录",
+                                               "table" : [
+                                                            [
+                                                                {
+                                                                    "title" : "本月计划",
+                                                                    "type" : "textarea",
+                                                                    "placeholder" : "请填写文字"
+
+                                                                },
+                                                                {
+                                                                    "title" : "本月完成",
+                                                                    "type" : "textarea",
+                                                                    "placeholder" : "请填写文字"
+
+                                                                },
+                                                                {
+                                                                    "title" : "未完成原因",
+                                                                    "type" : "textarea",
+                                                                    "placeholder" : "请填写文字"
+
+                                                                }
+                                                             ]
+                                                ],
+                                                "add" : "+添加项目工作记录"
+                                            }  
+                                        },
+                                        {
+                                            "title" : "工作分析",
+                                            "type" : "textarea",
+                                            "placeholder" : "本月工作总结实施过程分析"  
+                                        },
+                                        {
+                                            "title" : "风险对策",
+                                            "type" : "textarea",
+                                            "placeholder" : "项目风险分析及化解对策"                  
+                                         },
+                                         {
+                                            "title" : "关注事项",
+                                            "type" : "textarea",
+                                            "placeholder" : "需要公司高层关注事项"                  
+                                         },
+                                         {
+                                            "title" : "下月工作计划",
+                                            "type" : "textarea",
+                                            "placeholder" : "下月工作计划"                  
+                                         },
+                                        {
+                                            "type" : "file",
+                                            "title" : "附件",
+                                            "httpurl" : config.docUpoad
+                                        }
+                                      ]
+                        },{
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var allvalue = getData("process").getArray().table;
+                                var logtime = allvalue[0].value;
+                                var byjh = [];
+                                var bywc = [];
+                                var wwc = [];
+                                for(var i=0;i<allvalue[1].list.table.length;i++){
+                                	var tmp = allvalue[1].list.table[i];
+                                	byjh.push(tmp[0].value);
+                                	bywc.push(tmp[1].value);
+                                	wwc.push(tmp[2].value);
+                                }
+                                var gzfx = allvalue[2].value;
+                                var fxdc = allvalue[3].value;
+                                var gzsx = allvalue[4].value;
+                                var xyjh = allvalue[5].value;
+                                var filesid = [];
+                                if(allvalue[6].value[0]&&allvalue[6].value[0].annexid){
+                                	for(var i=0;i<allvalue[6].value.length;i++){
+                                		filesid.push(allvalue[6].value[i].annexid)
+                                	}	
+                                }
+                                if(logtime==""){
+                                    lazy.alert2("日期不能为空");
+                                }else if(byjh.length==0&&bywc.length==0&&wwc.length==0&&gzfx==""&&fxdc==""&&gzsx==""&&xyjh==""){
+                                	lazy.alert2("至少添加一项");
+                                }else{
+                                	var content = {
+                                			"byjh" : byjh,
+                                			"bywc" : bywc,
+                                			"wwc" : wwc,
+                                			"gzfx" : gzfx,
+                                			"fxdc" : fxdc,
+                                			"gzsx" : gzsx,
+                                			"xyjh" : xyjh
+                                	}
+                                	var url = config.mobilelogsave+"logtime="+logtime+"&content="+JSON.stringify(content)+"&type=month&issave=1";
+                                	url += "&filesid="+filesid;
+									lazy.alertyesno('确认提交？', function(){
+										lazy.URLRequest(url,function(){
+	                                		alert("提交成功");
+	                                        lazy.openWin("rizhi.html")
+	                                    }, function(e) {
+	                                    	lazy.alert2(e);
+	                                    })
+                                    },function(){
+                                    	
+                                    });
+                                	
+                                }
+                            }
+                        }
+                    ];
+        json.unshift({
+            "id" : "headertoolbar",
+            "type" : "headertoolbar",
+            "backgroundColor" : lazy.getParameter("Bgcolor"),
+            "color" : "#fff",
+            "border" : "none",
+            "title" : '月报',
+            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+            "select" : function(name, index) {
+                if(name=="left"&&index==0){
+                    lazy.goBack();
+                }
+                if(name=="left"&&index==1){
+                    lazy.close();
+                }
+            }
+        })
+        setData(json);
+           
+    });
+    </script>
+</html>

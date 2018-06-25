@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body,html {
+                background-color: #efeef3 !important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var url = config.mqtype;
+        lazy.setHeader({
+            "title":"民情日志",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : [{
+                 "icon" : "dui.png",
+                 "onclick" : function() {
+                    var arr = getData("process").getArray().table;
+                    if(!arr[0].returnObj.value||arr[0].returnObj.value=="") lazy.alert2("请选择大类");
+                    else if(!arr[1].returnObj.value||arr[1].returnObj.value=="") lazy.alert2("请选择小类")
+                    else if(arr[2].value=="") lazy.alert2("请输入日志内容")
+                    else {
+                        var url = config.tjmq+"content="+arr[2].value+"&bigtypeid="+arr[0].returnObj.value+"&bigtypename="+arr[0].returnObj.html;
+                        url+="&smalltypeid="+arr[1].returnObj.value+"&smalltypename="+arr[1].returnObj.html
+                        if(arr[3].value.length>0){
+                            var imgids = [];
+                            var imgs = arr[3].value;
+                            for(var i=0;i<imgs.length;i++){
+                                imgids.push(imgs[i].annexid);
+                            }
+                            url+="&files="+imgids;
+                        }
+                        lazy.URLRequest(url,function(){
+                            alert("上报成功");
+                            lazy.openWin("mqrz.html");
+                        })
+                    }
+                 }
+             }]
+        });
+        lazy.URLRequest(url,function(data){
+            var arrs=[];
+            var smallarrs = [];
+            var arr = data.rows;
+            for(var i=0;i<arr.length;i++){
+                var obj={};
+                obj.html=arr[i].bigtypename;
+                obj.value=arr[i].bigtypeid;
+                arrs.push(obj)
+                for(var j=0;j<arr[i].childclass.length;j++){
+                    var tmp = {
+                        "html" : arr[i].childclass[j].smalltypename,
+                        "value" : arr[i].childclass[j].smalltypeid,
+                        "bigid" : arr[i].bigtypeid
+                    }
+                    smallarrs.push(tmp)
+                }
+            }
+            var json = [
+                // {
+                    // "id" : "headertoolbar",
+                    // "type" : "headertoolbar",
+                    // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    // "color" : "#fff",
+                    // "border" : "none",
+                    // "title" : '民情日志',
+                    // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    // "right" : [lazy.url + "LazyUI/js/headertoolbar/dui.png"],
+                    // "select" : function(name, index) {
+                        // if(name=="left"&&index==0){
+                            // lazy.goBack();
+                        // }
+                        // if(name=="left"&&index==1){
+                            // lazy.close();
+                        // }
+                        // if(name=="right"){
+                            // var arr = getData("process").getArray().table;
+                            // if(arr[0].returnObj.html=="") lazy.alert2("请选择大类");
+                            // else if(arr[1].returnObj.html=="") lazy.alert2("请选择小类")
+                            // else if(arr[2].value=="") lazy.alert2("请输入日志内容")
+                            // else {
+                                // var url = config.tjmq+"content="+arr[2].value+"&bigtypeid="+arr[0].returnObj.value+"&bigtypename="+arr[0].returnObj.html;
+                                // url+="&smalltypeid="+arr[1].returnObj.value+"&smalltypename="+arr[1].returnObj.html
+                                // if(arr[3].value.length>0){
+                                    // var imgids = [];
+                                    // var imgs = arr[3].value;
+                                    // for(var i=0;i<imgs.length;i++){
+                                        // imgids.push(imgs[i].annexid);
+                                    // }
+                                    // url+="&files="+imgids;
+                                // }
+                                // lazy.URLRequest(url,function(){
+                                    // alert("上报成功");
+                                    // lazy.openWin("mqrz.html");
+                                // })
+                            // }
+//                             
+                        // }
+                    // }
+                // },
+                {
+                    "type" : "process_xq",
+                    "table" : [
+                        {"title":"区域名称：","value":data.newPrimaryKeys.orgname},
+                        {"title":"区域编号：","value":data.newPrimaryKeys.orgid},
+                    ]
+                },
+                {
+                    "id" : "process",
+                    "type" :　"process",
+                    "table" : [
+                        {
+                            "title" : "大类",
+                            "type" : "select",
+                            "option" : arrs,
+                            "placeholder" : "请选择",
+                            "select" : function(name,id){
+                                var list = [];
+                                for(var i=0;i<smallarrs.length;i++){
+                                    if(smallarrs[i].bigid==id){
+                                        list.push(smallarrs[i])
+                                    }
+                                }
+                                getData("process").setOption(list,1)
+                            }
+                        },
+                        {
+                            "title" : "小类",
+                            "type" : "select",
+                            "placeholder" : "请选择",
+                        },
+                        {
+                            "title" : "日志内容",
+                            "type" : "textarea",
+                            "placeholder" : "请输入",
+                        },
+                        {
+                            "title" : "图片",
+                            "type" : "image",
+                            "httpurl" : config.docUpoad,
+                        }
+                    
+                    ]
+                }
+            ]
+            setData(json)
+       })
+    });
+    </script>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>个人中心</title>
+        <style>
+            body{
+                background-color: #f7f8fa !important;
+            }
+            div[type=ceshi] .tr{
+                background: url(../LazyUI/images/wodebg.png);
+                background-repeat: no-repeat;
+                background-size: 100%;
+            }
+            div[type=ceshi] .tr1{
+                background-color: rgba(255,255,255,0) !important;
+            }
+           div[type=ceshi] .h1{
+                line-height: 4.5rem !important;
+                color:#ffffff;
+            }
+            input{
+                text-align: right;
+                color:#202227;
+            }
+            #input1{
+                margin-bottom: 1px !important;
+            }
+            #input2{
+                margin-bottom: 1px !important;
+            }
+            #input4{
+                margin-bottom: 1px !important;
+            }
+            .input{
+                /*padding-top:1rem !important;
+                padding-bottom: 1rem !important;*/
+            }
+           div[type=input] .icon {
+                width: 2.5rem;
+                height: auto;
+                background-repeat: no-repeat;
+                background-position: center!important;
+                background-size: 0.5rem!important;
+            }
+            div[type=input] .cell {
+                padding-right:0 !important;
+            }
+            div[type=input] .title {
+                color:#777777 !important;
+               /* padding-top:1rem !important;
+                padding-bottom:1rem !important;*/
+            }
+            #input4 input{
+                color:#01adff !important;
+            }
+            #input6 input{
+                color:#01adff !important;
+            }
+            #input6{
+                margin-bottom:1px !important;
+            }
+            #input7 input{
+                color:#01adff !important;
+            }
+            #input7{
+                margin-bottom:1px !important;
+            }
+            #input8 input{
+                color:#01adff !important;
+            }
+            #input5{
+                margin-bottom: 0 !important
+            }
+            #tag2{
+                margin-bottom:1rem;
+            }
+            ::-webkit-input-placeholder{
+                font-size: 1rem !important;
+             }
+             div[type=tag2] .tag2{
+                  margin-left:1rem !important;
+                  margin-right:0rem !important;
+             }
+             div[type=ceshi] .icon{
+                 background-color:rgba(255,255,255,0) !important;
+                 border:none !important;
+                 margin-top:0.25rem;
+             }
+             input:disabled{
+               opacity: 1;
+           } 
+        </style>
+    </head>
+    <script>
+          var isPageHide = false; 
+          window.addEventListener('pageshow', function () { 
+            if (isPageHide) { 
+              window.location.reload(); 
+            } 
+          }); 
+          window.addEventListener('pagehide', function () { 
+            isPageHide = true; 
+          }); 
+        start(function() {
+            lazy.clearCache();
+
+             //var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'gh_5c92f685a501';
+             //var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'o8ScLvzMohPbQE9FDDM7PpmcV3xI';
+             var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+             var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+             var phone='';
+             var path = '';        //行政区域path
+             var communitytype=1;  //行政区域层级
+             var communityid;      //行政区域id
+             var addresslist;      //地址列表
+             var peopleid = '';
+             lazy.loadWxJs(function(){
+                 loadData()
+             })
+             function loadData(){
+                 var json=[{
+                     "id":"ceshi",
+                     "type":"ceshi",
+                     "style":{"background":"white"},
+                     "table":[]
+                 },/*{
+                     "id":"tag",
+                     "type":"tag",
+                     "content":['残疾人','低保户','育龄妇女','育龄妇女']
+                    
+                 },*/{
+                     
+                     "id":"input1",
+                     "type":"input",
+                     "title":"真实姓名",
+                     "value":"",
+                     "readOnly":true,
+                     "placeholder":"请填写您的真实姓名",
+                     "icon":"../LazyUI/images/right1.png",
+                     /*"key":"rzsq",*/
+                    "onclick":function(){
+                      
+                    },
+                     "foc":function(){
+                         
+                     },
+                     "elclick":function(){
+                         var name = getData("input1").getValue()
+                         lazy.openWin("editname.html?peopleid="+peopleid+"&name="+name)
+                     }
+                 },{
+                     
+                     "id":"input2",
+                     "type":"input",
+                     "title":"手机号",
+                     "value":"",
+                     "readOnly":true,
+                     "placeholder":"未绑定",
+                     "icon":"../LazyUI/images/right1.png",
+                     /*"key":"rzsq",*/
+                    "onclick":function(){
+                      
+                    },
+                     "foc":function(){
+                        
+                        
+                     },
+                     "elclick":function(){
+                          if(phone){
+                             lazy.openWin("showphone.html?phone="+phone+'&openid='+openid+'&initid='+initid)
+                         }else{
+                             lazy.openWin("editphone.html?backpage=1"+'&openid='+openid+'&initid='+initid)
+                         }
+                     }
+                 },{
+                     
+                     "id":"input3",
+                     "type":"input",
+                     "title":"所在地区",
+                     "value":"",
+                     "readOnly":true,
+                     "placeholder":"未选择",
+                     "icon":"../LazyUI/images/right1.png",
+                     /*"key":"rzsq",*/
+                    "foc":function(){},
+                    "onclick":function(){
+                      
+                    },
+                     "elclick":function(){
+                         var url = getIP()+'/wx/wechatgl/weixinuser/getGzhOrgPath?mobile='+phone
+                         lazy.GET(url,function(data){
+                             var _data=data.newPrimaryKeys.path.split(".")[2];
+                             //var pathid =da 
+                             communitytype=1;  //行政区域层级
+                             communityid=_data; 
+                             //communityid=39;  
+                             getZoon(communitytype,communityid,function(arr){
+                                 if(arr[0].length == 0){
+                                            lazy.alert2("暂无可选择行政区域信息")
+                                            getData("input3").add('')
+                                            return;
+                                  }
+                                 //console.log("===========1=========")
+                                 //console.log(arr)
+                                 var position = Math.ceil(arr[0].length/2)
+                                 if(arr[0].length == 1) position = 0;
+                                 getZoon(communitytype+1,arr[0][position-1].communityid,function(temp){ 
+                                     //console.log("===========2=========")
+                                     // console.log(temp)
+                                      arr.push(temp[0])
+                                     var picker = lazy.picker2(arr, function(obj) {
+                                                    //lazy.alert2(obj);
+                                        var objlength = obj.length;
+                                        console.log(obj)
+                                        if(obj[objlength-1].obj){
+                                            getData("input3").add(obj[objlength-1].obj.pathname)
+                                            path = obj[objlength-1].obj.path;        //行政区域path
+                                            var name = obj[objlength-1].obj.pathname;
+                                        }else{
+                                            getData("input3").add(obj[objlength-2].obj.pathname)
+                                            path = obj[objlength-2].obj.path;        //行政区域path
+                                            var name = obj[objlength-2].obj.pathname;
+                                        }
+                                        
+                                        
+                                        saveZoon(path,name)
+                                    });
+                                    picker.onchange = function (i,obj,arr) {
+                                         
+                                         communitytype = obj.obj.path.split('.').length-3;
+                                          getZoon(communitytype,obj.obj.communityid,function(arr){
+                                              if(arr[0].length>0){ 
+                                                  picker.add(arr[0],(i+1));
+                                              }else{
+                                                  picker.add([],(i+1));
+                                              }
+                                          })
+                                    }
+                                 })
+                             })
+                         },function(e){
+                                lazy.alert2("错误信息!:"+e);
+                         },3)
+                         
+                     }
+                 },{
+                     
+                     "id":"input4",
+                     "type":"input",
+                     "title":"我的地址",
+                     "value":"",
+                     "readOnly":true,
+                     "placeholder":"未设置",
+                     "icon":"../LazyUI/images/right1.png",
+                     /*"key":"rzsq",*/
+                    "foc":function(){},
+                    "onclick":function(){
+                      
+                    },
+                     "elclick":function(){
+                         lazy.openWin("editaddress.html?initid="+initid+'&openid='+openid)
+                     }
+                 },{
+                     
+                     "id":"input5",
+                     "type":"input",
+                     "title":"我的订阅",
+                     "value":"",
+                     "readOnly":true,
+                     "placeholder":"",
+                     "icon":"../LazyUI/images/right1.png",
+                     /*"key":"rzsq",*/
+                    "foc":function(){},
+                    "onclick":function(){
+                      
+                    },
+                     "elclick":function(){
+                         lazy.openWin("edittag.html?openid="+openid+"&initid="+initid)
+                     }
+                 },{
+                     "id":"tag2",
+                     "type":"tag2",
+                     "direction":"row",
+                     "content":[]
+                 },{
+                     
+                     "id":"input6",
+                     "type":"input",
+                     "title":"我的订单",
+                     "value":"",
+                     "readOnly":true,
+                     "placeholder":"",
+                     "icon":"../LazyUI/images/right1.png",
+                     /*"key":"rzsq",*/
+                    "foc":function(){},
+                    "onclick":function(){
+                      
+                    },
+                     "elclick":function(){
+                         lazy.openWin("orderlist.html?initid="+initid+"&openid="+openid)
+                     }
+                 },{
+                     
+                     "id":"input7",
+                     "type":"input",
+                     "title":"我的诉求",
+                     "value":"",
+                     "readOnly":true,
+                     "placeholder":"",
+                     "icon":"../LazyUI/images/right1.png",
+                     /*"key":"rzsq",*/
+                    "onclick":function(){
+                      
+                    },
+                    "foc":function(){},
+                     "elclick":function(){
+                         lazy.openWin("../tousu/tslist.html?initid="+initid+"&openid="+openid)
+                     }
+                 },{
+                     
+                     "id":"input8",
+                     "type":"input",
+                     "title":"我的活动",
+                     "value":"",
+                     "readOnly":true,
+                     "placeholder":"",
+                     "icon":"../LazyUI/images/right1.png",
+                     /*"key":"rzsq",*/
+                    "onclick":function(){
+                      
+                    },
+                    "foc":function(){},
+                     "elclick":function(){
+                         lazy.openWin("../wode/hdlist.html?initid="+initid+"&openid="+openid)
+                     }
+                 }];
+                 setData(json,function(){
+                    getPersonalInfo()
+                 })
+             }
+             //获取当前用户信息
+             function getPersonalInfo(){
+                  var url1 = getIP()+"/wx/api/wx/getweixinuserinfo?openid="+openid+"&initid="+initid;
+                    lazy.GET(url1,function(_data){
+                        
+                         if(_data.rows.length>0){
+                            peopleid = _data.rows[0].id;
+                            var s={
+                                 "icon":_data.rows[0].headpicture?_data.rows[0].headpicture:"../LazyUI/images/morenpeople.png",
+                                 "h1":_data.rows[0].username,
+                                 //"h2":"手机号："+_data.rows[0].mobile,
+                                 
+                            }
+                            getData("ceshi").add(s)
+                            getData("input3").add(_data.rows[0].orgname)
+                            getData("input1").add(_data.rows[0].realname)
+                            getData("input2").add(_data.rows[0].mobile)
+                            phone = _data.rows[0].mobile
+                             queryTagList()
+                             
+                        }
+                   
+                    },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                    },0)
+             }
+             
+             
+             function getCity(){
+                 var url = getIP()+'/wx/wechatgl/weixinuser/getGzhOrgPath?mobile='+phone
+                 lazy.GET(url,function(data){
+                     var _data=data.newPrimaryKeys.path.split(".")[2];
+                     //var pathid =da 
+                     console.log(_data)
+                     communitytype=1;  //行政区域层级
+                     communityid=_data;  
+                     getZoon(communitytype,communityid)
+                 },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                 },3)
+             }
+             function getZoon(communitytype,communityid,back){
+                 var url = getIP()+'/base/base/SCommunity/getNextLevelInfo?communitytype='+communitytype+'&communityid='+communityid
+                 lazy.GET(url,function(data){
+                     //var _data=data.newPrimaryKeys.path.split(".")[2];
+                     //var pathid =da 
+                     //console.log(11111)
+                     var temparr=[]
+                     var arr=[]
+                     lazy.for(data.rows,function(obj){
+                         var _data={};
+                         var title_tmp = obj.pathname.split(',');
+                         var index_tmp = title_tmp.length-1;
+                         var title = title_tmp[index_tmp]
+                         _data.title=title;
+                         _data.communityid=obj.districtid;
+                         _data.path=obj.path;
+                         _data.pathname=obj.pathname;
+                         temparr.push(_data)
+                     })
+                     arr.push(temparr)
+                     back(arr)
+                 },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                 },3)
+             }
+             function saveZoon(orgpath,orgname){
+                 var url = getIP()+'/wx/wechatgl/weixinuser/updateUserOrgInfo?orgpath='+orgpath+'&orgname='+orgname+'&openid='+openid;
+                 lazy.GET(url,function(data){
+                    console.log(data)
+                    lazy.alert2('保存行政区域成功')
+                 },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                 },3)
+             }
+             function queryAddresslist(){
+                 var url = getIP()+'/wx/weixinUserAddress/weixinUserAddress/list?&openid='+openid;
+                 lazy.GET(url,function(data){
+                    //console.log(data)
+                    getData("input4").add(data.rows.length+'个')
+                    if(data.rows.length>0){
+                        
+                        lazy.setParameter("addresslist",data.rows)
+                    }else{
+                        lazy.setParameter("addresslist",'')
+                    }
+                    queryOrderlist()
+                                     
+                    //lazy.alert2('保存行政区域成功')
+                 },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                 },null)
+             }
+             function queryTagList(){
+                  var arr = []
+                  var url = getIP()+"/cmy/article/cmyarticletype/getArticleType?initid="+initid;
+                  lazy.GET(url,function(data){
+                      lazy.for(data.rows,function(obj){
+                          if(obj.mark == 1){
+                              var s = {
+                                  'id':obj.id,
+                                  'title':obj.name,
+                                  'choose':obj.mark,
+                              }
+                              arr.push(s)
+                          }
+                          
+                      })
+                       getData("tag2").add(arr)
+                       queryAddresslist()
+                                    
+                  },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                  },null)  
+              }
+              function queryOrderlist(){
+                 var url = getIP()+'/order/SupOrder/supOrder/list?page=1&useropenid='+openid;
+                 lazy.GET(url,function(data){
+                    getData("input6").add(data.total+'个')
+                    querySuqiulist()
+                 },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                 },null)
+             }
+             function querySuqiulist(){
+                 var url = getIP() + '/wx/wechat/weixinevent/list.ht?initid='
+                        + initid + '&openid=' + openid + '&page=1&rows=10&content=';
+                 lazy.GET(url,function(data){
+                    getData("input7").add(data.total+'个')
+                    queryHDlist()
+                 },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                 },null)
+             }
+             function queryHDlist(){
+                 var url = getIP()+'/cmy/activity/cmyactivity/weixinList?rows=10&page=1&openid='+openid+'&initid='+initid
+                     lazy.GET(url,function(data){
+                        
+                    getData("input8").add(data.total+'个')
+                    inputdisable()
+                 },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                 },null)
+             }
+             function inputdisable(){
+                 var inputs = document.getElementsByTagName("input");
+                 for(var i=0;i<inputs.length;i++){
+                     inputs[i].disabled = true;
+                 }
+             }
+             
+            
+        });
+    </script>
+</html>

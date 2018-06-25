@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>我的待办</title>
+        <style type="text/css">
+            div[type=label]{
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                color: #787878;
+                background-color: #efeff4;
+            }
+            .icontitle1, .iconimg {
+                border-radius: 0 !important;
+            }
+            #bounceLoading {
+                display : none !important;
+            }
+            div[type=titlebtnlist1] .td1 .slh{
+                white-space: normal!important;
+            }
+            div[type=titlebtnlist1] .h1{
+                width: 80%!important;
+            }
+            div[type=titlebtnlist1] .tr{
+                height: auto!important;
+            }
+            div[type=titlebtnlist1] .td1{
+                height: 2.1rem!important;
+                line-height: 1rem!important;
+            }
+            div[type=titlebtnlist1] .td{
+                padding-top: 0.5rem!important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var page = 1;
+        lazy.setParameter("Bgcolor","#8764e6");
+        var json = [
+        // {
+                //"id" : "titlebtnlist2",
+                // "type" : "titlebtnlist2",
+                // "table" : [
+                    // {
+                        // "icon" : "",//90*90
+                        // "h1" : "郝建为",
+                        // "h2" : "产品部",
+                        // "onclick" : function(obj) {
+                            // lazy.setParentJs("setProcessPeople", obj);
+                        // }
+                    // }
+                   // ]
+            //}
+        ];
+        lazy.setHeader({
+            "title":"我的待办",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        // json.unshift({
+            // "id" : "headertoolbar",
+            // "type" : "headertoolbar",
+            // "backgroundColor" : lazy.getParameter("Bgcolor"),
+            // "color" : "#fff",
+            // "border" : "none",
+            // "title" : '我的待办',
+            // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+            // "select" : function(name, index) {
+                // if(name=="left"&&index==0){
+                    // lazy.goBack();
+                // }
+                // if(name=="left"&&index==1){
+                    // lazy.close();
+                // }
+            // }
+        // })
+        setData(json,function(){
+            lazy.bounce({
+               "up" : function(){
+                   load();
+               }
+            });
+            load();
+        })
+        function load(){
+            var url = config.mytodoMobile+"rows=20&page="+page;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                page++;
+                if(data.length>0){
+                    for(var i=0;i<data.length;i++){
+                        var content = data[i].content;
+                        if(!getData(data[i].time)){
+                            var label={
+                               "type" : "label",
+                               "text" : data[i].time,
+                            }
+                            json.push(label);
+                            var list = [];
+                            for(var j=0;j<content.length;j++){
+                                var h3 = "";
+                                if(content[j].state=="7") h3='<span style="color:green">已审核</span>';
+                                else if(content[j].state=="6") h3='<span style="color:#fcc374">待审核</span>';
+                                else if(content[j].state=="5") h3='<span style="color:#fcc374">待核查</span>';
+                                else if(content[j].state=="4") h3='<span style="color:#ff9676">处理中</span>';
+                                else if(content[j].state=="3") h3='<span style="color:#af96d3">待转办</span>';
+                                else if(content[j].state=="2") h3='<span style="color:#ff6e73">已退回</span>';
+                                else if(content[j].state=="1") h3='<span style="color:#ff6e73">待分派</span>';
+                                else if(content[j].state=="0") h3='<span style="color:#fcc374">待立案</span>';
+                                var tmp = {
+                                    "id" : content[j].id,
+                                    "taskid" : content[j].taskid,
+                                    "state" : content[j].state,
+                                    "h1" : content[j].content,
+                                    "h2" : content[j].id+"&nbsp;"+content[j].level,
+                                    "level" : content[j].level,
+                                    "h3" : h3,
+                                    "icon" : getIP() + content[j].img,
+                                    "onclick" : function(obj){
+                                        var id=obj.id;
+                                        var tid=obj.taskid;
+                                        var state=obj.state;
+                                        lazy.setParameter("rid",id);
+                                        lazy.setParameter("level",obj.level);
+                                        lazy.setParameter("evtstate",state);
+                                        lazy.setParameter("taskid",tid);
+                                        if(state==2){
+                                            lazy.setParameter("mapgps",null);
+                                            lazy.openWin("shijianshangbao.html");
+                                        }else{
+                                            lazy.setParameter("rtype","待办")
+                                            lazy.openWin("shijianxiangqing.html");
+                                        }
+                                    }
+                                }
+                                list.push(tmp)
+                            }
+                            var tbl = {
+                                "id" : data[i].time,
+                                "type" : "titlebtnlist1",
+                                "table" : list,
+                                "style" : {
+                                    "border-top" : "1px solid #DCDCDC"
+                                }
+                            }
+                            json.push(tbl);
+                        }else{
+                            for(var j=0;j<content.length;j++){
+                                var h3 = "";
+                                if(content[j].state=="7") h3='<span style="color:green">已审核</span>';
+                                else if(content[j].state=="6") h3='<span style="color:#fcc374">待审核</span>';
+                                else if(content[j].state=="5") h3='<span style="color:#fcc374">待核查</span>';
+                                else if(content[j].state=="4") h3='<span style="color:#ff9676">处理中</span>';
+                                else if(content[j].state=="3") h3='<span style="color:#af96d3">待转办</span>';
+                                else if(content[j].state=="2") h3='<span style="color:#ff6e73">已退回</span>';
+                                else if(content[j].state=="1") h3='<span style="color:#ff6e73">待分派</span>';
+                                else if(content[j].state=="0") h3='<span style="color:#fcc374">待立案</span>';
+                                var tmp = {
+                                    "id" : content[j].id,
+                                    "taskid" : content[j].taskid,
+                                    "state" : content[j].state,
+                                    "h1" : content[j].content,
+                                    "h2" : content[j].id+"&nbsp;"+content[j].level,
+                                    "level" : content[j].level,
+                                    "h3" : h3,
+                                    "icon" : getIP() + content[j].img,
+                                    "onclick" : function(obj){
+                                        var id=obj.id;
+                                        var tid=obj.taskid;
+                                        var state=obj.state;
+                                        lazy.setParameter("rid",id);
+                                        lazy.setParameter("level",obj.level);
+                                        lazy.setParameter("evtstate",state);
+                                        lazy.setParameter("taskid",tid);
+                                        if(state==2){
+                                            lazy.setParameter("mapgps",null);
+                                            lazy.openWin("shijianshangbao.html");
+                                        }else{
+                                            lazy.setParameter("rtype","待办")
+                                            lazy.openWin("shijianxiangqing.html");
+                                        }
+                                    }
+                                }
+                                getData(data[i].time).add(tmp)
+                            }
+                        }
+                    }
+                }
+                if(page==1&&data.length==0){
+                    var label = {
+                        "type" : "label",
+                        "text" : "暂无待办"
+                    }
+                    json.push(label);
+                }
+                lazy.bounce({
+                    "up" : function(){
+                        load();
+                    }
+                 });   
+                setData(json);
+            })
+        }
+    });
+    </script>
+</html>

@@ -1,0 +1,40 @@
+body[type=body] div[type=bslist]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    background-color: #fff;
+}
+div[type=bslist] .table {
+    width:100%;
+    height:auto;
+}
+div[type=bslist] .tr {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    border-bottom: 1px solid #efefef;
+}
+div[type=bslist] .tr1 {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+div[type=bslist] .h1 {
+    height:3rem;
+    line-height: 1.5rem;
+}
+div[type=bslist] .h1 span {
+   font-size: 1rem;
+}
+
+div[type=bslist] .h2 span {
+   color: #3399ff;
+   font-size:0.8rem;
+}
+div[type=bslist] .h3 span {
+   color: #999999;
+   font-size:0.8rem;
+}
+

@@ -1,0 +1,78 @@
+div[type=actionsheet]{
+	width:100%;
+	height:100%;
+	-webkit-box-sizing:border-box;
+	position:absolute;
+	font-size:1rem;
+    z-index: 100;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    display: none;
+}
+div[type=actionsheet] .actionsheet_mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    background-color: #000;
+    opacity: 0.3;
+}
+div[type=actionsheet] .actionsheet_mask_a{
+    animation: actionsheet_mask 0.5s;
+    -webkit-animation: actionsheet_mask 0.5s; 
+}
+@keyframes actionsheet_mask {
+    from {opacity: 0;}
+    to {opacity: 0.3;}
+}
+div[type=actionsheet] .actionsheet_mask_a_o{
+    animation: actionsheet_mask_o 0.5s;
+    -webkit-animation: actionsheet_mask_o 0.5s; 
+    opacity: 0;
+}
+@keyframes actionsheet_mask_o {
+    from {opacity: 0.3;}
+    to {opacity: 0;}
+}
+div[type=actionsheet] .actionsheet_ul {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    background-color: #eee;
+    bottom: 0;
+    left: 0;
+}
+
+div[type=actionsheet] .actionsheet_ul_a{
+    animation: actionsheet_ul 0.5s;
+    -webkit-animation: actionsheet_ul 0.5s; 
+}
+@keyframes actionsheet_ul {
+    from {bottom: -100%;}
+    to {bottom: 0;}
+}
+div[type=actionsheet] .actionsheet_ul_a_o{
+    animation: actionsheet_ul_o 0.5s;
+    -webkit-animation: actionsheet_ul_o 0.5s; 
+    bottom: -100%;
+}
+@keyframes actionsheet_ul_o {
+    from {bottom: 0;}
+    to {bottom: -100%;}
+}
+div[type=actionsheet] .actionsheet_li {
+    height: 3rem;
+    width: 100%;
+    line-height: 3rem;
+    text-align: center;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    -webkit-box-sizing:border-box;
+}
+div[type=actionsheet] .actionsheet_li:last-child {
+    margin-top: 0.3rem;
+} 

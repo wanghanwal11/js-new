@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>工作指导详情</title>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"工作指导详情",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var url = getIP() + "/firesys/F_Workinstruction/get.ht?id="+lazy.getParameter("workobj").id;
+            lazy.URLRequest(url,function(_data){
+                var data = _data.rows;
+                var json = [
+                    {
+                        "type":"process_xq",
+                        "table":[
+                            {
+                                "title":"指导单位：",
+                                "value":data[0].directedunit
+                            },{
+                                "title":"指导时间：",
+                                "value":lazy.format(data[0].guidancetime,"yyyy-MM-dd")
+                            },{
+                                "title":"指导记录：",
+                                "value":data[0].detailsinfo!=""?data[0].detailsinfo:"无"
+                            },{
+                                "title":"其他问题：",
+                                "value":data[0].otherproblems!=""?data[0].otherproblems:"无"
+                            }
+                        ]
+                    }
+                ];
+                if(_data.newPrimaryKeys.imgurl&&_data.newPrimaryKeys.imgurl!=""){
+                    var arr = _data.newPrimaryKeys.imgurl.split(",");
+                    json[0].table.push({
+                        "title" : "图片：",
+                        "type" : "image",
+                        "value" : arr
+                    })
+                }
+                setData(json);
+            })
+        })
+    </script> 
+</html>

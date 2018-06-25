@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>消防安全</title>
+        <style>
+            div[type=table9] .td{
+                color: #888 !important;
+                height: 5rem !important;
+            }
+            div[type=table9] .icon{
+                width: 3rem;
+                height: 3rem;
+                background-size: 2rem 2rem!important;
+            }
+        </style>
+    </head>
+    <script> 
+        start(function() {
+            var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+            lazy.setParameter("Bgcolor","#ff953c");
+            lazy.setHeader({
+                "title":"消防安全",
+                "color":lazy.getParameter("Bgcolor"),
+                "url" : "close",
+                "rightbtn" : []
+            });
+            var json = [
+                {
+                    "type":"table9",
+                    "col":4,
+                    "table":[
+                        {
+                            "icon" : lazy.url + "LazyUI/images/xiaofang/sjsb.png",
+                            //"color" : colorarr[0],
+                            "label" : "事件上报",
+                            "onclick" : function(){
+                                lazy.openWin("../wanggehua/wanggehua.html")
+                            }
+                        },
+                        {
+                            "icon" : lazy.url + "LazyUI/images/xiaofang/yjbj.png",
+                            //"color" : colorarr[1],
+                            "label" : "一键报警",
+                            "onclick" : function(){
+                                lazy.openWin("alarmlist.html")
+                            }
+                        },
+                        {
+                            "icon" : lazy.url + "LazyUI/images/xiaofang/rwgl.png",
+                            //"color" : colorarr[1],
+                            "label" : "任务管理",
+                            "onclick" : function(){
+                                lazy.openWin("../renwu/renwu.html")
+                            }
+                        },{
+                            "icon" : lazy.url + "LazyUI/images/xiaofang/lhjl.png",
+                            //"color" : colorarr[1],
+                            "label" : "例会管理",
+                            "onclick" : function(){
+                                lazy.openWin("meetlist.html")
+                            }
+                        },
+                        {
+                            "icon" : lazy.url + "LazyUI/images/xiaofang/jcb.png",
+                            //"color" : colorarr[2],
+                            "label" : "检查记录",
+                            "onclick" : function(){
+                                lazy.openWin("checklist.html")
+                            }
+                        },{
+                            "icon" : lazy.url + "LazyUI/images/xiaofang/dw.png",
+                            //"color" : colorarr[3],
+                            "label" : "单位信息",
+                            "onclick" : function(){
+                                lazy.openWin("unitlist.html")
+                            }
+                        },{
+                            "icon" : lazy.url + "LazyUI/images/xiaofang/bj.png",
+                            //"color" : colorarr[4],
+                            "label" : "部件信息",
+                            "onclick" : function(){
+                                lazy.openWin("partlist.html")
+                            }
+                        },{
+                            "icon" : lazy.url + "LazyUI/images/xiaofang/xc.png",
+                            //"color" : colorarr[5],
+                            "label" : "宣传任务",
+                            "onclick" : function(){
+                                lazy.openWin("publiclist.html")
+                            }
+                        }
+                    ]
+                }
+            ]
+            setData(json)
+        })
+    </script> 
+</html>

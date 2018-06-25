@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>地址管理</title>
+        <style>
+            body{
+                background-color: #f7f8fa !important;
+                background-size: 100% !important;
+    background-repeat: no-repeat !important;
+            }
+             #button2{
+                  position: fixed!important;
+                 bottom: 1rem!important;
+                 margin-left: 2% !important;
+                 margin-right: 2% !important;
+                 width:96% !important;
+             }
+             #button2 .button_a{
+                 background-color: #ffb401;
+                 border-radius: 6px !important;
+             }
+        </style>
+    </head>
+    <script>
+          var isPageHide = false; 
+          window.addEventListener('pageshow', function () { 
+            if (isPageHide) { 
+              window.location.reload(); 
+            } 
+          }); 
+          window.addEventListener('pagehide', function () { 
+            isPageHide = true; 
+          }); 
+        start(function() {
+             
+            var timer;
+            var code;
+            var phone;
+            var status = 1;
+            var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+            var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+            
+            //var addresslist = lazy.getParameter('addresslist')?lazy.getParameter('addresslist'):''; 
+            
+             var json=[{
+                    "id":"addresslist",
+                    "type":"addresslist",
+                     "table":[]
+                 },{
+                      "id":"button2",
+                     "type":"button",
+                     "label":'添加新地址',
+                     "onclick":function(){
+                            lazy.openWin("addaddress.html?del=0&initid="+initid+'&openid='+openid)
+                            lazy.setParameter("address1",'')
+                            lazy.setParameter("address2",'')
+                            lazy.setParameter("id",'')
+                            lazy.setParameter("fulladdress",'')
+                            lazy.setParameter("gps",'')
+                            lazy.setParameter("name",'')
+                            lazy.setParameter("mobile",'')
+                            lazy.setParameter("tag",'')
+                     }
+                 }];
+            setData(json,function(){
+               queryAddresslist()
+                
+            })
+            //查询地址
+            function queryAddresslist(){
+                 var url = getIP()+'/wx/weixinUserAddress/weixinUserAddress/list?&openid='+openid;
+                 lazy.GET(url,function(data){
+                    //console.log(data)
+                    if(data.rows.length>0){
+                        lazy.for(data.rows,function(_data){
+                        var s = {
+                             "id":_data.id,
+                             "name":_data.name,
+                             "phone":_data.mobile,
+                             "address":_data.address+_data.fulladdress,
+                             "tag":_data.tag,
+                             "data":_data,
+                             "onclick":function(obj,i){
+                                 if(i){
+                                     lazy.openWin("addaddress.html?del=1&initid="+initid+'&openid='+openid)
+                                     //lazy.setParameter("address",obj.data)
+                                     var array = obj.data.address.split(',');
+                                     lazy.setParameter("address1",array[1])
+                                     lazy.setParameter("address2",array[0])
+                                     lazy.setParameter("id",obj.id)
+                                     lazy.setParameter("fulladdress",obj.data.fulladdress)
+                                     lazy.setParameter("gps",obj.data.gps)
+                                     lazy.setParameter("name",obj.name)
+                                     lazy.setParameter("mobile",obj.phone)
+                                     lazy.setParameter("tag",obj.tag)
+                                     console.log(obj.data)
+                                 }else{
+                                     delAddress(obj.id)
+                                 }
+                             }
+                        }
+                        getData("addresslist").add(s)
+                    })
+                    }else{
+                        if(!document.getElementsByClassName("zwsjXT")[0]){
+                              document.body.style.background='url(../LazyUI/images/datanull3.png)'
+                              //lazy.datanull2(document.getElementsByClassName("table")[0],"../LazyUI/images/datanull3.png")
+                             //lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                         } 
+                    }
+                    
+                    //lazy.alert2('保存行政区域成功')
+                 },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                 },3)
+             }
+            //删除地址
+            function delAddress(id){
+                var url = getIP()+'/wx/weixinUserAddress/weixinUserAddress/del?id='+id;
+                lazy.GET(url, function(data){
+                     lazy.alert2('删除成功')
+                     setTimeout(function(){
+                           lazy.refresh()
+                      },1500) 
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },3);
+            }
+            
+        });
+    </script>
+</html>

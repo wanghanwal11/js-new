@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>产权人</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page = 1;
+            var search = "";
+            var json = [{
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '产权人',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                                lazy.setParentJs(lazy.var(), {});
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                        }
+                },{
+                    "type" : "sousuoinput_move",
+                    "select" : function(val){
+                        page = 1;
+                        getData("renyuan").clean();
+                        search = val;
+                        load(search);
+                    }
+                },
+                    {
+                        "id" : "renyuan",
+                        "type" : "renyuan",
+                        "table" : []
+                    }
+            ];
+            setData(json,function(){
+                load(search);
+            })
+            function load(val){
+                var namearr = val.match(/\D/g);
+                if(namearr) {
+                    if(namearr.length>1) {
+                        var url = config.rkcx+"page="+page+"&rows=15&name="+encodeURI(val);
+                    }else{
+                        if(val.match(/(x|X)$/g)) {
+                            var url = config.rkcx+"page="+page+"&rows=15&cardno="+val;
+                        }else {
+                            var url = config.rkcx+"page="+page+"&rows=15&name="+encodeURI(val);
+                        }
+                    }
+                    
+                }else {
+                    var url = config.rkcx+"page="+page+"&rows=15&cardno="+val;
+                }
+                lazy.URLRequest(url,function(data){
+                    var arr = data.rows;
+                    for(var i = 0; i < arr.length; i++) {
+                        var onejson = {
+                            "id" : arr[i].id?arr[i].id:"",
+                            "rynum" : i+1+((page-1)*15),
+                            "icon" : arr[i].photo?(getIP()+arr[i].photo.replace(/\\/g,"/")):"",
+                            "name" : arr[i].name,
+                            "h1" : ["<span style='color:black'>"+arr[i].name+"</span>","身份证："+(arr[i].cardno?arr[i].cardno:""),"出生日期："+(arr[i].birthday?lazy.format(arr[i].birthday,"yyyy-MM-dd"):""),"修改日期：<span style=\"color:#f20;\">"+(arr[i].updatetime?lazy.format(arr[i].updatetime,"yyyy-MM-dd"):"")+"</span>"],
+                            "onclick" : function(obj){
+                                var tmp = {
+                                    "id" : obj.id,
+                                    "h1" : obj.name,
+                                    "h2" : "",
+                                }
+                                lazy.setParentJs(lazy.var(), tmp);
+                            }
+                        };
+                        getData("renyuan").add(onejson);
+                    }
+                    page++;
+                })
+            }
+            lazy.bounce({
+                "up" : function(){
+                    load(search);
+                }
+             });   
+        });
+    </script>
+</html>

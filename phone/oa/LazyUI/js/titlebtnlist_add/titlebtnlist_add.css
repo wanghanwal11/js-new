@@ -1,0 +1,88 @@
+body[type=body] div[type=titlebtnlist_add]{
+    width: 100%;
+    height: auto;
+    font-size: 1rem;
+    position: relative;
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    padding-left: 0.5rem;
+}
+div[type=titlebtnlist_add] .tr {
+    height: 3.2rem;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    border-bottom: 1px solid #ebebeb;
+}
+div[type=titlebtnlist_add] .td {
+    width:0;
+    height:100%;
+    padding-right: 0.5rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=titlebtnlist_add] .td1 {
+    padding-top: 0.8rem;
+}
+div[type=titlebtnlist_add] .td1 span{
+    font-size: 0.7rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    border-radius: 0.2rem;
+    width: 2.5rem;
+    display: block;
+    text-align: center;
+}
+div[type=titlebtnlist_add] .tj {
+    border: 1px solid #129fff;
+    color: #129fff;
+}
+div[type=titlebtnlist_add] .ytj {
+    border: 1px solid #7b7b7b;
+    color: #7b7b7b;
+}
+div[type=titlebtnlist_add] .td1 {
+    height: 3.2rem;
+    line-height: 3.2rem;
+    padding-right: 0.8rem;
+}
+div[type=titlebtnlist_add] .h1 {
+    height: 1.5rem;
+    line-height: 2rem;
+}
+div[type=titlebtnlist_add] .h1 span{
+    font-size: 0.85rem;
+}
+div[type=titlebtnlist_add] .h2 {
+    color:#717171;
+}
+div[type=titlebtnlist_add] .h2 span{
+    font-size: 0.7rem;
+}
+
+div[type=titlebtnlist_add] .icon {
+    color: #fff;
+    text-align: center;
+    height: 3rem;
+    width: 2.5rem;
+    padding-top: 0.83rem;
+}
+div[type=titlebtnlist_add] .icontitle1 {
+    margin: auto;
+    width: 1.6rem;
+    height: 1.6rem;
+    line-height: 1.3rem;
+    border-radius: 1.6rem;
+}
+div[type=titlebtnlist_add] .icontitle1 span {
+    font-size: 0.5rem;
+    
+}
+div[type=titlebtnlist_add] .iconimg {
+    margin: auto;
+    width: 1.6rem;
+    height: 1.6rem;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    border-radius: 0.2rem;
+    background-size: 0.9rem;
+    background-position: center;
+}

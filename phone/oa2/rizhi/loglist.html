@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        	body,html {
+                background-color: #efeef3 !important;
+            }
+            div[type=process]{
+                height: 100%!important;
+                margin-top:0.5rem;
+                display: none;
+            }
+            div[type=button]{
+                width: 80%!important;
+                margin-left: 10%;
+                margin-top:0.5rem;
+                display: none;
+                margin-bottom: 0.5rem;
+            }
+            .buttondiv{
+                background-color: #9a89ba!important;
+                color: white!important
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        lazy.setHeader({
+            "title":"我收到的",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : [
+                {
+                    "text":"筛选",
+                    "onclick":function(){
+                        if(document.getElementById("process").style.display=="none"){
+                            document.getElementById("process").style.display="inline";
+                            document.getElementById("button").style.display="block";
+                        }else{
+                            document.getElementById("process").style.display="none";
+                            document.getElementById("button").style.display="none";
+                        }
+                    }
+                }
+            ]
+        });
+        var page = 1;
+        var begintime = "";
+        var endtime = "";
+        var logtype = "";
+        var search = "";
+        var json = [
+            {
+                "type" : "sousuoinput_move",
+                "select" : function(val){
+                    page = 1;
+                    getData("titlebtnlist2").clean();
+                    search = val;
+                    load(search,begintime,endtime,logtype);
+                }
+            },
+            {
+                "id":"process",
+                "type":"process",
+                "table":[
+                    {
+                       "type":"date",
+                       "placeholder":"请选择",
+                       "title":"开始时间" 
+                    },{
+                        "type":"date",
+                        "placeholder":"请选择",
+                        "title":"结束时间"
+                    },{
+                        "type":"select",
+                        "title":"日志类型",
+                        "placeholder":"请选择",
+                        "option":[
+                            {
+                                "html":"日报",
+                                "value":"day"
+                            },{
+                                "html":"周报",
+                                "value":"week"
+                            },{
+                                "html":"月报",
+                                "value":"month"
+                            }
+                        ]
+                    }
+                ]
+            },{
+                "id":"button",
+                "type":"button",
+                "label":"确定",
+                "onclick":function(){
+                    document.getElementById("process").style.display="none";
+                    document.getElementById("button").style.display="none";
+                    var arr = getData("process").getArray().table;
+                    begintime = arr[0].value;
+                    endtime = arr[1].value;
+                    if(arr[2].returnObj.value){
+                        logtype = arr[2].returnObj.value;
+                    }else{
+                        logtype = "";
+                    }
+                    page = 1;
+                    getData("titlebtnlist2").clean();
+                    load(search,begintime,endtime,logtype);
+                }
+            },{ 
+                "id" : "titlebtnlist2",
+                "type" : "titlebtnlist2",
+                "table" : []
+            }
+        ];
+        var page = 1;
+        setData(json,function(){
+            load(search,begintime,endtime,logtype);
+        });
+        
+        function load(search,beginlogtime,endlogtime,def3){
+            var url = config.mobileloglist + "rows=20&listtype=other&page="+page+"&title="+search+"&def3="+def3;
+            url+="&beginlogtime="+beginlogtime+"&endlogtime="+endlogtime;
+            if(mark!="") url += "&mark="+mark;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+                for(var i=0;i<data.length;i++){
+                	var str = "日志";
+                	if(data[i].type=="week") str = "周报";
+                	if(data[i].type=="month") str = "月报";
+                    var tmp = {
+                        "id" : data[i].id,
+                        "userid":data[i].userid, //后加的
+                        "icon" : data[i].picture?(getIP()+data[i].picture).replace(/\\/g,""):"",
+                        "h1" : data[i].title,
+                        "h2" : data[i].def1,
+                        "logtype" : str,
+                        "state" : data[i].logtime,
+                        "h3" : [lazy.format(data[i].createtime,"yyyy-MM-dd")],
+                        "onclick" : function(obj){
+                            lazy.setParameter("personobj",obj);
+                            if(obj.logtype=="日志"){
+                                lazy.openWin("rizhidetail.html")
+                            }else if(obj.logtype=="周报"){
+                                lazy.openWin("zhoubaodetail.html")
+                            }else{
+                                lazy.openWin("yuebaodetail.html")
+                            }
+                        }
+                    };
+                    getData("titlebtnlist2").add(tmp);
+                }
+            },function(){})
+            lazy.bounce({
+                    "up" : function(){
+                        load(search,begintime,endtime,logtype);
+                    }
+                })
+        }
+    });
+    </script>
+</html>

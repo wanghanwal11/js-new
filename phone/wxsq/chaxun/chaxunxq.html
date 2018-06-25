@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=wendalist] .tr{
+                border-bottom:0!important;
+            }
+            body{
+                background-color: #efefef !important;
+            }
+            div[type=chaxunxq] .h2 span{
+                color:#999;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var id=lazy.geturlstr("id")?lazy.geturlstr("id"):"";
+            var ids= lazy.geturlstr("wxinitId")?lazy.geturlstr("wxinitId"):"";
+            var biaoshi= lazy.geturlstr("biaoshi");
+            var loadbiaoshi = 1;
+            var val = ''
+            var json=[{
+                        "type" : "sousuoinput",
+                        "re":lazy.geturlstr("val")?lazy.geturlstr("val"):"",
+                        "select" : function(val1){
+                            if(val1!=""){
+                                   val=val1;
+                                   page=1;
+                                   getData("chaxunxq").clean();
+                                   biaoshi = 'biaoshi';
+                                   search(val);
+                                }
+                        },
+                        "foc":true
+                        },{
+                        "id" : "chaxunxq",
+                        "type" : "chaxunxq",
+                        "table" : []
+                    }]
+            setData(json,function(){
+            	if(!biaoshi)
+                load()
+            })
+            function load(){
+                loadbiaoshi = 0;
+               var url=getIP()+"/wx/wechat/weixinzczx/zcfl.ht?typeName=wiki_ctfl&parentid="+id+"&initid="+ids;
+               var url2 = getIP()+"/wx/wechat/weixinzczx/getWxObjId.ht?objid="+id+"&page="+page+"&initid="+ids;
+                lazy.URLRequest(url2, function(data) {
+                    loadbiaoshi = 1;
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    if(data.length==0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                              lazy.datanull2(document.getElementsByClassName("table")[0],"../LazyUI/images/datanull2.png")
+                             //lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                         }
+                     }
+                     var hh=data[0].catName[data[0].catName.length-2];
+                     if(hh==","){
+                         hh=data[0].catName.substring(0,data[0].catName.length-2)+"]"
+                     }else{
+                         hh = data[0].catName
+                     }
+                    for(var i=0;i<data.length;i++){
+                        var s={
+                                "ids":data[i].id,
+                                "title":data[i].docTitle,
+                                "h2" : data[i].docSummary,
+                                "time":lazy.autoFormat(data[i].docCreatedTime),
+                                "content":decodeURIComponent(data[i].docContent),
+                                "right":JSON.parse(data[i].catName)[0].text,
+                                "onclick":function(obj){
+                                    lazy.setParameter("title",obj.title)
+                                    lazy.setParameter("content",obj.content)
+                                    lazy.setParameter("time",obj.time)
+                                    lazy.setParameter("right",obj.right)
+                                    lazy.openWin("neirongxq.html")
+                                }
+                            }
+                       getData("chaxunxq").one(s);
+                    }
+                    page++
+                },function(){lazy.closeBounce();})
+            }
+            function search(val){
+                
+                loadbiaoshi = 0;
+                lazy.URLRequest(getIP()+"/wx/wechat/weixinzczx/esSearch.ht?i=wiki&q="+val+"&p="+page+"&initid="+ids, function(data) {
+                    lazy.closeBounce();
+                    loadbiaoshi = 1;
+                    var data=data.rows;
+                    if(data.length==0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                              lazy.datanull2(document.getElementsByClassName("table")[0],"../LazyUI/images/datanull2.png")
+                             //lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                         }
+                     }
+                     var hh=data[0].catName[data[0].catName.length-2];
+                     if(hh==","){
+                         hh=data[0].catName.substring(0,data[0].catName.length-2)+"]"
+                     }else{
+                         hh = data[0].catName
+                     }
+                    for(var i=0;i<data.length;i++){
+                        var s={
+                                "ids":data[i].id,
+                                "title":data[i].docTitle,
+                                "h2" : data[i].docSummary,
+                                "time":lazy.autoFormat(data[i].docCreatedTime),
+                                "content":data[i].docContent,
+                                "right":JSON.parse(data[i].catName)[0].text,
+                                "onclick":function(obj){
+                                    lazy.setParameter("title",obj.title)
+                                    lazy.setParameter("content",decodeURIComponent(obj.content))
+                                    lazy.setParameter("time",obj.time)
+                                    lazy.setParameter("right",obj.right)
+                                    lazy.openWin("neirongxq.html")
+                                }
+                            }
+                       getData("chaxunxq").one(s);
+                    }
+                    page++
+                },function(){lazy.closeBounce();})
+            }
+            lazy.bounce({"up":function(){
+                if(loadbiaoshi){
+                    if(biaoshi){
+                        search(val)
+                    }else{
+                        load()
+                    }
+                }
+                
+                
+               }}); 
+        })
+    </script>
+</html>

@@ -1,0 +1,67 @@
+body[type=body] div[type=table_tj]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	position:relative;
+	font-size:1rem;
+    background-color: #fff;
+    margin-top: 0.5rem;
+}
+div[type=table_tj] .table {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+div[type=table_tj] .tr {
+    position: relative;
+    width: 100%;
+    height: 2rem;
+    line-height: 2rem;
+    border-top: 1px solid #e9eaeb;
+}
+div[type=table_tj] .tr:last-child {
+    border-bottom: 1px solid #e9eaeb;
+}
+div[type=table_tj] .h {
+    border-top: 1px solid #e9eaeb;
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+div[type=table_tj] .tr:first-child {
+    border-top: none;
+}
+div[type=table_tj] .td {
+    text-align: center;
+    width: 0;
+    height: 100%;
+    border-right: 1px solid #e9eaeb;
+    position: relative;
+}
+div[type=table_tj] .tr .td:last-child {
+    border-right: none;
+}
+div[type=table_tj] .tr .td:first-child {
+    background-color: #fbfbfb;
+    width: 1.5rem;
+}
+div[type=table_tj] .h .tr:first-child .td:first-child {
+    background-color: #f3f3f3;
+}
+div[type=table_tj] .h .tr:first-child {
+    background-color: #f3f3f3;
+}
+div[type=table_tj] .tr1 .td:first-child span{
+    color: #444;
+    border-bottom: none;
+}
+
+div[type=table_tj] .select {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0.5rem;
+    width: 100%;
+    font-size: 1rem;
+    opacity: 0;
+}

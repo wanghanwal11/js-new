@@ -1,0 +1,35 @@
+div[type=list_xq]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+	border: 1px solid #ccc;
+	background-color: #fff;
+}
+div[type=list_xq] .table{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    padding: 0.5rem;
+}
+div[type=list_xq] .tr {
+    height: 1.5rem;
+    line-height: 1rem;
+    border-bottom: 1px solid #E4E4E4;
+}
+div[type=list_xq] .icon {
+    width: 1.5rem;
+    height: 1rem;
+    background-position: 0.2rem top;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    
+}
+div[type=list_xq] .content span {
+    font-size: 0.8rem;
+    color: #555;
+} 
+div[type=list_xq] .titlespan {
+    font-size: 0.9rem;
+}

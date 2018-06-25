@@ -1,0 +1,235 @@
+html,body {
+    padding: 0;
+    margin: 0;
+    -webkit-text-size-adjust: none;
+    -webkit-user-select:none;
+    height: 100%;
+}
+body {
+    font-family: '微软雅黑', Helvetica, Arial, sans-serif;    
+    -webkit-user-select: none;
+    min-height: 100%;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    color: #444;
+}
+.ub {
+    display: -webkit-box;
+    position: relative;
+}
+.ub-f1 {
+    -webkit-box-flex: 1;
+    position: relative;
+}
+.ub-ver {
+    -webkit-box-orient:vertical;
+}
+.slh {
+    text-overflow:ellipsis ;
+    white-space:nowrap ;
+    overflow: hidden;
+
+}
+.hh {
+    height :auto;
+    word-wrap: break-word;
+    word-break: normal; 
+}
+.hide {
+    display: none;
+}
+.show {
+    display: block;
+}
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+span {
+    font-size: 0.8rem;
+}
+a {
+    text-decoration: none;
+    display:block;
+    -webkit-tap-highlight-color: rgba(142, 142, 142, 0.1);
+    color: #444;
+}
+input {
+     font-size: 1rem;
+     outline:none;
+     font-family:'微软雅黑';
+     }
+input::-webkit-input-placeholder {
+    font-family:'微软雅黑';
+    color: #888;
+}
+textarea {
+    font-size: 1rem;
+    outline:none;
+    font-family:'微软雅黑';
+}
+textarea::-webkit-input-placeholder {
+    font-family:'微软雅黑';
+    color: #888;
+}
+.iframeparent {
+    -webkit-overflow-scrolling: touch;  
+    overflow-y: scroll;  
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 99;
+    left: 0%;
+    top:0;
+    background-color: #fff;
+}
+@-webkit-keyframes iframeshow {
+    from {left: 100%;}
+    to {left: 0%;}
+}
+@-webkit-keyframes iframehide {
+    from {left: 0%;}
+    to {left: 100%;}
+}
+.iframeparent iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+/*loading*/
+#loading {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0);
+    display: none;
+}
+#loading .loadingkuang {
+    width: 5rem;
+    height: 5rem;
+    line-height: 6rem;
+    text-align: center;
+    color: #fff;
+    padding: 0.8rem;
+    -webkit-box-sizing:border-box;
+    border-radius: 0.5rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(127,127,127,0.9);
+    background-image: url(../images/loadingmax.gif);
+    background-repeat: no-repeat;
+    background-position: center 1rem;
+    background-size: 1.7rem 1.7rem;
+}
+#loading span {
+    font-size: 0.7rem;
+}
+/*alert2*/
+.alert2 {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9999;
+    padding: 42% 1rem;
+    top: 0;
+    left: 0;
+    -webkit-box-sizing:border-box;
+    -webkit-animation: tan 1s;
+    -webkit-animation-timing-function: ease-out;
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+}
+@-webkit-keyframes tan {
+    0% {padding: 42% 1rem; opacity: 0}
+    50% {padding: 40% 1rem; opacity: 1}
+    100% {padding: 42% 1rem; opacity: 1}
+}
+.alert2content {
+    -webkit-box-sizing:border-box;
+    width: 100%;
+    padding: 0.5rem 0.9rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    line-height: 1.5rem;
+    color: #fff;
+    border-radius: 0.5rem;
+}
+.alert2content span {
+    font-size: 0.8rem;
+}
+/*showimage*/
+#showImageDiv {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+}
+#showImageDiv canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.showImagekuang {
+   width: 100%;
+   height: 100%;
+   z-index: 999; 
+   left: 0;
+   top: 0;
+   position: absolute;
+}
+.showImageMask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.2);
+}
+/*alertlist*/
+.alertlistmask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 110;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.4);
+    text-align: center;
+}
+.alertlistmask .alertlistdiv {
+    width: 100%;
+    height: auto;
+    padding: 2rem;
+    text-align: center;
+    -webkit-box-sizing:border-box;
+}
+.alertlistmask .alertlisttr{
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing:border-box;
+    background-color: #f5f5f5;
+    box-shadow: 0.1rem 0.1rem 0.3rem 0.1rem #333;
+    border-radius: 0.2rem;
+}
+.alertlistmask .tr {
+    padding: 0 0.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    border-bottom: 1px solid #e4e4e4;
+    text-align: left;
+}
+.alertlistmask .tr:last-child {
+    border-bottom: none;
+}
+#bouncebutton{
+    width: 100%;
+    text-align: center;
+}

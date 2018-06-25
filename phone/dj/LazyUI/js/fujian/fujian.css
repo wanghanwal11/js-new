@@ -1,0 +1,23 @@
+
+div[type=fujian]{
+	display: -webkit-box;
+	-webkit-box-sizing:border-box;
+	height:auto;
+	position:relative;
+	width: 100%;
+	background: #fff;
+	-webkit-box-orient:vertical;
+}
+div[type=fujian] .imagediv {
+	width:4rem;
+	height:4rem;
+	margin-bottom:1rem;
+	margin-left:2rem;
+	border:1px solid #d0d0d0;
+}
+div[type=fujian] .fujian {
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+    color: #3d3d3d;
+    font-size: 0.8rem;
+}

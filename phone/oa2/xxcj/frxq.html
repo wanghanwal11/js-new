@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>法人详情</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important;
+            }
+            div[type=geren] .title{
+                display: none;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var frobj = lazy.getParameter("fr");
+            var url = config.frlb+"id="+frobj.id+"&name=";;
+            lazy.setHeader({
+                "title":"法人详情",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                        "icon":"edit.png",
+                        "onclick":function(){
+                            lazy.openWin("editfr.html");
+                        }
+                    }
+                ]
+            });
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var json = [
+                        // {
+                            // "id" : "headertoolbar",
+                            // "type" : "headertoolbar",
+                            // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            // "color" : "#fff",
+                            // "border" : "none",
+                            // "title" : '法人详情',
+                            // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            // "select" : function(name, index) {
+                                // if(name=="left"&&index==0){
+                                    // lazy.goBack();
+                                // }
+                                // if(name=="left"&&index==1){
+                                    // lazy.close();
+                                // }
+                            // }
+                        // },
+                        {
+                            "type" : "process_xq",
+                            "icon" : "",
+                            "table" : [
+                            {
+                                "title" : "名称：",
+                                "value" : data.name
+                            },
+                            {
+                                "title" : "楼宇名称：",
+                                "value" : data.buildingname
+                            },
+                            {
+                                "title" : "行政区域：",
+                                "value" : data.orgname
+                            },
+                            {
+                                "title" : "所在地址：",
+                                "value" : data.address?data.address:"无记录"
+                            },
+                            {
+                                "title" : "单位简称：",
+                                "value" : data.abbreviation?data.abbreviation:"无记录"
+                            },
+                            {
+                                "title" : "行政区划代码：",
+                                "value" : data.areacodename?data.areacodename:"无记录"
+                            },
+                            {
+                                "title" : "法人：",
+                                "value" : data.corp
+                            },
+                            {
+                                "title" : "机构类型：",
+                                "value" : data.typename?data.typename:"无记录"
+                            },
+                            {
+                                "title" : "组织机构代码：",
+                                "value" : data.organizationcode?data.organizationcode:"无记录"
+                            },
+                            {
+                                "title" : "楼层：",
+                                "value" : data.floor?data.floor:"无记录"
+                            },
+                            {
+                                "title" : "单元号：",
+                                "value" : data.unit?data.unit:"无记录"
+                            },
+                            {
+                                "title" : "房间号：",
+                                "value" : data.housenum?data.housenum:"无记录"
+                            },
+                            {
+                                "title" : "占地面积：",
+                                "value" : data.areatypename?data.areatypename:"无记录"
+                            },
+                            {
+                                "title" : "固定电话：",
+                                "value" : data.landline?data.landline:"无记录"
+                            },
+                            {
+                                "title" : "移动电话：",
+                                "value" : data.mobiles?data.mobiles:"无记录"
+                            },
+                            {
+                                "title" : "传真：",
+                                "value" : data.fax?data.fax:"无记录"
+                            },
+                            {
+                                "title" : "邮政编码：",
+                                "value" : data.postcode?data.postcode:"无记录"
+                            },
+                            {
+                                "title" : "电子邮箱：",
+                                "value" : data.email?data.email:"无记录"
+                            },
+                            {
+                                "title" : "网址：",
+                                "value" : data.website?data.website:"无记录"
+                            },
+                            {
+                                "title" : "行业类别：",
+                                "value" : data.industrytypename?data.industrytypename:"无记录"
+                            },
+                            {
+                                "title" : "登记注册类型：",
+                                "value" : data.businesstypename?data.businesstypename:"无记录"
+                            },
+                            {
+                                "title" : "营业状态：",
+                                "value" : data.operatingstatusname?data.operatingstatusname:"无记录"
+                            },
+                            {
+                                "title" : "企业控股类型：",
+                                "value" : data.holdingtypename?data.holdingtypename:"无记录"
+                            },
+                            {
+                                "title" : "隶属关系：",
+                                "value" : data.afiliationname?data.afiliationname:"无记录"
+                            },
+                            {
+                                "title" : "会计标准类别：",
+                                "value" : data.zxkjtypename?data.zxkjtypename:"无记录"
+                            },
+                            {
+                                "title" : "单位规模：",
+                                "value" : data.unitscalename?data.unitscalename:"无记录"
+                            },
+                            {
+                                "title" : "职工人数：",
+                                "value" : data.personnercount?data.personnercount:"无记录"
+                            },
+                            {
+                                "title" : "单位简介：",
+                                "value" : data.general?data.general:"无记录"
+                            },
+                            {
+                                "title" : "党员人数：",
+                                "value" : data.partynum?data.partynum:"无记录"
+                            },
+                            {
+                                "title" : "注册资金：",
+                                "value" : data.registerfund?data.registerfund:"无记录"
+                            },
+                            {
+                                "title" : "年销售额：",
+                                "value" : data.annualsale?data.annualsale:"无记录"
+                            },
+                            {
+                                "title" : "年缴税额：",
+                                "value" : data.taxpayment?data.taxpayment:"无记录"
+                            },
+                            {
+                                "title" : "年检日期：",
+                                "value" : data.annualcheckdate?lazy.format(data.annualcheckdate,"yyyy-MM-dd"):"无记录"
+                            },
+                            {
+                                "title" : "注册批准机构：",
+                                "value" : data.approvalorgname?data.approvalorgname:"无记录"
+                            },
+                            {
+                                "title" : "货币名称：",
+                                "value" : data.currencytypename?data.currencytypename:"无记录"
+                            },
+                            {
+                                "title" : "成立日期：",
+                                "value" : data.establishdate?lazy.format(data.establishdate,"yyyy-MM-dd"):"无记录"
+                            },
+                            {
+                                "title" : "单位注册号：",
+                                "value" : data.registcode?data.registcode:"无记录"
+                            },
+                            {
+                                "title" : "主要业务活动：",
+                                "value" : data.mainbusinesses?data.mainbusinesses:"无记录"
+                            },
+                            {
+                                "title" : "加入商会名称：",
+                                "value" : data.nameofjoiningcommerce?data.nameofjoiningcommerce:"无记录"
+                            },
+                            {
+                                "title" : "工商登记机关：",
+                                "value" : data.regauthority?data.regauthority:"无记录"
+                            },
+                            {
+                                "title" : "税务登记号：",
+                                "value" : data.taxnumber?data.taxnumber:"无记录"
+                            },
+                            {
+                                "title" : "纳税申报机关：",
+                                "value" : data.taxreporting?data.taxreporting:"无记录"
+                            },
+                            {
+                                "title" : "开户银行：",
+                                "value" : data.depositarybank?data.depositarybank:"无记录"
+                            },
+                            {
+                                "title" : "银行户名：",
+                                "value" : data.bankaccountname?data.bankaccountname:"无记录"
+                            },
+                            {
+                                "title" : "银行账号：",
+                                "value" : data.bankaccount?data.bankaccount:"无记录"
+                            },
+                            {
+                                "title" : "社保登记证号：",
+                                "value" : data.socialregnumber?data.socialregnumber:"无记录"
+                            },
+                            {
+                                "title" : "备注：",
+                                "value" : data.remark?data.remark:"无记录"
+                            }
+                            ]
+                        },
+                ];
+                setData(json)
+            })
+        });
+    </script>
+</html>

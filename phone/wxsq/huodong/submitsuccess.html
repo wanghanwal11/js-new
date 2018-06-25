@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>加入成功</title>
+<style type="text/css">
+        body{
+            background-color: #ffb401 !important;
+        }
+        #picbg{
+            position: fixed;
+            bottom: -5px;
+        }
+        #pic {
+            position: fixed;
+            top: 9rem;
+            left: -7rem;
+            margin-left: 50%;
+        }
+        #pic img{
+           width: 15rem !important;
+        } 
+        #picbg img{
+           width: 100% !important;
+        }
+        #label1 {
+           position: fixed;
+           top:10rem;
+           left: -5rem;
+            margin-left: 50%;
+            text-align:center;
+           color: #ffffff !important;
+        }  
+        #alertcode3{
+           position: fixed;
+           top:13.5rem;
+           background-color: transparent !important;
+        }
+        div[type=alertcode3] .alertdiv{
+           width:11rem !important;
+           height:11rem !important;
+           border: none !important;
+           background-color: rgba(255,255,255,0.3);
+        }
+        #label2 {
+           position: fixed;
+           top:25.5rem;
+           left: -5rem;
+            margin-left: 50%;
+            text-align:center;
+           color: #ffffff !important;
+        }  
+</style>
+</head>
+<body>
+    <script>
+    
+        start(function() {
+            GoBackEvent = function() {
+                           
+               wx.closeWindow();
+            }
+            lazy.setGoBack();
+            var initid = lazy.geturlstr("initid")?lazy.geturlstr("initid"):'';
+            var openid = lazy.geturlstr("openid")?lazy.geturlstr("openid"):'';
+
+                var json = [{
+                       "id":"picbg",
+                       "type" : "imgmapdiv",
+                       "src" : "../LazyUI/images/huodong/bg.jpg",
+                       "rect" : [
+                       ]
+                   },{
+                       "id":"pic",
+                       "type" : "imgmapdiv",
+                       "src" : "../LazyUI/images/huodong/thanks.png",
+                       "rect" : [
+                       ]
+                   },{
+                       "id":"alertcode3",
+                       "type":"alertcode3",
+                       "onclick":function(){
+                           /*if(!state){
+                               queryWX()
+                               
+                           }*/
+                       }
+                   },{
+                       "id":"label2",
+                       "type":"label",
+                       "text":"长按二维码关注我们"
+                   }];
+            
+                setData(json,function(){
+                    queryWX()
+                })
+        
+            function queryWX(){
+                var url2 = getIP()+'/wx/api/wx/getForeverCode?code=HD&initid='+initid
+                lazy.GET(url2,function(data){
+                      if(data.rows[0]){
+                          getData("alertcode3").changeUrl(data.rows[0],10)
+                           state =1;
+                      }else{
+                          getData("alertcode3").changeUrl("../LazyUI/images/refresh.png",10)
+                           state =0;
+                      }
+                },function(e){
+                    lazy.alert2("错误信息!:"+e);
+                },3) 
+            }
+        });
+    </script>
+</body>
+</html>

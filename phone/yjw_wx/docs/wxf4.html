@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>docs</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+    ::-webkit-scrollbar{
+        width:0px !important;
+        }
+        body{
+            font-size: 12px !important;
+        }
+        #label{
+               height:50px;
+               line-height:50px;
+               background-image: url(mobile.png);
+               background-position: center left 30px;
+               background-repeat: no-repeat;
+               background-size:20px;
+               background-color: #0099ff;
+               color: #fff;
+        }
+        #label span{
+               font-size: 12px;
+               line-height: 50px;
+        }
+        
+    </style>
+</head>
+<body>
+    
+</body>
+<script>
+
+    start(function() {
+        var typeid = 1;
+        var pid = 1;
+        var json = [
+        
+                {
+                        id:'label',
+                        type : 'label',
+                        text:'北科维拓手机组控件库',
+                        padding:'0 0 0 80px',
+                 },   
+                 {
+                     id:'doclist',
+                     type:'doclist',
+                     addtype:function(data){
+                           addType(data)
+                     },
+                     updatetype:function(id,name){
+                         updateType(id,name)
+                     }, 
+                     deletetype:function(id){
+                         deleteType(id)
+                     },
+                 },
+                {
+                        id:'content',
+                        type:'docontent',
+                        addContent:function(data){
+                             addContent(typeid,data)
+                        },
+                        deleteContent:function(id){
+                            deleteContent(id)
+                        },
+                        updateContent:function(id,data){
+                            updateContent(id,data)
+                        },
+                },
+                
+             
+         ];
+        setData(json,function(){
+             queryType()
+             
+             
+         });
+         function queryType(){
+             var url = getIP()+'/simpleCode/api/v1.0/weightList/query';
+             lazy.lbh_GET(url, function(data){
+                    var arr = data.data;
+                    var list = [];
+                    for(var i=0 ; i<arr.length;i++){
+                        var d = {
+                           id : arr[i].id,
+                           title : arr[i].name,
+                           onclick:function(obj){
+                               queryContent(obj.id)
+                               typeid=obj.id;
+                           }
+                        }
+                        list.push(d);
+                        
+                    } 
+                    getData('doclist').clean()
+                    getData('doclist').add(list)
+                    queryContent(1)
+                   
+             })
+         }
+         function addType(type){
+             var url = getIP()+'/simpleCode/api/v1.0/weightList/add?type='+type;
+             lazy.lbh_GET(url, function(data){
+                    queryType()
+             })
+         } 
+         function updateType(id,name){
+             var url = getIP()+'/simpleCode/api/v1.0/weightList/update?id='+id+'&new_type='+name;
+             lazy.lbh_GET(url, function(data){
+                    
+             })
+         }
+         function deleteType(id){
+             var url = getIP()+'/simpleCode/api/v1.0/weightList/delete?id='+id;
+             lazy.lbh_GET(url, function(data){
+                    queryType()
+             })
+         }
+         function queryContent(id){
+             var url = getIP()+'/simpleCode/api/v1.0/weightDetail/query?id='+id;
+             lazy.lbh_GET(url, function(data){
+                    var arr = data.data;
+                    var list = [];
+                    
+                    for(var i=0 ; i<arr.length ; i++){
+                        //alert("code:"+arr[i].code)
+                        //console.log(JSON.parse(arr[i].code))
+                        var d ={
+                            id:arr[i].id,
+                            base_id:arr[i].base_id,
+                            code:arr[i].code,
+                        }
+                        list.push(d);
+                        
+                    } 
+                    getData('content').clean();
+                    getData('content').add(list)   
+             })
+         } 
+         function addContent(id,data){
+             
+             //data= JSON.parse(data);
+             var url = getIP()+'/simpleCode/api/v1.0/weightDetail/add?id='+id+'&code='+data;
+             lazy.lbh_GET(url, function(data){
+                    
+                    queryContent(id) 
+                       
+             })
+         }
+         function deleteContent(id){
+             
+             var url = getIP()+'/simpleCode/api/v1.0/weightDetail/delete?id='+id;
+             lazy.lbh_GET(url, function(data){
+                    
+                    queryContent(typeid) 
+                       
+             })
+         } 
+         function updateContent(id,data){
+             
+             //data= JSON.parse(data);
+             var url = getIP()+'/simpleCode/api/v1.0/weightDetail/update?id='+id+'&code='+data;
+             lazy.lbh_GET(url, function(data){
+                    
+                    queryContent(id) 
+                       
+             })
+         }  
+    });
+</script>
+</html>

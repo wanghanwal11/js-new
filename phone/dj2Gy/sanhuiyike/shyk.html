@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            #listbar{
+                width:90%;
+                margin-left:5%;
+                margin-top:0.5rem;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+         var page=1;
+         var leixing="";
+         var zhonglei="";
+          lazy.setHeader({"title": "主题党日＋",
+                             "rightbtn":[{
+                                 'text':'新增',
+                                 'onclick':function(){
+                                     lazy.openWin1('/dj2Gy/sanhuiyike/fqhy.html?reload=true')
+                                 }
+                             },{
+                                 'text':'审核',
+                                 'onclick':function(){
+                                     lazy.openWin1('/dj2Gy/sanhuiyike/shenhe.html?reload=true')
+                                 }
+                             }]
+             });
+         var json = [
+            {
+                "type" : "twoselect",
+                "table" : [
+                            {
+                                "title" : "全部",
+                                "content" : ["全部","三会一课","主题活动"],
+                                "onclick" : function(i) {
+                                    alert(i)
+                                }
+                            }, {
+                                "title" : "全部",
+                                "content" : ["全部","线上","线下"],
+                                "onclick" : function(j) {
+                                }
+                            }
+                           ],
+                "select":function(i,j){
+                    if(i==0){
+                        if(j=="全部")j=''
+                       leixing=j; 
+                    }
+                    if(i==1){
+                        if(j=="全部")j=''
+                       zhonglei=j; 
+                    }
+                    page=1;
+                     getData("listbar").clean();
+                    load();
+                }
+            },{
+                   "id":"listbar",
+                   "type" : "listbar",
+                   "table":[]
+               }
+         ]
+         setData(json,function(){load()})
+         function load(){
+             lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/list.ht?rows=10"+"&page="+page+"&mtypename="+leixing+"&mkind="+zhonglei,function(data){
+                 lazy.closeBounce();
+                 var data=data.rows;
+                 for(var i=0;i<data.length;i++){
+                     var s={
+                       "title":data[i].mtitle,
+                        "ids":data[i].id,
+                        "icon":"../LazyUI/js/listbar/images/dzzhd.png",
+                        "h":[
+                                "活动类型:"+data[i].mtypename+"-"+data[i].mkind,
+                                "开始时间:"+lazy.format(data[i].mstarttime,"MM-dd")+'&nbsp;'+lazy.format(data[i].mstarttime,"HH:mm")+"(时长:"+data[i].mlength+")",
+                            ],
+                        "h1" : data[i].mtitle,
+                        "h2" : "活动类型:"+data[i].mtypename+"-"+data[i].mkind,
+                        "h4" : "活动类型分类:"+data[i].mcategoryname,
+                        "h3":"开始时间:"+lazy.format(data[i].mstarttime,"MM-dd")+'&nbsp;'+lazy.format(data[i].mstarttime,"HH:mm")+"(时长:"+data[i].mlength+")",
+                        "onclick":function(obj){
+                        lazy.setParameter("hyid",obj.ids);
+                        lazy.setParameter("hyobj",obj)
+                        lazy.openWin("shykxq.html");
+                        }
+                   }
+                    getData("listbar").add(s)
+                 }
+                 page++;
+             },function(){lazy.closeBounce();})
+         }
+         lazy.bounce({"up":function(){
+                load()
+               }}); 
+        });
+    </script>
+</html>

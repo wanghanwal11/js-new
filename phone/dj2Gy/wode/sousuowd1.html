@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var val="";
+            lazy.setHeader({
+                            "title":"问答",
+                        });
+            var peid=lazy.getParameter("peid");
+            var json=[{
+                            "type" : "sousuoinput1",
+                            "select" : function(val1){
+                                if(val1!=""){
+                                   val=val1;
+                                   page=1;
+                                   getData("wendalist").clean();
+                                   load(val);
+                                }
+                            }
+                        },{
+                        "id" : "wendalist",
+                        "type" : "wendalist",
+                        "table" : []
+                    }]
+            setData(json)
+            function load(value){
+                lazy.URLRequest(djconfig.sousuowdwd+"type=1&rows=20&page="+page+"&content="+value+"&creator="+peid, function(data) {
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    if(data.length==0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                         }
+                     }
+                    for(var i=0;i<data.length;i++){
+                        var s={
+                                "ids":data[i].answerid,
+                                "h2" : data[i].content,
+                                "img":data[i].filepatharray,
+                                "h3" : lazy.format(data[i].createtime,"MM-dd")+"&nbsp;&nbsp;"+lazy.format(data[i].createtime,"HH:mm"),
+                                "pl":data[i].commentcount?data[i].commentcount:"0",
+                                "yue":data[i].concerncount?data[i].concerncount:"0",
+                                "people":[{"src":data[i].userpicture,"name":data[i].createuser}],
+                                "onclick":function(obj){
+                                    var objs=encodeURIComponent(JSON.stringify(obj))
+                                    lazy.setParameter("data",obj);
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.openWin1("/dj2/faxian/wendaxq.html?id="+obj.ids+"&objs="+objs);
+                                },
+                                "pinglun":function(obj){
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.setParameter("type","1");
+                                    lazy.openWin1("/dj2/faxian/pllist.html");
+                                }
+                            }
+                       getData("wendalist").one(s);
+                    }
+                    page++
+                },function(){lazy.closeBounce();})
+            }
+            lazy.bounce({"up":function(){
+                load(val)
+               }}); 
+        })
+    </script>
+</html>

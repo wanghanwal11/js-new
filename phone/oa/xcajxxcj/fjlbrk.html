@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>房间列表</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var rkobj = lazy.getParameter("rk");
+            var url = config.fjlbrk+"state="+encodeURI("正常")+"&peopleid="+rkobj.id;
+            var json = [
+                    {
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : "房间列表",
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                                lazy.goBack();
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                        }
+                    },
+            ];
+            setData(json)
+            lazy.URLRequest(url,function(data){
+                var arr = data.rows;
+                var table = [];
+                for(var i=0;i<arr.length;i++){
+                    var onejson = {
+                        "id" : arr[i].livehouseid?arr[i].livehouseid:"",
+                        "type" : "louyu",
+                        "rynum" : i+1,
+                        "icon" : arr[i].photo?(getIP()+arr[i].photo.replace(/\\/g,"/")):"",
+                        "h1" : ["<span style='color:black'>"+arr[i].peoplename+"</span>","迁入时间："+(arr[i].createtime?lazy.format(arr[i].createtime,"yyyy-MM-dd"):""),"地址："+(arr[i].liveaddress?arr[i].liveaddress:"　")],
+                        "onclick" : function(obj){
+                            lazy.setParameter("fw",obj)
+                            lazy.openWin("rklb.html");
+                        }
+                    };
+                    table.push(onejson);
+                    //getData("renyuan").add(onejson);
+                    var renyuan = {
+                        "id" : "renyuan",
+                        "type" : "renyuan",
+                        "table" : table
+                    }
+                    json.push(renyuan);
+                    setData(json)
+                }
+                
+            })
+        });
+    </script>
+</html>

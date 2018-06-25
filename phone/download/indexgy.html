@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+        
+    </head>
+    <style>
+        img{
+           width: 100% !important;
+       }
+    </style>
+    <body>
+       
+    </body>
+    <script>
+        start(function() {
+               var download_src_ios = '';
+               var download_src_android = '';
+               var u = navigator.userAgent;
+               var app = navigator.appVersion;
+               
+               var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+               var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+              
+              /*
+               if(isIOS){
+                   download_src_android ="";
+                   download_src_ios = "https://itunes.apple.com/cn/app/bai-yun-dang-jian-hong-yun/id1126248275?mt=8";
+               }else{
+                   download_src_android = "http://vitoyun.cn/app/apk/BYQeDJ.apk";
+                   download_src_ios = ""
+               }*/
+           
+           
+               setData([
+                   {
+                       "id":"pic",
+                       "type" : "imgmapdiv",
+                       "src" : "image/download.png",
+                       "rect" : [
+                            {
+                                "coords" : "0,970,720,1100",
+                                "href" :"https://itunes.apple.com/cn/app/bai-yun-dang-jian-hong-yun/id1126248275?mt=8",
+                            },{
+                                "coords" : "0,1100,720,1280",
+                                "href" :"http://vitoyun.cn/app/apk/BYQeDJ.apk",
+                            }
+                       ]
+                   },{
+                       "id":"ios",
+                       "type" : "imgmapdiv",
+                       "showHide" : 'hide',
+                       "src" : "image/ios.jpg",
+                       "rect" : []
+                   },{
+                       "id":"android",
+                       "type" : "imgmapdiv",
+                       "showHide" : 'hide',
+                       "src" : "image/android.jpg",
+                       "rect" : []
+                   }
+                   
+               ],function(){
+                    if(lazy.browserType == 'weixin'){
+                       getData("pic").hide();
+                       if(isIOS){
+                           getData("ios").show();
+                       }else if(isAndroid){
+                           
+                           getData("android").show();
+                       }
+                   }
+                   
+               })
+               
+        });
+    </script>
+</html>

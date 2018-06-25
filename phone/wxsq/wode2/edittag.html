@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+
+ 
+<title>我的订阅</title>
+<style type="text/css">
+       body{
+           background-color: #f7f8fa !important;
+       } 
+       div[type=label]{
+           width:auto !important;
+           color:#4d4d4d !important;
+           margin-top:3rem;
+           margin-bottom: 5rem;
+       }
+       div[type=label] span{
+           font-size: 1.5rem !important;
+       }
+       div[type=tag2] .table {
+           background-color: #f7f8fa !important; 
+       }
+       div[type=tag2]{
+            display: flex;
+            justify-content: center;
+        }
+        div[type=tag2] .tag2{
+            margin:0 auto;
+            margin-bottom: 2rem !important;
+            width:5rem !important;
+            border:1px solid #737371 !important;
+        }
+        div[type=tag2] .tag2 span{
+            font-size: 1rem !important;
+        }
+        div[type=button]{
+            margin-top:4rem;
+        }
+        div[type=button] .button_a {
+            width: 90%  !important;
+            border-radius: 6px !important;
+            margin-left: 5% !important;
+            margin-right: 5% !important;
+            background-color: #ffb401 !important;
+        }
+        #pic img{
+           width: 100% !important;
+       } 
+</style>
+
+</head>
+<script src="../LazyUI/js/tingyun-rum.js"></script>
+<body>
+	<script>
+     
+		start(function() {
+		    var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+            var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+              
+              
+              var arr = []
+              var url = getIP()+"/cmy/article/cmyarticletype/getArticleType?initid="+initid;
+              lazy.GET(url,function(data){
+                  if(data.rows.length>0){
+                      lazy.for(data.rows,function(obj){
+                          var s = {
+                              'id':obj.id,
+                              'title':obj.name,
+                              'choose':obj.mark,
+                          }
+                          arr.push(s)
+                      })
+                      var json = [{
+                           "id":"label",
+                           "type":"label",
+                           "text":"请订阅相关内容"
+                       },{
+                           "id":"tag2",
+                           "type":"tag2",
+                           "direction":"row",
+                           "click":true,
+                           "content":[]
+                       }, {
+                          "id":"button",
+                          "type":"button",
+                          "label":"保存",
+                          "onclick":function(){
+                             var ids = getData("tag2").return()
+                             saveTag(ids)
+                          }
+                     
+                     
+                      }]
+                      setData(json,function(){
+                                 queryList()   
+                      })
+                  }else{
+                      var json=[{
+                           "id":"pic",
+                           "type" : "imgmapdiv",
+                           "src" : "../LazyUI/images/notag.png",
+                           "loading":3,
+                           "rect" : [ ]
+                       }]
+                       setData(json)
+                  }
+                  
+              },function(e){
+                    lazy.alert2("错误信息!:"+e);
+              },3)  
+             
+              function saveTag(ids){
+                  var url = getIP()+'/cmy/article/cmyarticletypeuser/saveSubscribe?initid='+initid+'&openid='+openid+'&articletypeids='+ids;
+                  lazy.GET(url,function(data){
+                        lazy.alert2("保存成功")
+                        setTimeout(function(){
+                            lazy.goback(-1)
+                        },1500)
+                  },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                  },3)
+              }
+                     
+                     
+                
+    	    });
+	    
+	  
+	</script>
+</body>
+</html>

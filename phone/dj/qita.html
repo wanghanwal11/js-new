@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="common/model.js"></script>
+        <script src="LazyUI/js/admin.js"></script>
+        <style>
+           html,body {
+                background: url(LazyUI/images/lxyz/qitabg.png) no-repeat!important;
+                background-size: 100%!important; 
+                height:auto!important;
+                background-color:#C8E0F1!important;
+            }
+        </style>
+    </head>
+    <script>           
+        start(function() {
+           /* var modelobj = {
+               "xsb" : {
+                        "type" : "table5",
+                        "title" : "小书包",
+                        "icon" : "LazyUI/images/lxyz/zzhd.png",
+                        "table" : [
+                                    {
+                                        "icon" : "LazyUI/images/lxyz/ds.png",
+                                        "label" : "党史",
+                                        "onclick" : function() {
+                                            lazy.var({"name":"党史"});
+                                            lazy.openWin("xiaoshubao/ds.html")
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/jz.png",
+                                        "label" : "党风廉政",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("qt/ffcl.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    },
+              "zzhd" : {
+                        "type" : "table5",
+                         "title" : "组织活动",
+                        "icon" : "LazyUI/images/lxyz/zzhd0.png",
+                        "table" : [
+                                    {
+                                        "icon" : "LazyUI/images/lxyz/dzzhd.png",
+                                        "label" : "党组织活动",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("zhgdy/dzzhd.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/kfszbsh.png",
+                                        "label" : "开放式支部生活",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("zhgdy/kfszbsh.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/zyfw.png",
+                                        "label" : "志愿服务",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("zhgdy/zyfw.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/wfx.png",
+                                        "label" : (project=="byqdjhy")?"微奉献":"微心愿",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("wfx/wfx.html");
+                                            });
+                                        }
+                                    }
+                                    ,{
+                                        "icon" : "LazyUI/images/lxyz/wfqdhd.png",
+                                        "label" : "我发起的活动",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("zhgdy/wfqdhd.html");
+                                            });
+                                        }
+                                      }
+                                  ]
+                    },
+                "zzsh" : {
+                        "type" : "table5",
+                        "title" : "组织生活",
+                        "icon" : "LazyUI/images/lxyz/zzhd.png",
+                        "table" : [
+                                    {
+                                        "icon" : "LazyUI/images/lxyz/sjxx.png",
+                                        "label" : "书记信箱",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("qt/sjxx.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/ddbzj.png",
+                                        "label" : "党代表之家",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.alert2("配置中");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/phb.png",
+                                        "label" : "比学赶超",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                //lazy.openWin("zhgdy/phb.html");
+                                                lazy.openWin("lxyz/bxgc.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/dfjn.png",
+                                        "label" : "党费交纳",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("dfjn/dfjn.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/sqbd.png",
+                                        "label" : "社区报到",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("zhgdy/sqbd.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/sys.png",
+                                        "label" : "扫一扫",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                saoyisao();
+                                            });
+                                        }
+                                    }
+                                    ,{
+                                        "icon" : "LazyUI/images/qita/xinde.png",
+                                        "label" : "心得",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("lxyz/allxinde.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    },
+              "xnx" : {
+                        "type" : "table5",
+                        "title" : "新农校",
+                        "icon" : "LazyUI/images/qita/xnx.png",
+                        "table" : [{
+                                        "icon" : "LazyUI/images/qita/xsmxx.png",
+                                        "label" : "新型市民农校",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("xnx/xxsmnx.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/xxnmxx.png",
+                                        "label" : "新型农民农校",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("xnx/xxnmnx.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/pxjd.png",
+                                        "label" : "培训基地",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("xnx/pxjd.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/szll.png",
+                                        "label" : "师资力量",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("xnx/szll.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/pxhd.png",
+                                        "label" : "培训活动",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("xnx/pxhd.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/pxxq.png",
+                                        "label" : "培训需求",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("xnx/pxxq.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    },
+              "ycjy" : {
+                        "type" : "table5",
+                        "title" : "远程教育",
+                        "icon" : "LazyUI/images/qita/ycjy.png",
+                        "table" : [{
+                                        "icon" : "LazyUI/images/lxyz/rcgz.png",
+                                        "label" : "人才工作",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("rcgz/rcgz.html");
+                                            });
+                                            
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/zdda.png",
+                                        "label" : "站点档案",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("ycjy/zdda.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/xyhd.png",
+                                        "label" : "学用活动",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("ycjy/xyhd.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/gzsb.png",
+                                        "label" : "故障申报",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("ycjy/gzsb.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    },
+               "gbxp" : {
+                        "type" : "table5",
+                        "title" : project == "byqdjhy"?"白云同步小康驻村":"干部下派",
+                        "icon" : "LazyUI/images/qita/gbxp.png",
+                        "table" : [{
+                                        "icon" : "LazyUI/images/qita/fczc.png",
+                                        "label" : "扶持政策",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("gbxp/fczc.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/xpgb.png",
+                                        "label" : "下派干部",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("gbxp/xpgb.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/xpgbdt.png",
+                                        "label" : "下派工作动态",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("gbxp/xpgbdt.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/qd.png",
+                                        "label" : "工作记实",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("qd/qd.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/qd1.png",
+                                        "label" : "下派干部签到记录",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("qd/qdsearch.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    },
+               "cwgl" : {
+                        "type" : "table5",
+                        "title" : "村务管理",
+                        "icon" : "LazyUI/images/qita/cwgl.png",
+                        "table" : [{
+                                        "icon" : "LazyUI/images/qita/cqjj.png",
+                                        "label" : "村情简介",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("cwgl/cqjjzhen.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/cjgb.png",
+                                        "label" : "村级干部",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.alert2("配置中");
+                                                //lazy.openWin("cwgl/cjgb.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/swgk.png",
+                                        "label" : "三务公开",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("cwgl/swgkzhen.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/wdswgk.png",
+                                        "label" : "我的三务公开",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("cwgl/wdswgk.html");
+                                            });
+                                        }
+                                    }
+                                    // ,{
+                                        // "icon" : "LazyUI/images/qita/qd.png",
+                                        // "label" : "村级干部签到记录",
+                                        // "onclick" : function() {
+                                            // isyouke(function(){
+                                                // lazy.openWin("cwgl/wdswgk.html");
+                                            // });
+                                        // }
+                                    // }
+                                  ]
+                    },
+               "jfph" : {
+                        "type" : "table5",
+                        "title" : "积分排行",
+                        "icon" : "LazyUI/images/qita/jfph.png",
+                        "table" : [{
+                                        "icon" : "LazyUI/images/qita/dzzjfjl.png",
+                                        "label" : "党组织积分记录",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("jfph/dzzjfjl.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/grjfjl.png",
+                                        "label" : "个人积分记录",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("jfph/grjfjl.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/dzzjfph.png",
+                                        "label" : "党组织积分排行",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("jfph/dzzph.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    },
+              "ggpt" : {
+                        "type" : "table5",
+                        "title" : "公共平台",
+                        "icon" : "LazyUI/images/qita/ggpt.png",
+                        "table" : [
+                        {
+                                        "icon" : "LazyUI/images/qita/tzgg.png",
+                                        "label" : "通知公告",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("ggpt/tzgg.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/wjzl.png",
+                                        "label" : "文件资料",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("ggpt/wenjian.html");
+                                            });
+                                        }
+                                    },
+                                    {
+                                        "icon" : "LazyUI/images/qita/wszg.png",
+                                        "label" : "网上组工",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("ggpt/wszg.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    },
+               "gy" : {
+                        "type" : "table5",
+                        "title" : "公共平台",
+                        "icon" : "LazyUI/images/qita/ggpt.png",
+                        "table" : [{
+                                        "icon" : "LazyUI/images/qita/wjzl.png",
+                                        "label" : "学习资料",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("ggpt/wenjian.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/jz.png",
+                                        "label" : "党风廉政",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("qt/ffcl.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/qd.png",
+                                        "label" : "驻村工作",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("qd/qd.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/zyfw.png",
+                                        "label" : "志愿服务",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("zhgdy/sqbd.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/dfjn.png",
+                                        "label" : "党费交纳",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("dfjn/dfjn.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/wfx.png",
+                                        "label" : (project=="byqdjhy")?"微奉献":"微心愿",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("wfx/wfx1.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/qita/sys.png",
+                                        "label" : "扫一扫",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                saoyisao();
+                                            });
+                                        }
+                                    }
+                                  ]
+                    },
+                    "gy1" : {
+                        "type" : "table5",
+                        "title" : "积分排行",
+                        "icon" : "LazyUI/images/qita/ggpt.png",
+                        "table" : [{
+                                        "icon" : "LazyUI/images/qita/dzzjfph.png",
+                                        "label" : "积分查询",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                lazy.openWin("jfph/dzzph.html");
+                                            });
+                                        }
+                                    },{
+                                        "icon" : "LazyUI/images/lxyz/phb.png",
+                                        "label" : "比学赶超",
+                                        "onclick" : function() {
+                                            isyouke(function(){
+                                                //lazy.openWin("zhgdy/phb.html");
+                                                lazy.openWin("lxyz/bxgc.html");
+                                            });
+                                        }
+                                    }
+                                  ]
+                    }
+            }
+            var json = [{
+                            "type" : "yun",
+                            "src" : lazy.url+projectName1,
+                        },modelobj.xsb,modelobj.zzhd,modelobj.zzsh, modelobj.xnx, modelobj.ycjy, modelobj.gbxp, modelobj.cwgl, modelobj.jfph, modelobj.ggpt];
+            //贵阳特有 手机端删除【村务管理】、【新农校】相关功能，并将【干部下派】菜单名改为【白云同步小康驻村】
+            if(project == "byqdjhy"||project == "gxdjfwpt") {
+                //json = [modelobj.xsb,modelobj.zzhd,modelobj.zzsh, modelobj.ycjy, modelobj.gbxp, modelobj.jfph, modelobj.ggpt]
+                json = [{
+                            "type" : "yun",
+                            "src" : lazy.url+projectName1,
+                        },modelobj.gy,modelobj.gy1]
+            }else if(project == "mqlsxdyfwpt"){
+                json = [ modelobj.xsb,modelobj.zzhd,modelobj.ycjy, modelobj.gbxp, modelobj.ggpt]
+            }
+            setData(json);*/
+            //是否是游客
+            function isyouke(back) {
+               /*if(lazy.getParameter("youke")) {
+                    lazy.alertyesno("你的信息需要向所在组织登记，请填写",function() {
+                         lazy.openWin("xxdj.html");  
+                    },function(){
+                        
+                    });
+                }else {*/
+                    if(back)back();
+               // }
+            }
+           if(project=="byqdjhy"){
+                    var json=   [{
+                        "type" : "yun",
+                        "src" : lazy.url+projectName,
+                    }]
+                   setData(json,function(){load1()})
+                    function load1(){
+                        lazy.URLRequest(getIP()+"/oa/sysmolile/getResBtnForParty.ht?alias="+project, function(data) {
+                        var data=data.rows;
+                        for(var i=0;i<data.length;i++){
+                             if(data[i].parentname!="两学一做"){
+                                 var d={
+                                        "type" : "table5",
+                                        "title" : data[i].parentname,
+                                        "icon" : " ",
+                                        "table" : []
+                                     }
+                                 for(var j=0;j<data[i].children.length;j++){
+                                     var s=model[data[i].children[j].key];
+                                    d.table.push(s)
+                                 }
+                                 json.push(d);
+                             }
+                        }
+                       setData(json);
+                    })
+                    }
+           }else if(project=="dyqdjxt"){
+                var json=   [{
+                        "type" : "yun",
+                        "src" : lazy.url+projectName,
+                    }]
+                   setData(json,function(){load()})
+                    function load(){
+                        lazy.URLRequest(getIP()+"/oa/sysmolile/getResBtnForParty.ht?alias="+project, function(data) {
+                        var data=data.rows;
+                        for(var i=0;i<data.length;i++){
+                             if(data[i].parentname!="两学一做"){
+                                 var d={
+                                        "type" : "table4",
+                                        "title" : data[i].parentname,
+                                        "icon" : " ",
+                                        "table" : []
+                                     }
+                                 for(var j=0;j<data[i].children.length;j++){
+                                     var s=model1[data[i].children[j].key];
+                                    d.table.push(s)
+                                 }
+                                 json.push(d);
+                             }
+                        }
+                       setData(json);
+                    })
+                    }
+           }
+        });
+        function saoyisao(){
+                   lazy.erweima(function(_data){
+                       var data=JSON.parse(_data);
+                       data = JSON.parse((data.code).replace(/\\/g,""));
+                       lazy.URLRequest(getIP()+"/"+data.code+"&type="+data.type, function(data){
+                           alert("签到成功");
+                       },function(mes){alert(mes)})
+                    });
+               }
+    </script>
+</html>

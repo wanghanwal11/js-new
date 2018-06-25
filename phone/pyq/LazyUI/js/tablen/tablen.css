@@ -1,0 +1,100 @@
+body[type=body] div[type=tablen]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	position:relative;
+	font-size:1rem;
+    background-color: #fff;
+}
+div[type=tablen] .table {
+    width:100%;
+    height:auto;
+    float:left;
+}
+div[type=tablen] .title{
+    padding: 1rem;
+}
+div[type=tablen] .title span{
+    font-size:1rem;
+    display: block;
+}
+div[type=tablen] .tablediv{
+    width: 100%;
+    height:auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-wrap:wrap;
+}
+div[type=tablen] .icon {
+    float:left;
+    width: 4rem; 
+    height: auto;
+    background-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-align:center;
+    padding: 0 0.5rem;
+}
+div[type=tablen] i{
+    display: block;
+    /*width: 4rem; 
+    height: 4rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2.5rem;
+    border-radius: 4rem;
+    margin: 0 auto;*/
+   
+    width: 4rem;
+    height: 4rem;
+    background-position: left -5.8rem center;
+    background-repeat: no-repeat;
+}
+div[type=tablen] .xian{
+   color: #f0d9d5;
+  
+}
+/*
+div[type=tablen] .icons{
+    width: 2rem;
+    height:2rem;
+    vertical-align: middle;
+    float: left;
+    margin-right: 0.5rem;
+}
+div[type=tablen] .table {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid #f1f1f1;
+}
+div[type=tablen] .tr {
+    width: 100%;
+    height: auto;
+}
+div[type=tablen] .td {
+    text-align: center;
+    width: 0;
+    display: block;
+    color: #000;
+    -webkit-box-sizing:border-box;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+div[type=tablen] .td:last-child {
+    border-right: none;
+}
+div[type=tablen] .icon {
+    margin: auto;
+    width: 4rem; 
+    height: 4rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 50%;
+}
+
+div[type=tablen] .label {
+    height: 1rem;
+    line-height: 1rem;
+}
+*/

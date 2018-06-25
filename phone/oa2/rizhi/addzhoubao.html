@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #41affe !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide();
+        lazy.setHeader({
+            "title":"周报",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var json = [
+                        {
+                            "id" : "process",
+                            "type" : "process",
+                            "table" : [
+                                        {
+                                          "title" : "开始日期",
+                                          "type" : "date",
+                                           "placeholder" : "请选择(必填)"
+                                        },{
+                                          "title" : "截止日期",
+                                          "type" : "date",
+                                           "placeholder" : "请选择(必填)"
+                                        },{
+                                          //组
+                                          "list" : {
+                                              "name":"项目工作记录",
+                                               "table" : [
+                                                            [
+                                                                {
+                                                                	"id" : "bzjh",
+                                                                    "title" : "本周计划",
+                                                                    "type" : "textarea",
+                                                                    "placeholder" : "请填写文字"
+
+                                                                },
+                                                                {
+                                                                	"id" : "bzwc",
+                                                                    "title" : "本周完成",
+                                                                    "type" : "textarea",
+                                                                    "placeholder" : "请填写文字"
+
+                                                                },
+                                                                {
+                                                                	"id" : "wwc",
+                                                                    "title" : "未完成原因",
+                                                                    "type" : "textarea",
+                                                                    "placeholder" : "请填写文字"
+
+                                                                }
+                                                             ]
+                                                ],
+                                                "add" : "+添加项目工作记录"
+                                            }  
+                                        },
+                                        {
+                                        	"id" : "gzzj",
+                                            "title" : "本周工作总结",
+                                            "type" : "textarea",
+                                            "placeholder" : "请填写文字"  
+                                        },
+                                        {
+                                        	"id" : "fxts",
+                                            "title" : "风险提示",
+                                            "type" : "textarea",
+                                            "placeholder" : "请填写文字"                  
+                                         },
+                                         {
+                                        	 "id" : "xtsx",
+                                            "title" : "需要协调和支持事项",
+                                            "type" : "textarea",
+                                            "placeholder" : "请填写文字"                  
+                                         },
+                                         {
+                                        	 "id" : "xzjh",
+                                            "title" : "下周工作计划",
+                                            "type" : "textarea",
+                                            "placeholder" : "请填写文字"                  
+                                         },{
+                                            "type" : "file",
+                                            "title" : "附件",
+                                            "httpurl" : config.docUpoad
+                                        }
+                                      ]
+                        },{
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var allvalue = getData("process").getArray().table;
+                                var logtime = allvalue[0].value;
+                                var logendtime = allvalue[1].value;
+                                var bzjh = [];
+                                var bzwc = [];
+                                var wwc = [];
+                                for(var i=0;i<allvalue[2].list.table.length;i++){
+                                	var tmp = allvalue[2].list.table[i];
+                                	bzjh.push(tmp[0].value);
+                                	bzwc.push(tmp[1].value);
+                                	wwc.push(tmp[2].value);
+                                }
+                                var gzzj = allvalue[3].value;
+                                var fxts = allvalue[4].value;
+                                var xtsx = allvalue[5].value;
+                                var xzjh = allvalue[6].value;
+                                var filesid = [];
+                                if(allvalue[7].value[0]&&allvalue[7].value[0].annexid){
+                                	for(var i=0;i<allvalue[7].value.length;i++){
+                                		filesid.push(allvalue[7].value[i].annexid)
+                                	}	
+                                }
+                                var newdate = new Date(logtime);
+                                var newdate1 = new Date(logendtime);
+                                if(logtime=="") {
+                                    lazy.alert2("开始日期不能为空");
+                                }else if(logendtime==""){
+                                    lazy.alert2("截止日期不能为空");
+                                }else if(newdate>newdate1){
+                                    lazy.alert2("日期选择错误");
+                                }else if(logtime==""&&bzjh.length==0&&bzwc.length==0&&wwc.length==0&&gzzj==""&&fxts==""&&xtsx==""&&xzjh==""){
+                                	lazy.alert2("至少添加一项");
+                                }else{
+                                	var content = {
+                                			"bzjh" : bzjh,
+                                			"bzwc" : bzwc,
+                                			"wwc" : wwc,
+                                			"gzzj" : gzzj,
+                                			"fxts" : fxts,
+                                			"xtsx" : xtsx,
+                                			"xzjh" : xzjh,
+                                	}
+                                	var url = config.mobilelogsave+"logtime="+logendtime+"&content="+JSON.stringify(content)+"&type=week&issave=1";
+                                	url += "&filesid="+filesid;
+                                	url += '&def2='+logtime;
+									lazy.alertyesno('确认提交？', function(){
+										lazy.URLRequest(url,function(){
+	                                        alert("提交成功");
+	                                        window.history.go(-1)
+	                                    }, function(e) {
+	                                    	lazy.alert2(e);
+	                                    })
+                                    },function(){
+                                    	
+                                    });
+                                	
+                                }
+                            }
+                        }
+                    ];
+        // json.unshift({
+            // "id" : "headertoolbar",
+            // "type" : "headertoolbar",
+            // "backgroundColor" : lazy.getParameter("Bgcolor"),
+            // "color" : "#fff",
+            // "border" : "none",
+            // "title" : '周报',
+            // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+            // "select" : function(name, index) {
+                // if(name=="left"&&index==0){
+                    // lazy.goBack();
+                // }
+                // if(name=="left"&&index==1){
+                    // lazy.close();
+                // }
+            // }
+        // })
+        setData(json);
+           
+    });
+    </script>
+</html>

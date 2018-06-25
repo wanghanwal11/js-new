@@ -1,0 +1,77 @@
+body[type=body] div[type=hdlist]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=hdlist] .table {
+    width:100%;
+    height:auto;
+}
+div[type=hdlist] .tr {
+    height:auto;
+    background-color: #ffffff;
+    border-bottom:1px solid #efefef;
+    padding:1rem;
+}
+div[type=hdlist] .pic {
+    width:7rem;
+    height:5.5rem;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-right: 1rem;
+}
+div[type=hdlist] .status1 {
+    background-color: #ffb400;
+    border-radius:4px;
+    color:#ffffff;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    height:1.2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+div[type=hdlist] .status0 {
+    background-color: #41c89f;
+    border-radius:4px;
+    color:#ffffff;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    height:1.2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+div[type=hdlist] .title {
+    color:#202227;
+}
+div[type=hdlist] .type {
+    color:#5498c8;
+    height:1.5rem;
+    line-height: 1.5rem;
+    font-size: 0.9rem;
+}
+div[type=hdlist] .space {
+   margin-top:1rem;
+}
+div[type=hdlist] .time {
+    padding-left:1.5rem;
+    background-image: url('../../images/huodong/time.png');
+    background-position: left center;
+    background-size: 1rem;
+    background-repeat: no-repeat;
+    
+    font-size: 0.9rem;
+    color:#63676e;
+}
+div[type=hdlist] .address {
+     padding-left:1.5rem;
+    background-image: url('../../images/huodong/address.png');
+    background-position: left center;
+    background-size: 0.9rem;
+    background-repeat: no-repeat;
+    margin-top:0.2rem;
+    font-size: 1rem;
+    color:#63676e;
+}

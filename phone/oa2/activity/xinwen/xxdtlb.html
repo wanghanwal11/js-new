@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            
+           var page=1;
+             var json = [
+             {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.close()
+                                              }   
+                                            }
+                                          ],
+                           "right" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/sousuoinput_move/sousuo1.png",
+                                              "onclick" : function(name, index, btn) {
+                                                  var url =djconfig.xinwenlist + 'tags=xxdt&title=';
+                                                  lazy.setParameter("sou",url)
+                                                  lazy.setParameter("title","学习动态")
+                                                  lazy.openWin("view.html");
+                                              }   
+                                            }
+                                          ],
+                            
+                            "button" : [
+                                              {
+                                                  "content" : "学习动态",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },{
+                            "id" : "xinwenlb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                            
+                        }];
+            setData(json,function(){
+                
+                list()
+                
+            });
+            function list(){
+                var url = djconfig.xinwenlist + 'tags=xxdt&page='+page+'&rows=10'+"&_time="+new Date().getTime();               
+                lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+                
+                
+                for(var i = 0; i < arr.length; i++) {
+                    
+                    var d={
+                            "icon" : (arr[i].imgUrl).replace(/\\/g,"/"),
+                            
+                            "h1" : arr[i].title,
+                            "yue" : arr[i].count,
+                            "ping" : arr[i].commentcount,
+                            "user" : arr[i].seoTitle,
+                                
+                            "date" : lazy.autoFormat(arr[i].addTime),
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                
+                                lazy.setParameter("xwxqid",data.id)
+                                
+                                lazy.setParameter("img",data.icon)
+                                 var add_url = djconfig.addnumber + 'type=read&id='+data.id;   
+                                 
+                                 lazy.URLRequest(add_url);
+                                lazy.openWin("xxdtxq.html");
+                                
+                            }
+                           }
+                        getData("xinwenlb").add(d);
+                    
+                    
+                        }//for
+                        page++;
+                        lazy.closeBounce();
+                    }, function(e) {
+                    //lazy.
+                    lazy.closeBounce();
+                    alert(e);
+                },0);
+            }
+            lazy.bounce({
+                   "up" : function() {
+                       list();
+                   } 
+                });
+            
+        })
+        
+    </script>
+</html>

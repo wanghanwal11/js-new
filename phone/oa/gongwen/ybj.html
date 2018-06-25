@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>公文</title>
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page = 1;
+            var json = [{
+                "id" : "titlebtnlist2",
+                "type" : "titlebtnlist2",
+                "table" : []
+            }];
+            setData(json,function(){
+                load();
+            })
+            function load(){
+                lazy.URLRequest(config.mobilefilesend+"?type=wanjie&rows=10&page="+page, function(data){
+                    var data = data.rows;
+                    for(var i=0;i<data.length;i++){
+                        var tmp = {
+                            "id" : data[i].id,
+                            "h1" : data[i].title,
+                            "h2" : "公文编号:"+data[i].receid,
+                            "icon" : "../LazyUI/images/gw.png",
+                            "gwtype" : "bj",
+                            "onclick" : function(obj){
+                                lazy.setParameter("gwxq",obj);
+                                parent.lazy.openWin("gwxq.html");
+                            }
+                        }
+                        getData("titlebtnlist2").add(tmp);
+                    }
+                    page++;
+                })
+            }
+            lazy.bounce({
+                    "up" : function(){
+                        load();
+                    }
+                 });   
+        });
+    </script>
+</html>

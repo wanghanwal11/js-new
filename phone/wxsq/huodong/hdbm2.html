@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>报名成功</title>
+        <style>
+             body{
+                background-color: #f7f8fa !important;
+            }
+            #bmcg img{
+               width: 50% !important;
+               margin-top:5rem;
+               margin-left:25%;
+            } 
+            #label{
+               color:#202227;
+               font-size:1rem !important;
+               line-height:1.5rem !important;
+               margin-top:3rem;
+               margin-left:4rem;
+               width: auto !important;
+           }
+            #button{
+                position: fixed;
+                top:30rem !important;
+            }
+            #button .button_a{
+                background-color: #ffb401 !important;
+                color: #ffffff !important;
+                border-radius:4px !important;
+                width: 94% !important;
+                margin-left: 3% !important;
+            }
+            #input1{
+                margin-top:2rem;
+                margin-bottom: 1px !important;
+            }
+            div[type=input] .icon{
+                display: none;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var initid = lazy.geturlstr('initid')?lazy.geturlstr('initid'):'';
+            var openid = lazy.geturlstr('openid')?lazy.geturlstr('openid'):'';
+            var objshare = lazy.getParameter('objshare')
+            
+            var realname = '';
+            var phone = '';
+            
+            lazy.loadWxJs(function(){
+                  var json=[{
+                       "id":"bmcg",
+                       "type" : "imgmapdiv",
+                       "src" : "../LazyUI/images/huodong/bmsuccess.png",
+                       "rect" : []
+                   },{
+                        id:'label',
+                        type : 'label',
+                        text : '请留下您的信息，方便我们联系您！',
+                   },{
+                         "id":"input1",
+                         "type":"input",
+                         "title":"姓名",
+                         "value":"",
+                         "readOnly":'',
+                         "placeholder":"请填写您的真实姓名",
+                         "icon":"../LazyUI/images/right1.png",
+                         /*"key":"rzsq",*/
+                        "onclick":function(){
+                        }
+                    },{
+                         "id":"input2",
+                         "type":"input",
+                         "title":"手机号",
+                         "value":"",
+                         "readOnly":'',
+                         "placeholder":"请填写您的手机号",
+                         "icon":"../LazyUI/images/right1.png",
+                         /*"key":"rzsq",*/
+                        "onclick":function(){
+                        }
+                    },{
+                        "id":"button",
+                         "type":"button",
+                         "label":'提交',
+                         "onclick":function(){
+                            if(getData('input1')) realname = getData('input1').getValue()
+                            if(getData('input2')) phone = getData('input2').getValue()
+                            if(getData('input1')){
+                                if(!getData('input1').getValue()){
+                                    lazy.alert2('请填写您的姓名')
+                                    return;
+                                }
+                                
+                                
+                            }
+                            if(getData('input2')){
+                                if(!getData('input2').getValue()){
+                                    lazy.alert2('请填写您的手机号')
+                                    return;
+                                }
+                                
+                            }
+                           
+                            save(realname,phone)   
+                               
+                         }
+                    }];
+            
+                setData(json,function(){
+                    lazy.share(objshare)
+                })
+            })
+            /*保存姓名手机号*/
+            function save(name,phone){
+                
+                var url = getIP()+'/wx/wechatgl/weixinuser/updateUserName?openid='+openid+'&initid='+initid+'&realname='+name+'&mobile='+phone;
+                lazy.GET(url, function(data){
+                      lazy.alert2('保存成功')
+                     lazy.openWin('submitsuccess.html?initid='+initid)
+                      
+                 },function(e){
+                      status = 1;
+                     lazy.alert2(e);
+                 },null);
+            }
+          
+        });
+    </script>
+</html>

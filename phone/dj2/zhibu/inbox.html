@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+		<title>收件箱</title>
+	</head>
+	<body>
+	    <script>
+	     start(function() { 
+	         var page=1;
+	         
+	         lazy.setHeader({"title": "书记信箱"});
+	         var json = [
+	            {
+	                "id" : "inbox",
+	                "type" : "inbox",
+	                "table" : []
+	            }]
+	           
+	             //var isSecretary=lazy.geturlstr("isSecretary")?lazy.geturlstr("isSecretary"):lazy.getParameter("isSecretary");
+	             //alert(isSecretary)
+	             var url = djconfig.sjinbox + 'isSecretary=Y&page='+page+'&rows=10'; 
+	             lazy.URLRequest(url, function(data){
+	                 
+	                 lazy.closeBounce();
+	                 var arr = data.rows;
+	                  if(arr.length==0&&page==1){
+                          lazy.datanull("暂无数据")
+                     }
+	                 for(var i = 0; i < arr.length; i++) {
+                    
+                    var d={
+                            "icon" : lazy.getImagePx(arr[i].picture, 80, 80),
+                            "name" : arr[i].createuser,
+                            "date" : lazy.format(arr[i].createtime,"MM-dd"),
+                            "time" : lazy.format(arr[i].createtime,"HH:mm"),
+                            "moneyinfo" : arr[i].title,
+                            "status" : arr[i].isread,
+                            "infocontent" : arr[i].content,
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("inboxid",data.id);
+                                
+                                lazy.openWin1("/dj2/zhibu/inboxxq.html?reload=true")
+                            }
+                           }
+                           
+                        json[0].table.push(d);
+                        }//for
+                         page++
+	                 setData(json);
+	             },function(){lazy.closeBounce();},0)
+	               
+	            
+	           })
+	    </script>
+	</body>
+</html>

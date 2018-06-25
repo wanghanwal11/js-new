@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>办事</title>
+        <style>
+            body {
+                background-color: #white !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border-radius: 1rem;
+            }
+            #submit .buttondiv{
+                border: none !important;
+                background-color: #649bdb !important;
+            }
+            #backtrue .buttondiv{
+                border: #649bdb 1px #solid !important;
+                color : #649bdb;
+            }
+            #backfalse .buttondiv{
+                border: #649bdb 1px #solid !important;
+                color : #649bdb;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+            input{
+                padding-left:0 !important;
+            }
+            div[type = label]{
+                margin:0 auto !important;
+                width:auto !important;
+            }
+          
+        </style>
+    </head>
+    <body>
+        
+        <script>
+            start(function() {
+                //document.body.getElementsByClassName("url")[0].value = '80';
+                 lazy.clearCache()
+                lazy.setParameter("page_status",1)
+                var weekday=new Array(7)
+                    weekday[0]="日"
+                    weekday[1]="一"
+                    weekday[2]="二"
+                    weekday[3]="三"
+                    weekday[4]="四"
+                    weekday[5]="五"
+                    weekday[6]="六"
+                lazy.setParameter("page","detail");
+                var spobj = lazy.getParameter("spobj");
+                var wxinitId = lazy.getParameter("initid");
+                var wxopenid = lazy.getParameter("openid");
+                var taskId = spobj.taskid?spobj.taskid:0;
+                var runId = spobj.runid;
+                var serviceId = spobj.serviceid;
+                lazy.setParameter("workid",serviceId)
+                var person = lazy.getParameter("person")
+                var taskStatus = spobj.taskStatus;
+                var readonlyjson;
+                var readarr = [];
+                var restatus = spobj.restatus;
+                var resid=""; //预约时间的id
+                var arr1=[];
+                var obj = lazy.getParameter("savedetail")?lazy.getParameter("savedetail"):"";
+                var wxinitId = lazy.geturlstr("wxinitId")?lazy.geturlstr("wxinitId"):lazy.getParameter("initid");
+                var wxopenid = lazy.geturlstr("wxopenid")?lazy.geturlstr("wxopenid"):lazy.getParameter("openid");
+                var text = "";
+                var personinfo = lazy.getParameter("userinfo");
+                var submit_json=[];
+               
+                lazy.loadWxJs(function(){
+                    var div = {
+                            "id" : "div",
+                            "type" : "label",
+                            "text" : '预审通过，请选择预约时间',
+                    }
+                    var community = {
+                        "id":"shequ",
+                        "title":"所在社区：",
+                        "type":"text",
+                        
+                        "value":personinfo.communityname,
+                    }
+                    var button1 = {
+                                "id" : "submit",
+                                "type" : "button",
+                                "label" : "提交",
+                                "style" : {
+                                    "margin-bottom":"1rem"
+                                },
+                                "onclick" : function() {
+                                    var allvalue = getData("process").getArray();
+                                    console.log(allvalue)
+                                    var arr = allvalue.table;
+                                    var tmp = {};
+                                    var filearr = [];
+                                    var idCardarr = [];
+                                    var subsonobj = {
+                                        "fields" : []
+                                    };
+                                    var sonarr = [];
+                                    console.log(arr)
+                                    for(var i=0;i<arr.length;i++){
+                                        if(arr[i].title){
+                                            var title = arr[i].title;
+                                            if(arr[i].id&&arr[i].type!="hide"){
+                                                if(arr[i].value==""&&arr[i].placeholder.indexOf("必填")>-1){
+                                                    title = title.substring(0,title.length-1)
+                                                   lazy.alert2("请填写："+title);
+                                                   return;
+                                                }
+                                                if(arr[i].type=="people"){
+                                                    var ygbh = "";
+                                                    var xm = "";
+                                                    for(var n=0;n<arr[i].value.length;n++){
+                                                        if(n<arr[i].value.length-1){
+                                                            ygbh += arr[i].value[n].id+",";
+                                                            xm += arr[i].value[n].h1+",";
+                                                        }else{
+                                                            ygbh += arr[i].value[n].id;
+                                                            xm += arr[i].value[n].h1;
+                                                        }
+                                                    }
+                                                     tmp[arr[i].id] = xm;
+                                                     if(arr[i].subid&&arr[i].subid!=""){
+                                                         tmp[arr[i].subid] = ygbh;
+                                                     }
+                                                }else if(arr[i].type=="overtime"){
+                                                    var ids =  "";
+                                                    var names = "";
+                                                    for(var n=0;n<arr[i].value.length;n++){
+                                                        if(n<arr[i].value.length-1){
+                                                            ids += arr[i].value[n].id+",";
+                                                            names += arr[i].value[n].h1+",";
+                                                        }else{
+                                                            ids += arr[i].value[n].id;
+                                                            names += arr[i].value[n].h1;
+                                                        }
+                                                    }
+                                                    tmp[arr[i].id] = names;
+                                                    if(arr[i].subid&&arr[i].subid!=""){
+                                                        tmp[arr[i].subid] = ids;
+                                                    }
+                                                }else{
+                                                    //if(lazy.isArray(arr[i].value)){
+                                                      if(arr[i].value instanceof Array){
+                                                        var str = "";
+                                                        for(var m=0;m<arr[i].value.length;m++){
+                                                            if(m<arr[i].value.length-1){
+                                                                str += arr[i].value[m]+",";
+                                                            }else{
+                                                                str += arr[i].value[m];
+                                                            }
+                                                        }
+                                                        tmp[arr[i].id] = str;
+                                                    }else{
+                                                        tmp[arr[i].id] = arr[i].value?arr[i].value:"";
+                                                    }
+                                                }
+                                            }else if(arr[i].type=="image"){
+                                                if(arr[i].value.length>0){
+                                                    for(var m=0;m<arr[i].value.length;m++){
+                                                        filearr.push(arr[i].value[m])
+                                                    }
+                                                }
+                                            }else if(arr[i].type=="file"){
+                                                if(arr[i].value.length>0){
+                                                    for(var m=0;m<arr[i].value.length;m++){
+                                                        filearr.push(arr[i].value[m])
+                                                    }
+                                                }
+                                            }else if(arr[i].type=="idCard"){
+                                                if(arr[i].value.length>0){
+                                                    for(var m=0;m<arr[i].value.length;m++){
+                                                         if(arr[i].value[m].src){
+                                                            var ip= lazy.getParameter('ip');
+                                                            if(arr[i].value[m].annexpath.indexOf(ip)>-1){
+                                                                var length = ip.length;
+                                                                var length2 = arr[i].value[m].annexpath.length;
+                                                                var src = arr[i].value[m].annexpath.substring(length,length2)
+                                                                arr[i].value[m].annexpath = src;
+                                                            }
+                                                            idCardarr.push(arr[i].value[m])
+                                                        }
+                                                    }
+                                                    var length1 = document.getElementsByClassName("kuangdiv").length;
+                                                    var length2 = idCardarr.length;
+                                                    if(length1!=length2) {lazy.alert2("请将附件上传完整")}
+                                                    if(length1!=length2) {return;}
+                                                    console.log(idCardarr)
+                                                }
+                                            }
+                                        }else{
+                                            subsonobj.tableName = arr[i].list.sontableid;
+                                            for(var s=0;s<arr[i].list.table.length;s++){
+                                                var tmp1 = arr[i].list.table[s];
+                                                var tmpobj = {};
+                                                for(var n=0;n<tmp1.length;n++){
+                                                    var title = tmp1[n].title;
+                                                    if(tmp1[n].id&&tmp1[n].type!="hide"){
+                                                        if(tmp1[n].value==""&&tmp1[n].placeholder.indexOf("必填")>-1){
+                                                           alert(title+"不能为空");
+                                                           return;
+                                                        }else{
+                                                            tmpobj[tmp1[n].id] = tmp1[n].value;
+                                                        }
+                                                    }
+                                                }
+                                                subsonobj.fields.push(tmpobj);
+                                            }
+                                                
+                                        }
+                                    }
+                                    var leave_data = {};
+                                    if(subsonobj.fields.length>0){
+                                        sonarr.push(subsonobj);
+                                        leave_data.sub = sonarr;
+                                    }
+                                    leave_data.main = {};
+                                    leave_data.main.fields = tmp;
+                                    leave_data.serviceid = serviceId;
+                                    if(getData("process2")){
+                                        var zxr = getData("process2").getArray().table[0].value;
+                                        if(zxr==""||zxr.length==0){
+                                            alert("执行人不能为空");
+                                            return;
+                                        }else{
+                                            var tmpzxr = "";
+                                            //"coDestTaskUserIds":"user^10000110050775^崔大冠%23user^10000108950020^谢宏博"
+                                            for(var ss=0;ss<zxr.length;ss++){
+                                                if(ss<zxr.length-1){
+                                                    tmpzxr+="user^"+zxr[ss].id+"^"+zxr[ss].h1+"%23";
+                                                }else{
+                                                    tmpzxr+="user^"+zxr[ss].id+"^"+zxr[ss].h1;
+                                                }
+                                            }
+                                            if(servicename.indexOf("公文")>-1){//公文流转
+                                                lazy.personmessage(function(o){
+                                                    var userId = o.rows[0].userId;
+                                                    var fullName = o.row[0].fullname;
+                                                    tmpzxr += "%23user^"+userId+"^" + fullName;
+                                                })
+                                                leave_data.hostDestTaskUserIds = tmpzxr;
+                                            }else{
+                                                leave_data.coDestTaskUserIds = tmpzxr;
+                                            }
+                                        }
+                                    }
+                                    var url = '';
+                                    if(submit_json[0].id&&submit_json[0].id=="process"){
+                                         url = getIP() + "/wechat/weixinevent/saveFormWechat.ht?formData="+JSON.stringify(leave_data)+"&busdescp="+serviceId+"&idCarddata="+JSON.stringify(idCardarr);
+                                            url+= "&applyorderbynet="+spobj.df1+"&targetId="+person.targetId+"&targetName="+person.targetName+"&idcard="+person.idcard+"&areaid="+person.areaid;
+                                            url += "&resid="+resid+"&restatus="+spobj.df1;
+                                            url+="&initid="+wxinitId+"&openid="+wxopenid+"&runId="+runId;
+                                    console.log(url)
+                                    // document.body.getElementsByClassName("url")[0].value = url;
+                                    }else{
+                                         url = getIP() + "/wechat/weixinevent/submitReservation.ht?runId="+runId+"&resid="+resid+"&restatus=1";
+                                           url+="&initid="+wxinitId+"&openid="+wxopenid;
+                                           // url += "&runId="+runId+"&resid="+resid+"&restatus="+spobj.df1;
+                                           //document.body.getElementsByClassName("url")[0].value = url;
+                                    }
+                                    /*if(lazy.getParameter("savedetail")){
+                                            var obj = lazy.getParameter("savedetail");
+                                            obj[runId] = {};
+                                            lazy.setParameter("savedetail",obj);
+                                        }
+                                        if(lazy.getParameter("detail_process")){
+                                            var process_obj = lazy.getParameter("detail_process");
+                                            process_obj[runId] = {};
+                                            lazy.setParameter("detail_process",process_obj);
+                                        }*/
+                                    lazy.GET(url,function(data){
+                                        //alert(url)
+                                        ///document.body.getElementsByClassName("url")[0].value = url;
+                                        if(lazy.getParameter("savedetail")){
+                                            var obj = lazy.getParameter("savedetail");
+                                            obj[runId] = {};
+                                            lazy.setParameter("savedetail",obj);
+                                        }
+                                        if(lazy.getParameter("detail_process")){
+                                            var process_obj = lazy.getParameter("detail_process");
+                                            process_obj[runId] = {};
+                                            lazy.setParameter("detail_process",process_obj);
+                                        }
+                                        lazy.alert3("提交成功", "感谢您的申请，我们会尽快处理，请您耐心等待。",{
+                                            "yesfun":function(){
+                                                //lazy.refresh()
+                                                lazy.setParameter("page_status",1)
+                                                lazy.openWin("index.html?wxopenid="+wxopenid+"&wxinitId="+wxinitId)
+                                            }
+                                        });
+                                        
+                                    }, function(e) {
+                                        lazy.alert2(e);
+                                    }, 0)
+                                }
+                            }
+                    var button2 = {
+                        "id" : "clear",
+                        "type" : "button",
+                        "label" : "清空",
+                        "onclick" : function() {
+                            var obj = {};
+                            lazy.setParameter("savedetail",obj);
+                            
+                            lazy.refresh()
+                            
+                        }
+                    }
+                    var button3 = {
+                        "id" : "judge",
+                        "type" : "button",
+                        "label" : "评价",
+                        "onclick" : function() {
+                            //alert(document)
+                            console.log(document.referrer)
+                            lazy.setParameter("document",document.referrer)
+                           lazy.openWin("pingjia.html?runid="+runId+"&wxinitId="+wxinitId+"&wxopenid="+wxopenid)
+                            
+                        }
+                    }
+                    //有缓存加载缓存
+                    if(obj[runId]&&obj[runId].table){
+                        //alert(serviceId)
+                    
+                        console.log(obj[runId])
+                         /*判断是否补正*/
+                       var process_obj ={};
+                       if(spobj.restatus=='6'){
+                           //lazy.setParameter('detail_process',json[1])
+                           process_obj = lazy.getParameter("detail_process");
+                        
+                       }
+                        var json = [];
+                        var length = obj[runId].table.length-1;
+                        if(obj[runId].table[length].type == 'click'){
+                            var date_str = obj[runId].table[length].value;
+                            addyy(date_str,function(timeobj){
+                                obj[runId].table.pop()
+                                obj[runId].table.push(timeobj)
+                                json.push(obj[runId])
+                                if(process_obj[runId]) json.push(process_obj[runId])
+                                json.push(button1)
+                            })
+                        }else{
+                            json.push(obj[runId])
+                            if(process_obj[runId]) json.push(process_obj[runId])
+                            json.push(button1)
+                        }
+                        
+                        //json.push(obj[serviceId])
+                        //json.push(button1)
+                        submit_json = json;
+                        setData(json,function(){
+                             document.getElementsByClassName("button_a")[0].style.background = "#3399ff";
+                            setReadOnly(json[0])
+                        })
+                    }else{
+                        //无缓存 请求数据
+                        var url = getIP()+"/wechat/weixinevent/phoneBlForWechat.ht?taskId=" + taskId + "&runId=" + runId+"&status="+taskStatus;
+                        url+="&initid="+wxinitId+"&openid="+wxopenid;
+                        lazy.URLRequest(url,function(data){
+                            var json =  data.rows[0].json;
+                            var pic_ip = data.newPrimaryKeys.ip?data.newPrimaryKeys.ip:'';
+                            lazy.setParameter("ip",pic_ip);
+                            if((json[0].id&&json[0].id=="process")|| (spobj.df1=='4'&&spobj.restatus=='10')){
+                                //var save_obj = lazy.getParameter("savedetail");
+                               // console.log(save_obj[serviceId])
+                                /*预约*/
+                               if(json[0].id&&json[0].id=="process"){
+                                   readonlyjson = json[0];
+                                   lazy.for(json[0].table,function(_obj,i){
+                                       if('resdate' in _obj){
+                                          var date = new Date(parseInt(_obj['resdate']));
+                                           var date_str = (date.getMonth()+1)+"月"+date.getDate()+"日 （星期"+weekday[date.getDay()]+"）";
+                                           date_str += ' '+_obj['begintime']+'-'+_obj['endtime']
+                                           addyy('',function(timeobj){
+                                               json[0].table.pop()
+                                               json[0].table.push(community)
+                                               json[0].table.push(timeobj)
+                                           })
+                                        }
+                                   })
+                                   
+                                   if(spobj.df1=='4'&&spobj.restatus=='10'){
+                                       json.push(div)
+                                   }
+                                   
+                                   if(spobj.restatus=='6'){
+                                       //lazy.setParameter('detail_process',json[1])
+                                       var process_obj = lazy.getParameter("detail_process")?lazy.getParameter("detail_process"):{};
+                                       process_obj[runId] = json[1];
+                                       lazy.setParameter("detail_process",process_obj);
+                                   }
+                                   json.push(button1)
+                                   
+                               }else{
+                                   
+                                   addyy('',function(timeobj){
+                                       var obj={
+                                           "type":'process',
+                                           "id":'process',
+                                           "table":[]
+                                       }
+                                       obj.table.push(community)
+                                       obj.table.push(timeobj)
+                                       if(json[1]){
+                                           if(json[1].type == 'peopleprocess'){
+                                               var temp = json[1];
+                                               json[1] = obj;
+                                               json.push(temp)
+                                           }
+                                       }else{
+                                           json.push(obj)
+                                       }
+                                       
+                                      
+                                       if(spobj.df1=='4'&&spobj.restatus=='10'){
+                                           json.push(div)
+                                       }
+                                        json.push(button1)
+                                        
+                                        readonlyjson = json[1];
+                                   })
+                               }
+                               submit_json = json;
+                                setData(json,function(){
+                                    document.getElementsByClassName("button_a")[0].style.background = "#3399ff"
+                                    setReadOnly(readonlyjson)
+                                    /*lazy.for(readonlyjson[0].table,function(obj,i){
+                                        switch(obj.id){
+                                            case 'xm':
+                                                readarr.push(i)
+                                                break;
+                                            case 'sfzh':
+                                            case 'sfzhm':
+                                                 readarr.push(i)
+                                                break;
+                                            case 'lxdh':
+                                                 readarr.push(i)
+                                                break;
+                                            case 'shequ':
+                                                 readarr.push(i)
+                                                break;
+                                        }
+                                    })
+                                    var tr = document.getElementsByClassName("tr");
+                                    if(json[0].id&&json[0].id=="process"){
+                                        lazy.for(readarr,function(obj){
+                                            tr[obj].getElementsByTagName("input")[0].readOnly = 'true';
+                                        })
+                                    }*/
+                                    
+                                });
+                                //process_end
+                            }else{
+                                //process_detail
+                                one()
+                                function one() {
+                                    
+                                   /*判断是否有预约时间字段*/
+                                  var yyzd = 0;
+                                  var isChehui = 0
+                                   lazy.for(json[0].table,function(obj){
+                                       if('resdate' in obj){
+                                           yyzd = 1;
+                                           var date = new Date(parseInt(obj['resdate']));
+                                           var date_str = (date.getMonth()+1)+"月"+date.getDate()+"日 （星期"+weekday[date.getDay()]+"）";
+                                           date_str += ' '+obj['begintime']+'-'+obj['endtime']
+                                           var date_now = new Date();
+                                           if(date.getFullYear()==date_now.getFullYear() && date.getMonth()==date_now.getMonth() && date.getDate()<=date_now.getDate()) {
+                                               isChehui=1;
+                                               var dateHours = parseInt(obj['begintime'].substring(0,2))
+                                               if(date.getDate()==date_now.getDate() && date.getHours()<date_now.getHours()){
+                                                   isChehui=0;
+                                               }
+                                               
+                                           }
+                                           if(date.getFullYear()<date_now.getFullYear() || date.getMonth()<date_now.getMonth()){
+                                               isChehui=1;
+                                           } 
+                                           var temp = {
+                                               "type":"text",
+                                                    "title":"预约时间: ",
+                                                    "value":date_str,
+                                           }
+                                          
+                                           if(spobj.df1=='4'&&spobj.restatus=='7'){
+                                                var obj={
+                                                   "type":'process',
+                                                   "id":'process',
+                                                   "table":[]
+                                               }
+                                               addyy(date_str,function(timeobj){
+                                                    obj.table.push(community)
+                                                    obj.table.push(timeobj)
+                                               })
+                                               
+                                               json.push(obj)
+                                               json.push(div)
+                                               json.push(button1)
+                                           }else{
+                                               json[0].table.push(community)
+                                               json[0].table.push(temp)
+                                           }
+                                           
+                                       }
+                                   })
+                                    if(taskStatus=="4"){
+                                        
+                                      if(restatus=="1" || restatus=="2" ||restatus=="4" ||restatus=="5" ||restatus=="6"){
+                                        var button2 = {
+                                            "id" : "backtrue",
+                                            "type" : "button",
+                                            "label" : "撤回",
+                                            "style" : {
+                                                "margin-bottom":"1rem"
+                                            },
+                                            "onclick" : function() {
+                                                //var url = getIP() + "/wechat/weixinevent/updateReservation.ht?status=911&runId="+runId;
+                                                //url+="&initid="+wxinitId+"&openid="+wxopenid;
+                                                /*传回的restatus*/
+                                              
+                                                var ch = 0;
+                                                switch(restatus){
+                                                    case '1':
+                                                        ch = 7;
+                                                        break;
+                                                    case '2':
+                                                        ch = 8;
+                                                        break;
+                                                    case '4':
+                                                        if(yyzd){
+                                                           ch = 7; 
+                                                        }else{
+                                                           ch = 9; 
+                                                        }
+                                                        break;
+                                                    case '5':
+                                                        ch = 9;
+                                                        break;
+                                                }
+                                                
+                                               if(!isChehui){
+                                                   var url = getIP() + "/wechat/weixinevent/updateReservation.ht?restatus="+ch+"&runId="+runId;
+                                                    url+="&initid="+wxinitId+"&openid="+wxopenid;
+                                                    lazy.GET(url,function(data){
+                                                        var text = '撤回成功';
+                                                        if(yyzd){
+                                                            text = '撤回成功,请重新选择预约时间';
+                                                            
+                                                        }
+                                                        lazy.alert(text,{
+                                                            "yesfun":function(){
+                                                               lazy.openWin("index.html?wxopenid="+wxopenid+"&wxinitId="+wxinitId)
+                                                            },
+                                                           
+                                                        });
+                                                    },0)
+                                               }
+                                                console.log(url)
+                                            }
+                                        }
+                                        json.push(button2);
+                                        
+                                      }
+                                    }
+                                    //加评价按钮
+                                   if(taskStatus=="2"){
+                                        if(restatus != 12){
+                                            json.push(button3)
+                                        }
+                                        
+                                    }else{
+                                        if(isChehui){
+                                            var label = {
+                                                'type':'label',
+                                                'text':'已到预约时间不能撤回',
+                                            }
+                                            json.push(label);
+                                        }
+                                    }
+                                    ///测试用
+                                  // json.push(button3)
+                                    /*if('resdate' in json[0].table){
+                                          var date = new Date(json[0].table['resdate']);
+                                           var date_str = (date.getMonth()+1)+"月"+date.getDate()+"日 （星期"+weekday[date.getDay()]+"）";
+                                           date_str += ' '+json[0].table['begintime']+'-'+json[0].table['endtime']
+                                           var obj = {
+                                               "title":"预约时间",
+                                               "value":data_str,
+                                           }
+                                           json[0].table.push(obj)
+                                    }*/
+                                   console.log(json)
+                                   submit_json = json
+                                    setData(json,function(){
+                                         if(spobj.df1=='4'&&spobj.restatus=='7')setReadOnly(json[1])
+                                         if(!isChehui){
+                                             document.getElementsByClassName("button_a")[0].style.background = "#3399ff";
+                                             document.getElementsByClassName("button_a")[0].style.border = "#3399ff 1px solid";
+                                             document.getElementsByClassName("button_a")[0].getElementsByTagName("span")[0].style.color = "#fff";
+                                         }
+                                         
+                                    });
+                                }
+                            }
+                            
+                        })
+                    }
+                    /*设置部分只读*/
+                   function setReadOnly(json){
+                       readarr=[]
+                       lazy.for(json.table,function(obj,i){
+                                        switch(obj.id){
+                                            case 'xm':
+                                                readarr.push(i)
+                                                break;
+                                            case 'sfzh':
+                                            case 'sfzhm':
+                                                 readarr.push(i)
+                                                break;
+                                            case 'lxdh':
+                                                 readarr.push(i)
+                                                break;
+                                            case 'shequ':
+                                                 readarr.push(i)
+                                                break;
+                                            case 'csrq':
+                                                 readarr.push(i)
+                                                break;
+                                        }
+                                    })
+                                    //console.log(readarr)
+                                    if(json.id&&json.id=="process"){
+                                        var tr = document.getElementById("process").getElementsByClassName("tr");
+                                        lazy.for(readarr,function(obj){
+                                            tr[obj].getElementsByTagName("input")[0].readOnly = true;
+                                            tr[obj].getElementsByTagName("input")[0].disabled = true;
+                                        })
+                                    }
+                   }
+                    /*添加预约时间——可选择*/
+                    function addyy(val,back){
+                        var datalength;
+                        var date = new Date();
+                        var datestr = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+                        var url = getIP() + "/wechat/weixinevent/getListByWeek.ht?serviceid="+serviceId+"&resdate=2017-3-20&idcard="+personinfo.idcard+"&areaid="+personinfo.communityid;//获取表字段        
+                            url+="&initid="+wxinitId+"&openid="+wxopenid;
+                        //var url = getIP() + "/wechat/weixinevent/getListByWeek.ht?serviceid="+serviceId+"&resdate="+datestr+"&idcard="+personinfo.idcard+"&areaid="+personinfo.communityid;//获取表字段        
+                            //url+="&initid="+wxinitId+"&openid="+wxopenid;
+                            lazy.GET(encodeURI(url),function(data){
+                                //var data = {"isSucceed":true,"message":"","rows":[{"title":1489593600000,"content":[{"createBy":"","createtime":"","updatetime":"","updateBy":"","updateuser":"","createuser":"","version":"","owner":"","spaceid":"","id":90000000220012,"resdate":1489593600000,"beginresdate":"","endresdate":"","begintime":"03:00","endtime":"04:00","serviceid":"10000000754747","week":"4","time":"21","beforeday":"","resttime":"0","servicename":""}]},{"title":1489680000000,"content":[{"createBy":"","createtime":"","updatetime":"","updateBy":"","updateuser":"","createuser":"","version":"","owner":"","spaceid":"","id":90000000220008,"resdate":1489680000000,"beginresdate":"","endresdate":"","begintime":"02:00","endtime":"03:00","serviceid":"10000000754747","week":"5","time":"21","beforeday":"","resttime":"0","servicename":""},{"createBy":"","createtime":"","updatetime":"","updateBy":"","updateuser":"","createuser":"","version":"","owner":"","spaceid":"","id":90000000220010,"resdate":1489680000000,"beginresdate":"","endresdate":"","begintime":"03:00","endtime":"04:00","serviceid":"10000000754747","week":"5","time":"21","beforeday":"","resttime":"0","servicename":""}]},{"title":1489766400000,"content":[{"createBy":"","createtime":"","updatetime":"","updateBy":"","updateuser":"","createuser":"","version":"","owner":"","spaceid":"","id":90000000210001,"resdate":1489766400000,"beginresdate":"","endresdate":"","begintime":"13:56","endtime":"01:00","serviceid":"10000000754747","week":"6","time":"1","beforeday":"","resttime":"0","servicename":""}]},{"title":1489852800000,"content":[{"createBy":"","createtime":"","updatetime":"","updateBy":"","updateuser":"","createuser":"","version":"","owner":"","spaceid":"","id":90000000220004,"resdate":1489852800000,"beginresdate":"","endresdate":"","begintime":"01:00","endtime":"02:00","serviceid":"10000000754747","week":"7","time":"21","beforeday":"","resttime":"0","servicename":""},{"createBy":"","createtime":"","updatetime":"","updateBy":"","updateuser":"","createuser":"","version":"","owner":"","spaceid":"","id":90000000220006,"resdate":1489852800000,"beginresdate":"","endresdate":"","begintime":"02:00","endtime":"03:00","serviceid":"10000000754747","week":"7","time":"21","beforeday":"","resttime":"0","servicename":""}]}],"footer":"","total":0,"newPrimaryKeys":{}}
+                                console.log(data)
+                                
+                                datalength = data.rows.length;
+                                lazy.for(data.rows,function(obj,i){
+                                    //console.log(obj)
+                                    var temp_obj = {};
+                                    var temp_content=[];
+                                    //temp_obj.title = obj.title;
+                                    var weekday=new Array(7)
+                                    weekday[0]="日"
+                                    weekday[1]="一"
+                                    weekday[2]="二"
+                                    weekday[3]="三"
+                                    weekday[4]="四"
+                                    weekday[5]="五"
+                                    weekday[6]="六"
+                                    var temp_date = new Date(obj.title);
+                                    var tempDateStr = (temp_date.getMonth()+1)+"月"+temp_date.getDate()+"日 （星期"+weekday[temp_date.getDay()]+"）";
+                                    temp_obj.title = tempDateStr;
+                                    temp_obj.index = i;
+                                    
+                                    var datebl = 0; //判断是否为今天
+                                    var now_date = new Date();
+                                    if(now_date.getFullYear() == temp_date.getFullYear() && now_date.getMonth() == temp_date.getMonth() && now_date.getDay() == temp_date.getDay()){
+                                        datebl = 1;
+                                    }
+                                    
+                                    lazy.for(obj.content,function(obj2,j){
+                                        if(datebl){
+                                            var begintime_arr = obj2.begintime.split(":");
+                                            var tmp_begintime = parseInt(begintime_arr[0]);
+                                            var tmp_beginSecond = parseInt(begintime_arr[1])
+                                            
+                                            var endtime_arr = obj2.endtime.split(":");
+                                            var tmp_endtime = parseInt(endtime_arr[0]);
+                                            var tmp_endSecond = parseInt(endtime_arr[1])
+                                            //now_date.getHours()
+                                            if(now_date.getHours()<tmp_endtime){
+                                               
+                                                var content={};
+                                                content.id = obj2.id;
+                                                content.title = obj2.begintime+'-'+obj2.endtime+'  '+obj2.resttime+'/'+obj2.time;
+                                                
+                                                if(parseInt(obj2.resttime)<parseInt(obj2.time)){
+                                                     content.status = 1;
+                                                }else{
+                                                    content.status = 0;
+                                                }
+                                               temp_content.push(content)
+                                            }else if(now_date.getHours() == tmp_endtime && now_date.getMinutes() < tmp_endSecond){
+                                                
+                                                var content={};
+                                                content.id = obj2.id;
+                                                content.title = obj2.begintime+'-'+obj2.endtime+'  '+obj2.resttime+'/'+obj2.time;
+                                                if(parseInt(obj2.resttime)<parseInt(obj2.time)){
+                                                     content.status = 1;
+                                                }else{
+                                                    content.status = 0;
+                                                }
+                                               temp_content.push(content)
+                                            }
+                                            
+                                        }else{
+                                            var content={};
+                                            content.id = obj2.id;
+                                            content.title = obj2.begintime+'-'+obj2.endtime+'  '+obj2.resttime+'/'+obj2.time;
+                                            
+                                            if(parseInt(obj2.resttime)<parseInt(obj2.time)){
+                                               
+                                                 content.status = 1;
+                                            }else{
+                                               
+                                                content.status = 0;
+                                            }
+                                           temp_content.push(content)
+                                        }
+                                        
+                                    })
+                                    temp_obj.content=temp_content;
+                                    if(temp_content.length){
+                                       arr1.push(temp_obj)
+                                    }
+                                })
+                                console.log(arr1)     
+                            })
+                            var timeobj = {
+                                    "id": "other",
+                                    "placeholder": "请选择(必填)",
+                                    "title": "预约时间：",
+                                    "type": "click",
+                                    "value": val?val:"",
+                                    "onclick":function(){
+                                        // var click = document.getElementsByClassName("click")[0];
+                                        //console.log(arr1)
+                                        if(datalength == 0){
+                                            lazy.alert2("暂无可预约时间")
+                                        }else{
+                                            
+                                        
+                                            var position = Math.ceil(arr1.length/2)
+                                            if(arr1.length == 1) position = 0;
+                                            var picker = lazy.picker([arr1,arr1[position].content], function(arr) {
+                                                    //lazy.alert2(arr);
+                                                    //console.log(arr)
+                                                    if(!arr[1].obj.status){
+                                                        lazy.alert2("当前时间预约人数已满，请重新选择")
+                                                    }else{
+                                                        resid = arr[1].obj.id;
+                                                        var str="";
+                                                        lazy.for(arr,function(obj1,i){
+                                                            str+= obj1.obj.title+" ";
+                                                        })
+                                                        var strarr = str.split(" ")
+                                                        str = strarr[0]+" "+strarr[1]+" "+strarr[2];
+                                                        var temp_div = document.getElementById("process").getElementsByClassName("click")[0];
+                                                        temp_div.getElementsByTagName('input')[0].value = str;
+                                                        temp_div.getElementsByTagName('input')[0].setAttribute("value",str)
+                                                        var allvalue = getData("process").getArray();
+                                                        var obj = lazy.getParameter("savedetail")?lazy.getParameter("savedetail"):{};
+                                                        obj[runId] = allvalue;
+                                                        lazy.setParameter("savedetail",obj);
+                                                    }
+                                                    
+                                                });
+                                                picker.onchange = function (i,obj,arr) {
+                                                    
+                                                    switch(i) {
+                                                        case 0 :
+                                                        //console.log(obj)
+                                                      // console.log(arr)
+                                                           picker.renderer(1,obj.obj.content);
+                                                            
+                                                        break;
+                                                    }
+                                                    
+                                                }
+                                          }
+                                    }
+                                }
+                                back(timeobj)
+                          
+                    }
+                })//load
+            })
+        </script>
+    </body>
+</html>

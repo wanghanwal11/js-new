@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var json=[{
+                "id" : "quanzilist",
+                "type" : "quanzilist",
+                "style":{"background":"white"},
+                "table" : []
+            }]
+            setData(json,function(){load();document.documentElement.style.webkitTouchCallout='none';})
+            function load(){
+                lazy.URLRequest(djconfig.quanzi+"type=0&rows=10&page="+page, function(data) {
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    if(data.length==0&&page==1){
+                          lazy.datanull("暂无数据")
+                     }
+                    for(var i=0;i<data.length;i++){
+                        var s={
+                                "ids":data[i].answerid,
+                                "icon" : lazy.getImagePx(data[i].userpicture, 60, 60),
+                                "h1" : data[i].createuser,
+                                "h2" : data[i].content,
+                                "img":data[i].filepatharray,
+                                "h3" : lazy.format(data[i].createtime,"MM-dd")+"&nbsp;&nbsp;"+lazy.format(data[i].createtime,"HH:mm"),
+                                "pl":data[i].commentcount?data[i].commentcount:"0",
+                                "zan":data[i].agreecount?data[i].agreecount:"0",
+                                "zanstaute":data[i].isagree,
+                                "select":function(index,src){
+                                   // src = src.replace(/\@.*/g,"");
+                                   // src = lazy.getImagePx(src,720, 720, 1);
+                                    lazy.showImage(src)
+                                },
+                                "pinglun":function(obj){
+                                    lazy.setParameter("huodongid",obj.ids);
+                                    lazy.setParameter("type","0");
+                                    lazy.openWin1("/dj2/faxian/pllist.html?id="+obj.ids);
+                                },
+                                "dianzan":function(obj1,zan){
+                                    lazy.URLRequest(djconfig.dianzan+"activityid="+obj1.ids, function(js) {
+                                        zan.innerHTML=js.rows[0].agreecount;
+                                    },function(){},0)
+                                }
+                            }
+                       getData("quanzilist").one(s);
+                    }
+                    page++
+                },function(){lazy.closeBounce();}, page>1?0:1)
+            }
+            lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

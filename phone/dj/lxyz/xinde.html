@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+         <script src="../LazyUI/js/admin.js"></script>
+        <style>
+           div[type=label] .flex1{
+                white-space: inherit!important;
+                padding: 0.5em;
+            }
+            body{
+                background: white!important;
+            }
+            div[type=button_list1] .td_click{
+            background-color: #bf1e16!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+            lazy.bounce();
+            var bookid=lazy.getParameter("muluid")
+            var id=lazy.getParameter("muluid")
+            lazy.URLRequest(getIP()+"/party/DJ_Learncontent/getAllMobile.ht?type=1"+"&page="+1+"&rows=10&parentid=0&id="+id, function(data) {
+                var data=data.rows[0]
+                var json1 = [{
+                    "type" : "bannertitle",
+                    "text" : "共<span style='color:red'>"+data.detailcount+"</span>章&nbsp;已学<span style='color:red'>"+data.havelearncount+"/"+data.detailcount+"</span>&nbsp;本书总分<span style='color:red'>"+data.integralcount+"</span>&nbsp;共得<span style='color:red'>"+data.haveintegration+"</span>分",
+                    "src" : [lazy.getParameter("file")]
+                }, {
+                    "type" : "button_list1",
+                    //"button" : ["目录", "测试", "心得"],
+                    "button" : ["目录", "心得"],
+                    "index" : 1,
+                    "select" : function(index, data) {
+                        if (index == 0) {
+                            lazy.openWin("dzdgxq.html");
+                        }
+                        if (index == 1) {
+                            lazy.openWin("xinde.html");
+                            //lazy.openIframe("ceshi_content.html");
+                        }
+                       /* if (index == 2) {
+                            lazy.openIframe("xinde_content.html");
+                        }*/
+                    }
+                },{  "id":"panel2",
+                   "type" : "panel2",
+                   "content" : []
+               }]
+                if(lazy.browserType!="weixin"){
+                    json1.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '党章党规',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+            setData(json1,function(){load()});
+          /*  this.int = function() {
+                lazy.openIframe("mulu_content.html");
+            }*/
+            })
+               
+            function load(){
+                lazy.URLRequest(getIP()+"/party/DJ_Experiencerecord/getExperiencerecords.ht?typeid="+bookid, function(data) {
+                  var data=data.rows;
+                  for(var i=0;i<data.length;i++){
+                      var s={
+                            "h1" : data[i].experience,
+                            "h2" : data[i].publishtime,
+                            "ids":data[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("xindeid",data.ids);
+                                lazy.openWin('xindexq.html');
+                            }
+                        }
+                       getData("panel2").add(s)
+                  }
+                  if(data.length<3){
+                      json1[2].push({
+                           "type" : "button",
+                           "label" : "添加心得",
+                           "onclick" : function(data) {
+                               lazy.openWin('addxinde.html');
+                           }
+                       })
+                  }
+                  setData(json1)
+                })
+            }
+            
+            
+        });
+    </script>
+</html>

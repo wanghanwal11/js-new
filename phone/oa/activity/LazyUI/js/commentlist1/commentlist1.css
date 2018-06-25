@@ -1,0 +1,140 @@
+body[type=body] div[type=commentlist1]{
+    width: 100%;
+    height: auto;
+    font-size: 1rem;
+    position: relative;
+    -webkit-box-sizing:border-box;
+    margin-top: 0.5rem;
+}
+div[type=commentlist1] .tr {
+    min-height: 3.2rem;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+}
+div[type=commentlist1] .td {
+    width:0;
+    height:100%;
+    border-bottom: 1px solid #ebebeb;
+    padding-right: 0.5rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=commentlist1] .td1 {
+    width:100%;
+    height: 1.7rem;
+    line-height: 2.1rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=commentlist1] .td2 {
+    width:100%;
+    min-height: 1rem;
+    line-height: 1rem;
+    -webkit-box-sizing:border-box;
+    padding-bottom: 0.3rem;
+}
+div[type=commentlist1] .h1 {
+    
+}
+div[type=commentlist1] .h1 span{
+    font-size: 0.85rem;
+}
+div[type=commentlist1] .h2 {
+    color:#717171;
+}
+div[type=commentlist1] .h2 span{
+    font-size: 0.7rem;
+}
+div[type=commentlist1] .h3 {
+    color:#a4a4a4;
+    text-align: right;
+    width: 3.5rem;
+    overflow: hidden;
+}
+div[type=commentlist1] .h3 span{
+    font-size: 0.6rem;
+}
+div[type=commentlist1] .icon {
+    color: #fff;
+    text-align: center;
+    height: 3rem;
+    width: 3.5rem;
+    padding-top : 0.5rem
+}
+div[type=commentlist1] .markdiv {
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 2.2rem;
+      background-color: rgba(0,0,0,0.5);
+      position: absolute;
+      z-index: 10;
+      left: 0.6rem;
+}
+div[type=commentlist1] .icontitle1 {
+    margin: auto;
+    width: 2.2rem;
+    height: 2.2rem;
+    line-height: 2.1rem;
+    border-radius: 2.2rem;
+}
+div[type=commentlist1] .icontitle1 span {
+    font-size: 0.75rem;
+    
+}
+div[type=commentlist1] .iconimg {
+    margin: auto;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 2.2rem;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+div[type=commentlist1] .title {
+    padding: 0.5rem;
+}
+
+
+div[type=commentlist1] .imagediv {
+    -webkit-box-sizing:border-box;
+    width:100%;
+    padding: 0.5rem;
+}
+div[type=commentlist1] .img {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 0.5rem 0.5rem 0;
+    float: left;
+    background-color: #ebebeb;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat
+}
+div[type=commentlist1] .filediv {
+    -webkit-box-sizing:border-box;
+    width:100%;
+    position:relative;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #e4e4e4;
+    border-radius: 0.2rem;
+    background-color: #f9f9f9;
+}
+div[type=commentlist1] .filediv .icon {
+    width: 1.5rem;
+    height: 1.8rem;
+    background-image: url(file.png);
+    background-position: center;
+    background-size: 1.5rem 1.8rem;
+    background-repeat: no-repeat
+}
+div[type=commentlist1] .fileh {
+    padding: 0 0.5rem;
+    min-height: 2.2rem;
+    border-bottom: 1px solid #e4e4e4;
+}
+div[type=commentlist1] .file:last-child .fileh{
+    border-bottom: none;
+}
+div[type=commentlist1] .file .h1 {
+    line-height: 0.9rem;
+    padding-bottom: 0.5rem;
+}

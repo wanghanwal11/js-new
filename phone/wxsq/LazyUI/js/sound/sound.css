@@ -1,0 +1,75 @@
+body[type=body] div[type=sound]{
+    -webkit-box-sizing:border-box;
+    position:relative;
+    width: 100%;
+    height: auto;
+    font-size: 1rem;
+    overflow: hidden;
+    margin-bottom: 0.5rem
+}
+div[type=sound] .tr {
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    padding: 0 1rem;
+    position: relative;
+    height: auto;
+}
+div[type=sound] .tr_sound {
+   height:2.6rem;
+   line-height: 2.6rem;
+}
+
+div[type=sound] .luyin{
+    background-image: url(luyin.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 5rem;
+    height: 2rem;
+    background-size: 5rem 2rem;
+    float: right;
+    margin-top: 0.3rem;
+}
+div[type=sound] .luyin1{
+    background-image: url(luyin.png);
+    background-repeat: no-repeat;
+    background-size: 5rem 2rem;
+}
+div[type=sound] .bofang{
+    position: relative;
+    display: none;
+    background:url(bofang.png) no-repeat;
+    display: inline-block;
+    width: 5rem;
+    height: 2rem;
+    background-size: 5rem 2rem;
+    float: right;
+    margin-top: 0.3rem;
+    margin-right: 0.5rem;
+}
+div[type=sound] .bofang1{
+    background:url(bofang1.gif) no-repeat;
+    background-size: 5rem 2rem;
+}
+div[type=sound] .del{
+    position: absolute;
+    top:-0.3rem;
+    right: -0.5rem;
+    z-index: 11;
+    background:url(del.png) no-repeat;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: 1.5rem;
+}
+div[type=sound] .sound_icon {
+    background-image: url(sound_icon.png);
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    background-color: #b0dd4e;
+    background-size: 0.8rem;
+    height: 2.5rem;
+    width: 100%;
+    border-radius: 0.2rem;
+}
+div[type=sound] .sounddiv {
+    -webkit-box-sizing: border-box;
+}

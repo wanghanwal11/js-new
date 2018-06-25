@@ -1,0 +1,22 @@
+body[type=body] div[type=alertcode3]{
+   width:100%;
+    position:relative;
+    -webkit-box-sizing:border-box;
+    background-color: white;
+}
+
+div[type=alertcode3] .alertdiv{
+    height:16rem;
+    width:16rem;
+    margin:0 auto;
+    border:1px solid #efefef;
+    background-position: center;
+    background-repeat: no-repeat;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+
+
+

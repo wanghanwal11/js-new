@@ -1,0 +1,30 @@
+div[type=movetabbar1]{
+    background: white;
+}
+div[type=movetabbar1] .content{
+	display: -webkit-box;
+	height: 2rem;
+}
+div[type=movetabbar1] .content div{
+    -webkit-box-flex: 1;
+    position: relative;
+}
+div[type=movetabbar1] .content div span{
+    position:absolute;
+    left:50%;
+    margin-left:-2rem;
+    display:block;
+    width: 4rem;
+    height: 1.2rem;
+    border-radius:6px; 
+    text-align: center;
+    color: #b7120c;
+    line-height: 1.2rem;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    border: 1px solid #b7120c;
+}
+div[type=movetabbar1] .bgred{
+    background: #b7120c;
+    color: white!important;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <title>户籍详情</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var rkobj = lazy.getParameter("rk");
+            var url = config.hjxq+"peopleid="+rkobj.id;
+            lazy.setHeader({
+                "title":"户籍详情",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            lazy.URLRequest(url,function(data){
+                var data = data.rows[0];
+                var json = [
+                        // {
+                            // "id" : "headertoolbar",
+                            // "type" : "headertoolbar",
+                            // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            // "color" : "#fff",
+                            // "border" : "none",
+                            // "title" : "户籍详情",
+                            // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            // "select" : function(name, index) {
+                                // if(name=="left"&&index==0){
+                                    // lazy.goBack();
+                                // }
+                                // if(name=="left"&&index==1){
+                                    // lazy.close();
+                                // }
+                            // }
+                        // },
+                        {
+                            "type" : "process_xq",
+                            "table" : [
+                                {"title":"户籍类型：","value":data.type?data.type:"无记录"},
+                                {"title":"户籍地址：","value":data.hujiaddress?data.hujiaddress:"无记录"},
+                                {"title":"行政区域：","value":data.orgname?data.orgname:"无记录"},
+                                {"title":"人均收入：","value":data.familyperincomelevel?data.familyperincomelevel:"无记录"},
+                                {"title":"家庭电话：","value":data.hometel?data.hometel:"无记录"},
+                                {"title":"是否救助：","value":data.isrescue?data.isrescue:"无记录"},
+                                {"title":"户结构：","value":data.structure?data.structure:"无记录"},
+                                {"title":"区号：","value":data.areacode?data.areacode:"无记录"},
+                                {"title":"星级管理：","value":data.star?data.star:"无记录"},
+                                {"title":"户籍状态：","value":data.ishouseregsituation?data.ishouseregsituation:"无记录"},
+                                {"title":"户籍人口：","value":data.registermembers?data.registermembers:"无记录"},
+                                {"title":"状态：","value":data.state?data.state:"无记录"},
+                                {"title":"备注：","value":data.remark?data.remark:"无记录"}
+                            ]
+                        }
+                ];
+                setData(json)
+            })
+        });
+    </script>
+</html>

@@ -1,0 +1,41 @@
+body[type=body] div[type=map] {
+    width:100%;
+    height: auto;
+	position:relative;
+}
+body[type=body] #map_amap {
+    width:100%;
+	height:18rem;
+    position: fixed;
+    z-index: 2;
+}
+div[type=map] .map_amap {
+    width:100%;
+	height:18rem;
+}
+div[type=map] .list {
+    width:100%;
+	height:auto;
+}
+div[type=map] .tr {
+    height: 4rem;
+    line-height: 4rem;
+    padding: 0 1rem;
+    -webkit-box-sizing:border-box;
+    border-bottom: 1px solid #e8e8e8;
+    background-color: #fff;
+}
+div[type=map] .h1 {
+    width: 100%;
+    height: 2rem;
+    line-height: 2.5rem;
+    color: #111;
+}
+div[type=map] .h2 {
+    width: 100%;
+    height: 1.5rem;
+    line-height: 1rem;
+}
+div[type=map] .h2 span {
+    font-size: 0.8rem;
+}

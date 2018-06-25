@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <title>Document</title>
+        <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+        <script src="common/property.js"></script>
+        <script src="common/config2.js"></script>
+        <script src="LazyUI2.0/admin/admin.js"></script>
+        <style>
+            #container {
+                width: 100%;
+                height: 100%;
+            }
+            .rectdiv {
+                background-color: #fff;
+                margin: 1rem 1rem 0 1rem;
+                border-radius: 0.5 rem;
+            }
+            div[type=tableTitle2] {
+                padding: 1rem 1rem 0 1rem;
+            }
+            div[type=tableTitle2] .tableTitle2_div {
+                border-radius: 0.5 rem;
+            }
+            div[type=icontitlelist] {
+                padding: 1rem 1rem 0 1rem;
+            }
+            div[type=icontitlelist] .icontitlelist_div {
+                border-radius: 0.5 rem;
+            }
+            div[type=table] {
+                padding: 1rem 1rem 0 1rem;
+            }
+            div[type=table] .table_div {
+                padding: 0 1rem 1rem 1rem;
+                border-radius: 0.5 rem;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        //
+        var config = {
+            debug : true,
+            dir : 'LazyUI2.0', //目录路径   默认为LazyUI2.0
+            iosName : 'vitoios', //判断原生态ios凭据  webvie的头文件中 navigator.userAgent
+            androidName : 'vitoandroid', //判断是否原生态android凭据 webvie的头文件中
+            firstPage : 'lingdaotong/wghfx/wghfx', //首页名称
+            data : {
+                time : '',
+                userAreaId : localStorage.getItem('userAreaId'),
+                map : {},
+                chartColor : ['rgba(62,148,209,.8)', 'rgba(0,176,96,.8)', 'rgba(255,165,64,.8)', 'rgba(67,125,212,.8)', 'rgba(94,196,205,.8)', 'rgba(177,101,212,.8)', 'rgba(245,73,85,.8)', 'rgba(255,209,0,.8)', 'rgba(52,207,190,.8)', 'rgba(152,63,213,.8)', 'rgba(134,179,45,.8)', 'rgba(213,70,70,.8)', 'rgba(42,163,95,.8)', 'rgba(255,141,64,.8)', 'rgba(155,132,46,.8)', 'rgba(128,200,89,.8)', 'rgba(105,151,211,.8)', 'rgba(207,95,211,.8)'],
+                leftNav : {
+                    id : 'leftNav',
+                    type : 'leftNav',
+                    icon : '',
+                    list : [{
+                        title : '网格化分析',
+                        icon : 'LazyUI2.0/images/lingdaotong/wgh.png',
+                        onclick : function() {
+                            lazy.refresh();
+                            //getData('leftNav').hide();
+                            lazy.openWin('lingdaotong.html#lingdaotong/wghfx/wghfx');
+                        }
+                    }, {
+                        title : '人口分析',
+                        icon : 'LazyUI2.0/images/lingdaotong/rkfx.png',
+                        onclick : function() {
+                            lazy.openWin('lingdaotong.html#lingdaotong/rkfx/rkfx');
+                        }
+                    }
+                    /*, {
+                        title : '事件督办',
+                        icon : 'LazyUI2.0/images/lingdaotong/wgh.png',
+                        onclick : function() {
+                            lazy.setParameter('event_index', 0);
+                            lazy.openWin('lingdaotong.html#lingdaotong/event/event');
+                        }
+                    }*/
+                    ]
+                }
+            },
+            map : {//注册页面拦截器
+                'lingdaotong/rkfx/other' : {
+                    animate : 1
+                },
+
+            },
+            beforeJs : [], //method 前加载
+            afterJs : [], //method 后加载
+            css : [],
+            UI : {
+                width : 720,
+                screen : 'v', //横屏h 竖屏v
+                pc : false, //是否兼容pc字体
+                fontSize : 30
+            },
+            sharedWorker : true
+        }
+        start(function() {
+            // console.log(lazy.getYMD());
+            // console.log(lazy.getYMD(2017));
+            // console.log(lazy.getYMD(2000, 2));
+
+            lazy.setHeader({
+                "title":"领导通",
+                "color":"#3399FF",
+                "rightbtn" : []
+            });
+        }, config);
+
+    </script>
+</html>

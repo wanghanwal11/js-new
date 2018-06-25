@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        body{
+            background-color: #fff !important;
+        }
+        #lazyinput {
+                position: fixed;
+                top: 3rem;
+                padding: 0 3rem;
+            }
+        #button a{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                top: 30rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d;
+            }
+            div[type=lazyinput] .input{
+                width : 10rem !important;
+            }
+            div[type=lazyinput] .qita{
+                width : 12rem !important;
+            }
+            div[type=lazyinput] .input input{
+                width : 8rem !important;
+            }
+            div[type=lazyinput] .qita input{
+                width : 10rem !important;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           var page=1;
+           var status=1;
+           var click = 1;
+           lazy.setHeader({"title": "党费缴纳"});
+           var date = lazy.getParameter("month");
+           var dfid = lazy.getParameter("id")?lazy.getParameter("id"):'';
+           var paystate = lazy.getParameter("paystate");
+           
+             var json = [{
+                            "id" : "lazyinput",
+                            "type" : "lazyinput",
+                            "table" : [{
+                                "title":"日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期",
+                                "widget":"text",
+                                "content":date
+                            },{
+                                "title":"金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额",
+                                "widget":"input",
+                                "content":"请输入金额"
+                            },{
+                                "title":"支付方式",
+                                "widget":"radiobutton",
+                                "content":["现金支付","微信支付","支付宝支付","其他"]
+                            }]
+                            
+                        },{
+                            "id" : "button",
+                            "type": "button",
+                            "label":"提交",
+                            "onclick" : function(){
+                                if(click){
+                                    var arr = getData("lazyinput").getArray();
+                                    var str = arr.table[0].content.substring(0,4)+"-"+arr.table[0].content.substring(5,arr.table[0].content.length-1)+"-01";
+                                    
+                                    if(arr.table[1].content == ""){
+                                        lazy.alert2("请输入金额")
+                                        
+                                    }else if(arr.table[1].content.length>5){
+                                        alert("请输入正确的金额")
+                                    }else{
+                                        lazy.URLRequest(djconfig.dfjn+"paymonth="+str+"&paycount="+arr.table[1].content+"&paymode="+arr.table[2].content+"&id="+dfid+"&paystate="+paystate, function(data) {
+                                             
+                                             lazy.alert("提交成功",{
+                                                  "yesfun" : function() {
+                                                      //lazy.openWin("dflb.html")
+                                                      lazy.goBack1();
+                                                  }
+                                              });
+                                             
+                                         })
+                                    }
+                                    click = 0;
+                                }
+                                
+                            }
+                        }];
+            if(lazy.browserType=="weixin") {
+                json.splice(0,1);
+            }
+           setData(json,function(){
+               document.getElementsByTagName("input")[0].type="number";
+           })
+           
+            
+        })
+        
+    </script>
+</html>

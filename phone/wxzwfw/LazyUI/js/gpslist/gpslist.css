@@ -1,0 +1,40 @@
+body[type=body] div[type=gpslist]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=gpslist] .table {
+    width:100%;
+    height:auto;
+}
+
+div[type=gpslist] .tr {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+}
+div[type=gpslist] .gou {
+    width: 2rem;
+    -webkit-box-sizing:border-box;
+    background-image: url(gou.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2rem 2rem;
+}
+div[type=gpslist] .choose span{
+    color: #3399FF;
+}
+
+div[type=gpslist] .title span{
+    font-size: 1rem;
+}
+div[type=gpslist] .content {
+    margin-top: 0.5rem;
+}
+div[type=gpslist] .content span{
+    font-size: 0.8rem;
+}

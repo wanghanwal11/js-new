@@ -1,0 +1,33 @@
+body[type=body] div[type=judgepeople]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    background-color: #ffffff;
+}
+div[type=judgepeople] .table {
+    width:100%;
+    height:auto;
+    padding:1rem 0;
+}
+div[type=judgepeople] .icon {
+    width:5rem;
+    height:5rem;
+    border: 1px solid #efefef;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin: 0 auto;
+    margin-top:2rem;
+    margin-bottom: 0.5rem;
+}
+div[type=judgepeople] .name {
+    
+    margin: 0 auto !important;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    width:10rem;
+    text-align: center;
+}

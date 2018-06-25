@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+                var tdzjid=lazy.geturlstr("id")?lazy.geturlstr("id"):lazy.getParameter("tdzjid")
+                
+                lazy.setHeader({
+                            "title": '痛点征集详情',
+                            
+                        });
+                var url = getIP()+'/party/DJ_ThreeOpen/getcxdjt.ht?' + 'id='+tdzjid;
+                lazy.URLRequest(url, function(data){
+                    
+                    
+                var arr = data.rows[0];
+                var files=arr.file;
+                var filesPath = [];
+                var filesName = [];
+                for(var i=0;i<files.length;i++){
+                    filesPath.push((files[i].fileurl?files[i].fileurl:"").replace(/\\/g,"/"));
+                    filesName.push(files[i].filename);
+                }
+                var json = [{
+                            "id" : "xinwenxq",
+                            "type" : "xinwenxq",
+                            "table" : [
+                  
+                                           {    
+                                                "h1" : arr.title,
+                                                "user" : '',
+                                                "date" : arr.createtime?lazy.format(arr.createtime , 'MM-dd'):"",
+                                                "content" : arr.content,
+                                           }
+                                        ]
+                            
+                    },{
+                        "id" : "process",
+                        "type" : "process_xq",
+                        "table" : [{
+                                "type" : "file",
+                                "title" : "附件",
+                                "value" : filesPath,
+                                "name" : filesName
+                         }]
+                    }
+                        ];
+            
+            setData(json)
+            }) 
+       });
+    </script>
+</html>

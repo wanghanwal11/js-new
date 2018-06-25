@@ -1,0 +1,77 @@
+body[type=body] div[type=panel] {
+    width:100%;
+    height: auto;
+	position:relative;
+	-webkit-box-sizing:border-box;
+    font-size: 1rem;
+}
+div[type=panel]:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 0;
+    border-top: 1px solid #d9d9d9;
+    z-index: 1;
+}
+div[type=panel]:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 0;
+    border-top: 1px solid #d9d9d9;
+    z-index: 1;
+}
+div[type=panel] .box{
+    position:relative;
+    width: 100%;
+    height: auto;
+    padding: 0.8rem;
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    -webkit-align-items: center;
+    align-items: center;
+}
+div[type=panel] .box:before {
+    content: " ";
+    top: 0;
+    right: 0;
+    height: 0;
+    left: 0.8rem;
+    position: absolute;
+    border-top: 1px solid #d9d9d9;
+}
+div[type=panel] .box:first-child:before {
+    display: none;
+}
+/*icon*/
+div[type=panel] .icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    line-height: 3.5rem;
+    margin-right: 0.8rem;
+    background-color: currentColor;
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+/*hh*/
+.boxh {
+    width: 100%;
+}
+div[type=panel] .hh {
+    width: 100%;
+    overflow: hidden;
+    
+}
+div[type=panel] .h1 {
+    width: 100%;
+    
+}
+div[type=panel] .boxh p{
+    padding: 0;
+    margin: 0;
+}

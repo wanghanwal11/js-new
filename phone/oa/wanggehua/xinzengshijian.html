@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>新增事件</title>
+        <style type="text/css">
+            div[type=process] .tr{
+                border-top:none!important;
+            }
+            div[type=process] input{
+                text-align: right;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: rgb(254, 148, 62) !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.URLRequest(config.getLevelName,function(data){
+            var levelname=[];
+            var project = data.newPrimaryKeys.projectName;
+            var data=data.rows;
+            for(var i=0;i<data.length;i++){
+               var tmp={};
+               tmp.html=data[i].name;
+               if(data[i].name=="日常事件") tmp.value = 0;
+               if(data[i].name=="一般事件") tmp.value = 1;
+               if(data[i].name=="较大事件") tmp.value = 2;
+               if(data[i].name=="协办事件") tmp.value = 1;
+               if(data[i].name=="入户走访") tmp.value = 3;
+               levelname.push(tmp);
+            }
+            var json = [
+                {
+                "id" : "process1",
+                "type" : "process",
+                "table" : [{
+                    "title" : "事件等级",
+                    "type" : "select",
+                    "option" : levelname,
+                    "placeholder" : "请选择",
+                    "select" : function(str){
+                        if(str=="日常事件") document.getElementById("process2").style.display = "block";
+                        else document.getElementById("process2").style.display = "none";
+                    }
+                },{
+                    "title" : "事件类型",
+                    "type" : "overtime",
+                    "url" : "shijianleixing.html"
+                },{
+                    "title" : "事件标题",
+                    "type" : "input",
+                    "placeholder" : "请输入"
+                },{
+                    "title" : "事件地点",
+                    "type" : "input",
+                    "placeholder" : "请输入"
+                }]
+            },{
+                "id" : "process0",
+                "type" : "process",
+                "style" : {
+                    "display" : "none",
+                },
+                "table" : [
+                    {
+                        "title" : "当事人",
+                        "placeholder" : "请输入"
+                    },
+                    {
+                        "title" : "当事人电话",
+                        "placeholder" : "请输入"
+                    }
+                ],
+            },{
+                "id" : "process4",
+                "type" : "process",
+                "table" : [
+                    {
+                        "title" : "事件描述",
+                        "type" : "textarea",
+                        "placeholder" : "请输入"
+                    },{
+                        "title" : "图片",
+                        "type" : "image",
+                        "httpurl" : config.fileuploadwork+"status=1"
+                    },{
+                        "title" : "录音",
+                        "type" : "sound",
+                        "httpurl" : config.fileuploadwork+"status=1"
+                    }
+                ]
+            },{
+                "id" : "process2",
+                "type" : "process",
+                "style" : {
+                    "display" : "none",
+                },
+                "table" : [{
+                    "title" : "处理结果",
+                    "type" : "textarea",
+                    "placeholder" : "请输入"
+                },{
+                    "title" : "处理结果图片",
+                    "type" : "image",
+                    "httpurl" : config.fileuploadwork+"status=4"
+                },{
+                    "title" : "处理结果录音",
+                    "type" : "sound",
+                    "httpurl" : config.fileuploadwork+"status=4"
+                }]
+            },{
+                "id" : "process3",
+                "type" : "process",
+                "table" : [{
+                    "title" : "定位",
+                    "type" : "map",
+                    "url" : "mapnoaddress.html"
+                }]
+            },{
+                "type" : "button",
+                "label" : "上报事件",
+                "onclick" : function(){
+                    var url = config.runEventMobile;
+                    var arr1 = getData("process1").getArray().table;
+                    var arr4 = getData("process4").getArray().table;
+                    var level = arr1[0].value;
+                    var evttype = arr1[1].value;
+                    var title = arr1[2].value;
+                    var address = arr1[3].value;
+                    var sjms = arr4[0].value;
+                    var imgs = arr4[1].value;
+                    var sound = [];
+                    if(arr4[2].value) sound = [arr4[2].value.rows[0].id];
+                    var sub = true;
+                    if(level=="请选择"||level=="") lazy.alert2("事件等级不能为空");
+                    else if(evttype=="") lazy.alert2("事件类型不能为空");
+                    else if(title=="") lazy.alert2("事件标题不能为空");
+                    else if(address=="") lazy.alert2("事件地点不能为空");
+                    else if(sjms=="") lazy.alert2("事件描述不能为空");
+                    else if(imgs.length==0) lazy.alert2("请添加事件描述图片");
+                    else {
+                        if(document.getElementById("process0")&&document.getElementById("process0").style.display!="none"){
+                            var arr0 = getData("process0").getArray().table;
+                            if(arr0[0].value==""){
+                                lazy.alert2("当事人不能为空");
+                                return;
+                            }
+                            if(arr0[1].value == ""){
+                                lazy.alert2("当事人电话不能为空");
+                                return;
+                            }
+                            var partyname = arr0[0].value;
+                            var partyphone = arr0[1].value;
+                        }
+                        var gps = {};
+                        if(getData("process3").getArray().table[0].value&&getData("process3").getArray().table[0].value.gps){
+                            gps = getData("process3").getArray().table[0].value.gps
+                        }
+                        if(!gps.x){
+                            lazy.alert2("请进行定位");
+                            return;
+                        }
+                        var levelid=null;
+                        if(level=="日常事件") levelid=0;
+                        if(level=="一般事件") levelid=1;
+                        if(level=="较大事件") levelid=2;
+                        if(level=="协办事件") levelid=1;
+                        if(level=="入户走访") levelid=3;
+                        var subtypeid = evttype[0].id;
+                        var imgids = [];
+                        for(var i=0;i<imgs.length;i++){
+                            imgids.push(imgs[i].annexid);
+                        }
+                        url+="gpsid="+JSON.stringify(gps)+"&subtypeid="+subtypeid+"&levelid="+levelid+"&title="+encodeURIComponent(title)+"&address="+encodeURIComponent(address)+"&content="+encodeURIComponent(sjms)+"&img="+imgids;
+                        if(document.getElementById("process0")&&document.getElementById("process0").style.display!="none") url+="&partyname="+partyname+"&partyphone="+partyphone;
+                        if(sound.length>0) url+="&sound="+sound[0];
+                        if(level=="日常事件"){                      
+                            var arr2 = getData("process2").getArray().table;
+                            var cljg = arr2[0].value;
+                            var finalimg = arr2[1].value;
+                            var finalimgids = [];
+                            for(var i=0;i<finalimg.length;i++){
+                                finalimgids.push(finalimg[i].annexid);
+                            }
+                            var finalsound = [];
+                            if(arr2[2].value) finalsound = [arr2[2].value.rows[0].id];
+                            if(cljg==""){
+                                sub = false;
+                                alert("事件处理结果不能为空");
+                            }else if(finalimg.length==0){
+                                sub = false;
+                                alert("事件处理结果图片不能为空");
+                            }else{
+                                url+="&result="+encodeURIComponent(cljg)+"&finalimg="+finalimgids; 
+                                if(finalsound.length>0) url+="&finalrecord="+finalsound;
+                            }
+                        }
+                         if(sub){
+                            lazy.URLRequest(url,function(data){
+                                alert("上报事件成功");
+                                lazy.openWin("wanggehua.html")
+                            })
+                         }
+                    }
+                }
+            }]
+            json.unshift({
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '新增事件',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "select" : function(name, index) {
+                    if(name=="left"&&index==0){
+                        lazy.goBack();
+                    }
+                    if(name=="left"&&index==1){
+                        lazy.close();
+                    }
+                }
+            })
+            setData(json,function(){
+            	if(project == "xcaj") document.getElementById("process0").style.display = "block"
+            })
+        })
+    });
+    </script>
+</html>

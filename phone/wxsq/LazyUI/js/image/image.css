@@ -1,0 +1,72 @@
+body[type=body] div[type=image]{
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=image] .tr {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding: 0 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 0.5rem;
+}
+div[type=image] .tr1 {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    line-height: 2.5rem;
+    padding-left:1.3rem;
+    background: url(picture.png);
+    background-size: 1rem;
+    background-position: left center;
+    background-repeat: no-repeat
+}
+div[type=image] .line {
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    padding-bottom: 1rem;
+    background-color: #fff;
+}
+div[type=image] .add {
+    width: 4rem;
+    height: 4rem;
+    -webkit-box-sizing:border-box;
+    background-image: url(add.png);
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+div[type=image] .pic {
+    width: 5.5rem;
+    height: 4rem;
+}
+div[type=image] .zu{
+    width: 5.5rem;
+    height: 4rem;
+    margin-right: 0.5rem;
+    position: relative;
+}
+div[type=image] .cha {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-color: #fb3d3d;
+    position: absolute;
+    top: -0.5rem;
+    right: 0rem;
+    z-index: 66;
+    background-image: url(cha.png);
+    background-position: center;
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+}
+div[type=image] .pic {
+    width: 5.5rem;
+    height: 4rem;
+    margin-right: 0.5rem;
+}

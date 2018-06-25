@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+          div[type=sousuoinput1]{
+            position: relative!important;
+          }
+          .sousuoinput1zw{
+            height: 0rem!important;
+          }
+        </style>
+    </head>
+    <script>
+     start(function() {
+            //按照全区排名0、全区周排名1、全区月排名2、组织内排名3、组织内周排名4、组织内月排名5
+            var sortstatus = 0;
+            var page=1;
+            var name = "";
+            var json = [{
+                            "type" : "sousuoinput1",
+                            "iconcolor" : "#ccc",
+                            "placeholder":"请输入关键字",
+                            "borderBottom" : "1px solid #ccc",
+                            "select" : function(val){
+                                name = val;
+                                getData("phb").clean();
+                                page = 1;
+                                fenye();
+                            }
+                           },{
+                            "type" : "movetabbar2",
+                            "index" : 0,
+                            "table" : [
+                                    {
+                                        "title" : "全区排名",
+                                        "table" : ["全部","周排行","月排行"],
+                                        "onclick":function(i){
+                                            switch(i) {
+                                                case 0 :
+                                                    sortstatus = 0;
+                                                break;
+                                                case 1 :
+                                                    sortstatus = 1;
+                                                break;
+                                                case 2 :
+                                                    sortstatus = 2;
+                                                break;
+                                            }
+                                            getData("phb").clean();
+                                            page = 1;
+                                            fenye();
+                                        }
+                                    }/*,{
+                                        "title" : "组织内排行",
+                                        "table" : ["全部1","周排行2","月排行3"],
+                                        "onclick":function(i){
+                                            alert(i);
+                                        }
+                                    }*/
+                            ]
+                        },{
+                           "id":"phb",
+                           "type" : "phb",
+                           "table":[]
+                       }];
+           var page = 1;
+            if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '比学赶超',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+           setData(json,function(){
+                fenye();
+           });
+           function fenye() {
+               lazy.URLRequest(getIP()+"/party/DJ_PartyMember/getmobilememberSortno.ht?rows=10&page="+page+"&sortstatus="+sortstatus+"&name="+name, function(data) {
+                      lazy.closeBounce();
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                         var d={
+                             "h1":data[i].peoplename,
+                             "h2":data[i].partyname,
+                             "h3":data[i].integration,
+                             "num":data[i].sortno,
+                             "icon" : data[i].photo
+                             }
+                          getData("phb").add(d);
+                      }
+                      page++;
+                 },function(){
+                    lazy.closeBounce();
+                 })   
+           }
+           //
+           lazy.bounce({"up":function(){
+                fenye();
+            }});
+        });
+    </script>
+</html>

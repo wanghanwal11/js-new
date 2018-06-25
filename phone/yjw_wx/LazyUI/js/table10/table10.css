@@ -1,0 +1,57 @@
+body[type=body] div[type=table10]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+    margin-bottom: 1rem;
+    overflow:hidden;
+    background-color: #fff;
+}
+div[type=table10] .title{
+    width: 100%;
+    padding: 1rem;
+}
+div[type=table10] .icons{
+    width: 2rem;
+    height:2rem;
+    vertical-align: middle;
+    float: left;
+    margin-right: 0.5rem;
+}
+div[type=table10] .table {
+    padding:0.5rem;
+    height: auto;
+    border-top: 1px solid #f1f1f1;
+}
+div[type=table10] .tr {
+    width: 100%;
+    height: auto;
+}
+div[type=table10] .td {
+    text-align: center;
+    display: block;
+    color: #000;
+    -webkit-box-sizing:border-box;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+div[type=table10] .td:last-child {
+    border-right: none;
+}
+div[type=table10] .icon {
+    margin: auto;
+    width: 2.6rem; 
+    height: 2.6rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2.5rem;
+}
+div[type=table10] .label span{
+    font-size: 1rem;
+}
+div[type=table10] .label {
+    height: 1.3rem;
+    line-height: 1.3rem;
+}

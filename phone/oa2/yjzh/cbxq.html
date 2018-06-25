@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>应急指挥</title>
+        <style type="text/css">
+            div[type=label] {
+                background-color: #67d163;
+                color: white;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setHeader({
+            "title":"初报-应急指挥",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var url = config.cbxq+"id="+lazy.getParameter("xbid")
+        lazy.URLRequest(url,function(data){
+            var data = data.rows[0];
+            var json =[
+                {
+                  "type":"label",
+                  "text":"初报"  
+                },
+                {
+                    "type":"process_xq",
+                    "table":[
+                        {
+                            "title" : "事件标题：",
+                            "value" : data.title
+                        },{
+                            "title" : "事件类别：",
+                            "value" : data.levelRank
+                        },{
+                            "title" : "事件级别：",
+                            "value" : data.levelSerious
+                        },{
+                            "title" : "报送类型：",
+                            "value" : data.type
+                        },{
+                            "title" : "事发时间：",
+                            "value" : lazy.format(data.happenTime,"yyyy-MM-dd")
+                        },{
+                            "title" : "上报内容：",
+                            "value" : data.describe
+                        },
+                    ]
+                },{
+                    "type" : "bottombuttons",
+                    "table" : [
+                        {
+                            "label" : "续报",
+                            "onclick" : function() {
+                                lazy.openWin("xb.html");
+                            }
+                        },{
+                            "label" : "终报",
+                            "onclick" : function() {
+                                lazy.openWin("zb.html");
+                            }
+                        }
+                    ]
+                }
+            ];
+            if(data.img&&data.img.length>0){
+                json[1].table.push({
+                    "title" : "图片：",
+                    "type" : "image",
+                    "value" : data.img
+                })
+            }
+            if(data.df2&&data.df2!=""){
+                json[1].table.push({
+                    "title" : "视频：",
+                    "type" : "video",
+                    "value" : data.df2
+                })
+            }
+             setData(json);
+        })
+    });
+    </script>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+          html,body {
+              background-color: #fff !important;
+          }
+          div[type=listbar] .icon{
+              display: none;
+          }
+        </style>
+    </head>
+    <body></body>
+    <script>
+         start(function() {
+            var page=1;
+          /*  var state=0;
+           var clear=false;*/
+           var partyname="";
+            var json = [{
+                           "id":"listbar",
+                           "type" : "listbar",
+                           "table":[]
+                       }]
+
+          if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '活动次数',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+           setData(json,function(){fenye()})
+               function fenye(){
+                            lazy.URLRequest(getIP()+"/party/DJ_Learnplanmember/getActivityInfoByUserid.ht?rows=10"+"&page="+page, function(data) {
+                                    lazy.closeBounce();
+                                    var data=data.rows;
+                                    for(var i=0;i<data.length;i++){
+                                        var time="";
+                                        if(data[i].createtime){
+                                            time=lazy.format(data[i].createtime,"yyyy-MM-dd")
+                                        }
+                                        var itb={
+                                                "h":[
+                                                        "活动主题:&nbsp;&nbsp;"+(data[i].title?data[i].title:""),
+                                                        "活动时间:&nbsp;&nbsp;"+(data[i].createtime?time:""),
+                                                        "活动地点:&nbsp;&nbsp;"+(data[i].place?data[i].place:""),
+                                                    ],
+                                         }
+                                         getData("listbar").add(itb);
+                                    }
+                                    page++;
+                           },function(){
+                                 lazy.closeBounce();
+                           });
+               }
+               lazy.bounce({"up":function(){
+                       fenye();
+                }});
+         });     
+    </script>
+</html>

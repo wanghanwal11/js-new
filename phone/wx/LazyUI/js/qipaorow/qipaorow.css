@@ -1,0 +1,111 @@
+div[type=qipaorow]{
+    width: 100%;
+    height: auto;
+    font-size: 1rem;
+    position: relative;
+    
+    -webkit-box-sizing: border-box;
+}
+div[type=qipaorow] .table{
+    width: 100%;
+   
+}
+div[type=qipaorow] .qiu {
+    
+}
+div[type=qipaorow] .tr0 {
+
+    height:6rem;
+    padding:1rem 1rem 0.5rem 1rem;
+}
+
+div[type=qipaorow] .x {
+    width: 7.5rem;
+    height: 2px;
+    background-color: #7ace06;
+    margin-top:0.4rem;
+   
+}
+div[type=qipaorow] .x1 {
+    width: 7.5rem;
+    height: 2px;
+    background-color: #c0f0bc;
+    margin-top:0.4rem;
+   
+}
+div[type=qipaorow] .q {
+   width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 0.8rem;
+    background-color: #7ace06;
+
+}
+div[type=qipaorow] .q1 {
+   width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 0.8rem;
+    background-color: #c0f0bc;
+
+}
+
+div[type=qipaorow] .x2 {
+    width: 1px;
+    height: 2rem;
+    background-color: #7ace06;
+    position: absolute;
+ 
+}
+div[type=qipaorow] .yes {
+    width: 1rem;
+    height: 1rem;
+    
+   
+    background-image: url(yes.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+}
+div[type=qipaorow] .yes2 {
+    width: 1rem;
+    height: 1rem;
+    
+    
+    background-image: url(yes2.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+}
+div[type=qipaorow] .canceldiv {
+    margin: 0 auto;
+        margin-top: 2rem;
+}
+div[type=qipaorow] .cancel {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 1.2rem;
+    
+    background-image: url(no.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=qipaorow] .canceltext{
+    margin-left:0.5rem;
+    height:1.2rem;
+    line-height: 1.2rem;
+
+}
+
+div[type=qipaorow] .status{
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+}
+div[type=qipaorow] .date1{
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+}
+div[type=qipaorow] .date2{
+    font-size: 0.9rem;
+}

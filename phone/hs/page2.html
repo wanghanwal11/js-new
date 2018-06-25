@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Document</title>
+    <script src="LazyUI/js/admin.js"></script>
+    <script src="LazyUI/js/touch.min.js"></script>
+</head>
+<style>
+    body{
+        overflow-x: hidden;
+    }
+    div[type = plugins]{
+        height: 100% !important;
+    }
+    
+    @-webkit-keyframes toRight {
+        from {
+            top:0;
+            left: -50%;
+            }
+        to {
+            top:0;
+            left: 0%;
+            }
+    }
+    @-webkit-keyframes toLeft {
+        from {left: 0%;}
+        to {left: -50%;}
+    }
+    @-webkit-keyframes shadow_show {
+        from {
+            top:0;
+            left: 0%;
+            }
+        to {
+            top:0;
+            left: 50%;
+            }
+    }
+    .shadow{
+        height: 100%;
+        width:100%;
+        background-color:rgba(0,0,0,0.2);
+        position: fixed;
+        left: 0%;
+        top: 0;
+        z-index: 100;
+    }
+    div[type=plugins]{
+        overflow-x: hidden;
+    }
+</style>
+<body></body>
+<script>
+    start(function() {
+        var datacontent = lazy.getParameter("json");
+        var num = lazy.getParameter("foot");
+        var shadow = lazy.create("div","shadow");
+        shadow.style.display = 'none';
+        shadow.onclick = function(){
+                 
+               toLeft()  
+        }
+        var shouye=[{
+                    "id" : "ppt",
+                    "type" : "ppt",
+                    "pages" :[{
+                        "src":lazy.url + "LazyUI/js/ppt/1.png",
+                        "onclick": function(){
+                            
+                        }
+                    },{
+                        "src":lazy.url + "LazyUI/js/ppt/2.png",
+                        "onclick": function(){
+                            
+                        }
+                    },{
+                        "src":lazy.url + "LazyUI/js/ppt/3.png",
+                        "onclick": function(){
+                            
+                        }
+                    },{
+                        "src":lazy.url + "LazyUI/js/ppt/4.png",
+                        "onclick": function(){
+                            
+                        }
+                    }]
+            
+                },{
+                    "id":"table10",
+                    "type":"table10",
+                    "col" : 4,
+                    "table":[{
+                        "id" : 1,
+                        "icon" : lazy.url + "LazyUI/js/table10/xwdt.png",
+                        "label" : "新闻动态",
+                        "color": "#5b97f7",
+                        "onclick" : function(obj){
+                           lazy.setParameter("json",xinwenlb)
+                            lazy.openWin("page2.html")
+                        }
+                    },{
+                        "id" : 2,
+                        "icon" : lazy.url + "LazyUI/js/table10/gywm.png",
+                        "label" : "关于我们",
+                        "color": "#8763e7",
+                        "onclick" : function(obj){
+                             var temp = [{"id":"xq","type":"xq","index":1}];
+                                lazy.setParameter("json",temp)
+                                lazy.setParameter("foot",3)
+                                lazy.openWin("page2.html")
+                        }
+                    },{
+                        "id" : 3,
+                        "icon" : lazy.url + "LazyUI/js/table10/cpzx.png",
+                        "label" : "产品中心",
+                        "color": "#f85e5c",
+                        "onclick" : function(obj){
+                             lazy.setParameter("json",productionlb)
+                             lazy.setParameter("foot",1)
+                             lazy.openWin("page2.html")
+                        }
+                    },{
+                        "id" : 4,
+                        "icon" : lazy.url + "LazyUI/js/table10/jjfa.png",
+                        "label" : "解决方案",
+                        "color": "#3ac397",
+                        "onclick" : function(obj){
+                              var temp = [{"id":"xq","type":"xq","index":4}];
+                                lazy.setParameter("json",temp)
+                                lazy.setParameter("foot",2)
+                                lazy.openWin("page2.html")
+                        }
+                    },{
+                        "id" : 5,
+                        "icon" : lazy.url + "LazyUI/js/table10/jsyl.png",
+                        "label" : "技术原理",
+                        "color": "#f85e5c",
+                        "onclick" : function(obj){
+                             var temp = [{"id":"xq","type":"xq","index":3}];
+                                lazy.setParameter("json",temp)
+                                lazy.openWin("page2.html")
+
+                        }
+                    },{
+                        "id" : 6,
+                        "icon" : lazy.url + "LazyUI/js/table10/fwzc.png",
+                        "label" : "服务支持",
+                        "color": "#ff933b",
+                        "onclick" : function(obj){
+                             var temp = [{"id":"xq","type":"xq","index":5}];
+                                lazy.setParameter("json",temp)
+                                
+                                lazy.openWin("page2.html")
+                        }
+                    },{
+                        "id" : 7,
+                        "icon" : lazy.url + "LazyUI/js/table10/lxwm.png",
+                        "label" : "联系我们",
+                        "color": "#f6bf26",
+                        "onclick" : function(obj){
+                                var temp = [{"id":"xq","type":"xq","index":2}];
+                                lazy.setParameter("json",temp)
+                                lazy.setParameter("foot",4)
+                                lazy.openWin("page2.html")
+                        }
+                    }]
+                }]
+      var xinwenlb = [{
+          "id":"xinwenlb",
+          "type":"xinwenlb",
+          "table":[{
+              "title":"【转载】Who is?北科慧识掌纹+掌静脉多模态生物识别的深度诠释",
+              "date":"2016-11-21",
+              "content":'<div class="content"><div class="meta"><h2>【转载】Who is?北科慧识掌纹+掌静脉多模态生物识别的深度诠释</h2></div><div class="entry"><p class="con">&nbsp;&nbsp;&nbsp;&nbsp;随着第13届中国国际社会公共安全产品博览会(简称“安博会”)的顺利召开，展会已进入白热化阶段。本届安博会以“推进平安中国、创建智慧城市、服务经济社会、保障民生安全”为主题，全面覆盖生物识别、互联网、云计算为代表新一代信息技术与现代制造业、生产性服务业的融合创新。</p><p class="con">&nbsp;</p><p class="con"align="center"><img alt=""src="http://www.bkwhois.com/upload/201611/21/201611211449577215.jpg"></p><p class="con">&nbsp;</p><p style="text-align:center;"class="con"><br></p><p class="con">&nbsp;&nbsp;&nbsp;&nbsp;作为国内专注于多模态生物识别的供应商，北科慧识携带全新的产品和解决方案隆重亮相了这一安防盛会，为客户深度诠释了非接触式掌纹掌静脉识别的核心价值和理念。</p><p class="con">&nbsp;&nbsp;&nbsp;&nbsp;主打产品B04(户外型)、E101a(精英型)以其识别精度高、速度快、1：N使用人数多等高性价比优势领先于国内同类产品;U09桌面采集器外观精美小巧，分体式设计，可灵活组合，也可用于多种系统方案和各行业设备的集成。</p><p align="center"><img alt=""src="http://www.bkwhois.com/upload/201611/21/201611211450537227.jpg">&nbsp;</p><p class="con">&nbsp;</p><p class="con">&nbsp;&nbsp;&nbsp;&nbsp;M50系列识别模块是最新推出的国内外首款低功耗掌纹掌静脉识别模块，可以独立完成掌纹掌静脉的特征采集与识别，二次开发简单方便，基于该模块开发出来的掌纹掌静脉识别智能锁具有更高的安全性和易用性，该模块也可以集成到其它各类掌纹掌静脉识别产品中。</p><p class="con">&nbsp;&nbsp;&nbsp;&nbsp;USB sensor模块是为生物识别产品生产企业做OEM集成而专门设计的，是开发非接触/接触式掌纹掌静脉识别产品专用传感器模块。Whois提供专门的二次开发包，包含掌纹掌静脉特征采集、识别或认证等功能。</p><p class="con">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p class="con"align="center"><img alt=""src="http://www.bkwhois.com/upload/201611/21/201611211451295046.jpg"></p><p style="text-align:center;"class="con"><br></p><p style="text-align:center;"class="con">除了综合性能出色的一掌通识别家族，WHOIS还有一系列应用产品：</p><p align="center"><img alt=""src="http://www.bkwhois.com/upload/201611/21/201611211451587239.jpg"></p><p style="text-align:center;"class="con">掌纹掌静脉智能锁</p><p style="text-align:center;"class="con">&nbsp;</p><p align="center"><img alt=""src="http://www.bkwhois.com/upload/201611/21/201611211452198650.jpg"></p><p style="text-align:center;"class="con">&nbsp;掌纹掌静脉楼宇对讲</p><p style="text-align:center;"class="con">&nbsp;</p><p style="text-align:center;"class="con"><br></p><p align="center"><img alt=""src="http://www.bkwhois.com/upload/201611/21/201611211452403497.jpg"></p><p style="text-align:center;"class="con">&nbsp;掌纹掌静脉社保便携终端</p><p style="text-align:center;"class="con"><br>&nbsp;</p><p align="center"><img alt=""src="http://www.bkwhois.com/upload/201611/21/201611211453005220.jpg"></p><p style="text-align:center;"class="con">&nbsp;掌纹掌静脉会员管理机</p><p style="text-align:center;"class="con">&nbsp;</p><p style="text-align:center;"class="con"><br></p><p align="center"><img alt=""src="http://www.bkwhois.com/upload/201611/21/201611211453204286.jpg"></p><p style="text-align:center;"class="con">&nbsp;掌纹掌静脉闸机</p><p><br><br>原文链接：中国企业报道：<a href="http://www.cenr.com.cn/yaowen/qyyw/af/2016/10/27/84536.html">http://www.cenr.com.cn/yaowen/qyyw/af/2016/10/27/84536.html</a></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;搜狐：<a href="http://mt.sohu.com/20161027/n471536787.shtml">http://mt.sohu.com/20161027/n471536787.shtml</a></p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;南方企业新闻网：<a href="http://www.senn.com.cn/af/2016/10/27/166440.html">http://www.senn.com.cn/af/2016/10/27/166440.html</a><p>&nbsp;</p></div></div>',
+          },{
+              "title":"【媒体报道】北科慧识：双重识别让你更自由",
+              "date":"2016-04-15",
+              "content":'<div class="content"><div class="meta"><h2>【媒体报道】北科慧识：双重识别让你更自由</h2></div><div class="entry"><div style="background-color:#ffffff;margin:0px;color:#333333;"class="arc-title-box"><h1 style="color:#000000;font-size:26px;font-weight:normal;text-decoration:none;"><span style="font-family:”Microsoft Yahei”;font-size:16px;">北科慧识：双重识别让你更自由</span></h1></div><div style="background-color:#ffffff;margin:0px;color:#333333;"class="arc-info"><span style="font-family:Microsoft YaHei;">【</span><span style="font-family:Microsoft YaHei;color:#cd1a1c !important;"class="g-c-r"><strong>华强安防网讯</strong></span><span style="font-family:Microsoft YaHei;">】</span><p style="font-size:17px;"><span style="font-family:Microsoft YaHei;">&emsp;<span style="line-height:2;">&emsp;</span><span style="line-height:2;font-size:14px;">郑州</span></span><span style="line-height:2;font-family:Microsoft YaHei;font-size:14px;">安</span><span style="font-family:Microsoft YaHei;"><span style="line-height:2;font-size:14px;">防展</span><span style="font-size:14px;"><span style="line-height:2;">开</span><span style="line-height:2;">展的第一天，我们就看到了“轻装而来”的北科慧识，展位号：D35-1。虽说轻装，但小编还是穿过人群，才看到了参展商为我们带来的高科技产品——非接触式掌纹掌静脉识别机(以下简称：一掌通)。</span></span></span></p><p style="font-size:17px;"><span style="font-family:Microsoft YaHei;"><span style="font-size:14px;"><span style="line-height:2;"></span></span></span>&nbsp;</p><p style="text-align:center;font-size:17px;">&emsp;&emsp;<img style="width:320px;height:240px;"alt=""src="http://news.c-ps.net/uploads/allimg/160405/672-1604051J430G4.jpg"><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style="width:320px;height:240px;"alt=""src="http://news.c-ps.net/uploads/allimg/160405/672-1604051J444J2.jpg"></p><p style="font-size:17px;">&emsp;&emsp;<span style="line-height:2;font-family:Microsoft YaHei;font-size:14px;">据北科慧识市场经理刘莉的介绍：本款掌纹掌静脉识别机是公司独立自主研发出来的新一代双重识别产品。通过非接触式的方式进行活体检测，不仅有效的排除了利用盗取指纹、相片等的检测，还可以同时实现掌纹、掌静脉的双重识别。不仅精度高、速度快、而且防尘、防水效果尤佳。活体检测真正实现了让识别变得更加友好、更加让用户容易接受的这一过程。</span></p><p style="font-size:17px;"><span style="line-height:2;font-family:Microsoft YaHei;font-size:14px;">&emsp;&emsp;面对安防行业的生物技术空白，这一款一掌通产品首次利用自主研发系统将掌纹和掌静脉两种生物特征相融合，强劲的填补了生物识别</span><span style="font-family:Microsoft YaHei;"><span style="line-height:2;font-size:14px;">届</span><span style="line-height:2;font-size:14px;">的活体多模态生物识别技术的空白。</span></span></p><p style="font-size:17px;"><span style="font-family:Microsoft YaHei;"></span>&nbsp;</p><p style="font-size:17px;"><span style="font-family:Microsoft YaHei;"><span style="font-size:14px;">原文链接：</span><a href="http://news.c-ps.net/article/201604/241474.html"><span style="font-size:14px;">http://news.c-ps.net/article/201604/241474.html</p></div></div></div>',
+          },{
+              "title":"【媒体报道】70后博士研发生物识别技术 挥挥手就能开门付款",
+              "date":"2016-04-15",
+              "content":'<div class="content"><div class="meta"><h2>【媒体报道】70后博士研发生物识别技术挥挥手就能开门付款</h2></div><div class="entry"><div style="background-color:#ffffff;margin:15px auto 0px;color:#000000;"class="view_body"><p><span style="font-family:Microsoft YaHei;font-size:14px;">&nbsp;&nbsp;&nbsp;<span style="line-height:2;">滨海高新网讯&nbsp;&nbsp;开门时不用钥匙，挥挥手即可自动打开门锁；购买商品付款时不用刷卡，挥挥手就能完成支付。这种依靠掌纹掌静脉双重识别系统实现的身份识别技术正在成为现实。模式识别专业博士李彬带领研发团队，历时近十年的研发，成功将该技术实现产业化，年销售额近亿元。</span></span></p><p><span style="line-height:2;font-family:Microsoft YaHei;font-size:14px;">&emsp;&emsp;毕业于哈尔滨工业大学的李彬博士是一位70后，学习模式识别和计算机应用专业的他，在多年以前就看到生物识别技术未来的广阔应用空间，并致力于该方向的研究。“在生物识别技术中，掌纹识别是由中国人提出来的，并推出了相关科研成果和产品。但我们发现在实际应用中，指纹、掌纹识别仍有一些漏洞，比如有造假指纹掌纹的情况等。对此，我们研发重点是掌纹掌静脉双重识别系统，采用活体即时认证的方式，形成更高级别的安全认证。”李彬说，从核心算法，到硬件传感器，再到用户的体验，最终形成被客户认可的产品，走过了近十年时间。“早在2010年前，我们就推出了第一代产品，用户刚开始使用发现科技感很强，手一挥门就开了，但实际中，经常出现把手放在门前，很长时间都开不开的情况，这就要求我们必须提高产品的灵敏度等相关技术。再有，初代产品非常大，识别器有两个鞋盒那么大，使用非常不方便，而我们最终的产品只有火柴盒大小，应用起来就很方便了。”</span></p><p><span style="line-height:2;font-family:Microsoft YaHei;font-size:14px;">&emsp;&emsp;为高精度产品的付出只有经历者才能懂得。2013年底，拥有自主知识产权的成熟稳定的掌纹掌静脉双重识别系统正式推向市场，走进了银行、楼宇，甚至是社保领域。</span></p><p><span style="font-family:Microsoft YaHei;font-size:14px;"><span style="line-height:2;">&emsp;&emsp;李彬告诉记者，为推进技术走向市场，他将研发中心设在北京的同时，又在天津高新区设立“渤海天工(天津)科技发展有限公司”为该产品的销售公司，并进驻高新区榴莲咖啡众创空间，目前，公司年销售额达到近亿元，天津区域的销售额达到近千万元。“我们的企业愿景是，成为工业4.0时代全球领先的模式识别系统开</span>发和集成服务商。”李彬说。</span></p><p><span style="font-family:Microsoft YaHei;font-size:14px;"></span>&nbsp;</p><p><span style="font-family:Microsoft YaHei;font-size:14px;">原文链接：<a href="http://news.022china.com/2016/04-13/170328_0.html">http://news.022china.com/2016/04-13/170328_0.html</p></div></div></div>',
+          },{
+              "title":"“2015军民深度融合发展论坛暨交流展”回顾",
+              "date":"2016-01-21",
+              "content":'<div class="content"><div class="meta"><h2>“2015军民深度融合发展论坛暨交流展”回顾</h2></div><div class="entry"><p style="background-color:#ffffff;text-indent:24pt;color:#777777;"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;"></span>&nbsp;</p><p style="background-color:#ffffff;text-indent:24pt;color:#777777;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">5月21日-22日由北京功勋文化传媒、中国系统工程学会信息系统工程专业委员会组办的“2015军民深度融合发展论坛暨交流展”于北京军区会议中心举行，</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">北科慧识与</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">深圳爱思拓</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">、</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">同方</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">、</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">华宇软件</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">等</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">一批示范企业参加了论坛与产品技术的展示，以实际行动，与广大的军队领导专家一起见证了军民深度融合发展的暖流和力量</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">。</span><span style="font-family:微软雅黑;font-size:12pt;font-weight:normal;"></span></p><p style="background-color:#ffffff;text-indent:24pt;color:#777777;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">会议上军队首长就如何深化军民融合，促进国防军队与企业之间的务实合作，给予了抛砖引玉、务实求真的系统化建议；并对企业如何有效进入装备采购与军品市场的办法进行了详细的梳理，对相关准入政策进行了详细的解读</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;">。</span></p><p style="background-color:#ffffff;text-indent:24pt;color:#777777;">&nbsp;</p><p style="background-color:#ffffff;text-indent:24pt;color:#777777;"align="center"><img style="width:320px;height:240px;"title=""alt=""src="http://www.bkwhois.com/upload/201601/21/201601211607263437.jpg"width="320"height="240"align=""></p><p style="background-color:#ffffff;text-indent:24pt;color:#777777;"align="center">&nbsp;</p><p><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:normal;"></span><span style="background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="line-height:2;">此次产品展示</span></span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">活动中，</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">北科慧识推出了</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">B04</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">、</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">E101a、U02e三款经典产品和根据军队需求</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">定制的枪弹柜，枪弹柜不但能实现刷“手掌”开门，同时显示屏上还可显示剩余枪支数量等信息。产品一经亮相，</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">引起了</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">各军兵种部、七大军区、军队院校、科研院所、部队医院分管物联网、安全防范、信息化、软件工程、科技装备、机要保密、档案馆图书馆、医疗卫生等领导、专家们</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">的惊叹和高度赞赏</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">，</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">流连驻足之时，纷纷拍照留念。</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">展</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">会期间，始终</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">洋溢着“合作与发展”的主旋律，</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">随着与</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">军地</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">代表</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">交流与沟通</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">、</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">思想的碰撞</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">，合作的思路</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">不断引向</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">新的</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">高潮</span><span style="background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;"><span style="line-height:2;">。</span></span></p><p><span style="background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;"><span style="line-height:2;"></span>&nbsp;</span></p><p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style="width:320px;height:240px;"title=""alt=""src="http://www.bkwhois.com/upload/201601/21/201601211608000625.jpg"width="320"height="240"align=""></p><p><span style="background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;"></span>&nbsp;</p><p style="background-color:#ffffff;text-indent:24pt;color:#777777;"><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">论坛期间，在军方代表的问卷调查中，北科慧识获得了“最满意产品及供应商”的殊荣。我</span></span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">们</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">将</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">以此为契机</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">，</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">坚定长期参与军民融合发展的信心</span><span style="line-height:2;background-color:#ffffff;font-family:Microsoft YaHei;color:#000000;font-size:14px;">，进一步渗透目标市场，提高品牌知名度的同时，进一步扩大销量。</span><span style="font-family:微软雅黑;font-size:14px;font-weight:normal;"></span></p></div></div>',
+          }]
+      }];
+      var productionlb = [{
+          "id":"productionlb",
+          "type":"productionlb",
+          "table":[{
+              "icon":"http://www.bkwhois.com/upload/201601/22/201601220943113125.jpg",
+              "h1":"B04 一掌通掌纹掌静脉识别机（户外型）",
+              "h2":"B04是掌纹掌静脉识别系列的拳头产品。产品支持纯户外使用；最大支持1000人（1：N）…",
+              "content":'<div class="content"><!--<div class="meta"><h1>B04一掌通掌纹掌静脉识别机（户外型）</h1></div>--><div class="entry"><p style="text-align:left;"class="MsoNormal"align="left"><span style="font-family:宋体;font-size:9pt;"></span></p><h3 style="background:#ffffff;"align="left"><span style="font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;"><span style="font-family:微软雅黑;background:#ffffff;color:#000000;font-size:16px;">B04/一掌通掌纹掌静脉识别机（户外型）</span><span style="font-family:微软雅黑;background:#ffffff;color:#000000;font-size:16px;">&nbsp;</span><span style="font-size:16px;">&nbsp;</span></span><span style="font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;font-weight:bold;"></span></h3><h3 style="background:#ffffff;"align="left"><table style="width:95%;height:auto;"class="ke-zeroborder"border="0"cellspacing="0"bordercolor="#cccccc"cellpadding="5"><tbody><tr><td><img style="width:214px;height:210px;"title=""alt=""src="/upload/201602/22/201602221609183750.jpg"width="214"height="210">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr><tr><td><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;"><p class="MsoNormal">&nbsp;</p><p style="text-align:left;"class="MsoNormal"><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">B04是掌纹掌静脉识别系列的拳头产品。产品支持纯户外使用；</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">最大支持1000人（</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">1：N</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">），40000人（1：1，可扩展)，识别速度<span style="font-family:微软雅黑;font-size:14px;">&lt;</span>1秒；认证方式可以刷手掌、刷卡、卡+刷手掌、卡或刷手掌、分组+刷手掌等</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">；</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">产品可广泛应用于监狱、银行、</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">政府、</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">企事业单位等高端安保体系；</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">多种设计接口方便产品集成到不同的系统解决方案。</span><span style="font-family:Calibri;font-size:15pt;"></span></p><p class="MsoNormal">&nbsp;</p></span></td></tr><tr><td style="text-align:left;"><img title=""alt=""src="/upload/201603/04/201603040927374687.jpg"width="92"height="87">&nbsp;<img style="width:93px;height:85px;"title=""alt=""src="/upload/201603/04/201603040927498750.jpg"width="93"height="85">&nbsp;<img style="width:92px;height:85px;"title=""alt=""src="/upload/201603/04/201603040927597500.jpg"width="92"height="85"></td></tr></tbody></table></h3><h3 style="background:#ffffff;"align="left"><img alt=""src="/upload/201603/04/201603040931563281.jpg"><span style="font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;font-weight:bold;"><span style="font-size:16px;"></span></span>&nbsp;<span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;"><strong><span style="line-height:2;"><strong><span style="font-size:14px;"><span style="font-size:9px;"></span></span></strong></span></strong></span></span></h3><h3 style="background:#ffffff;"align="left"><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;"><strong><span style="line-height:2;"><strong><span style="font-size:14px;"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">技术参</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">数：</span></span></strong></span></strong></span></span></h3><h3 style="background:#ffffff;"align="left"><p class="MsoNormal"><strong><strong><span style="font-family:微软雅黑;background:#ffffff;color:#000000;font-size:16px;font-weight:normal;"class="15"><span style="font-size:14px;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;</span></span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">认</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">证方式：掌纹掌静脉（1：N）、组别+掌纹掌静脉（1：N）、</span></span>&nbsp;</strong></strong></p></h3><p style="text-align:left;background:#ffffff;"class="MsoNormal"align="left"><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑;background:#ffffff;color:#000000;font-size:10.5pt;font-weight:normal;">ID/IC/国密</span><span style="font-family:微软雅黑;background:#ffffff;color:#000000;font-size:10.5pt;font-weight:normal;">卡+掌纹掌静脉（1:1）、</span></span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">可单独刷</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">ID/IC/国密</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">卡（</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1:1</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">）</span></span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"align="left"><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;识别精度：误拒率为</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">0.01%</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">时，误受率＜</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">0.0001%</span></span><span style="font-family:Arial;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">用户容量：最大支持40000<span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">人（</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">或分组识别），</span></span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1000</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">人（</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">N</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">）</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">,</span></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;</span></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"align="left"><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;识别速度：＜</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">秒（</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">N</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">，</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">N</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">＜</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1000</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">）</span></span><span style="font-family:Arial;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;日志存储容量：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">1,000,000</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">条</span></span><span style="font-family:Arial;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;工作电压：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">12V</span></span><span style="font-family:Arial;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;额定功率：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">10W</span></span><span style="font-family:Arial;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;工作环境：温度：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">-25~60</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">℃，湿度：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">3%RH~95%RH</span></span><span style="font-family:Arial;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;防护等级：</span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">IP54</span></span><span style="font-family:Arial;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;数据接口类型：RJ45；USB2.0；Wiegand26、34；锁控接口；门铃/报警接口；</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"align="left"><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出门开关接口；门磁接口</span><span style="font-family:宋体;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门锁驱动能力：最大支持12V直流电压，最大支持电流≤2A</span><span style="font-family:宋体;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支持锁具类型：各种断电常开/常闭型电控锁</span><span style="font-family:宋体;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;显示系统：3.5寸工业液晶屏</span><span style="font-family:宋体;background:#ffffff;color:#000000;font-size:9pt;"><br></span><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;刷卡模块：RFID卡、IC卡</span><span style="font-family:宋体;background:#ffffff;color:#333333;font-size:9pt;"></span>、国密卡</p><p style="text-align:left;"class="MsoNormal"align="left"><span style="line-height:2;font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;外形尺寸：375*238*331（长*宽*厚)mm</span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="font-family:Microsoft YaHei;background:#ffffff;color:#000000;font-size:14px;"></span><span style="font-family:宋体;background:#ffffff;color:#000000;font-size:9pt;"></span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;</span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="font-family:宋体;background:#ffffff;color:#000000;font-size:9pt;"></span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;font-weight:bold;"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;</strong></span><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;"><strong>产品特性：</strong></span></span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;室外/室内使用</span><span style="font-family:宋体;font-size:9pt;"></span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接触/非接触式掌纹掌静脉活体识别</span><span style="font-family:宋体;font-size:9pt;"></span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支持ID/IC/国密卡</span><span style="font-family:宋体;font-size:9pt;"></span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可连接门禁控制器或直接控制电锁</span><span style="font-family:宋体;font-size:9pt;"></span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="line-height:2;font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支持单机/联网使用</span><span style="font-family:宋体;font-size:9pt;"></span></p><p style="text-align:left;"class="MsoNormal"align="left"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;</span></p><p><span style="line-height:2;"><span style="font-size:16px;">&nbsp;<img alt=""src="/upload/201603/04/201603040935295937.jpg"></span></span><span style="font-size:16px;">&nbsp;</span></p><p><span style="font-size:16px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p><p><img style="width:170px;height:171px;"title=""alt=""src="/upload/201602/22/201602221708005156.jpg"width="170"height="171"><span style="font-size:16px;">&nbsp;</span><img style="width:170px;height:170px;"title=""alt=""src="/upload/201602/19/201602191625563906.jpg"width="170"height="170"><span style="font-size:16px;">&nbsp;</span><img style="width:170px;height:170px;"title=""alt=""src="/upload/201602/19/201602191626574375.jpg"width="170"height="170"><span style="font-size:16px;">&nbsp;</span><img style="width:170px;height:170px;"title=""alt=""src="/upload/201602/19/201602191627306718.jpg"width="170"height="170"><span style="font-size:16px;">&nbsp;</span></p><p style="text-indent:2em;"><br></p><p style="text-indent:2em;"><span style="font-family:Microsoft YaHei;font-size:16px;"></span></p><p><span style="font-family:Microsoft YaHei;font-size:12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">B04安装支架&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-size:14px;">专用门禁控制器I系列&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-size:14px;">专用门禁控制器C系列&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-size:14px;">机电一体化锁</span></span></p><p style="text-indent:2em;"><span style="font-family:Microsoft YaHei;font-size:16px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p><p><span style="line-height:2;"></span>&nbsp;</p><p><span style="line-height:2;"></span>&nbsp;</p><p><span style="line-height:2;"></span>&nbsp;</p><p><span style="line-height:2;"></span>&nbsp;</p></div></div>',
+              
+          },{
+              "icon":"http://www.bkwhois.com/upload/201601/22/201601221342500937.jpg",
+              "h1":"E101a一掌通掌纹掌静脉识别机（标准型）",
+              "h2":"E101a（标准型）为最新一代掌纹掌静脉识别产品。产品可室内使用；最大支持500人…",
+              "content":'<div class="content"><div class="entry"><p style="text-indent:2em;"><span style="font-family:Microsoft YaHei;font-size:16px;"><span><span style="font-size:16px;">&nbsp;</span></span></span><span style="font-family:Microsoft YaHei;font-size:16px;"><span style="font-size:16px;"><strong><span style="font-family:Microsoft YaHei;font-size:16px;">E101a一</span></strong><strong><span style="font-family:Microsoft YaHei;font-size:16px;">掌通掌纹掌静脉识别机（标准型）</span></strong></span></span></p><p style="text-indent:2em;"><span style="font-size:16px;">&nbsp;</span></p><p style="text-indent:2em;"></p><table style="width:95%;height:auto;"class="ke-zeroborder"border="0"cellspacing="0"bordercolor="#000000"cellpadding="4"><tbody><tr><td><img style="width:220px;height:186px;"alt=""src="http://www.bkwhois.com/upload/201606/13/201606131539412891.jpg"width="216"height="186"></td></tr><tr><td><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;"><p class="MsoNormal"><span style="font-family:微软雅黑;color:#000000;font-size:14px;">E101a（标准型）为最新一代掌纹掌静脉识别产品</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">。产品可室内使用</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">；</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">最大支持</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">500人（</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">1：N</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">）；</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;font-weight:normal;">识别速度&lt;1秒；认证方式：刷手掌；</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">产品采用锌合金金属外壳</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">，</span><span style="font-family:微软雅黑;color:#000000;font-size:14px;">可摘卸式掌托适合于不同环境下的应用需求；多种设计接口方便产品集成到不同的系统解决方案。</span><span style="font-family:微软雅黑;font-size:14pt;"></span></p></span></td></tr><tr><td><img title=""alt=""src="/upload/201603/07/201603071600331875.jpg"width="90"height="84">&nbsp;<img title=""alt=""src="/upload/201603/07/201603071600402031.jpg"width="84"height="84">&nbsp;<img title=""alt=""src="/upload/201603/07/201603071600469218.jpg"width="86"height="85"></td></tr></tbody></table><p></p><p style="text-indent:2em;">&nbsp;</p><p style="text-align:left;background:#ffffff;margin-left:0pt;"class="MsoNormal"align="left"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑;background:#ffffff;color:#000000;font-size:10.5pt;font-weight:bold;"class="15">技术参数：</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;认证方式：掌纹掌静脉识别（1：N)</span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;识别精度：误拒率为0.01%时，误受率＜0.0001%</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><br></span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户容量：最大支持500人</span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;识别速度：＜1秒（1：N，N＜500）</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><br></span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日志存储容量：100,000条</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><br></span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工作电压：12V</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><br></span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额定功率：5W</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><br></span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工作环境：温度：0~50℃，湿度：3%RH~93%RH</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><br></span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据接口类型：RJ45；USB2.0；Wiegand26、34；锁控接口；门铃/报警接口；</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">出门开关接口；门磁接口</span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门锁类型：各种断电常开/常闭型电控锁</span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门锁驱动能力：电锁与本机共用电源适配器时，驱动电流&nbsp;≤2A</span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><br></span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;显示系统：4寸电容式触摸屏</span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="text-align:left;background:#ffffff;"class="MsoNormal"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;外形尺寸：180*112*33（长*宽*厚）mm</span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p class="MsoNormal"><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="text-align:left;background:#ffffff;margin-left:0pt;"class="MsoNormal"align="left"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"></span><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"></span><span>&nbsp;</span></p><p style="text-align:left;background:#ffffff;margin-left:0pt;"class="MsoNormal"align="left"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"></span></p><p style="text-align:left;background:#ffffff;margin-left:0pt;"class="MsoNormal"align="left"><span style="font-family:微软雅黑;background:#ffffff;font-size:10.5pt;"><span style="line-height:2;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;">&nbsp;</span></span><span style="line-height:2;font-family:微软雅黑;font-size:10.5pt;font-weight:bold;">产品特性：</span><span style="font-family:微软雅黑;font-size:10.5pt;font-weight:bold;"></span></p><p style="text-align:left;margin-left:0pt;"class="MsoNormal"align="left"><span style="line-height:2;font-family:微软雅黑;font-size:10.5pt;font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;font-family:微软雅黑;font-size:10.5pt;">室内使用</span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="margin-left:0pt;"class="pre"align="left"><span style="font-family:微软雅黑;font-size:10.5pt;"><span style="line-height:2;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;">锌合金机身,可拆卸掌托</span></span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="margin-left:0pt;"class="pre"align="left"><span style="font-family:微软雅黑;font-size:10.5pt;"><span style="line-height:2;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;">接触/非接触式掌纹掌静脉活体识别</span></span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="margin-left:0pt;"class="pre"align="left"><span style="font-family:微软雅黑;font-size:10.5pt;"><span style="line-height:2;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;">可连接门禁控制器或直接控制电锁</span></span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="margin-left:0pt;"class="pre"align="left"><span style="font-family:微软雅黑;font-size:10.5pt;"><span style="line-height:2;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="line-height:2;">支持单机/联网使用</span></span><span style="font-family:微软雅黑;font-size:10.5pt;"></span></p><p style="margin-left:0pt;"class="pre"align="left"><span style="line-height:2;">&nbsp;</span></p><p style="margin-left:0pt;"class="pre"align="left">推荐配件</p><p style="text-indent:2em;"align="left">&nbsp;</p><p style="text-indent:2em;"align="left"><img style="width:147px;height:143px;"title=""alt=""src="/upload/201602/19/201602191625563906.jpg"width="147"height="143">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style="width:145px;height:143px;"title=""alt=""src="/upload/201602/19/201602191626574375.jpg"width="145"height="143">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style="width:145px;height:143px;"title=""alt=""src="/upload/201602/19/201602191627306718.jpg"width="145"height="143">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style="width:144px;height:143px;"title=""alt=""src="/upload/201602/19/201602191627505312.jpg"width="144"height="143"></p><p style="text-indent:2em;"><span style="font-family:Microsoft YaHei;font-size:14px;">&nbsp;</span><a href="http://www.bkwhois.com/acc_view.aspx?id=e4ac7e16-db31-4e90-bb4f-d05e6231624d"target="_blank"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;">专用门禁控制器I系列</span></a><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="http://www.bkwhois.com/acc_view.aspx?id=d2effb2d-8cbb-4e6d-9110-da4924c997a2"target="_blank"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;">专用门禁控制器C系列</span></a><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="http://www.bkwhois.com/acc_view.aspx?id=df32147c-0297-48fa-a86e-cf03bb215267"target="_blank"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;">机电一体化锁</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.bkwhois.com/acc_view.aspx?id=c191138e-7e39-4aff-a941-3a875b3aab81"target="_blank"><span style="font-family:Microsoft YaHei;color:#000000;font-size:14px;">电磁锁</span></a><a href="http://www.bkwhois.com/acc_view.aspx?id=df32147c-0297-48fa-a86e-cf03bb215267"target="_blank"></a></p><p style="text-indent:2em;">&nbsp;</p><p style="text-indent:2em;">&nbsp;</p><p style="text-indent:2em;">&nbsp;</p></div></div>',
+              
+          }]
+      }];
+      setData([{
+          "id":'lazyframe',
+          "type" : "lazyframe",
+          "left" :[
+              {
+                "id" : "bar",
+                "type" : "bar",
+                "title" : "网站导航",
+                "content" :[{
+                    "icon":lazy.url + "LazyUI/js/footer/images/sy.png",
+                    "text":"网站首页",
+                    "onclick": function(){
+                        lazy.setParameter("json",shouye)
+                        lazy.setParameter("foot",0)
+                        lazy.openWin("page2.html")
+                       
+                    }
+                },{
+                    "icon":lazy.url + "LazyUI/js/table10/gywm.png",
+                    "text":"关于我们",
+                    "onclick": function(){
+                       var temp = [{"id":"xq","type":"xq","index":1}];
+                                lazy.setParameter("json",temp)
+                                lazy.setParameter("foot",3)
+                                lazy.openWin("page2.html")
+                    }
+                },{
+                    "icon":lazy.url + "LazyUI/js/table10/xwdt.png",
+                    "text":"新闻动态",
+                    "onclick": function(){
+                        lazy.setParameter("json",xinwenlb)
+                            lazy.openWin("page2.html")
+                    }
+                },{
+                    "icon":lazy.url + "LazyUI/js/footer/images/cp1.png",
+                    "text":"产品中心",
+                    "onclick": function(){
+                        lazy.setParameter("json",productionlb)
+                             lazy.setParameter("foot",1)
+                             lazy.openWin("page2.html")
+                    }
+                },{
+                    "icon":lazy.url + "LazyUI/js/table10/jjfa.png",
+                    "text":"解决方案",
+                    "onclick": function(){
+                        var temp = [{"id":"xq","type":"xq","index":4}];
+                                lazy.setParameter("json",temp)
+                                lazy.setParameter("foot",2)
+                                lazy.openWin("page2.html")
+                    }
+                },{
+                    "icon":lazy.url + "LazyUI/js/table10/jsyl.png",
+                    "text":"技术原理",
+                    "onclick": function(){
+                        var temp = [{"id":"xq","type":"xq","index":3}];
+                                lazy.setParameter("json",temp)
+                                lazy.openWin("page2.html")
+                    }
+                },{
+                    "icon":lazy.url + "LazyUI/js/table10/fwzc.png",
+                    "text":"服务支持",
+                    "onclick": function(){
+                        var temp = [{"id":"xq","type":"xq","index":5}];
+                                lazy.setParameter("json",temp)
+                                
+                                lazy.openWin("page2.html")
+                    }
+                },{
+                    "icon":lazy.url + "LazyUI/js/table10/lxwm.png",
+                    "text":"联系我们",
+                    "onclick": function(){
+                        var temp = [{"id":"xq","type":"xq","index":2}];
+                                lazy.setParameter("json",temp)
+                                lazy.setParameter("foot",4)
+                                lazy.openWin("page2.html")
+                    }
+                }]
+            },
+          ],
+          "right":[
+          {
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : "#787878",
+                "color" : "#fff",
+                "border" : "none",
+                "left" : lazy.url + "LazyUI/js/headertoolbar/logo.png",
+                "right" : lazy.url + "LazyUI/js/headertoolbar/menu.png",
+                "onclick" : function() {
+                   
+                         var plugins = document.getElementById("lazyframe");
+                         plugins.style.left = "0%";
+                         plugins.style.webkitAnimation = "toRight 0.1s";
+                        
+                         shadow.style.display='';
+                         shadow.style.left = "50%";
+                         shadow.style.webkitAnimation = "shadow_show 0.1s";
+                    
+                }
+            },{
+                "id":"content",
+                "type":"content",
+                "content":datacontent,
+            },{
+                
+                   "id" : "footer",
+                   "type" : "footer",
+                   "select":num,
+                   "table":[{
+                       "text":"首页",
+                       "icon":"LazyUI/js/footer/images/sy",
+                       "onclick":function(){
+                            document.getElementsByTagName('body')[0].scrollTop = 0;
+                           getData("content").clean();
+                            getData("content").add(shouye);
+                            footclick(0)
+                       }
+                   },{
+                       "text":"产品",
+                       "icon":"LazyUI/js/footer/images/cp2",
+                       "onclick":function(){
+                            document.getElementsByTagName('body')[0].scrollTop = 0;
+                           getData("content").clean();
+                            getData("content").add(productionlb);
+                            footclick(1)
+                       }
+                   },{
+                       "text":"解决方案",
+                       "icon":"LazyUI/js/footer/images/jjfa",
+                       "onclick":function(){
+                           document.getElementsByTagName('body')[0].scrollTop = 0;
+                             getData("content").clean();
+                                getData("content").add({"id":"xq","type":"xq","index":4});
+                                footclick(2)
+                       }
+                   },{
+                       "text":"我们",
+                       "icon":"LazyUI/js/footer/images/wm",
+                       "onclick":function(){
+                            document.getElementsByTagName('body')[0].scrollTop = 0;
+                            getData("content").clean();
+                            getData("content").add({"id":"xq","type":"xq","index":1});
+                            footclick(3)
+                       }
+                   },{
+                       "text":"电话",
+                       "icon":"LazyUI/js/footer/images/dh1",
+                       "onclick":function(){
+                            document.getElementsByTagName('body')[0].scrollTop = 0;
+                            getData("content").clean();
+                            getData("content").add({"id":"xq","type":"xq","index":2});
+                            footclick(4)
+                       }
+                   }]
+                   
+                                   
+            }]
+              
+          
+      }],function(){
+          document.body.appendChild(shadow);
+          /*
+         touch.on(document, 'swiperight', function(ev){ 
+            var plugins = document.getElementById("lazyframe");
+                         plugins.style.left = "0%";
+                         plugins.style.webkitAnimation = "toRight 0.1s";
+                        
+                         shadow.style.display='';
+                         shadow.style.left = "50%";
+                         shadow.style.webkitAnimation = "shadow_show 0.1s";
+            //ev.originEvent.stopPropagation();     //注释掉或者删掉stopPropagation方法
+        });
+        
+        touch.on(document, 'swipeleft', function(ev){ 
+            toLeft()
+        });
+        */
+      })
+      function toLeft(){
+          var plugins = document.getElementById("lazyframe");
+          plugins.style.left = "-50%";
+          plugins.style.webkitAnimation = "toLeft 0.1s";
+          
+          shadow.style.left = "0%";
+          shadow.style.display='none';
+      }
+      function footclick(i){
+          var foot = document.getElementById("footer");
+          foot.getElementsByClassName("choose")[0].className="td ub-f1";
+          if(i!=null){
+              foot.getElementsByClassName("td")[i].className="td ub-f1 choose";
+          }
+      }
+      
+    });
+</script>
+</html>

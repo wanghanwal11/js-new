@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=process] .title{
+                display: none
+            }
+            div[type=button] .buttondiv{
+                width: 90%!important;
+                border-radius: 0.4rem;
+                position: fixed;
+                top: 30rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d!important;
+            }
+            div[type=process] .inputdiv  textarea{
+                height: 100px;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var tt=lazy.geturlstr("tt")?lazy.geturlstr("tt"):"写心得";
+            lazy.setHeader({
+                            "title": tt,
+                            
+                        });
+            var json=[
+            /*
+            {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.close()
+                                              }   
+                                            }
+                                          ],
+                          "button" : [
+                                              {
+                                                  "content" : "写心得",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },*/
+                        {
+                            "id" : "process",
+                            "type" : "process",
+                            "table" : [{
+                                "type":"textarea",
+                                "placeholder":"输入你想说的(5到1000字之内)"
+                                },{
+                                "type":"image",
+                                "title":"图片",
+                                "httpurl":config.docUpoad
+                            }]
+                },{
+                "type":"button",
+                "label":"提交",
+                "onclick":function(){
+                     var arr=getData("process").getArray().table;
+                     var content=arr[0].value;
+                     if(content.length<5||content.length>1000){
+                         alert("字数不正确,请重新填写");
+                         return;
+                     }
+                     var arr1=arr[1].value;
+                     var picid=[];
+                     var picpath=[];
+                     for(var p=0;p<arr1.length;p++){
+                         picid.push(arr1[p].annexid)
+                         picpath.push(arr1[p].annexpath)
+                     }
+                     lazy.URLRequest(djconfig.tjquanzi+"type=2&content="+content+"&fileid="+picid+"&filepath="+picpath, function(data) {
+                         alert("新增成功");
+                         lazy.goBack();
+                     })
+                }
+            }]
+            setData(json)
+        })
+    </script>
+</html>

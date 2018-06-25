@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var id=lazy.getParameter("hyid");
+            var json = [{
+                            "id":"wenjian",
+                            "type" : "wenjian",
+                            "style":{"border-bottom": "1px solid #f2f2f2"},
+                            "table" : []
+                            
+                        },{
+                            "id":"wenjian1",
+                            "type" : "wenjian",
+                            "title":"附件",
+                            "table" : []
+                        }];
+            setData(json,function(){load()})
+            function load(){
+                lazy.URLRequest(djconfig.hyxg+"id="+id+"&rows=20&page="+page, function(data) {
+                    var data=data.rows[0];
+                    if(page==1){
+                        var h={
+                                "title":"地址：",
+                                "name":data.maddress
+                            }
+                        getData("wenjian").add(h);
+                    }
+                    if(data.file.length>0){
+                        for(var i=0;i<data.file.length;i++){
+                        var src=data.file[i].fileurl;
+                        var f={
+                            "fileurl":src,
+                            "src":"../LazyUI/js/wenjian/"+lazy.getFlieType(src.substring(src.lastIndexOf(".")+1))+".png",
+                            "name":data.file[i].filename,
+                        }
+                        getData("wenjian1").showtitle();
+                        getData("wenjian1").add(f);
+                        }
+                    }
+                    page++;
+                },function(){lazy.closeBounce();}, 0)
+            }
+             lazy.bounce({"up":function(){
+                load()
+               }}); 
+        })
+    </script>
+</html>

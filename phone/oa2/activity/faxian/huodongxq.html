@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+       <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            // alert(lazy.fontSize);
+            // alert(lazy.url);
+            // alert(lazy.browserType);
+            lazy.setConstant(null)
+            var huodongid=lazy.getParameter("huodongid")?lazy.getParameter("huodongid"):lazy.geturlstr("id")
+            var json = [];
+            var gid="";
+            setData(json,function(){load();})
+            function load(){
+                lazy.URLRequest(djconfig.getById+"activityid="+huodongid, function(data) {
+                     var data=data.rows[0];
+                     gid=data.Activity_Base.gid;
+                     lazy.setParameter("people",(data.activityamount.reportcount?data.activityamount.reportcount:"0")+"人/"+data.Activity_Base.peoplecount+"人")
+                     lazy.setParameter("reportcount",data.activityamount.reportcount);
+                     lazy.setParameter("peoplecount",data.Activity_Base.peoplecount);
+                     lazy.setParameter("isreport",data.Activity_Base.isreport)
+                     var szbj={
+                         "type" : "shezhi",
+                         "content":[{"icon":"../LazyUI/js/shezhi/sz.png","name":"活动设置"},{"icon":"../LazyUI/js/shezhi/sys.png","name":"扫一扫"},{"icon":"../LazyUI/js/shezhi/fx.png","name":"分享"}],
+                         "clk1":function(){
+                                 lazy.goBack1();
+                         },
+                         "clk2":function(index){
+                             if(index=="0"){
+                                 lazy.openWin("hdsz.html")
+                             }
+                             if(index=="1"){
+                                 lazy.saoyisao(function(obj){
+                                     obj = JSON.parse(obj);
+                                    var str = obj.code;
+                                    var dyid = (str.substring(str.indexOf("=")+1)).substring(8);
+                                    var url = getIP() + "/basicactivities/Activity_Integralrecord/signin.ht?activityid="+huodongid+"&creator"+dyid;
+                                    lazy.URLRequest(url,function(){
+                                        alert("参加成功");
+                                        lazy.refresh();
+                                    },function(e) {
+                                        alert(e);
+                                    });
+                                 })
+                             }
+                             if(index=="2"){
+                                 var obj={};
+                                obj.src=lazy.geturlstr()+"?id="+huodongid;
+                                obj.title=data.Activity_Base.servicetheme;
+                                lazy.share(obj,function(){
+                                      lazy.URLRequest(djconfig.share+"activityid="+huodongid, function(data) {
+                                          
+                                      })
+                                })
+                             }
+                         }
+                     }
+                     json.push(szbj);
+                     var header={
+                             "id":"huodongheader",
+                             "type" : "huodongheader",
+                             "img" : getIP()+(data.Activity_Base.baseimagepath).replace(/\\/g,"/"),
+                             "title" : data.Activity_Base.servicetheme,
+                             "h" : [
+                                        "<span style='background:url(../LazyUI/js/huodongheader/jifen.png) no-repeat;background-size:1rem;color:#fea923;padding-left:1.5rem;padding-right:0.5rem;'>"+data.Activity_Base.integralname+"积分</span>",
+                                        lazy.format(data.Activity_Base.begintime,"yyyy-MM-dd")+"--"+lazy.format(data.Activity_Base.endtime,"yyyy-MM-dd"),
+                                        data.Activity_Base.place
+                                    ],
+                             "map" : "距离加载中....",
+                             "content":lazy.clearStr(data.Activity_Base.servicecontent,2),
+                        }
+                     json.push(header);
+                     var faqiren={
+                            "type" : "label",
+                            "style" : {"marginTop" : "0.5rem", "paddingLeft" : "0.83rem", "borderBottom" : "1px solid #efefef"},
+                            "text" : "发起人"
+                        }
+                     var faqiren1={
+                            "type" : "titlebtnlist1",
+                            "table" : [{
+                                            "icon" : getIP()+data.Activity_Base.userpicture.replace(/\\/g,"/"),
+                                            "h1" : data.Activity_Base.createuser,
+                                            "h2" : lazy.format(data.Activity_Base.createtime,"yyyy-MM-dd")
+                                        }]
+                        }
+                     json.push(faqiren);
+                     json.push(faqiren1);
+                     var comm=data.commentList;
+                     var con=[];
+                     for(var j=0;j<comm.length;j++){
+                         var obj={};
+                         obj.icon=getIP()+comm[j].fileurl.replace(/\\/g,"/");
+                         obj.h1=comm[j].createuser;
+                         obj.h2=lazy.getFace(comm[j].content);
+                         con.push(obj)
+                     }
+                     var huifu={
+                            "id" : "pinglist",
+                            "type" : "pinglist",
+                            "title" : "评论（"+data.activityamount.commentcount+"）",
+                            "titleonclick" : function() {
+                                lazy.setParameter("type","3");
+                                lazy.openWin("pllist.html")
+                            },
+                            "table" : con
+                        }
+                     json.push(huifu);
+                     var interst={
+                            "type" : "label_bg",
+                            "style" : {"marginTop" : "0.5rem"},
+                            "text" : "你可能感兴趣"
+                        }
+                    var hdlist={
+                            "id":"huodonglist",
+                            "type" : "huodonglist",
+                            "table" : []
+                            
+                        }
+                    var arrint=data.interestactivity;
+                    for(var i=0;i<arrint.length;i++){
+                        var time="";
+                         time=lazy.autoFormat(arrint[i].begintime)
+                        var list={
+                                        "ids":arrint[i].activityid,
+                                        "icon" : getIP()+(arrint[i].baseimagepath).replace(/\\/g,"/"),
+                                        "h1" : arrint[i].servicetheme,
+                                        "h2" : "&nbsp;"+time+"&nbsp;|&nbsp;"+arrint[i].place+"&nbsp;|&nbsp;"+(arrint[i].reportcount?arrint[i].reportcount:"0")+"人/"+arrint[i].peoplecount+"人&nbsp;|&nbsp;<span style=\"color:#f90;\">"+arrint[i].integralname+"积分</span>",
+                                        "zanbol" : true,
+                                        "zanfun" : function(bol) {
+                                            
+                                        },
+                                        "pingfun" : function() {
+                                            //lazy.closeBounce();
+                                            //lazy.loading("22222", 1);
+                                        },
+                                        "onclick" : function(obj) {
+                                            lazy.setParameter("huodongid",obj.ids)
+                                            lazy.openWin("huodongxq.html");
+                                        }
+                                    }
+                        hdlist.table.push(list)
+                    }
+                    json.push(interst);
+                    json.push(hdlist);
+                    var footer={
+                            "type" : "footerbutton",
+                            "table" : [{
+                                            "icon" : "../LazyUI/images/sc.png",
+                                            "label" : "",
+                                            "onclick":function(){
+                                                var img=getIP()+(data.Activity_Base.baseimagepath).replace(/\\/g,"/");
+                                                var url=lazy.geturlstr()+"?id="+huodongid;
+                                                lazy.URLRequest(djconfig.sc+"relaid="+huodongid+"&title="+data.Activity_Base.servicetheme+"&type=活动"+"&image="+img+"&url="+url+"&source="+data.Activity_Base.createuser+"&def1="+data.Activity_Base.userpicture, function(data) {
+                                                    alert("收藏成功");
+                                                })
+                                            }
+                                        },{
+                                            "icon" : "../LazyUI/images/fx.png",
+                                            "label" : data.activityamount.sharecount?data.activityamount.sharecount:"0",
+                                            "onclick":function(){
+                                                var obj={};
+                                                obj.src=lazy.geturlstr()+"?id="+huodongid;
+                                                obj.title=data.Activity_Base.servicetheme;
+                                                lazy.share(obj,function(){
+                                                      lazy.URLRequest(djconfig.share+"activityid="+huodongid, function(data) {
+                                                          
+                                                      })
+                                                })
+                                            }
+                                        },{
+                                            "icon" : "../LazyUI/images/ping.png",
+                                            "label" : data.activityamount.commentcount?data.activityamount.commentcount:"0",
+                                            "onclick":function(){
+                                                lazy.setParameter("type","3");
+                                                lazy.openWin("pllist.html")
+                                            }
+                                        }]
+                            
+                        }
+                    if(data.Activity_Base.isreport=="0"){
+                        var f={
+                                    "label" : "我要报名",
+                                    "onclick":function(){
+                                        lazy.URLRequest(djconfig.baomingMobile+"activityid="+huodongid, function() {
+                                                    lazy.alert("<img src='../LazyUI/images/katong.png'/></br><span style=\"color:#f20;\">报名成功</span>",{
+                                                        "yestitle" : "分享给其他小伙伴",
+                                                        "yesfun" : function(){
+                                                            var obj={};
+                                                            obj.src=lazy.geturlstr()+"?id="+huodongid;
+                                                            obj.title=data.Activity_Base.servicetheme;
+                                                            lazy.share(obj,function(){
+                                                                  lazy.URLRequest(djconfig.share+"activityid="+huodongid, function() {
+                                                                      lazy.refresh();
+                                                                  })
+                                                            })
+                                                        },
+                                                        "close" : function() {
+                                                            lazy.refresh();
+                                                        }
+                                                    });
+
+                                        },function(mes){alert(mes)})
+                                    }
+                                }
+                         footer.table.push(f)
+                    }else{
+                        var f={
+                                    "label" : "已报名",
+                                }
+                        footer.table.push(f)
+                    }
+                    json.push(footer)
+                    setData(json,function(){location()})
+                },function(e) {
+                    lazy.alert(e);
+                },1)
+            }
+            function location(){
+                lazy.getGps(function(point) {
+                    lazy.gpsToAmap(point, function(_point) {
+                        var p=JSON.stringify(_point);
+                        lazy.URLRequest(djconfig.distance+"nowgid="+p+"&gid="+gid, function(data) {
+                            getData("huodongheader").location1("距离"+data.rows[0]+"米")
+                        })
+                    });
+                 });
+            }
+        })
+    </script>
+</html>

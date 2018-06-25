@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>部门列表</title>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide()
+        var json = [
+                            {
+                                "type" : "tree1",
+                                "child" : [],
+                                "onclick" : function(data, group, c) {
+                                    var tmp = {
+                                        "id" : data.id,
+                                        "h1" : data.title,
+                                        "h2" : ""
+                                    };
+                                     lazy.setParentJs(lazy.var(), tmp);
+                                }
+                            }
+                        ];
+            json.unshift({
+                "id" : "headertoolbar",
+                "type" : "headertoolbar",
+                "backgroundColor" : lazy.getParameter("Bgcolor"),
+                "color" : "#fff",
+                "border" : "none",
+                "title" : '部门列表',
+                "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                "select" : function(name, index) {
+                    if(name=="left"&&index==0){
+                        lazy.goBack();
+                    }
+                    if(name=="left"&&index==1){
+                        lazy.close()
+                    }
+                }
+            })
+            load(0, function(arr) {
+                if(json.length==1){
+                    json[0].child = arr;
+                }else{
+                    json[1].child = arr;
+                }
+                setData(json);
+            });
+            function load(id,back,lastback) {
+               var url= config.getOrgByPath;
+               lazy.URLRequest(url, function(data) {
+                   var arr = data.rows;
+                   if(arr.length == 0) {
+                       //触发跳转事件
+                       lastback();
+                       //
+                   }else {
+                       var child = [];
+                       for(var i = arr.length-1; i > 0 ; i--) {
+                           child.push({
+                               "id": arr[i].orgid,
+                               "title": arr[i].orgname,
+                               "child" : []
+                           })
+                       }
+                       back(child);
+                   }
+                   
+               });
+            }
+    });
+    </script>
+</html>

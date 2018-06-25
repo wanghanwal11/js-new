@@ -1,0 +1,724 @@
+/*
+ * backgroundcolor
+ * */
+.bcolor0 {
+    background-color: #5fc9f7;
+}
+.bcolor1 {
+    background-color: #f75e5d;
+}
+.bcolor2 {
+    background-color: #77bf70;
+}
+.bcolor3 {
+    background-color: #ff943d;
+}
+.bcolor4 {
+    background-color: #f6bf27;
+}
+.bcolor5 {
+    background-color: #5c98f5;
+}
+.bcolor6 {
+    background-color: #9a89ba;
+}
+/*
+*button
+ * */
+div[type=button] span {
+    font-size: 0.8rem !important;
+}
+div[type=button] .buttondiv{
+   color:#fff !important;
+   border: 1px solid #ca291f !important;
+   background-color: #ca291f !important;
+}   
+/*
+ * login_content
+ * */
+[winname=login_content]{
+    background: url(../images/djbg.jpg);
+    background-size: cover;
+    padding: 0.83rem;
+}
+[winname=login_content] div[type=imglabel1] {
+    margin: 4.8rem 0 0.9rem 0;
+}
+[winname=login_content] div[type=button] {
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 0.8rem;
+}
+[winname=login_content] div[type=inputlist1] .tr:last-child {
+    border-bottom: 1px solid #e6e6e6;
+}
+[winname=login_content] div[type=button] .buttondiv {
+    width: 100%;
+    color:#ca291f !important;
+    height: 2rem;
+    border: 0.1rem solid #ca291f !important;
+    background: none !important;
+}
+[winname=login_content] div[type=button]:last-child .buttondiv {
+    font-weight: bold;
+}
+[winname=login_content] #button {
+    margin-top: 0.8rem;
+}
+[winname=login_content] #button .buttondiv{
+   color:#fff !important;
+   background-color: #ca291f !important;
+}
+[winname=login_content] #inputname .cols:nth-child(1){
+    border-bottom: 1px solid #ddd;
+}
+[winname=login_content] div[type=inputlist1] .tr:last-child {
+    border-bottom: 1px solid #e6e6e6;
+}
+/*
+ * getPwd_content
+ * */
+[winname=getPwd_content]{
+    background: url(../images/djbg.jpg);
+    background-size: cover;
+    padding: 0.83rem;
+}
+[winname=getPwd_content] div[type=imglabel1] {
+    margin: 4.8rem 0 0.9rem 0;
+}
+[winname=getPwd_content] div[type=button] {
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 0.8rem;
+}
+[winname=getPwd_content] div[type=button] .buttondiv {
+    width: 100%;
+    color:#ca291f !important;
+    height: 2rem;
+    border: 0.1rem solid #ca291f !important;
+    background: none !important;
+}
+[winname=getPwd_content] div[type=button]:last-child .buttondiv {
+    font-weight: bold;
+}
+[winname=getPwd_content] #button {
+    margin-top: 0.8rem;
+}
+[winname=getPwd_content] #button .buttondiv{
+   color:#fff !important;
+   background-color: #ca291f !important;
+}
+[winname=getPwd_content] #inputname .cols:nth-child(1){
+    border-bottom: 1px solid #ddd;
+}
+[winname=getPwd_content] div[type=label] {
+    color: #ca291f;
+    text-align: right;
+    display: block;
+    padding: 0.3rem 0 0 0;
+}
+[winname=getPwd_content] div[type=label] span {
+    font-size: 0.9rem;
+}
+/*
+ * xxdj_content dfjn_content dfjn404_content
+ * */
+[winname=xxdj_content] div[type=inputlist1], [winname=dfjn_content] div[type=inputlist1], [winname=dfjn404_content] div[type=inputlist1]{
+    margin-top: 0.5rem;
+}
+[winname=xxdj_content] div[type=button], [winname=dfjn_content] div[type=button], [winname=dfjn404_content] div[type=button] {
+    padding: 0 0.83rem;
+    margin-top: 0.83rem;
+    margin-bottom: 0.83rem;
+}
+
+[winname=dfjn_content] div[type=label]:first-child {
+    margin-top: 1rem;
+}
+[winname=dfjn_content] div[type=label]:first-child span {
+    font-size: 1rem;
+    color: #444;
+}
+/*
+ * phone_content
+ * */
+[winname=phone] div[type=headertoolbar] .tr{
+    background: url(../images/djbg.jpg) !important;
+    background-size: cover;
+}
+[winname=phone_content]{
+    background: url(../images/djbg1.jpg);
+    background-size: cover;
+    padding: 0.83rem;
+}
+[winname=phone_content] div[type=button] {
+    width: 100%;
+    height: 2rem;
+}
+[winname=phone_content] div[type=imglabel1] {
+    margin: 1.8rem 0 0.9rem 0;
+}
+[winname=phone_content] div[type=inputlist1] .tr:last-child {
+    border-bottom: 1px solid #e6e6e6;
+}
+[winname=phone_content] div[type=inputlist1] .tr:last-child {
+    border-bottom: 1px solid #e6e6e6;
+}
+[winname=phone_content] #button {
+    margin-top: 0.8rem;
+}
+[winname=phone_content] #inputname .cols:nth-child(1){
+    border-bottom: 1px solid #ddd;
+}
+[winname=phone_content] div[type=label] {
+    color: #ca291f;
+    text-align: right;
+    display: block;
+    padding: 0.3rem 0 0 0;
+}
+[winname=phone_content] div[type=label] span {
+    font-size: 0.9rem;
+}
+/*
+ * register_content
+ * */
+[winname=register_content] div[type=inputlist1] {
+    margin: 0.4rem 0;
+}
+[winname=register_content] div[type=inputlist1] .title {
+    width: 7.5rem;
+}
+[winname=register_content] div[type=label]  {
+    margin: 0.4rem 0;
+    color: #7d7d7d;
+}
+[winname=register_content] div[type=button] {
+    margin-top: 3.2rem;
+    padding: 0 0.83rem;
+}
+/*
+ * admin
+ * */
+[winname=admin] div[type=footertoolbar]{
+    background: #eeeeee;
+}
+[winname=admin] div[type=footertoolbar] .lie{
+    color: #9b9b9b;
+}
+[winname=admin] div[type=footertoolbar] .lieclick{
+    color: #be1e14;
+}
+/*
+ * admin_content
+ * */
+[winname=admin_content] div[type=table3]{
+    margin-bottom: 0.3rem;
+    border-bottom: 1px solid #aaaaaa;
+}
+[winname=admin_content] div[type=table4]{
+    margin-bottom: 0.3rem;
+    border-bottom: 1px solid #aaaaaa;
+}
+[winname=admin_content] div[type=table4]:last-child{
+    margin-bottom: 0;
+    border-bottom: none;
+}
+[winname=admin_content] div[type=table23456]{
+    margin-bottom: 0.3rem;
+    border-bottom: 1px solid #aaaaaa;
+}
+[winname=admin_content] div[type=label] {
+    background-color: #fa5555;
+    color:#fff;
+}
+/*
+ * dzdgxq
+ * */
+[winname=dzdgxq] div[type=button_list1],[winname=xljhxq] div[type=button_list1] {
+     background-color: #fff;
+     margin-bottom: 0.4rem;
+}
+[winname=dzdgxq] div[type=button_list1] .td_click,[winname=xljhxq] div[type=button_list1] .td_click {
+    background-color: #bf1e16;
+}
+[winname=dzdgxq] div[type=bannertitle] .lv,[winname=xljhxq] div[type=bannertitle] .lv{
+    color: #6bd164;
+}
+[winname=dzdgxq] div[type=bannertitle] span span{
+    color: #6BD165!important;
+}
+/*
+ * dzdgxq_content
+ * */
+[winname=dzdgxq_content],[winname=xljhxq_content] {
+    background-color: #fff;
+}
+[winname=dzdgxq_content] div[type=label],[winname=xljhxq_content] div[type=label]{
+    height: 1.3rem;
+    line-height:1.3rem;
+}
+[winname=dzdgxq_content] div[type=label] span,[winname=xljhxq_content] div[type=label] span {
+    font-size: 0.8rem;
+}
+/*
+ * wdkxq
+ * */
+[winname=wdkxq] div[type=button_list1]{
+     background-color: #fff;
+     margin-bottom: 0.4rem;
+}
+[winname=wdkxq] div[type=button_list1] .td_click {
+    background-color: #bf1e16;
+}
+/*
+ * wdkxq_content
+ * */
+[winname=wdkxq_content],[winname=xljhxq_content] {
+    background-color: #fff;
+}
+[winname=wdkxq_content] div[type=label]{
+    margin-top:0.5rem;
+    height: 1.3rem;
+    line-height:1.3rem;
+}
+[winname=wdkxq_content] div[type=label] span{
+    font-size: 0.8rem;
+}
+[winname=wdkxq_content] div[type=textlist] .tr:last-child .hdiv {
+    border-bottom: 1px solid #bebebe;
+}
+/*
+ * ceshi_content
+ * */
+[winname=ceshi_content],[winname=xljhceshi_content],[winname=ceshi1_content] {
+    background-color: #fff;
+}
+[winname=ceshi_content] .hong,[winname=xljhceshi_content] .hong,[winname=ceshi1_content] .hong  {
+    color: #ca291f !important;
+    font-size: 1rem !important;
+    padding: 0 0.2rem;
+}
+[winname=ceshi_content] div[type=panel2] .tr,[winname=ceshi1_content] div[type=panel2] .tr{
+    background-image: url(../js/panel2/images/cs_jian.png);
+}
+/*
+ * addceshi_content
+ * */
+[winname=addceshi_content],[winname=xljhaddceshi_content],[winname=addceshi1_content] {
+    background-color: #fff;
+}
+/*
+ * xinde_content
+ * */
+[winname=xinde_content],[winname=xljhxinde_content] {
+    background-color: #fff;
+}
+[winname=xinde_content] div[type=button],[winname=xljhxinde_content] div[type=button] {
+    position:absolute;
+    bottom: 1rem;
+    padding: 0 0.83rem;
+}
+
+[winname=xinde_content] div[type=panel2] .tr,[winname=xljhxinde_content] div[type=panel2] .tr{
+    background-image: url(../js/panel2/images/cs_jian.png);
+}
+[winname=xinde_content] .hong,[winname=xljhxinde_content] .hong {
+    color: #ca291f !important;
+    font-size: 1rem !important;
+    padding: 0 0.2rem;
+}
+/*
+ * addxinde_content
+ * */
+[winname=addxinde_content],[winname=xljhaddxinde_content] {
+    background-color: #fff;
+}
+[winname=addxinde_content] div[type=button],[winname=xljhaddxinde_content] div[type=button] {
+    padding: 0 0.83rem;
+    margin-top: 0.83rem;
+    margin-bottom: 0.83rem;
+}
+
+[winname=xindexq_content],[winname=xljhxindexq_content] {
+    background-color: #fff;
+}
+[winname=xindexq_content] div[type=label],[winname=xljhxindexq_content] div[type=label] {
+    margin-top: 0.83rem;
+    text-indent: 2rem;
+}
+/*
+ * xinwen_content
+ * */
+[winname=xinwen_content] {
+    background-color: #fff;
+}
+[winname=xinwenxq_content] {
+    background-color: #fff;
+}
+/*
+ * wode_content
+ * */
+[winname=wode_content] div[type=iconlabel]:last-child {
+    margin-top: 0.4rem;
+    border-bottom: 1px solid #cfcfcf;
+}
+/*
+ * dyfc_content
+ * */
+[winname=dyfc_content] {
+    background-image: url("../images/dyfc/dyfcbg.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #fa7d83;
+}
+[winname=dyfc_content] div[type=photowall] {
+    margin-top: 4rem;
+}
+/*
+ * youjian_content
+ * */
+[winname=youjian_content] {
+    
+}
+[winname=youjian_content] div[type=button],[winname=writeemail_content] div[type=button],[winname=addqd_content] div[type=button] {
+    padding: 0 0.83rem;
+    margin-top: 0.83rem;
+    margin-bottom: 0.83rem;
+}
+/*
+ * uppwd_content
+ * */
+[winname=uppwd_content] {
+    
+}
+[winname=uppwd_content] div[type=button]{
+    margin-top: 0.83rem;
+    margin-bottom: 0.83rem;
+}
+/*
+ * gzdt_content
+ * */
+[winname=gzdt_content] div[type=label2], [winname=zcxx_content] div[type=label2], [winname=pxhd_content] div[type=label2], [winname=pxxq_content] div[type=label2]{
+    border-bottom: 1px solid #ccc;
+    height: 2rem;
+    line-height: 2rem;
+    color: #444;
+}
+div[type=footertoolbar]{
+    background: #eeeeee !important;
+}
+div[type=footertoolbar] .lie{
+    color: #9b9b9b !important;
+}
+div[type=footertoolbar] .lieclick{
+    color: #be1e14 !important;
+}
+/*
+*button
+ * */
+div[type=button] span {
+    font-size: 0.9rem !important;
+}
+div[type=button] .buttondiv{
+   color:#fff !important;
+   border: 1px solid #ca291f !important;
+   background-color: #ca291f !important;
+} 
+/*
+ * login
+ * */
+[winname=login]{
+    background: url(../images/djbg.jpg);
+    background-size: cover;
+    padding: 0.83rem;
+}
+[winname=login] div[type=imglabel1] {
+    margin: 4.8rem 0 0.9rem 0;
+}
+
+[winname=login] div[type=button] {
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 0.8rem;
+}
+[winname=login] div[type=inputlist1] .tr:last-child {
+    border-bottom: 1px solid #e6e6e6;
+}
+[winname=login] div[type=button] .buttondiv {
+    width: 100%;
+    color:#ca291f !important;
+    height: 2rem;
+    border: 0.1rem solid #ca291f !important;
+    background: none !important;
+}
+[winname=login] div[type=button]:last-child .buttondiv {
+    font-weight: bold;
+}
+[winname=login] #button {
+    margin-top: 0.8rem;
+}
+[winname=login] #button .buttondiv{
+   color:#fff !important;
+   background-color: #ca291f !important;
+}
+[winname=login] #inputname .cols:nth-child(1){
+    border-bottom: 1px solid #ddd;
+}
+/*
+ * phone
+ * */
+[winname=phone]{
+    background: url(../images/djbg.jpg);
+    background-size: cover;
+    padding: 0.83rem;
+}
+[winname=phone] div[type=button] {
+    width: 100%;
+    height: 2rem;
+}
+[winname=phone] div[type=imglabel1] {
+    margin: 4.8rem 0 0.9rem 0;
+}
+[winname=phone] div[type=inputlist1] .tr:last-child {
+    border-bottom: 1px solid #e6e6e6;
+}
+[winname=phone] div[type=inputlist1] .tr:last-child {
+    border-bottom: 1px solid #e6e6e6;
+}
+[winname=phone] div[type=button] .buttondiv {
+    width: 100%;
+    color:#ca291f;
+    height: 2rem;
+    border: 1px solid #ca291f;
+    background: none;
+}
+[winname=phone] #button {
+    margin-top: 0.8rem;
+}
+[winname=phone] #inputname .cols:nth-child(1){
+    border-bottom: 1px solid #ddd;
+}
+[winname=phone] div[type=label] {
+    color: #ca291f;
+    text-align: right;
+    display: block;
+    padding: 0.3rem 0 0 0;
+}
+[winname=phone] div[type=label] span {
+    font-size: 0.9rem;
+}
+/*
+ * xxdj dfjn dfjn404
+ * */
+[winname=xxdj] div[type=inputlist1], [winname=dfjn] div[type=inputlist1], [winname=dfjn404] div[type=inputlist1]{
+    margin-top: 0.5rem;
+}
+[winname=xxdj] div[type=button], [winname=dfjn] div[type=button], [winname=dfjn404] div[type=button] {
+    padding: 0 0.83rem;
+    margin-top: 0.83rem;
+    margin-bottom: 0.83rem;
+}
+[winname=xxdj] div[type=button] span, [winname=dfjn] div[type=button] span, [winname=dfjn404] div[type=button] span {
+    font-size: 0.8rem;
+}
+[winname=xxdj] div[type=button] .buttondiv, [winname=dfjn] div[type=button] .buttondiv, [winname=dfjn404] div[type=button] .buttondiv{
+   color:#fff; 
+   background-color: #ca291f;
+}
+[winname=dfjn] div[type=label]:first-child {
+    margin-top: 1rem;
+}
+[winname=dfjn] div[type=label]:first-child span {
+    font-size: 1rem;
+    color: #444;
+}
+/*
+ * wode
+ * */
+[winname=wode] div[type=iconlabel]:nth-child(2) {
+    margin-top: 0.4rem;
+    border-bottom: 1px solid #cfcfcf;
+}
+[winname=wode] div[type=iconlabel]:nth-child(3) {
+    border-bottom: 1px solid #cfcfcf;
+}
+[winname=wode] div[type=iconlabel]:nth-child(4) {
+    border-bottom: 1px solid #cfcfcf;
+}
+
+[winname=wode] div[type=iconlabel]:nth-child(6) {
+    margin-top: 0.4rem;
+}
+[winname=wode] div[type=iconlabel]:nth-child(7) {
+    margin-top: 0.4rem;
+}
+
+/*
+ * dzdgxq ceshi xinde
+ * */
+[winname=dzdgxq] div[type=button_list1], [winname=ceshi] div[type=button_list1], [winname=xinde] div[type=button_list1]{
+     background-color: #fff;
+     margin-bottom: 0.4rem;
+}
+[winname=dzdgxq] div[type=button_list1] .td_click, [winname=ceshi] div[type=button_list1] .td_click, [winname=xinde] div[type=button_list1] .td_click{
+    background-color: #bf1e16;
+}
+[winname=dzdgxq] div[type=bannertitle] .lv, [winname=ceshi] div[type=bannertitle] .lv, [winname=xinde] div[type=bannertitle] .lv {
+    color: #6bd164;
+}
+[winname=dzdgxq] div[type=bannertitle] span, [winname=ceshi] div[type=bannertitle] span, [winname=xinde] div[type=bannertitle] span{
+    color: #6BD165!important;
+}
+
+[winname=dzdgxq] {
+    background-color: #fff;
+}
+[winname=dzdgxq] div[type=label]{
+    height: 1.3rem;
+    line-height:1.3rem;
+}
+[winname=dzdgxq] div[type=label] span {
+    font-size: 0.8rem;
+}
+/*
+ * ceshi
+ * */
+[winname=ceshi],[winname=xljhceshi_content],[winname=ceshi1_content] {
+    background-color: #fff;
+}
+[winname=ceshi] .hong,[winname=xljhceshi_content] .hong,[winname=ceshi1_content] .hong  {
+    color: #ca291f !important;
+    font-size: 1rem !important;
+    padding: 0 0.2rem;
+}
+[winname=ceshi] div[type=panel2] .tr,[winname=ceshi1_content] div[type=panel2] .tr{
+    background-image: url(../js/panel2/images/cs_jian.png);
+}
+
+/*
+ * addceshi_content
+ * */
+[winname=addceshi_content],[winname=xljhaddceshi_content],[winname=addceshi1_content] {
+    background-color: #fff;
+}
+/*
+ * xinde
+ * */
+[winname=xinde] {
+    background-color: #fff;
+}
+[winname=xinde] div[type=button] {
+    position:absolute;
+    bottom: 1rem;
+    padding: 0 0.83rem;
+}
+[winname=xinde] div[type=button] span {
+    font-size: 0.8rem;
+}
+[winname=xinde] div[type=button] .buttondiv{
+   color:#fff; 
+   background-color: #ca291f;
+}
+[winname=xinde] div[type=panel2] .tr{
+    background-image: url(../js/panel2/images/cs_jian.png);
+}
+[winname=xinde] .hong {
+    color: #ca291f !important;
+    font-size: 1rem !important;
+    padding: 0 0.2rem;
+}
+[winname=xinde] div[type=button] {
+    padding: 0 0.83rem;
+    margin-top: 0.83rem;
+    margin-bottom: 0.83rem;
+}
+[winname=xinde] div[type=button] span {
+    font-size: 0.8rem;
+}
+[winname=xinde] div[type=button] .buttondiv{
+   color:#fff; 
+   background-color: #ca291f;
+}
+[winname=xinde],[winname=xljhxindexq_content] {
+    background-color: #fff;
+}
+[winname=xinde] div[type=label] {
+    margin-top: 0.83rem;
+    text-indent: 2rem;
+}
+/*
+ * addxinde
+ * */
+[winname=addxinde] {
+    background-color: #fff;
+}
+[winname=addxinde] div[type=button] {
+    padding: 0 0.83rem;
+    margin-top: 0.83rem;
+    margin-bottom: 0.83rem;
+}
+[winname=addxinde] div[type=button] span {
+    font-size: 0.8rem;
+}
+[winname=addxinde] div[type=button] .buttondiv{
+   color:#fff; 
+   background-color: #ca291f;
+}
+[winname=addxinde] div[type=label] {
+    margin-top: 0.83rem;
+    text-indent: 2rem;
+}
+/*
+ * wdkxq
+ * */
+[winname=wdkxq] div[type=button_list1]{
+     background-color: #fff;
+     margin-bottom: 0.4rem;
+}
+[winname=wdkxq] div[type=button_list1] .td_click {
+    background-color: #bf1e16;
+}
+[winname=wdkxq],[winname=xljhxq] {
+    background-color: #fff;
+}
+[winname=wdkxq] div[type=label]{
+    margin-top:0.5rem;
+    height: 1.3rem;
+    line-height:1.3rem;
+}
+[winname=wdkxq] div[type=label] span{
+    font-size: 0.8rem;
+}
+[winname=wdkxq] div[type=textlist] .tr:last-child .hdiv {
+    border-bottom: 1px solid #bebebe;
+}
+/*
+ * dyfc
+ * */
+[winname=dyfc] {
+    background-image: url("../images/dyfc/dyfcbg.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #fa7d83;
+}
+[winname=dyfc] div[type=photowall] {
+    margin-top: 4rem;
+}
+/*
+ * gzdt
+ * */
+[winname=gzdt] div[type=label2], [winname=zcxx_content] div[type=label2], [winname=pxhd] div[type=label2], [winname=pxxq] div[type=label2]{
+    border-bottom: 1px solid #ccc;
+    height: 2rem;
+    line-height: 2rem;
+    color: #444;
+}
+/*
+ * uppwd
+ * */
+[winname=uppwd] div[type=button]{
+    margin-top: 0.83rem;
+    margin-bottom: 0.83rem;
+}

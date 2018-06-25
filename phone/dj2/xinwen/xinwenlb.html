@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           var page=1;
+           var status=1;
+           lazy.setHeader({
+                            "title": "系列讲话",
+                            "rightbtn": [
+                                {
+                                    "icon": "search.png",
+                                    "text": "",
+                                    "onclick" : function() {
+                                         var url =djconfig.xinwenlist + 'tags=xljh&title=';
+                                                  lazy.setParameter("sou",url)
+                                                  lazy.setParameter("title","系列讲话")
+                                                  lazy.openWin("view.html");
+                                    }
+                                }
+                            ],
+                           
+                        });
+
+             var json = [
+             /*
+             {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  
+                                                 lazy.close()
+                                              }   
+                                            }
+                                          ],
+                           "right" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/sousuoinput_move/sousuo1.png",
+                                              "onclick" : function(name, index, btn) {
+                                                  var url =djconfig.xinwenlist + 'tags=xljh&title=';
+                                                  lazy.setParameter("sou",url)
+                                                  lazy.setParameter("title","系列讲话")
+                                                  lazy.openWin("view.html");
+                                              }   
+                                            }
+                                          ],
+                            
+                            "button" : [
+                                              {
+                                                  "content" : "系列讲话",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },
+                        */
+                        {
+                            "id" : "xinwenlb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                            
+                        }];
+            if(lazy.browserType=="weixin") {
+                json.splice(0,1);
+            }
+            setData(json,function(){
+                
+                list()
+                
+            });
+            function list(){
+                var url = djconfig.xinwenlist + 'tags=xljh&page='+page+'&rows=10'+"&_time="+new Date().getTime(); 
+                //getData("xinwenlb").add_title("新闻列表");             
+                lazy.URLRequest(url, function(data){
+                    console.log(data)
+                var arr = data.rows;
+                if(arr.length==0&&page==1){
+                    if(!document.getElementsByClassName("zwsjXT")[0])
+                         zwsj =  lazy.datanull("还没有数据哦…",null)
+                     
+                }else{
+                for(var i = 0; i < arr.length; i++) {
+                    
+                    var d={
+                            "icon" : arr[i].imgUrl?lazy.getImagePx(arr[i].imgUrl, 180, 120):"../LazyUI/images/zhibu/default.jpg",
+                            "h1" : arr[i].title, 
+                            "yue" : arr[i].count,
+                            "ping" : arr[i].commentcount,
+                            "imgsc" :  arr[i].imgUrl, 
+                            "user" : arr[i].seoTitle,
+                            "date" : lazy.autoFormat(arr[i].addTime),
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("xwxqid",data.id)
+                                lazy.setParameter("img",data.imgsc)
+                                lazy.openWin("xinwenxq.html");
+                                
+                            }
+                           }
+                        getData("xinwenlb").add(d);
+                    
+                    
+                        }//for
+                    }
+                        page++;
+                        status=0;
+                        lazy.closeBounce();
+                    }, function(e) {
+                    //lazy.
+                    lazy.closeBounce();
+                    alert(e);
+                },status);
+            }
+            lazy.bounce({
+                   "up" : function() {
+                       list();
+                   } 
+                });
+            
+        })
+        
+    </script>
+</html>

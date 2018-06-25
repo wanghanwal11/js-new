@@ -1,0 +1,21 @@
+div[type=bounce]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+    overflow: hidden;
+    display: none;
+}
+div[type=bounce] .bounce_loading {
+    height: 3rem;
+}
+
+div[type=bounce] .bounce_icon {
+    width: 2rem;
+    height: 2rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-image: url(LazyUI2.0/plugins/bounce/loading.gif);
+}

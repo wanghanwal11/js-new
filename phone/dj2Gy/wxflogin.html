@@ -1,0 +1,70 @@
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+        start(function() {
+                page();
+            //渲染界面
+            function page() {
+                setData([{
+                            "id" : "inputlist1",
+                            "type" : "inputlist1",
+                            "table" : [
+                                {
+                                    "title" : "帐号",
+                                    "type" : "text",
+                                    "placeholder" : "用户名/手机号"
+                                },{
+                                    "title" : "密码",
+                                    "type" : "password",
+                                    "placeholder" : "请输入密码"
+                                }
+                            ]
+                        },{
+                            "id" : "button",
+                            "type" : "button",
+                            "label" : "登&nbsp;录",
+                            "onclick" : function() {
+                                var arr = getData("inputlist1").getValue();
+                                var username = arr[0].replace(/\s/g,"");
+                                var password = arr[1].replace(/\s/g,"");
+                                var checkcode = "";
+                                if (username == "") {
+                                    alert("用户名不能为空");
+                                    return;
+                                }else if (password == "") {
+                                    alert("密码不能为空");
+                                    return;
+                                }
+                               
+                                var url = getIP() + "/loginMobile.ht?" + "username=" + username + "&password=" + password+ "&checkcode=" + checkcode;
+                                lazy.URLRequest(url, function(data) {
+                                    lazy.openWin("dzdg.html");
+                                    // lazy.setParameter("huodongid",1000009036287)
+                                    // lazy.openWin("faxian/pllist.html");
+                                  
+                                }, function(a) {
+                                    lazy.alert2(a);
+                                    lazy.setParameter("user",null);
+                                    //errorFun(a);
+                                });
+                            }
+                        },{
+                            "type" : "button",
+                            "label" : "手机快捷登录",
+                            "onclick" : function() {
+                                //lazy.setParameter("user",null);
+                                //lazy.openWin("phone.html");
+                            }
+                        }
+                    ]);
+            }
+            
+            
+        });
+    </script>
+</html>

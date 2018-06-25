@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body{
+                background: white!important;
+            }
+            div[type=titlebtnlist4] .icontitle1{
+                width: 2rem!important;
+                height:2rem!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+          lazy.setHeader({"title": "干部列表"
+             });
+         var page=1;
+         var val="";
+         var beginjoinworktime="";
+         var endjoinworktime="";
+         var json = [{
+                            "type" : "datebutton",
+                            "select1":function(val){
+                                getData("titlebtnlist4").clean()
+                                beginjoinworktime=val
+                                page=1;
+                                 load();
+                            },
+                            "select2":function(val){
+                                getData("titlebtnlist4").clean()
+                                endjoinworktime=val
+                                page=1;
+                                 load();
+                            }
+                        },{
+                            "type" : "sousuoinput1",
+                            "select" : function(val1){
+                                getData("titlebtnlist4").clean()
+                                val=val1;
+                                page=1;
+                                load();
+                            }
+                        },
+            {
+                "id" : "titlebtnlist4",
+                "type" : "titlebtnlist4",
+                "table" : [
+                ]
+            }
+         ]
+         setData(json,function(){load()})
+         function load(){
+             lazy.URLRequest(getIP()+"/party/unitcadre/list.ht?rows=20&page="+page+"&name="+val+"&beginjoinworktime="+beginjoinworktime+"&endjoinworktime="+endjoinworktime,function(data){
+               lazy.closeBounce();
+               var data=data.rows;
+               if(data.length==0&&page==1){
+                          lazy.datanull("暂无数据")
+               }else{
+                   if(document.getElementsByClassName("zwsjXT")[0]){document.getElementsByClassName("zwsjXT")[0].remove()}
+               }
+               for(var i=0;i<data.length;i++){
+                   var s={
+                        "icon" : "",//90*90
+                        "h1" : data[i].name,
+                        "h2" : data[i].companyjob,
+                        "ids":data[i].id,
+                        "onclick":function(obj,l){
+                            lazy.setParameter("gbid",obj.ids)
+                            lazy.openWin("gbxq.html")
+                        }
+                    }
+                   getData("titlebtnlist4").add(s)
+               }
+               page++;
+           })
+         }
+          lazy.bounce({"up":function(){
+              load()
+               }}); 
+        });
+    </script>
+</html>

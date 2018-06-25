@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>楼宇</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var page = 1;
+            var search = "";
+            lazy.setHeader({
+                "title":"楼宇列表",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var json = [
+                  {
+                    "type" : "sousuoinput_move",
+                    "select" : function(val){
+                        page = 1;
+                        getData("renyuan").clean();
+                        search = val;
+                        load(search);
+                    }
+                },
+                    {
+                        "id" : "renyuan",
+                        "type" : "renyuan",
+                        "louyu" : true,
+                        "table" : []
+                    }
+            ];
+            setData(json,function(){
+                load(search);
+            })
+            function load(val){
+                var url = config.xxcj+"page="+page+"&rows=15&name="+val;
+                lazy.URLRequest(url,function(data){
+                    var arr = data.rows;
+                    for(var i = 0; i < arr.length; i++) {
+                        var onejson = {
+                            "id" : arr[i].id?arr[i].id:"",
+                            "rynum" : i+1+((page-1)*15),
+                            "icon" : arr[i].photo?(getIP()+arr[i].photo.replace(/\\/g,"/")):"",
+                            "name" : arr[i].name,
+                            "address" : arr[i].address,
+                            "orgid" : arr[i].orgid,
+                            "orgname" : arr[i].orgname,
+                            "orgpath" : arr[i].orgpath,
+                            "h1" : ["<span style='color:black'>"+arr[i].name+"</span>","住址："+(arr[i].address?arr[i].address:"　")],
+                            "onclick" : function(obj){
+                                lazy.setParameter("ly",obj)
+                                lazy.openWin("fjlb.html");
+                            }
+                        };
+                        getData("renyuan").add(onejson);
+                    }
+                    page++;
+                })
+            }
+            lazy.bounce({
+                "up" : function(){
+                    load(search);
+                }
+             });   
+        });
+    </script>
+</html>

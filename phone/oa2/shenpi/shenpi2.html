@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>申请</title>
+        <style>
+            div[type=table9] .new {
+                background-image: url(../LazyUI/images/shenpi/new.png);
+                background-size: 2.5rem;
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var phone = lazy.geturlstr('phone')||'';
+        var url3 = config.wxLogin + "phone=" + phone;
+        lazy.URLRequest(url3,function(str){
+            lazy.setParameter("user", str.rows[0]);
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        var page = 1;
+        var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+        lazy.setParameter("Bgcolor","#ff953c");
+        lazy.setHeader({
+            "title":"申请",
+            "color":lazy.getParameter("Bgcolor"),
+            "url" : "close",
+            "rightbtn" : []
+        });
+        var click = 0
+        var json = [
+            {
+                "type" : "movebutton",
+                "table" : [
+                                {
+                                    "label" : "我要申请",
+                                    "onclick" : function() {
+                                        click = 0;
+                                        getData("titlebtnlist2").clean();
+                                        document.getElementById("titlebtnlist2").style.display="none";
+                                        document.getElementById("table9").style.display="block"
+                                        //loadshenqing();
+                                    } 
+                                },{
+                                    "label" : "我已申请",
+                                    "onclick" : function() {
+                                        click = 1;
+                                        page = 1;
+                                        document.getElementById("table9").style.display="none";
+                                        document.getElementById("titlebtnlist2").style.display="block";
+                                        getData("titlebtnlist2").clean();
+                                        loadfaqi();
+                                    } 
+                                }
+                                
+                            ]
+            },{
+                "id" : "titlebtnlist2",
+                "type" : "titlebtnlist2",
+                "table" : []
+            }
+        ];
+        setData(json,function(){
+            lazy.bounce({
+                "up" : function(){
+                    if(click==1){
+                        loadfaqi();
+                    }
+                }
+            })
+            loadshenqing();
+        })
+        function loadshenqing(){
+             // var url = "http://47.93.84.28:8082/acceptance/SLPT_Service/getServiceListPhone.ht?mould=1";
+             var url = config.getServiceListPhone+"mould=1";
+             lazy.URLRequest(url,function(data){
+                 var data = data.rows;
+                 var list = [];
+                 for(var i = 0;i<data.length;i++){
+                     var tmp = {
+                         "id":data[i].id,
+                         "isfreeflow" : data[i].isfreeflow,
+                         "icon" : lazy.url + "LazyUI/images/shenpi/"+data[i].tubiao+".png",
+                         "label" : data[i].phoneservicename,
+                         "color" : colorarr[parseInt(i%7)],
+                         "onclick":function(obj){
+                             var qxurl = config.checkPos+"serviceid="+obj.id;
+                             lazy.URLRequest(qxurl,function(data2){
+                                if(data2.newPrimaryKeys.rtnBol == "true"){
+                                    lazy.setParameter("isfreeflow",obj.isfreeflow);
+                                    lazy.setParameter("servicename",obj.label);
+                                    lazy.setParameter("serviceid",obj.id);
+                                    lazy.openWin("addshenpi2.html");
+                                 }else{
+                                    alert("无权提交");
+                                }
+    
+                             })
+                         }
+                     };
+                     list.push(tmp);
+                 }
+                 var tmp1 = {
+                     "icon" : lazy.url + "LazyUI/images/shenpi/jia.png",
+                     "label" : "添加项目",
+                     "class" : "new",
+                     "onclick" : function() {
+                         lazy.openWin("shenpilist.html");
+                     }
+                 }
+                 list.push(tmp1)
+                 var tbl = {
+                     "id" : "table9",
+                     "type" : "table9",
+                     "col" : 3,
+                     "table" : list
+                 }
+                 json.push(tbl);
+                 setData(json);
+             })
+        }
+        function loadfaqi(){
+            // var url = "http://47.93.84.28:8082/acceptance/SLPT/fwblSimple.ht?pageListKey=myStart&typeNodeKey=OA&rows=20&page="+page;
+            var url = config.vitoMyStart+"&rows=20&page="+page;
+            lazy.URLRequest(url,function(data){
+                var data = data.rows;
+                if(data.length<20) lazy.stopBounce();
+                else page++;
+                for(var i=0;i<data.length;i++){
+                    var h2 = ""
+                    if(data[i].status=="2") h2='<span style="color:#ccc">已完结</span>';
+                    else if(data[i].status=="6") h2='<span style="color:red">被驳回</span>';
+                    else if(data[i].status=="5") h2='<span style="color:gray">已追回</span>';
+                    else if(data[i].status=="4") h2='<span style="color:orange">保存草稿</span>';
+                    else if(data[i].status=="1") h2='<span style="color:green">办理中</span>';
+                    else if(data[i].status=="3") h2='<span style="color:#00AAFF">直接办结</span>';
+                    var path = data[i].picture;
+                    if(path.indexOf("http")<0) path = getIP()+data[i].picture
+                    var tmp = {
+                        "id" : data[i].businessKey,
+                        "taskid" : data[i].id,
+                        "runid" : data[i].runId,
+                        "taskStatus" : data[i].taskStatus,
+                        "icon" : path,
+                        "h1" : data[i].subject,
+                        "name" : data[i].creator,
+                        "h2" : h2,
+                        "h3" : lazy.format(data[i].createTime,"yyyy-MM-dd"),
+                        "onclick" : function(obj){
+                            if(obj.taskStatus=="2"||obj.taskStatus=="3") obj.shenpi = true;//已审批
+                            else obj.shenpi = false;//待审批
+                            lazy.setParameter("spobj",obj);
+                            lazy.openWin("shenpiguocheng.html");
+                        }
+                    };
+                    getData("titlebtnlist2").add(tmp);
+                }
+            })
+        }
+        },function(){
+             lazy.close();
+       });//url3
+        
+    });
+    </script>
+</html>

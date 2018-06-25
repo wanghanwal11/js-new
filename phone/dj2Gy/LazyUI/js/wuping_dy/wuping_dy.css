@@ -1,0 +1,54 @@
+div[type=wuping_dy]{
+	-webkit-box-sizing:border-box;
+	display: -webkit-box !important;
+	-webkit-box-orient:vertical;
+	position:relative;
+	background-color: #fff;
+	font-size:0.8rem;
+}
+div[type=wuping_dy] .hang {
+    -webkit-box-sizing:border-box;
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+}
+div[type=wuping_dy] .hang + .hang {
+	border-top:1px solid #dedede;
+} 
+div[type=wuping_dy] .hang textarea {
+	font-size:0.8rem;
+	height:3rem;
+	border:none;
+	background-color:none;
+	width:100%;
+}
+div[type=wuping_dy] .hang .title {
+	font-size:0.8rem;
+	min-height:2rem;
+	line-height:2rem;
+	border:none;
+	background-color:none;
+	margin-right:0.8rem;
+	color:#acacac;
+	width: 4rem;
+	text-align: right;
+}
+div[type=wuping_dy] .hang .h1{
+  line-height:1.8rem;  
+}
+div[type=wuping_dy] .hang input {
+	font-size:0.8rem;
+	height:2.4rem;
+	line-height:2.5rem;
+	border:none;
+	background-color:none;
+	width:100%;
+}
+div[type=wuping_dy] .icon{
+    margin:0.3rem 0rem;
+}
+div[type=wuping_dy] .hang .sel
+{
+    width:72%;
+}

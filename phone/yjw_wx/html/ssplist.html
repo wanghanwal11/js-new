@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>事件查询</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <style>
+        body{
+            background: #EBEBEB!important;
+        }
+    </style>
+</head>
+<script>
+    start(function() {
+        var id1=lazy.geturlstr("wxinitId");
+        var id2=lazy.geturlstr("wxopenid");
+        //id2="oXn3uw0P-1EOr4Wc6VWVT3b4eX60";
+        
+        var json = [{
+                        "id":"sousuoinput1",
+                        "type" : "sousuoinput",
+                        "select" : function(search){
+                                 page = 1;
+                                 getData("bslist").clean();
+                                 getlist(search);
+                         },
+                    },{
+                        "id":"bslist",
+                        "type":"bslist",
+                        "table":[]
+                    }];
+        setData(json,function(){
+           getlist('')
+        });
+        function getlist(search){
+            lazy.GET(getIP()+"/wechat/weixinTzyjw/wxSjlist.ht?openid="+id2+"&content="+search,function(data){
+                 var arr=data.rows;
+                 if(arr.length==0){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull2(document.getElementsByClassName("table")[0])
+                             document.getElementsByClassName("table")[0].style.background="#ebebeb"
+                         }
+                     }
+                 for(var i=0;i<arr.length;i++){
+                	 
+                     var type = '';
+                     if(arr[i].type == 'ssp') type = '随手拍';
+                     if(arr[i].type == 'wyhys') type = '我有话要说';
+                     var d = {
+                            "h1":arr[i].title?arr[i].title:"",
+                            "content":arr[i].content?arr[i].content:"",
+                            "src":type,
+                            "date":arr[i].eventtime?lazy.autoFormat(arr[i].eventtime):"",
+                            "data":arr[i],
+                            "onclick":function(obj){
+                                lazy.setParameter("data",obj.data)
+                                if(obj.src=="随手拍"){
+                                    lazy.openWin("sspxq.html?wxopenid="+obj.data.openid+"&wxinitId="+obj.data.initid)
+                                }else{
+                                    //lazy.openWin("sspxq.html?wxinitId="+obj.data.initid+"&wxopenid="+obj.data.openid)
+                                    lazy.openWin("wyxq.html?wxopenid="+obj.data.openid+"&wxinitId="+obj.data.initid)
+                                }
+                            }
+                        }
+                        getData("bslist").add(d);
+                 }
+                 
+            },function(e){}, 0)
+        }
+         
+       
+    });
+</script>
+</html>

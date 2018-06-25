@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        
+        start(function() {
+            lazy.demo(); 
+                var json = [ {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#32c6d0",
+                            "color" : "#fff",
+                            "border" : "none",
+                            // "left" : [
+                                            // {
+                                              // "content" : lazy.url + "LazyUI/js/header/images/back.png",
+                                              // "onclick" : function(name, index) {
+//                                                   
+                                                 // lazy.close()
+                                              // }   
+                                            // }
+                                          // ],
+                            "button" : [
+                                              {
+                                                  "content" : "推送列表",
+                                                  "onclick" : function() {
+                                                        
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },
+                {
+                    "type" : "tslb",
+                    "title" : "关于2016年8月31日晚23:00进行系统升级通知",
+                    "title2" : "12分制上线制运行",
+                    "title3" : "e廉政app问卷调查",
+                    "date": "2016-08-31",
+                    "t" : "12:00",
+                    "content" : "定于2016年8月31日晚23:00进行升级维护，届时可能会导致e廉政APP出现临时的访问缓慢，给您带来的不便，敬请谅解!",
+                    "tp1" : "LazyUI/js/tslb/images/phone.jpg",
+                    "tp2" : "LazyUI/js/tslb/images/wenjuan.jpg"
+                },{
+                                "type":"div",
+                                "style":{"height":"4rem","background-color": "#efefef"}
+                            },{
+                                           "id" : "footertoolbar",
+                                           "type" : "footertoolbar",
+                                           "name" : ["首页", "消息", "积分", "我"],
+                                           "icon" : ["sy", "xx", "jf", "w"],
+                                           "n" : 1,
+                                           "select" : function(name, i) {
+                                               switch(name) {
+                                                   case "首页" :
+                                                        lazy.openWin("index.html");
+                                                   break;
+                                                   case "消息" :
+                                                        lazy.openWin("tslb.html");
+                                                   break;
+                                                   case "积分" :
+                                                        lazy.openWin("jf/jf.html");
+                                                   break;
+                                                   case "我" :
+                                                       lazy.openWin("wd.html");
+                                                   break;
+                                               }
+                                           }
+                                        }
+                ]
+                setData(json)
+        })
+
+    </script>
+</html>

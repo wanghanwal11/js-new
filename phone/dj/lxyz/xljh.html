@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=wxylistbar] .h{
+                width: 100%!important;
+            }
+            div[type=wxylistbar] .h:nth-child(4){
+                height:0rem!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+             var json=[];
+            if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '系列讲话',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                }
+             var page=1;
+             var kl=lazy.getParameter("xljh0id")
+             setData(json,function(){wfx()});
+             function wfx(){
+                 var url = getIP()+"/party/DJ_ThreeOpen/getSeriesspeechlist.ht?rows=10&modeltype=5&page="+page+"&parentid="+kl
+                 lazy.URLRequest(url, function(data) {
+                     var data=data.rows;
+                     for(var i=0;i<data.length;i++){
+                         var s={
+                            "type" : "wxylistbar",
+                            "icon" : (data[i].photo?(getIP()+data[i].photo).replace(/\\/g,"/"):" "),
+                            "rl" : false,
+                            "title" : data[i].title,
+                            "ids":data[i].id,
+                            "table" : [
+                                        data[i].subtitle,
+                                        "时间："+data[i].time,
+                                        "来源："+data[i].author
+                                     ],
+                            "onclick" : function(data) {
+                                lazy.setParameter("szywid",data.ids)
+                                lazy.openWin("xljhxq.html")
+                            }
+                        }
+                        json.push(s);
+                     }
+                     page++;
+                     setData(json);
+                })
+             }
+             lazy.bounce({"up":function(){
+                       wfx();
+                }});
+        });
+    </script>
+</html>

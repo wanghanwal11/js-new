@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            div[type=titlebtnlist_add] .h1 {
+                padding-top: 0.5rem!important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setHeader({
+            "title":"申请",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var url = config.getServiceListPhone;
+        lazy.URLRequest(url,function(data){
+            var data = data.rows;
+            var list = [];
+            for(var i =0;i<data.length;i++){
+                var mould = data[i].df3;
+                var tmp = {
+                    "id":data[i].id,
+                    "isfreeflow" : data[i].isfreeflow,
+                    "icon":lazy.url + "LazyUI/images/shenpi/"+data[i].tubiao+".png",
+                    "h1":data[i].phoneservicename,
+                    "onclick" : function(obj){
+                        var qxurl = config.checkPos+"serviceid="+obj.id;
+                        lazy.URLRequest(qxurl,function(data2){
+                            if(data2.newPrimaryKeys.rtnBol == "true"){
+                                lazy.setParameter("isfreeflow",obj.isfreeflow);
+                                lazy.setParameter("serviceid",obj.id);
+                                lazy.setParameter("servicename",obj.h1);
+                                lazy.openWin("addshenpi.html");
+                             }else{
+                                alert("无权提交");
+                            }
+
+                        })
+                    }
+                }
+                if(mould != "1"){
+                    tmp.add =function(obj){
+                        var url = config.tobeMouldOrCancle+"serviceid="+obj.id;
+                        lazy.URLRequest(url,function(data1){
+                            alert("添加成功");
+                            lazy.openWin("shenpi.html");
+                            //lazy.close();
+                        })
+                    }
+                }else{
+                    tmp.remove = function(obj){
+                        var url = config.removeMouldOrCancle+"serviceid="+obj.id;
+                        lazy.URLRequest(url,function(data2){
+                            alert("取消成功");
+                            lazy.openWin("shenpi.html");
+                            //lazy.close();
+                        })
+                    }
+                }
+                list.push(tmp)
+            }
+            var json = [
+                {
+                    "type" : "titlebtnlist_add",
+                    "table" : list
+                }
+            ];
+            // json.unshift({
+                // "id" : "headertoolbar",
+                // "type" : "headertoolbar",
+                // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                // "color" : "#fff",
+                // "border" : "none",
+                // "title" : '申请',
+                // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                // "select" : function(name, index) {
+                    // if(name=="left"&&index==0){
+                        // lazy.goBack();
+                    // }
+                    // if(name=="left"&&index==1){
+                        // lazy.close()
+                    // }
+                // }
+            // })
+            setData(json);
+        })
+           
+    });
+    </script>
+</html>

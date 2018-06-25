@@ -1,0 +1,30 @@
+div[type=playtext]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+	padding: 1rem;
+}
+div[type=playtext] .titlediv {
+    width: 100%;
+    height: auto; 
+    text-align: center;
+    padding: 0.6rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=playtext] .h1 {
+    font-size: 1.2rem;
+    
+}
+div[type=playtext] .contentdiv {
+    -webkit-box-sizing:border-box;
+    width: 100%;
+    height: auto;
+    text-align: left;
+    text-indent:2rem;
+    line-height: 1.5rem;
+}
+div[type=playtext] .one {
+    display:none;
+}

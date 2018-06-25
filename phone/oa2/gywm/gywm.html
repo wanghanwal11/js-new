@@ -1,0 +1,60 @@
+<!-- <!DOCTYPE html> -->
+<!DOCTYPE html>
+    
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            .h1 {
+                text-align: center;
+            }
+            div[type=label]{
+                color: darkgray;
+                text-align: right;
+                padding-right: 2rem!important;
+            }
+            div[type=label] .first{
+                width: 100%!important;
+            }
+            div[type=xinwenxq] .content p{
+                text-indent: 0!important;
+            }
+            div[type=xinwenxq] p img {
+                margin-left: 0 !important;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+         lazy.setHeader({
+                            "title": "关于我们",
+                            "color" : "#3fc299"
+                        });
+         var url = getIP() + "/servicedesk/article/list.ht?tags=gywm&status=1";
+         lazy.URLRequest(url,function(data){
+             var data = data.rows[0]
+             var json = [{
+                    "type" : "xinwenxq",
+                    "table" : [
+                       {
+                            "content" : data.content
+                       }
+                    ]
+                    
+                },{
+                    "type":"label",
+                    "text":"技术支持",
+                    "onclick" : function(){
+                        lazy.openWin("about.html")
+                    }
+                }];
+                setData(json);
+         })
+          
+        })
+        
+    </script>
+</html>

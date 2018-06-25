@@ -1,0 +1,43 @@
+div[type=geren]{
+	width:100%;
+	height:9rem;
+	display: -webkit-box;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+	background-color: #3fc299;
+	padding-top: 1.4rem;
+	display: -webkit-box !important;
+    -webkit-box-orient:vertical;
+}
+div[type=geren] .iconhang {
+    height: 4rem;
+    width: 100%;
+    text-align: center;
+}
+
+div[type=geren] .icon {
+    margin:auto;
+    height: 4rem;
+    line-height: 4rem;
+    color: #fff;
+    width: 4rem;
+    border-radius: 4rem; 
+    border: 1px solid rgba(255,255,255,0.8);
+      background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+div[type=geren] .icon span {
+    font-size: 0.8rem;
+}
+div[type=geren] .title {
+    height: 2rem;
+    line-height: 2rem;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+}
+div[type=geren] .title span {
+    font-size: 0.8rem;
+}

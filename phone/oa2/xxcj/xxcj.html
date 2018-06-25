@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>信息采集</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=titlebtnlist2] .td2 {
+                display: none;
+            }
+            div[type=titlebtnlist2] .td1 {
+                height:100%!important;
+                padding-top: 0.5rem;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setParameter("Bgcolor","#4768ed");
+            lazy.setHeader({
+                "title":"信息采集",
+                "color":lazy.getParameter("Bgcolor"),
+                "url":"close",
+                "rightbtn" : []
+            });
+            var json = [
+                   {
+                        "id" : "titlebtnlist2",
+                        "type" : "titlebtnlist2",
+                        "table" : [
+                            {
+                                "icon" : "../LazyUI/images/xxcj/rkcjicon.png",
+                                "h1" : "人口查询",
+                                "onclick" : function(){
+                                    lazy.openWin("rkcx.html")
+                                }
+                            },
+                            {
+                                "icon" : "../LazyUI/images/xxcj/frcjicon.png",
+                                "h1" : "法人查询",
+                                "onclick" : function(){
+                                    lazy.setParameter("ly",null);
+                                    lazy.openWin("frcx.html")
+                                }
+                            },
+                            {
+                                "icon" : "../LazyUI/images/xxcj/xxcjicon.png",
+                                "h1" : "信息采集",
+                                "onclick" : function(){
+                                    lazy.openWin("lylb.html")
+                                }
+                            }
+                            // ,{
+                            //     "icon" : "../LazyUI/images/xxcj/syrkcj.png",
+                            //     "h1" : "实有人口采集",
+                            //     "onclick" : function(){
+                            //         lazy.openWin("fwlb.html")
+                            //     }
+                            // }
+                        
+                         ]
+                }
+            ];
+            setData(json)
+        });
+    </script>
+</html>

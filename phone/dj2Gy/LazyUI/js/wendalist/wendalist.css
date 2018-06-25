@@ -1,0 +1,144 @@
+body[type=body] div[type=wendalist]{
+	position:relative;
+	width: 100%;
+	height: auto;
+	font-size: 1rem;
+	-webkit-box-sizing: border-box;
+}
+div[type=wendalist] .title {
+    height: 1.7rem;
+    line-height: 1.7rem;
+    width: 100%;
+}
+div[type=wendalist] .title1{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+div[type=wendalist] .title .ub-f1{
+    padding-left: 0.5rem;
+}
+div[type=wendalist] .more {
+    color: #f20;
+    padding-right: 0.83rem;
+}
+div[type=wendalist] .kuai {
+    width: 0.5rem;
+    height: 100%;
+    background-color: #f20;
+}
+div[type=wendalist] .tr {
+    width: 100%;
+    height: auto;
+    background: white;
+    margin-bottom: 0.5rem;
+}
+div[type=wendalist] .td1 {
+    height: 2rem;
+    line-height: 2rem;
+    color: #006cd8;
+    padding-right: 0.83rem;
+}
+
+div[type=wendalist] .h2 {
+    line-height: 1rem;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+div[type=wendalist] .h2 span{
+    font-size: 1rem;
+}
+div[type=wendalist] .h2 img{
+    width: 4rem;
+    height: 3.5rem;
+    margin-top: 0.6rem;
+    margin-right: 0.5rem;
+}
+div[type=wendalist] .h3{
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    color: #c2c2c2;
+    position: relative;
+    border-top: 1px solid #dddddd;
+}
+div[type=wendalist] .icon {
+    -webkit-box-sizing: border-box;
+    width: 3rem;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+}
+div[type=wendalist] .h2 img{
+    width: 3rem;
+    height: 3rem;
+}
+div[type=wendalist] .h3{
+    height: 1.5rem;
+}
+div[type=wendalist] .h3 .people{
+    float:left;
+}
+div[type=wendalist] .h3 img{
+    float:left;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 1rem;
+    border-radius: 1rem;
+}
+div[type=wendalist] .h3 .name{
+    display:inline-block;
+   margin-left: 0.3rem;
+   min-width: 4rem;
+   max-width: 6rem;
+   overflow: hidden;
+   line-height: 1.6rem;
+}
+div[type=wendalist] .h3 .zan{
+    float:left;
+    margin-left:1rem;
+    background: url(yue.png);
+    background-size: 1rem;
+    background-repeat:no-repeat;
+    padding-left: 1.2rem;
+    background-position-y: 0.4rem;
+    padding-right: 0.5rem;
+    line-height: 1.6rem;
+}
+div[type=wendalist] .h3 .del{
+    padding: 1rem 1rem;
+    float:left;
+    margin-left:1rem;
+    background: url(del.png);
+    background-size: 1rem;
+    background-repeat:no-repeat;
+    padding-left: 1.2rem;
+    background-position-y: 0.3rem;
+    padding-right: 0.5rem;
+    line-height: 1.6rem;
+}
+div[type=wendalist] .h3 .pl{
+    float: right;
+    margin-right: 1rem;
+    display: block;
+    width: 2rem;
+    line-height: 0.8rem;
+    height: 0.8rem;
+    border: 1px solid #999999;
+    border-radius: 1rem;
+    text-align: center;
+    background: url(bianji.png);
+    background-size: 0.8rem;
+    background-repeat: no-repeat;
+    padding-left: 1.2rem;
+    background-position-y: 0.2rem;
+    padding-right: 0.5rem;
+    padding-top: 0.2rem;
+    background-position-x: 0.9rem;
+    padding-bottom: 0.2rem;
+    margin-top: 0.1rem;
+    color: #999999;
+}
+div[type=wendalist] .h3 .time{
+   float:left;
+   margin-left: 1.5rem;
+   margin-top: 0.2rem;
+}

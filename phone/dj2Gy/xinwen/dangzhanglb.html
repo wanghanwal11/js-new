@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+        
+    </head>
+    <body>
+        
+    </body>
+    <script>
+    
+        start(function() {
+            lazy.setParameter("on","left");
+             var json = [{
+                            "id" : "dangzhanglb",
+                            "type" : "dangzhanglb",
+                            "table" : []
+                            
+                        }];
+            setData(json,function(){
+                
+                list()
+                document.documentElement.style.webkitTouchCallout='none';
+            });
+            function list(){
+                var url = djconfig.dangzhanglb;               
+                lazy.URLRequest(url, function(data){
+                lazy.setHeaderStop();
+                var arr = data.rows;
+                //console.log(data);
+                for(var i = 0; i < arr.length; i++) {
+                    if(arr[i].state=="T" && arr[i+1].state == "F")
+                          arr[i+1].state="L";  
+                    if(i == 0 && arr[i+1].state == "F")
+                          arr[i].state="L"; 
+                    var d={
+                             "h1" : arr[i].learntitle+'  '+arr[i].title,
+                             "status": arr[i].state,
+                             "jifen":arr[i].integration,
+                             "peoplenumber" : arr[i].learnnumber,
+                             "ping" : arr[i].expnumber,
+                             "time" : arr[i].timelong,
+                             "id" : arr[i].id,
+                             "onclick" : function(data) {
+                                 if(data.status == "F"){
+                                  
+                                 }else{
+                                      lazy.setParameter("dzxqid",data.id)
+                                
+                                      lazy.setParameter("type","0");
+                                      lazy.setParameter("ping",data.ping);
+                                      lazy.setParameter("status",data.status);
+                                      lazy.setParameter("jifen",data.jifen);
+                                      parent.lazy.openWin("dangzhangxq.html");
+                                 }
+                               
+                              }
+                           }
+                        getData("dangzhanglb").add(d);
+                    
+                    
+                        }//for
+                        
+                        
+                    }, function(e) {
+                        lazy.setHeaderStop();
+                        alert(e);
+                },1);
+            }
+            
+            
+        })
+        
+    </script>
+</html>

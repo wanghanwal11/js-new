@@ -1,0 +1,48 @@
+body[type=body] div[type=hdlist2]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    background-color: #ffffff;
+}
+div[type=hdlist2] .table {
+    padding:0 1rem;
+    height:auto;
+    flex-wrap:wrap;
+}
+div[type=hdlist2] .tr {
+    width:48%;
+    height:auto;
+    background-color: #ffffff;
+    /*border-bottom:1px solid #efefef;*/
+    margin-bottom:1rem;
+}
+div[type=hdlist2] .pic {
+    width:100%;
+    height:8rem;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+div[type=hdlist2] .title {
+    color:#202227;
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+div[type=hdlist2] .type {
+    color:#5498c8;
+    height:1.5rem;
+    line-height: 1.5rem;
+    font-size: 0.9rem;
+}
+
+div[type=hdlist2] .time {
+    /*font-size: 0.9rem;
+    color:#63676e;*/
+    color: #999999;
+    line-height: 1.2rem;
+    font-size: 0.8rem;
+}
+

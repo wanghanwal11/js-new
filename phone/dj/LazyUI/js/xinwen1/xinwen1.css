@@ -1,0 +1,54 @@
+div[type=xinwen1]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	position:relative;
+	-webkit-box-orient:vertical;
+	padding-left: 0.8rem;
+    padding-right: 0.8rem;
+}
+div[type=xinwen1] .tr {
+    min-height: 2.2rem;
+    width: 100%;
+    margin-top: 0.3rem;
+} 
+div[type=xinwen1] .tr:last-child {
+    margin-bottom:0;
+}
+div[type=xinwen1] .icon {
+    height:2.8rem;
+    width:2.8rem;
+    border-radius:0.3rem;
+    background-image: url("../../images/moren1.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin-left: 0.3rem;
+}
+div[type=xinwen1] .h {
+    line-height: 0.9rem;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    background: rgb(220, 228, 231);
+    margin-left: 0.3rem
+} 
+div[type=xinwen1] .h1{
+    position: absolute;
+    left: 0;
+}
+div[type=xinwen1] .h2{
+    position: absolute;
+    right: 0;
+}
+div[type=xinwen1] .h1,div[type=xinwen1] .h2{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    color: #514a49;
+    font-size: 0.6rem;
+    line-height:2.5rem;
+    text-align:center;
+    display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    float: left;
+}

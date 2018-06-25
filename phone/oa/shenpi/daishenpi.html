@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>审批</title>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide()
+        lazy.setParameter("Bgcolor","#5c98f5");
+        var json =[{
+            "id" : "movebutton_iframe",
+            "type" : "movebutton_iframe",
+            "table" : [
+                            {
+                                "label" : "待我审批的",
+                                "url" : "dwsp.html"
+                            },{
+                                "label" : "我已审批的",
+                                "url" : "wysp.html"
+                            }
+                            
+                        ]
+        }];
+        json.unshift({
+            "id" : "headertoolbar",
+            "type" : "headertoolbar",
+            "backgroundColor" : lazy.getParameter("Bgcolor"),
+            "color" : "#fff",
+            "border" : "none",
+            "title" : '审批',
+            "left" : mark=="dj"?[lazy.url + "LazyUI/js/headertoolbar/jian1.png", lazy.url + "LazyUI/js/headertoolbar/cha1.png"]:[lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+            "select" : function(name, index,length) {
+                if(name=="left"){
+                    if(length==1){
+                        lazy.close();
+                    }else{
+                        if(index==0) {
+                            lazy.goBack();
+                        }else {
+                            lazy.close();
+                        }
+                    }
+                }
+            }
+        })
+        setData(json,function(){
+            lazy.CancelgoBack(false,function(){
+                lazy.close();
+            });
+        });
+    });
+    </script>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>人口迁出</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var json = [
+                    {
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : "人口迁出",
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "right" : [lazy.url + "LazyUI/js/headertoolbar/dui.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                                lazy.goBack();
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                            if(name=="right"){
+                                var arr = getData("renyuan").returnEdit();
+                                if(arr.length==0){
+                                    lazy.alert2("请选择人员")
+                                }else{
+                                    var idsarr = [];
+                                    var peopleidsarr = [];
+                                    for(var i=0;i<arr.length;i++){
+                                        idsarr.push(arr[i].id);
+                                        peopleidsarr.push(arr[i].peopleid)
+                                    }
+                                    var url = config.rkqc +"reason=&ids="+idsarr+"&peopleid="+peopleidsarr;
+                                    // alert(url)
+                                    lazy.URLRequest(encodeURI(url),function(){
+                                        alert("迁出成功");
+                                        lazy.openWin("rklb.html");
+                                    })
+                                }
+                            }
+                        }
+                    
+                },
+                    {
+                        "id" : "renyuan",
+                        "type" : "renyuan",
+                        "table" : []
+                    }
+            ];
+            setData(json,function(){
+                load();
+            })
+            function load(){
+                var url = config.rklb+"state="+encodeURI('正常')+"&livehouseid="+lazy.getParameter("fw").id;
+                lazy.URLRequest(url,function(data){
+                    var arr = data.rows;
+                    for(var i = 0; i < arr.length; i++) {
+                        var type = "";
+                        switch(arr[i].type) {
+                            case "all" :
+                                type = "人户同在";
+                            break;
+                            case "house" :
+                                type = "居住";
+                            break;
+                            case "family" :
+                                type = "户籍";
+                            break;
+                        }
+                        var onejson = {
+                            "peopleid" : arr[i].peopleid?arr[i].peopleid:"",
+                            "id" : arr[i].id?arr[i].id:"",
+                            "rynum" : i+1,
+                            "icon" : arr[i].photo?(getIP()+arr[i].photo.replace(/\\/g,"/")):"",
+                            "edit" : true,
+                            "h1" : ["<span style='color:black'>"+arr[i].peoplename+"</span>","关系："+(arr[i].relations?arr[i].relations:""),"状态："+type,"迁入时间："+lazy.format(arr[i].createtime,"yyyy-MM-dd")],
+                            "onclick" : function(obj){
+                                lazy.setParameter("rk",obj)
+                                lazy.openWin("rkxq.html");
+                            }
+                        };
+                        getData("renyuan").add(onejson);
+                    }
+                })
+            }
+        });
+    </script>
+</html>

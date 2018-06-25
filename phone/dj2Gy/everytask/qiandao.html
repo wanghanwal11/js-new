@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../common/angular.min.js"></script>
+        <script src="../LazyUI/js/qiandao/qiandao.js"></script>
+        <link rel="stylesheet" href="../LazyUI/js/qiandao/qiandao.css">
+        <style>
+            body{
+                background: white!important;
+            }
+        </style>
+    </head>
+    <body ng-app="myapp">
+            <div ng-controller="qiandao" class="qiandao">
+                <div class="yuan" ng-click="tan()" ng-show="bool"><div class="bai"></div><div class="hei"></div><div class="quan"><span class="qd">签到</span><span class="rq">{{title}}</span></div></div><div class="yuan"  ng-hide="bool"><div class="bai"></div><div class="hei1"></div><div class="quan"><span class="qd">已签到</span><span class="rq">{{title}}</span></div></div>
+                <div class="tongji">本月累计签到{{count}}天</div>
+            </div>
+            <div>
+                <p class="p">
+                    签到规则
+                </p>
+                <ul class="ul">
+                    <li>1.每日可签到一次</li>
+                    <li>2.签到一次获得1积分</li>
+                    <li>3.签到更多，积分越多，不要忘记每日签到哦~~</li>
+                </ul>
+            </div>
+    </body>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                            "title":"签到"
+                        });
+        })
+    </script>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+		<title>书记信箱</title>
+		<style>
+		    div[type=process] .title {
+                display: none;
+            }
+            div[type=process] .LazyAuto0{
+                margin-bottom: 0rem!important;
+            }
+            div[type=process] .tr_input textarea {
+                font-size: 0.8rem!important;
+                padding: 0rem!important;
+                min-height: 6rem!important;
+            }
+            div[type=button] .buttondiv{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                top: 30rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d!important;
+            }
+            div[type=process] .tr_input input::-webkit-input-placeholder {
+                color: #bbbbbb;
+            }
+            div[type=process] .tr_file {
+                background-image: url(../LazyUI/js/inbox/images/fj02.png)!important;
+            }
+            div[type=process] .tr {
+                border-top:none!important;
+            }
+		</style>
+	</head>
+	<body>
+	    <script>
+	         start(function() { 
+	             lazy.setHeader({
+                            "title": "书记信箱",
+                            "rightbtn": [
+                                {
+                                    "icon": "inbox.png",//图片更改
+                                    "text": "",
+                                    "onclick" : function() {
+                                        var isSecretary=lazy.geturlstr("isSecretary")?lazy.geturlstr("isSecretary"):lazy.getParameter("isSecretary");
+                                        var url = djconfig.sjinbox + 'isSecretary='+'isSecretary'; 
+                                        lazy.URLRequest(url, function(data){
+                                            //lazy.openWin1("/dj2/zhibu/inbox.html")
+                                            lazy.openWin("dyboxlb.html")
+                                            //lazy.openWin("dyboxlb.html")
+                                            
+                                        })
+                                    }
+                                }
+                            ],
+                           
+                        });
+                        
+                  
+              var json = [
+              {
+                "id" : "process",
+                "type" : "process",
+                "table" : [{
+                    "type":"input",
+                    "placeholder":"输入信件主题"
+                },{
+                    
+                    "type":"textarea",
+                    "placeholder":"输入信件内容"
+                },{
+                    "type":"image",
+                    "title":"图片",
+                    "httpurl":config.docUpoad
+                }]
+              },
+              {
+                "type":"button",
+                "label":"发送",
+                "onclick":function(){
+                     var arr=getData("process").getArray().table;
+                     
+                     var title=arr[0].value;
+                     var content=arr[1].value;
+                     var arr1=arr[2].value;
+                     //var arr2=arr[3].value;
+                     
+                     
+                     var tpid=[];
+                     var fjid=[];
+                     for(var p=0;p<arr1.length;p++){
+                         tpid.push(arr1[p].annexid)
+                     }
+                     // for(var j=0;j<arr2.length;p++){
+                         // fjid.push(arr1[j].annexid)
+                     // }
+                     if (title == "") {
+                        lazy.alert2("主题不能为空");
+                        return;
+                     }else if (content == "") {
+                        lazy.alert2("内容不能为空");
+                        return;
+                     }
+                     
+                     if(title!=""&&content!=""){
+                           
+                     var urlsave = djconfig.inboxsave+"title="+title+"&content="+content+"&photo="+tpid+"&file="+fjid;
+                     
+                     lazy.URLRequest(urlsave, function(data) {
+                         alert("新增成功");
+                         lazy.openWin("dyboxlb.html")
+                         //lazy.openWin("https://www.baidu.com")
+                     });
+                     }
+                   
+                 }
+                     
+                }]
+                
+//                 
+              // if(lazy.browserType!="ios"||lazy.browserType!="vitoios"){
+                 // json[0].table.push(
+                     // {
+                    // "type":"file",
+                    // "title":"附件"
+                    // //"httpurl":config.docUpoad
+                // }
+                 // );     
+              // }
+              setData(json);
+            
+              })
+	    </script>
+	     
+	</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var json = [
+                        {
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : "#0ec0a9",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '发送消息',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"){
+                                    lazy.close();
+                                }
+                            }
+                        },{
+                            "id" : "process",
+                            "type" : "process",
+                            "table" : [
+                                        {
+                                            "title" : '接收人<span style="font-size:0.6rem; color:#ccc;">(点击头像可以删除)</span>',
+                                            "type" : "people",
+                                            "url" : "tongxunlu.html",
+                                        },{
+                                            "type" : "textarea",
+                                            "placeholder" : "请输入内容",  
+                                            "title" : "消息内容"
+                                        },{
+                                            "type" : "image",
+                                            "title" : "图片",
+                                            "httpurl" : config.docUpoad,
+                                        }/*
+                                        ,{
+                                            "type" : "sound",
+                                            "title" : "录音",
+                                            "httpurl" : config.docUpoad,
+                                        },{
+                                            "type" : "video",
+                                            "title" : "视频",
+                                            "httpurl" : config.docUpoad,
+                                        }*/
+                                        ,{
+                                            "type" : "file",
+                                            "title" : "附件",
+                                            "httpurl" : config.docUpoad,
+                                        }
+                                      ]
+                        },{
+                            "type" : "button",
+                            "label" : "提交",
+                            "onclick" : function() {
+                                var allvalue = getData("process").getArray().table;
+                                var receiver = getarrstr(allvalue[0].value, "id");
+                                var content = allvalue[1].value;
+                                var img = getarrstr(allvalue[2].value, "annexpath");
+                                var audio = "";
+                                var video = "";
+                                /*
+                                try {
+                                    audio = allvalue[3].value.rows[0].path;
+                                    video = allvalue[4].value.rows[0].path;
+                                }catch(e) {
+                                    
+                                }
+                                */
+                                var audiolength = "";
+                                var files = [];
+                                if(allvalue[3].value){
+                                    files = getarrstr(allvalue[3].value, "annexpath");
+                                }
+                                var position = "";
+                                //
+                                if(receiver=="") {
+                                    lazy.alert2("接收人不能为空!");
+                                    return;
+                                }
+                                //
+                                if(content=="" && img=="" && audio=="" && video=="") {
+                                    lazy.alert2("至少有一个不为空!");
+                                    return;
+                                }
+                                var url = config.sendinformation + 'receiver='+receiver+'&content='+content+'&img='+img+'&video='+video+'&audio='+audio+'&files='+files+'&position='+position+'&audiolength='+audiolength;
+                                lazy.URLRequest(url,function(data){
+                                    alert("发送成功！");
+                                    lazy.isAppcan(function() {
+                                        uexWindow.evaluateScript("admin", "0", 'lazy.refresh()');
+                                    }, function(type) {
+                                        lazy.goAdmin(type)
+                                    });  
+                                    // lazy.close();
+                                },function(e){
+                                    lazy.alert2(e);
+                                });
+                                
+                                //alert(JSON.stringify(allvalue));
+                            }
+                        }
+                    ];
+        setData(json, function() {
+             //lazy.setParentJs("setProcessPeople", obj);
+             //{"id":10000110050797,"h1":"刘聪聪","h2":"研发部","icon":"http://192.168.0.52:8080/DDS/file/SYSBOOKDOC/2016/2/70000001788278.jpg"}
+            if(lazy.response("one")) {
+                var obj = JSON.parse(lazy.response("one"));
+                // lazy.setParentJs("setProcessPeople", obj);
+                obj.Iframe = true;
+                window["setProcessPeople"](obj)
+            }
+        });
+           
+    });
+    
+    function getarrstr(arr, key) {
+        if(!arr) return "";
+        if(arr.length < 1) return "";
+        var str = "";
+        for(var i = 0; i < arr.length; i++) {
+            if(i!=0)str += ',';
+            str += arr[i][key];
+        }
+        return str;
+    }
+    </script>
+</html>

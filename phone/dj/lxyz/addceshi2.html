@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=xuanzeti] .ts{
+                height:auto!important;
+                line-height: 1.3rem!important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.bounce();
+            var tp="";
+             var json=[{
+                    "id" : "xuanzeti",
+                    "type" : "xuanzeti",
+                    "content" : [],
+                    "back" : function(arr, index) {
+                        arr=JSON.stringify(arr);
+                        lazy.URLRequest(getIP()+"/party/DJ_Selectrecord/savedayrecord.ht?data="+arr+"&testpaperid="+tp,function(data) {
+                           var str = "答对"+data.newPrimaryKeys.truecount+"题,获得"+data.newPrimaryKeys.score+"分";
+                           alert(str); 
+                            if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }else{
+                                lazy.goBack();
+                              }                    
+                           
+                       },function(e){
+                           alert(e);
+                            if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }else{
+                                lazy.goBack();
+                              } 
+                       })
+                    }
+            }];
+                 var url = getIP()+"/party/DJ_Testquestion/getdayquestions.ht";
+                lazy.URLRequest(url,function(data){
+                    tp=data.newPrimaryKeys.testpaperid;
+                    var data = data.rows;
+                    for(var i=0;i<data.length;i++){
+                          var arrs=[];
+                          arrs.push({
+                                        "key" : data[i].selecta,
+                                        "value" : "a"
+                                    })
+                          arrs.push({
+                                        "key" : data[i].selectb,
+                                        "value" : "b"
+                                    })
+                          if(data[i].selectc){
+                              arrs.push({
+                                        "key" : data[i].selectc,
+                                        "value" : "c"
+                                    })
+                          }
+                          if(data[i].selectd){
+                              arrs.push({
+                                        "key" : data[i].selectd,
+                                        "value" : "d"
+                                    })
+                          }
+                          var s={
+                                    "id" : data[i].id,
+                                    "testanswer":data[i].testanswer,
+                                    "title" : "("+data[i].questiontypename+")"+(i+1)+'.'+data[i].questiontitle,
+                                    "type":data[i].questiontypename,
+                                    "knowpoint":data[i].knowpoint,
+                                    "answer" : arrs,
+                
+                                }
+                         json[0].content.push(s)       
+                      }
+                      json[0].title="共"+(data.length)+"题";
+                       if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '自我测试',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+                      setData(json)
+                },function(e){
+                    alert(e);
+                     if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }else{
+                                lazy.goBack();
+                     } 
+                })
+        });
+    </script>
+</html>

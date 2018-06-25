@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        div[type=xinwenlb] .ping{
+            display: none;
+        }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           var page=1;
+           var status=1;
+           var title=lazy.geturlstr("title")
+           var cls=lazy.geturlstr("cls")
+           if(cls=='zbsjtdj'){
+                lazy.personmessage(function(o){
+                var id=o.rows[0].userId;
+                lazy.URLRequest(getIP()+'/party/Partymember/getuserdetail.ht?userid='+id, function(data) {
+                         if(data.newPrimaryKeys.isadmin==1){
+                                lazy.setHeader({
+                                    "title": title,
+                                    "rightbtn": [
+                                        {
+                                            "text": "新增",
+                                            "onclick" : function() {
+                                                 lazy.openWin("tjcxqd.html?cls="+cls);
+                                            }
+                                        }
+                                    ]
+                                   
+                                });
+                         }else{
+                              lazy.setHeader({
+                                    "title": title
+                                });
+                         }
+                     })
+                 })
+           }else{
+                lazy.setHeader({
+                            "title": title
+                        });
+           }
+           
+
+             var json = [
+         
+                        {
+                            "id" : "xinwenlb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                            
+                        }];
+            if(lazy.browserType=="weixin") {
+                json.splice(0,1);
+            }
+            setData(json,function(){
+                
+                list()
+                
+            });
+            function list(){
+                 if(cls=='zbsjtdj'){
+                      var url = getIP()+"/servicedesk/article/getzbsjtdjlist.ht?"+ 'tags='+cls+'&page='+page+'&rows=10'+"&_time="+new Date().getTime(); 
+                 }else{
+                      var url = djconfig.xinwenlist + 'tags='+cls+'&page='+page+'&rows=10'+"&_time="+new Date().getTime(); 
+                 }
+               
+                lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+                if(arr.length==0&&page==1){
+                    if(!document.getElementsByClassName("zwsjXT")[0])
+                         zwsj =  lazy.datanull("还没有数据哦…",null)
+                     
+                }else{
+                for(var i = 0; i < arr.length; i++) {
+                    
+                    var d={
+                            "icon" : arr[i].imgUrl?lazy.getImagePx(arr[i].imgUrl, 180, 120):"../LazyUI/images/zhibu/default.jpg",
+                            "h1" : arr[i].title, 
+                            "yue" : arr[i].count,
+                            "imgsc" :  arr[i].imgUrl, 
+                            "user" : arr[i].seoTitle,
+                            "date" : lazy.autoFormat(arr[i].addTime),
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("cxqdid",data.id)
+                                lazy.setParameter("cxqdimg",data.imgsc)
+                                lazy.openWin("cxqdxq.html?title="+title+"&cls="+cls);
+                                
+                            }
+                           }
+                        getData("xinwenlb").add(d);
+                    
+                    
+                        }//for
+                    }
+                        page++;
+                        status=0;
+                        lazy.closeBounce();
+                    }, function(e) {
+                    //lazy.
+                    lazy.closeBounce();
+                    alert(e);
+                },status);
+            }
+            lazy.bounce({
+                   "up" : function() {
+                       list();
+                   } 
+                });
+            
+        })
+        
+    </script>
+</html>

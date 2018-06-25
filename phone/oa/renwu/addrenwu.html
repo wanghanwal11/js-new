@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body {
+                background-color: #efeef3 !important;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+            div[type=process] input{
+                text-align: right;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var json = [
+                        {
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '新建任务',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "right" : [lazy.url + "LazyUI/js/headertoolbar/dui.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close();
+                                }
+                                if(name=="right"){
+                                    var arr = getData("process").getArray().table;
+                                    var title = arr[0].value;
+                                    var receid = [];
+                                    if(arr[1].value.length>0){
+                                        var people = arr[1].value;
+                                        for(var i=0;i<people.length;i++){
+                                            receid.push(people[i].id)
+                                        }
+                                    }
+                                    var content = arr[2].value;
+                                    var endtime = arr[3].value;
+                                    var grade = ""; var state = "";
+                                    if(arr[4].value=="一级") grade = "1";
+                                    if(arr[4].value=="二级") grade = "2";
+                                    if(arr[4].value=="三级") grade = "3";
+                                    if(arr[4].value=="四级") grade = "4";
+                                    if(arr[5].value=="一般") state = "1";
+                                    if(arr[5].value=="紧急") state = "0";
+                                    var img = [];
+                                    if(arr[6].value&&arr[6].value.length>0){
+                                        var imgarr = arr[6].value;
+                                        for(var i=0;i<imgarr.length;i++){
+                                            img.push(imgarr[i].annexid)
+                                        }
+                                    }
+                                    var file = [];
+                                    if(arr[7].value&&arr[7].value.length>0){
+                                        var filearr = arr[7].value;
+                                        for(var i=0;i<filearr.length;i++){
+                                            file.push(filearr[i].annexid)
+                                        }
+                                    }
+                                    if(title=="") lazy.alert2("标题不能为空");
+                                    else if(receid.length==0) lazy.alert2("负责人不能为空");
+                                    else if(content=="") lazy.alert2("任务内容不能为空");
+                                    else if(endtime=="") lazy.alert2("截至日期不能为空");
+                                    else if(grade=="") lazy.alert2("请选择任务等级");
+                                    else if(state=="") lazy.alert2("请选择任务紧急程度")
+                                    else {
+                                        var url = config.worktasksave+"pid=0&title="+title+"&receid="+receid+"&content="+content+"&endtime="+endtime+"&grade="+grade+"&state="+state;
+                                        if(img.length>0) url+="&img="+img;
+                                        if(file.length>0) url+="&files="+file;
+                                        lazy.URLRequest(url,function(){
+                                            alert("新增成功");
+                                            lazy.openWin("renwu.html");
+                                        })
+                                    }
+                                }
+                            }
+                        },{
+                            "id" : "process",
+                            "type" : "process",
+                            "table" : [
+                                        
+                                        {
+                                            "title" : "标题(必填)",
+                                            "placeholder" : "请输入",
+                                        },
+                                        {
+                                            "title" :　"负责人(必填)",
+                                            "type" : "overtime",
+                                            "url" : "peoplelist.html"
+                                        },
+                                        {
+                                            "title" : "任务详情(必填)",
+                                            "type" : "textarea"
+                                        },
+                                        {
+                                            "type" : "date",
+                                            "placeholder" : "请选择（必填）",  
+                                            "title" : "截止日期",
+                                        },
+                                        {
+                                            "type" : "select",
+                                            "placeholder" : "请选择（必填）",
+                                            "option" : [
+                                                            {"html":"一级", "value" : "1"},
+                                                            {"html":"二级", "value" : "2"},
+                                                            {"html":"三级", "value" : "3"},
+                                                            {"html":"四级", "value" : "4"}
+                                                       ],
+                                            "title" : "任务等级",
+                                        },
+                                        {
+                                            "type" : "select",
+                                            "placeholder" : "请选择（必填）",
+                                            "option" : [
+                                                            {"html":"一般", "value" : "0"},
+                                                            {"html":"紧急", "value" : "1"},
+                                                       ],
+                                            "title" : "紧急程度",
+                                        },
+                                        {
+                                            "type" : "image",
+                                            "title" : "图片",
+                                            "httpurl" : config.docUpoad,
+                                        },
+                                        {
+                                            "type" : "file",
+                                            "title" : "附件",
+                                            "httpurl" : config.docUpoad,
+                                        }
+                                      ]
+                        }
+                    ];
+        setData(json);
+           
+    });
+    </script>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <style>
+        body{
+            background-color: #fff !important;
+        }
+    </style>
+    <body></body>
+    <script>
+        start(function() {
+            lazy.setHeader({"title": "党史上的今天"});
+            var id = lazy.getParameter("id");
+            var url = djconfig.dsxq + 'id='+id;
+                lazy.URLRequest(url, function(data){
+                    
+                    
+                var arr = data.rows[0];
+                
+                var json = [{
+                            "id" : "dsxq",
+                            "type" : "dsxq",
+                            "h1":arr.title,
+                            "date":arr.histime,
+                            "content":arr.content,                      
+                        }];
+                setData(json)
+            }) 
+            
+            
+        })
+        
+    </script>
+</html>

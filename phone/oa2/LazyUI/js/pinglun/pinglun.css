@@ -1,0 +1,135 @@
+body[type=body] div[type=pinglun]{
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    background-color: #fff;
+}
+div[type=pinglun] .table{
+    -webkit-box-sizing:border-box;
+    position:relative;
+    width: 100%;
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+}
+div[type=pinglun] p{
+    margin: 0;
+}
+
+div[type=pinglun] .allpinglun{
+    -webkit-box-sizing:border-box;
+    width: 100%;
+    height: 2rem;
+    line-height:2rem;
+    width: 100%;
+    border-bottom: 1px solid #eeeeee;
+}
+div[type=pinglun] .allpinglun .titleIcon{
+    float:left;
+    width: 1.2rem;
+    height:1.2rem;
+    margin: 0.5rem 0 0 0.5rem;
+    background-image: url("pl.png");
+    background-size: cover;
+}
+
+div[type=pinglun] .allpinglun .titleP{
+    font-size:0.9rem;
+    color:#343434;
+    margin-left:0.5rem;    
+}
+
+/*头像*/
+div[type=pinglun] .touxiang{
+    float: left;
+    width: 17%;
+    min-height:2rem;
+}
+div[type=pinglun] .icon{
+}
+div[type=pinglun] .li{
+    width: 100%;
+    overflow: hidden;
+    margin-top: 1.5rem;
+}
+div[type=pinglun] .touxiang .iconimg{
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left:0.3rem;
+    border-radius: 2.5rem;
+}
+div[type=pinglun] .icontitle1 {
+    margin: auto;
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    border-radius: 2.5rem;
+    text-align: center;
+    color: #fff;
+}
+
+
+
+div[type=pinglun] .ul{
+    margin-bottom: 2.5rem;
+}
+/*名字*/
+div[type=pinglun] .mingzi{
+    float: left;
+    width:78%;
+    word-wrap:break-word; 
+    margin-left: 0.3rem;
+}
+div[type=pinglun] .mingzi .li_p1{
+    font-size: 0.8rem;
+    color: #25507b;
+}
+div[type=pinglun] .mingzi .li_p2{
+    font-size: 0.7rem;
+    color: #999999;
+    margin-top: 0.3rem;
+}
+div[type=pinglun] .mingzi  .li_p3{
+    font-size: 0.8rem;
+    color: #333333;
+    margin-top: 0.3rem;
+}
+/*发送*/
+div[type=pinglun] .send{
+    position: fixed;
+    width:100%;
+    height:2.5rem;
+    background-color:#f4f4f4;
+    bottom:0;
+    left: 0;
+}
+div[type=pinglun] .send input{
+    border:none;
+    outline: none;
+    margin-top: 0.5rem;
+    border-radius:0.3rem;
+    font-size:0.8rem;
+    height:1.5rem;
+    line-height: 1.5rem;
+}
+
+div[type=pinglun] .send .input1::placeholder {
+    color:#c6c6c6;
+}
+div[type=pinglun] .send .input1{
+    width: 70%;
+    float: left;
+    margin-left: 2%;
+    padding-left: 0.3rem;
+}
+div[type=pinglun] .send .input2{
+    float:right;
+    width: 20%;
+    margin-right: 2%;
+    background-color: #3cc398;
+    color: #fff;
+    text-align: center;
+}

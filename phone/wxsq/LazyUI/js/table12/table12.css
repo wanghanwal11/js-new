@@ -1,0 +1,100 @@
+body[type=body] div[type=table12]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+    margin-bottom: 1rem;
+    overflow:hidden;
+    background-color: #fff;
+}
+div[type=table12] .title{
+    padding: 0.5rem 1rem;
+    color: #898989;
+    font-size:0.9rem;
+    background-image: url('right.png');
+    background-position: center right 0.5rem;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+}
+div[type=table12] .icons{
+    width: 2rem;
+    height:2rem;
+    vertical-align: middle;
+    float: left;
+    margin-right: 0.5rem;
+}
+div[type=table12] .table {
+    width: 100%;
+    height: auto;
+    overflow:hidden;
+    border-top: 1px solid #f1f1f1;
+}
+div[type=table12] .tr {
+    width: 100%;
+    height: auto;
+}
+div[type=table12] .td {
+    position:relative;
+    text-align: center;
+    width: 50%;
+    float: left;
+    color: #000;
+    -webkit-box-sizing:border-box;
+   padding:0.5rem;
+   border-bottom: 1px solid #efefef;
+}
+div[type=table12] .td:last-child {
+    border-right: none;
+}
+div[type=table12] .icon {
+    width: 2.6rem; 
+    height: 2.6rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2.5rem;
+    margin-left:0.5rem;
+}
+div[type=table12] .label span{
+    font-size: 1rem;
+}
+div[type=table12] .label {
+    height: 2.6rem;
+    line-height: 2.6rem;
+    margin-left:0.5rem;
+    overflow:hidden;
+    text-overflow:ellipsis;
+white-space: nowrap;
+}
+div[type=table12] .tdmore {
+    position:relative;
+    text-align: center;
+    width: 50%;
+    float: left;
+    color: #000;
+    -webkit-box-sizing:border-box;
+   padding:0.5rem;
+  
+}
+div[type=table12] .labelmore {
+    height: 2rem;
+    line-height: 2rem;
+    color:#3399ff;
+    margin-left: 0.5rem;
+}
+div[type=table12] .more{
+    position: absolute;
+    top: 9.9rem;
+    left: 51%;
+    z-index: 20;
+    background-color: #fff;
+}
+div[type=table12] .xian{
+    width:1px;
+    height:1.6rem;
+    background-color: #efefef;
+        position: absolute;
+        left: 100%;
+    top: 1rem;
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=headerbutton] .tr{
+                background-color: #3cc397!important;
+            }
+            div[type=table9] .label{
+                 height: 1.5rem!important;
+                 line-height: 1.5rem!important;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var mark = "";
+        if(lazy.getParameter("mark")){
+            mark = lazy.getParameter("mark");
+        }
+        if(mark=="dj") lazy.setHeaderHide()
+        var colorarr = ["#5fc9f7", "#f75e5d", "#77bf70", "#ff943d", "#f6bf27", "#5c98f5", "#9a89ba"];
+        lazy.setParameter("Bgcolor","#3cc397");
+        var json = [
+            {
+                "id" : "headerbutton",
+                "type" : "headerbutton",
+                "table" : [
+                    {
+                        "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                        "title" : "我收到的",
+                        "onclick" : function() {
+                            //getData("headerbutton").setPoint(1, 5);
+                            lazy.openWin("loglist.html");
+                            //lazy.alert2("配置中");
+                        }
+                    },{
+                        "icon" : lazy.url + "LazyUI/images/shenpi/dwsp.png",
+                        "title" : "我提交的",
+                        "onclick" : function() {
+                            //getData("headerbutton").setPoint(0);
+                            lazy.openWin("myloglist.html");
+                        }
+                    }
+                 ]
+            },
+            {
+                "id" : "table9",
+                "type" : "table9",
+                "col" : 3,
+                "table" : [
+                            {
+                                "icon" : lazy.url + "LazyUI/images/rizhi/rb.png",
+                                "label" : "日报",
+                                "color" : colorarr[0],
+                                "onclick" : function() {
+                                    lazy.openWin("addrizhi.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/rizhi/zb.png",
+                                "label" : "周报",
+                                "color" : colorarr[1],
+                                "onclick" : function() {
+                                    //lazy.alert2("配置中");
+                                    lazy.openWin("addzhoubao.html");
+                                }
+                            },{
+                                "icon" : lazy.url + "LazyUI/images/rizhi/yb.png",
+                                "label" : "月报",
+                                "color" : colorarr[2],
+                                "onclick" : function() {
+                                    //lazy.alert2("配置中");
+                                    lazy.openWin("addyuebao.html");
+                                }
+                            },
+                            // {
+                                // "icon" : lazy.url + "LazyUI/images/shenpi/jia.png",
+                                // "label" : "添加模版",
+                                // "class" : "new",
+                                // "onclick" : function() {
+                                    // lazy.openWin("shenpilist.html");
+                                // }
+                            // }
+                        ]
+            }
+        ];
+        json.unshift({
+            "id" : "headertoolbar",
+            "type" : "headertoolbar",
+            "backgroundColor" : lazy.getParameter("Bgcolor"),
+            "color" : "#fff",
+            "border" : "none",
+            "title" : '日志',
+            "left" : mark=="dj"?[lazy.url + "LazyUI/js/headertoolbar/jian1.png", lazy.url + "LazyUI/js/headertoolbar/cha1.png"]:[lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+            "select" : function(name, index,length) {
+                if(name=="left"){
+                    if(length==1){
+                        lazy.close();
+                    }else{
+                        if(index==0) {
+                            lazy.goBack();
+                        }else {
+                            lazy.close();
+                        }
+                    }
+                }
+            }
+        })
+        setData(json)
+    });
+    </script>
+</html>

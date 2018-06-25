@@ -1,0 +1,14 @@
+div[type=textareanum1]{
+	-webkit-box-sizing:border-box;
+	position:relative;
+	width: 100%;
+	height: auto;
+	padding: 0.83rem;
+}
+div[type=textareanum1] .textarea {
+    -webkit-box-sizing:border-box;
+    width:100%;
+    min-height: 15rem;
+    padding: 0.83rem;
+    font-size: 0.8rem;
+}

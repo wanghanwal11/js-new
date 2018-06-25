@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+    </head>
+    <body></body>
+    <script>
+        
+        start(function() {
+            lazy.demo(); 
+                var json = [ 
+                {
+                    "type" : "wd",
+                    "src" : "LazyUI/js/wd/images/wd1.jpg",
+                    "table" : [{
+                        "tp" : "LazyUI/js/wd/images/jifen.png",
+                        "title" : "我的积分",
+                        "onclick" : function(data) {
+                         lazy.openWin("jf/wdjf.html");
+                                
+                     }
+                    },{
+                        "tp" : "LazyUI/js/wd/images/info.png",
+                        "title" : "个人信息",
+                         "onclick" : function(data) {
+                         lazy.openWin("wdxq.html");
+                                
+                     }
+                    },{
+                        "tp" : "LazyUI/js/wd/images/jubao.png",
+                        "title" : "我的举报",
+                         "onclick" : function(data) {
+                         lazy.openWin("jb/jblb.html");
+                                
+                     }
+                    },{
+                        "tp" : "LazyUI/js/wd/images/jianyan.png",
+                        "title" : "我的谏言",
+                         "onclick" : function(data) {
+                         lazy.openWin("jy/jyjl2.html");
+                                
+                     }
+                    },{
+                        "tp" : "LazyUI/js/wd/images/fen.png",
+                        "title" : "分享",
+                         "onclick" : function(data) {
+                         lazy.alert2("配置中...");
+                                
+                     }
+                    },{
+                        "tp" : "LazyUI/js/wd/images/shezhi.png",
+                        "title" : "设置",
+                         "onclick" : function(data) {
+                              if(lazy.browserType == "vitoios") {
+                                  lazy.close();
+                              }else if(lazy.browserType == "vitoandroid") {
+                                  window.main.start();
+                              }else {
+                                  lazy.openWin("../wx_login.html");
+                              }
+                        }
+                    }]
+                },{
+                                "type":"div",
+                                "style":{"height":"4rem","background-color": "#efefef"}
+                        },
+                {
+                                           "id" : "footertoolbar",
+                                           "type" : "footertoolbar",
+                                           "name" : ["首页", "消息", "积分", "我"],
+                                           "n" : 3,
+                                           "icon" : ["sy", "xx", "jf", "w"],
+                                           "select" : function(name, i) {
+                                               switch(name) {
+                                                   case "首页" :
+                                                        lazy.openWin("index.html");
+                                                   break;
+                                                   case "消息" :
+                                                        lazy.openWin("tslb.html");
+                                                   break;
+                                                   case "积分" :
+                                                        lazy.openWin("jf/jf.html");
+                                                   break;
+                                                   case "我" :
+                                                       lazy.openWin("wd.html");
+                                                   break;
+                                               }
+                                           }
+                                        }
+                ]
+                setData(json)
+        })
+
+    </script>
+</html>

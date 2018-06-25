@@ -1,0 +1,36 @@
+ /*
+ * login_content
+ * */
+ /*
+[winname=login_content]{
+    background: url(../images/djbg.jpg);
+    background-size: cover;
+    padding: 0.83rem;
+}
+[winname=login_content] div[type=imglabel1] {
+    margin: 4.8rem 0 0.9rem 0;
+}*/
+ /*
+ * backgroundcolor
+ * */
+.bcolor0 {
+    background-color: #5fc9f7;
+}
+.bcolor1 {
+    background-color: #f75e5d;
+}
+.bcolor2 {
+    background-color: #77bf70;
+}
+.bcolor3 {
+    background-color: #ff943d;
+}
+.bcolor4 {
+    background-color: #f6bf27;
+}
+.bcolor5 {
+    background-color: #5c98f5;
+}
+.bcolor6 {
+    background-color: #9a89ba;
+}

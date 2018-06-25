@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>社区活动</title>
+<style type="text/css">
+        body{
+            background-color: #f7f8fa !important;
+        }
+       img{
+           width: 100% !important;
+       } 
+      
+       #hdname{
+           padding:0.8rem !important;
+           /*border-bottom: 1px solid #efefef;*/
+           background-color: #ffffff;
+       }
+       #hdname span{
+           color:#202227;
+           font-size:1rem;
+       }
+       #hdtime{
+           padding:0 0.8rem 0.8rem 0.8rem!important;
+           /*border-bottom: 1px solid #efefef;*/
+           background-color: #ffffff;
+       }
+       #hdtime span{
+           color:#999999;
+           font-size:1rem;
+       }  
+       #hdtr1 .tr{
+           border-bottom: 0px !important;
+           padding-left:1rem !important;
+       }
+       #hdtr1 .jf{
+           width: auto !important;
+           background-size: 1rem !important;
+           padding-left: 2rem !important;
+       }
+       #hdtr1 .jf span{
+           color: #63676e !important;
+           font-size: 1rem;
+       }
+       #hdtr1 .text {
+           display: none;
+       }
+       #hdaddress .table{
+           margin-bottom: 0 !important
+       }
+       #hdaddress .tr{
+           border-bottom: 0 !important;
+           padding:1rem !important;
+       }
+       #hdaddress .jf {
+            width: auto !important;
+            padding-left: 0rem !important;
+        }
+        #hdaddress .jf span{
+           color: #515255 !important;
+           font-size:1rem;
+       }
+       #hdaddress .text {
+           background-size: 1.2rem !important;
+       }
+       #hdaddress{
+           margin-top: 1rem;
+       }
+       #hdtel{
+           border-top:1px solid #efefef;
+       }
+       #hdtel .table{
+           margin-bottom: 0 !important
+       }
+       #hdtel .tr{
+           border-bottom: 0 !important;
+           padding:1rem !important;
+       }
+       #hdtel .jf {
+            width: auto !important;
+            padding-left: 0rem !important;
+        }
+        #hdtel .jf span{
+           color: #202227 !important;
+           font-size:1rem;
+       }
+       #hdtel .text {
+           background-size: 1.2rem !important;
+       }
+       #hdcontent{
+           margin-top: 1rem;
+       }
+       #button{
+           position:fixed !important;
+           bottom:0.5rem !important;
+           z-index:3;
+       }
+       #button .button_a{
+           background-color: #ffb401;
+           border-radius: 4px !important;
+       }
+       #commentlist{
+           margin-top: 1rem;
+           margin-bottom: 3rem;
+       }
+       #datanull {
+            text-align: center;
+            padding: 1rem;
+            color: #666666;
+        }
+        
+        #label{
+           background-color: #ffffff;
+           color:#202227;
+           line-height:2rem;
+           position: fixed;
+           top:0rem;
+           z-index: 10;
+           /*opacity:0;*/
+          display: none;
+       }
+       #label{
+          font-size:1rem !important;
+       }
+       .top{
+           width:3rem;
+           height:3rem;
+       }
+       .backtoTop{
+           z-index:10;
+           position:fixed;
+           bottom:3rem;
+           right:1rem;
+           width:3rem;
+           height:4rem;
+           border-radius: 2rem;
+           background-image: url('../LazyUI/images/huodong/backtoTop.png');
+           background-repeat: no-repeat;
+           background-size: 3rem;
+           display: none;
+       }
+       
+</style>
+</head>
+<body>
+    <div class ="backtoTop">
+        
+    </div>
+    <script>
+        start(function() {
+            
+            lazy.clearCache()
+            var isPageHide = false; 
+          window.addEventListener('pageshow', function () { 
+            if (isPageHide) { 
+              window.location.reload(); 
+            } 
+          }); 
+          window.addEventListener('pagehide', function () { 
+            isPageHide = true; 
+          }); 
+          if(lazy.browserType=='weixin'){
+                var json = [];
+                var bfscrolltop;
+                var id = lazy.geturlstr("id")?lazy.geturlstr("id"):lazy.getParameter("id");
+                var openid = lazy.geturlstr("openid")?lazy.geturlstr("openid"):lazy.getParameter("openid");
+                var initid = lazy.geturlstr("initid")?lazy.geturlstr("initid"):lazy.getParameter("initid");
+                var isshare = lazy.geturlstr("isshare")?lazy.geturlstr("isshare"):false;
+                var isBindWx = '0';
+                var isLoadComplete = 1; //点赞
+                
+                lazy.setParameter("id",id)
+                lazy.setParameter("openid",openid)
+                lazy.setParameter("initid",initid)
+                
+                //alert(window.location.href)
+                //id = '3557750273967104'
+                    if(!openid || isshare){
+                        login()
+                    }else{
+                        lazy.loading(0,'加载中...')
+                        getUserInfo()
+                    }
+
+                    var enroll = false; // 是否已报名
+                    var communityid = "";
+                    var communitytype = "";
+                    var username,headpicture;
+                    /*if(lazy.getParameter("gb")==1){
+                            GoBackEvent = function() {
+                               
+                               wx.closeWindow();
+                            }
+                            lazy.setGoBack();
+                   }
+                   lazy.setParameter("gb",0)*/
+                   lazy.setParameter("delLazy",1)
+                   function loadData(){
+                       
+                       var url = getIP()+"/cmy/activity/cmyactivity/getByWeixin?id="+id+"&openid="+openid+"&initid="+initid;
+                       lazy.GET(url,function(data){
+                           
+                           
+                           lazy.loadWxJs(function(){
+                             setTimeout(function(){
+                               lazy.closeLoading()
+                               data = data.rows[0];
+                               /*时间处理*/
+                                var time1 = lazy.format(data.starttime,'yyyy-MM-dd HH:mm');
+                                var timestr1 = time1.split(' ');
+                                if(timestr1[1].substring(0,2)=='00') time1 = timestr1[0];
+                                
+                                var time2 = lazy.format(data.endtime,'yyyy-MM-dd HH:mm');
+                                var timestr2 = time2.split(' ');
+                                if(timestr2[1].substring(0,2)=='00') time2 = timestr2[0];
+                                
+                                var time = ""
+                                if(time1 == time2){
+                                    time = time1
+                                }else{
+                                    time = time1+" 至   "+time2
+                                }
+                                var objshare = {
+                                    title:data.title,
+                                    url:location.protocol+'//'+location.host+'/wechat/huodong/hdxq.html?id='+id+'&initid='+initid+'&isshare=true',
+                                    img:data.cover,
+                                    summary:data.summary
+                                }
+                                //alert('share:'+objshare.url)
+                               lazy.share(objshare)
+                               lazy.setParameter('objshare',objshare)
+                                enroll = data.enroll
+                                var date = new Date();
+                                var date2 = new Date(data.starttime);
+                                var date3 = new Date(data.endtime);
+                               json = [{
+                                       "id":"banner",
+                                       "type" : "imgmapdiv2",
+                                       "src" : data.cover?lazy.getImagePx(data.cover, 480):'',
+                                       "rect" : [],
+                                       "label":date>date3?1:0
+                                   },{
+                                        id:'label',
+                                        type : 'label',
+                                        text : data.title,
+                                   },{
+                                       "id":"hdname",
+                                       "type":"label",
+                                       "text":data.title
+                                   },{
+                                       "id":"hdtime",
+                                       "type":"label",
+                                       "text":"活动日期："+time
+                                   }/*,{
+                                       "id":"hdtr1",
+                                       "type" : "wode",
+                                       "style":{"margin-top":"0.8rem"},
+                                       "table" : [{
+                                            "h1":"发布人：王雪菲",
+                                            "icon":"../LazyUI/images/huodong/people.png",
+                                            "onclick" : function(data) {
+                                              alert(2)
+                                            }
+                                        },{
+                                            "h1":"2017-08-01",
+                                            "icon":"../LazyUI/images/huodong/time.png",
+                                            "onclick" : function(data) {
+                                             alert(1)
+                                            }
+                                        }]
+                                   }*/,{
+                                       "id":"hdaddress",
+                                       "type" : "wode",
+                                       "table" : [{
+                                            "h1":data.address,
+                                            "right":"../LazyUI/images/huodong/address1.png",
+                                            "gps":data.coordinate,
+                                            "onclick" : function(data) {
+                                              lazy.openWin(encodeURI("hddw.html?gps="+data.gps))
+                                            }
+                                        }]
+                                   },{
+                                       "id":"hdtel",
+                                       "type" : "wode",
+                                       "table" : [{
+                                            "h1":"活动联系人："+data.contact+" "+data.tel,
+                                            "right":"../LazyUI/images/huodong/phone.png",
+                                            "tel":data.tel,
+                                            "onclick" : function(data) {
+                                             //alert(1)
+                                             window.location.href = 'tel://'+data.tel;
+                                            }
+                                        }]
+                                   
+                                   },{
+                                        "id" : "hdcontent",
+                                        "type" : "div2",
+                                        //"text" : lazy.clearStr(data.content,3),
+                                        "text": data.content,
+                                        //"text":'<p style=\'white-space:normal;\'>\r\n   <strong>一、诉求件处理流程：</strong>\r\n</p>\r\n<span style=\'white-space:normal;\'>市民发送诉求件→“民情通呼叫中心”转发诉求件至承办单位→承办单位接收诉求件后及时核实处理→承办单位回复办理意见答复市民→“民情通呼叫中心”回访市民</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'><strong>二、诉求件办理时限：</strong></span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>1.紧急事件办理时限：正常工作日24小时内。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>2.一般事件办理时限：正常工作日5个工作日内。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'><strong>三、注意事项：</strong></span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>1.投诉举报类诉求请市民留下真实联系方式，以便进一步了解情况，市民的电话号码和IP地址联系方式将受到保护。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>2.市民需承担因您的诉求件内容而直接或间接引起的法律责任。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>3.请您在发表诉求时使用文明用语，含有不文明用语的诉求件，系统不予受理。</span>'
+                                   },{
+                                       "id":"commentbox",
+                                       "type" : "commentbox",
+                                       "divhide":true,
+                                       "send" : function(str) {
+                                           /*lazy.URLRequest(djconfig.pinglun+"activityid="+huodongid+"&content="+str+"&type="+type, function(data) {
+                                               lazy.refresh();
+                                           })*/
+                                          getData("commentbox").hide()
+                                          if(getData("button")){
+                                              getData("button").show()
+                                          }
+                                          if(!str){
+                                              lazy.alert2('您没留下任何评论哦~');
+                                              return;
+                                              
+                                          }
+                                          saveJudge(str)
+                                          setTimeout(function(){
+                                              document.body.scrollTop = bfscrolltop;
+                                          },400)
+                                          
+                                       },
+                                       "blur": function(){
+                                            getData("commentbox").hide()
+                                            if(getData("button")){
+                                                getData("button").show()
+                                            }
+                                       }
+                                   },{
+                                       "id":"commentlist",
+                                       "type":"commentlist",
+                                       "title":true,
+                                       "table":[],
+                                       "editclick":function(){
+                                           getData("commentbox").show()
+                                           bfscrolltop = document.body.scrollTop;
+                                           if(getData("button")){
+                                               getData("button").hide()
+                                           }
+                                       },
+                                       "moreclick":function(){
+                                           lazy.openWin("hdpinglun.html?id="+id+"&openid="+openid+"&initid="+initid+'&username='+username+'&headpicture='+headpicture)
+                                       }
+                                   }];
+                                   //判断是否可以报名
+                                   /* enroll = data.enroll
+                                   var date = new Date();
+                                    var date2 = new Date(data.starttime);
+                                    var date3 = new Date(data.endtime);*/
+                                    if(date.getTime() < date3.getTime()){
+                                        var button = {
+                                            id:'button',
+                                            type : 'button',
+                                            label : enroll?'取消报名':'报名',
+                                            onclick : function() {
+                                                if(enroll){
+                                                    cancelEnroll()
+                                                }else{
+                                                    enrollActivity()
+                                                    //lazy.openWin('bminfo.html?id='+id+'&openid='+openid+'&initid='+initid)
+                                                }
+                                            }
+                                       }
+                                       var shadow = {
+                                           id:'shadow',
+                                           type : 'shadow',
+                                           height:'3.5rem',
+                                           color:'rgba(255,255,255,0.8)'
+                                       }
+                                       json.push(button)
+                                       json.push(shadow)
+                                    }
+                                    /*if(date.getTime() > date2.getTime() && date.getTime() < date3.getTime()){
+                                        var button = {
+                                            id:'button',
+                                            type : 'button',
+                                            label : '活动已开始',
+                                            onclick : function() {
+                                                lazy.alert2("活动已开始，快去参加吧")
+                                            }
+                                       }
+                                       json.push(button)
+                                    } else if(date.getTime() < date3.getTime()){
+                                        var button = {
+                                            id:'button',
+                                            type : 'button',
+                                            label : enroll?'取消报名':'报名',
+                                            onclick : function() {
+                                                if(enroll){
+                                                    cancelEnroll()
+                                                }else{
+                                                    enrollActivity()
+                                                }
+                                            }
+                                       }
+                                       json.push(button)
+                                    }*/
+                                    /*var button = {
+                                            id:'button',
+                                            type : 'button',
+                                            label : enroll?'取消报名':'报名',
+                                            onclick : function() {
+                                                if(enroll){
+                                                    cancelEnroll()
+                                                }else{
+                                                    enrollActivity()
+                                                }
+                                                
+                                            }
+                                       }
+                                       json.push(button)*/
+                                      
+                                setData(json,function(){
+                                    var top = document.getElementsByClassName("backtoTop")[0];
+                                    top.onclick = function(){
+                                        document.documentElement.scrollTop = document.body.scrollTop =0;
+                                    }
+                                     getJudgeList()
+                                     document.body.addEventListener("touchmove", function(){
+                                                getData("commentbox").hide()
+                                                if(getData("button"))getData("button").show()
+                                        });
+                                     /*document.body.onclick = function(){
+                                         getData("commentbox").hide()
+                                         if(getData("button"))getData("button").show()
+                                     }*/
+                                        var label = document.getElementById("label")
+                                        var banner = document.getElementsByClassName("banner2")[0]
+                                        var fontsize = lazy.fontSize;
+                                        var height = fontsize*14
+                                        var minHeight = fontsize*10;
+                                        var offsetHeight = height - minHeight;
+                                        var backtoTop = document.getElementsByClassName("backtoTop")[0];
+                                        var labelHeight = label.style.height;
+                                       
+                                        window.onscroll = function () { 
+                                            var wScrollY = window.scrollY; // 当前滚动条位置    
+                                            var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）    
+                                            var bScrollH = document.body.scrollHeight; // 滚动条总高度        
+                                            
+                                                backtoTop.style.display = 'block'                          
+                                             //console.log(window.screenTop)
+                                             //console.log(document.documentElement.scrollTop)
+                                             //console.log(document.body.scrollTop)
+                                             /*if(document.body.scrollTop<=300)label.style.opacity = document.body.scrollTop/300;
+                                             
+                                             if (wScrollY + wInnerH >= bScrollH) {      
+                                                label.style.opacity = 1;
+                                            }   
+                                             
+                                             if(document.body.scrollTop<=offsetHeight){
+                                                // banner.style.height = (height-document.body.scrollTop)+'px';
+                                                 label.style.top = (height-document.body.scrollTop-labelHeight)+'px';
+                                             }*/
+                                            
+                                             if(document.body.scrollTop<(window.screen.height/2)){
+                                                 backtoTop.style.display = 'none'
+                                             }
+                                            if(document.body.scrollTop>height){
+                                                 label.style.display="block"
+                                             }else{
+                                                 label.style.display="none"
+                                             }
+                                             //document.body.clientHeight 
+                                             
+                                         }
+                                     
+                                })
+                            },500)//延时一下
+                          })//loadwx
+                       },function(e){
+                           lazy.alert2("错误信息!:"+e);
+                       },null)
+                      //})//loadwx
+                   }
+                 }else{
+                     //不是微信浏览器
+                     if(!document.getElementsByClassName("zwsjXT")[0]){
+                        lazy.datanull2(document.getElementsByClassName("table")[0],"../LazyUI/images/datanull4.png",20)
+                     }
+                 }
+               ////查询用户信息
+               function getPersonInfo(){
+                 var url1 = getIP()+"/wx/api/wx/getweixinuserinfo?openid="+openid+"&initid="+initid;
+                    lazy.GET(url1,function(_data){
+                        
+                         if(_data.rows.length>0){
+                           
+                            realname = _data.rows[0].realname
+                            phone = _data.rows[0].mobile
+                            if(phone&&realname){
+                                lazy.openWin('bmsuccess.html?initid='+initid+'&openid='+openid)
+                            }else{
+                                lazy.openWin('hdbm2.html?initid='+initid+'&openid='+openid)
+                            }
+                             
+                        }else{
+                            loadData(0)
+                        }
+                   
+                    },function(e){
+                        lazy.alert2("错误信息!:"+e);
+                    },null)
+                }
+               /*报名和取消报名*/
+               function enrollActivity(){
+                   var url = getIP()+"/cmy/activity/cmyactivitysign/enroll?activityid="+id+"&openid="+openid+"&initid="+initid;
+                   lazy.GET(url,function(data){
+                       enroll = true;
+                       var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+                       getPersonInfo()
+                       /*lazy.alert3("报名成功", "非常感谢您的参与，请准时参加活动哦。",{
+                            yesfun:function(){
+                                if(isBindWx == '0'){
+                                    lazy.openWin('bmsuccess2.html?initid='+initid)
+                                }else{
+                                    lazy.openWin('bmsuccess.html?initid='+initid)
+                                }
+                            }
+                        });*/
+                   },function(e){
+                       lazy.alert2(e);
+                   },0)   
+                   
+               }
+               function cancelEnroll(){
+                   var url = getIP()+"/cmy/activity/cmyactivitysign/cancelEnroll?activityid="+id+"&openid="+openid+"&initid="+initid;
+                   lazy.GET(url,function(data){
+                       enroll = false;
+                       lazy.alert2("取消报名成功")
+                       var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='报名'
+                   },function(e){
+                       lazy.alert2(e);
+                   },0)   
+                   
+               }
+               /*评论列表*/
+              function getJudgeList(){
+                   var url = getIP()+"/cmy/activity/cmyactivityqaa/getList?page=1&rows=10&activityid="+id+"&openid="+openid+"&initid="+initid;
+                   lazy.GET(url,function(data){
+                       
+                       if(data.total>9){
+                           getData('commentlist').showmore();
+                          
+                       }
+                      data = data.rows;
+                      if(data.length == 0){
+                          //alert(1)
+                          getData("commentlist").datanull(true)
+                      }else{
+                           getData("commentlist").datanull(false)
+                           getData("commentlist").clean()
+                      }
+                      var length = data.length>3?3:data.length;
+                      for(var i=0; i<data.length; i++){
+                          var s = {
+                              "id":data[i].id,
+                               'ismy':data[i].myquestion,
+                               "icon":data[i].headpicture?data[i].headpicture:'../LazyUI/images/huodong/defaulthead.png',
+                               "username":data[i].username?data[i].username:'游客',
+                               "qlikes":data[i].qlikes,
+                               "isqlike":data[i].qlike,//
+                               "questiontime":lazy.autoFormat(data[i].questiontime),
+                               //"question":data[i].question,
+                               "question":entitiestoUtf16(data[i].question),
+                               "answer":data[i].answer,
+                               "alikes":data[i].alikes,
+                               "isalike":data[i].alike,//
+                               "answertime":lazy.autoFormat(data[i].answertime),
+                               "zanclick":function(obj,val,status,node){
+                                   var qaaid = obj.id;
+                                   var qlike = (val==1?1:0);
+                                   var alike =(val==2?1:0)
+                                   if(status){
+                                       saveZan(qaaid,qlike,alike,node)
+                                   }else{
+                                       cancelZan(qaaid,qlike,alike,node)
+                                   }
+                                   
+                               },
+                               "delclick":function(obj){
+                                   delJudge(obj.id)
+                               }
+                          }
+                          getData('commentlist').add(s)
+                      }
+                         
+                        
+                       //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+                   },function(e){
+                       lazy.alert2(e);
+                   },null)   
+                   
+               }
+               /*发布评论*/
+              function saveJudge(question){
+                question = encodeURIComponent(utf16toEntities(question));
+                   var url = getIP()+"/cmy/activity/cmyactivityqaa/question?activityid="+id+"&openid="+openid+"&initid="+initid+"&question="+question+"&username="+username+"&headpicture="+headpicture;
+                   lazy.GET(url,function(data){
+                      getJudgeList()
+                       //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+                   },function(e){
+                       lazy.alert2(e);
+                   },0)   
+                   
+               }
+                /*点赞*/
+              function saveZan(qaaid,qlike,alike,node){
+                  if(isLoadComplete){
+                      isLoadComplete = 0;
+                      var url = getIP()+"/cmy/activity/cmyactivityqaalike/like?qaaid="+qaaid+"&openid="+openid+"&initid="+initid+"&activityid="+id;
+                      if(qlike){
+                          url+="&qlike=1"
+                      }else{
+                          url+="&alike=1"
+                      }
+                      lazy.GET(url,function(data){
+                          isLoadComplete = 1;
+                          getData("commentlist").addZan(qlike,alike,node)
+                         //getJudgeList()
+                          //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+                      },function(e){
+                          lazy.alert2(e);
+                      },0)
+                 }else{
+                     lazy.alert2('不要频繁点赞哦')
+                 }
+               }
+                /*取消点赞*/
+              function cancelZan(qaaid,qlike,alike,node){
+                  if(isLoadComplete){
+                      
+                      isLoadComplete = 0;
+                       var url = getIP()+"/cmy/activity/cmyactivityqaalike/cancelLike?qaaid="+qaaid+"&openid="+openid+"&initid="+initid+"&activityid="+id;
+                       if(qlike){
+                           url+="&qlike=0"
+                       }else{
+                           url+="&alike=0"
+                       }
+                       lazy.GET(url,function(data){
+                           isLoadComplete = 1;
+                           getData("commentlist").cancelZan(qlike,alike,node)
+                          //getJudgeList()
+                           //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+                       },function(e){
+                           lazy.alert2(e);
+                       },0)  
+                  }else{
+                      lazy.alert2('不要频繁点赞哦')
+                  }
+                   
+               }
+                /*删除评论*/
+              function delJudge(qaaid){
+                  
+                   var url = getIP()+"/cmy/activity/cmyactivityqaa/del?id="+qaaid;
+                   lazy.GET(url,function(data){
+                       lazy.alert2('删除成功')
+                       setTimeout(function(){
+                           getData("commentlist").clean()
+                            getJudgeList()
+                       },2000)
+                     
+                       //var btn = document.getElementById("button").getElementsByTagName("span")[0].innerText='取消报名'
+                   },function(e){
+                       lazy.alert2(e);
+                   },0)   
+                   
+               }
+               /////登陆
+               function login(){
+                  
+                     var url = getIP()+'/wx/api/wx/getWxOAuth?initid='+initid+'&backurl=huodong/hdxq'
+                     lazy.GET(url,function(data){
+                         //alert(document.location)
+                         var urlback = data.rows[0];
+                          //lazy.setParameter("gb",1)
+                          //lazy.openWin(urlback+'#LazyAuto0')
+                          window.location.replace(urlback)
+                     },function(e){
+                         alert(e)
+                     },0)
+                }
+               /*获取用户名头像*/
+              function getUserInfo(){
+                   var url = getIP()+"/wx/api/wx/getwxuserinfo?initid="+initid+"&openid="+openid;
+                   lazy.GET(url,function(data){
+                       username = data.rows[0].nickname;
+                       headpicture = data.rows[0].headimgurl;
+                       isBindWx = data.rows[0].subscribe;
+                       
+                       loadData()
+                       
+                       
+                   },function(e){
+                       lazy.alert2(e);
+                   },0)   
+                   
+               }
+
+
+          //表情转码
+          function utf16toEntities(str) {
+            var patt=/[\ud800-\udbff][\udc00-\udfff]/g;
+            // 检测utf16字符正则
+            str = str.replace(patt, function(char){
+                var H, L, code;
+                if (char.length===2) {
+                    H = char.charCodeAt(0);
+                    // 取出高位
+                    L = char.charCodeAt(1);
+                    // 取出低位
+                    code = (H - 0xD800) * 0x400 + 0x10000 + L - 0xDC00;
+                    // 转换算法
+                    return "&#" + code + ";";
+                } else {
+                    return char;
+                }
+            });
+            return str;
+        }
+         //表情解码
+         function entitiestoUtf16(str){
+            // 检测出形如&#12345;形式的字符串
+            var strObj=utf16toEntities(str);
+            var patt = /&#\d+;/g;
+            var H,L,code;
+            var arr = strObj.match(patt)||[];
+            for (var i=0;i<arr.length;i++){
+                code = arr[i];
+                code=code.replace('&#','').replace(';','');
+                // 高位
+                H = Math.floor((code-0x10000) / 0x400)+0xD800;
+                // 低位
+                L = (code - 0x10000) % 0x400 + 0xDC00;
+                code = "&#"+code+";";
+                var s = String.fromCharCode(H,L);
+                strObj.replace(code,s);
+            }
+            return strObj;
+        } 
+           
+        });
+    </script>
+</body>
+</html>

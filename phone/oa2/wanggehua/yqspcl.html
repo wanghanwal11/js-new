@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>延期审批</title>
+        <style type="text/css">
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: rgb(254, 148, 62) !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setHeader({
+            "title":"延期审批",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+            var json = [
+                {
+                    "id" : "process",
+                    "type" : "process",
+                    "table" : [
+                        {
+                            "title" : "是否批准",
+                            "type" : "select",
+                            "option" : [{"html":"是","value":1},{"html":"否","value":0}]
+                        },
+                        {
+                            "title" : "批示详情",
+                            "type" : "textarea"
+                        }
+                    ]
+                },
+                {
+                    "type" : "button",
+                    "label" : "办理",
+                    "onclick" : function(){
+                        var delaycode=lazy.getParameter("appcode");
+                        var arr = getData("process").getArray().table;
+                        if(arr[0].value=="") alert("请选择是否批准");
+                        else if(arr[1].value=="") alert("请填写批示详情")
+                        else{
+                            var isTrue=arr[0].value=="是"?1:0;
+                            var url=config.yqsave+"replay="+isTrue+"&replaycontent="+arr[1].value+"&delaycode="+delaycode+"&delayeventcode="+lazy.getParameter("delayeventcode");
+                            lazy.URLRequest(url,function(){
+                                alert("办理成功")
+                                lazy.openWin("wanggehua.html")
+                            })
+                        }
+                    }
+                }
+            ]
+            // json.unshift({
+                // "id" : "headertoolbar",
+                // "type" : "headertoolbar",
+                // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                // "color" : "#fff",
+                // "border" : "none",
+                // "title" : '延期审批',
+                // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                // "select" : function(name, index) {
+                    // if(name=="left"&&index==0){
+                        // lazy.goBack();
+                    // }
+                    // if(name=="left"&&index==1){
+                        // lazy.close();
+                    // }
+                // }
+            // });
+            setData(json)
+         
+    });
+    </script>
+</html>

@@ -1,0 +1,96 @@
+body[type=body] div[type=quanzilist]{
+	position:relative;
+	width: 100%;
+	height: auto;
+	font-size: 1rem;
+	-webkit-box-sizing: border-box;
+}
+div[type=quanzilist] .title {
+    height: 1.7rem;
+    line-height: 1.7rem;
+    width: 100%;
+}
+div[type=quanzilist] .title1{
+    padding: 0.8rem;
+    background-color: #efefef;
+}
+div[type=quanzilist] .title .ub-f1{
+    padding-left: 0.5rem;
+}
+div[type=quanzilist] .more {
+    color: #f20;
+    padding-right: 0.83rem;
+}
+div[type=quanzilist] .kuai {
+    width: 0.5rem;
+    height: 100%;
+    background-color: #f20;
+}
+div[type=quanzilist] .tr {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #dddddd; 
+}
+div[type=quanzilist] .td1 {
+    height: 2rem;
+    line-height: 2rem;
+    color: #006cd8;
+    padding-right: 0.83rem;
+}
+div[type=quanzilist] .td1 .h1 span{
+    font-size: 0.8rem;
+}
+div[type=quanzilist] .h2 {
+    min-height: 1rem;
+    line-height: 1.2rem;
+}
+div[type=quanzilist] .h3{
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    color: #c2c2c2;
+    position: relative
+}
+div[type=quanzilist] .icon {
+    -webkit-box-sizing: border-box;
+    width: 3rem;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+}
+div[type=quanzilist] .h2 img{
+    width: 4rem;
+    height: 3.5rem;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+}
+div[type=quanzilist] .h3 .gray{
+    background: url(zan.png);
+    color: #c2c2c2;
+}
+div[type=quanzilist] .h3 .red{
+    background: url(zan1.png);
+    color: #fb3d3d;
+}
+div[type=quanzilist] .h3 .zan{
+    position: absolute;
+    right: 4rem;
+    background-size: 0.9rem;
+    background-repeat:no-repeat;
+    padding-left: 1.2rem;
+    background-position-y: 0.1rem;
+    padding-right: 0.5rem;
+    line-height: 1.2rem;
+}
+div[type=quanzilist] .h3 .pl{
+    position: absolute;
+    right: 1rem;
+    background: url(pl.png);
+    background-size: 0.9rem;
+    background-repeat:no-repeat;
+    padding-left: 1.2rem;
+    background-position-y: 0.2rem;
+    padding-right: 0.5rem;
+    line-height: 1.2rem;
+}
+div[type=quanzilist] .h3 span{
+    font-size: 0.8rem
+}

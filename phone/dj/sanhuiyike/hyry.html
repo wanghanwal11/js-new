@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+            body{
+                background-color: white!important;
+            }
+            div[type=phb] .h3 {
+                display: none;
+                }
+                div[type=wxylistbar] .h{
+                width: 100%!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+         var page=1;
+         var ids=lazy.getParameter("ids");
+         lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/get.ht?id="+ids,function(data){
+            var data=data.rows[0];
+         var json = [{
+                            "type" : "wxylistbar",
+                            "icon" : "../LazyUI/js/listbar/images/dzzhd.png",
+                            "rl" : false,
+                            "title" :data.mtitle,
+                            "ids":data.id,
+                            "table" : [
+                                        "会议类型:"+data.mtitle+"-"+data.mkind,
+                                        "会议地址:"+data.maddress,
+                                        "开始时间:"+data.mstarttime,
+                                     ],
+                                     "style":{
+                                         "border":"none"
+                                     }
+                    },{
+                    "type" : "button_list1",
+                    "button" : ["会议人员", "文档"],
+                    "index" : 0,
+                    "select" : function(index, data) {
+                        if (index == 0) {
+                            lazy.openWin("hyry.html");
+                        }
+                        if (index == 1) {
+                            lazy.openWin("wd.html");
+                        }
+                    }
+                },{
+             "id":"phb",
+             "type":"phb",
+             "table":[]
+         }
+         ]
+         if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '会议详情',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                                lazy.goBack();
+                            }
+                        }
+                    })
+                } 
+         setData(json,function(){ren()})
+     })
+         function ren(){
+              lazy.URLRequest(getIP()+"/party/DJ_SanHuiYiKe/getParticipants.ht?id="+ids,function(data){
+                 lazy.closeBounce();
+                 var data=data.rows;
+                 for(var i=0;i<data.length;i++){
+                     var s={
+                             "icon":getIP()+(data[i].picture).replace(/\\/g,"/"),
+                             "h1":data[i].name,
+                             "h2":"职务:"+data[i].partypostname,
+                             "num":i+1
+                         }
+                     getData("phb").add(s);
+                 }
+                 //page++;
+               },function(){lazy.closeBounce();})
+         }
+         })
+    </script>
+</html>

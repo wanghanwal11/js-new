@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>应急指挥</title>
+        <style type="text/css">
+            div[type=process] .tr{
+                border-top:none!important;
+            }
+            div[type=process] input{
+                text-align: right;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: rgb(254, 148, 62) !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            } 
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        lazy.setHeader({
+            "title":"上报-应急指挥",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        var json =[
+        // {
+                        // "id" : "headertoolbar",
+                        // "type" : "headertoolbar",
+                        // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        // "color" : "#fff",
+                        // "border" : "none",
+                        // "title" : '上报-应急指挥',
+                        // "left" : [lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        // //"right" : [lazy.url + "LazyUI/js/headertoolbar/edit.png"],
+                        // "select" : function(name, index) {
+                            // if(name=="left"){
+                                // lazy.close();
+                            // }
+                        // }
+                    // },
+                    {
+                        "id":"process",
+                        "type":"process",
+                        "table":[
+                            {
+                                "id" : "title",
+                                "title" : "事件标题",
+                                "placeholder" : "请输入（必填）"
+                            },{
+                                "id":"levelRank",
+                                "type" : "select",
+                                "placeholder" : "请选择（必填）",
+                                "option" : [
+                                                {"html":"一级", "value" : "1"},
+                                                {"html":"二级", "value" : "2"},
+                                                {"html":"三级", "value" : "3"},
+                                                {"html":"四级", "value" : "4"}
+                                           ],
+                                "title" : "事件级别",
+                            },{
+                                "id":"reportType",
+                                "title" : "事件类型",
+                                "placeholder" : "请选择（必填）",
+                                "type":"select",
+                                "option" : [
+                                    {"html":"专项单位报送", "value" : "1"},
+                                    {"html":"本单位报送", "value" : "2"},
+                               ],
+                            },{
+                                "id":"type",
+                                "title" : "事件大类",
+                                "placeholder" : "请选择（必填）",
+                                "type":"select",
+                                "option" : [
+                                    {"html":"自然灾害", "value" : "1"},
+                                    {"html":"公共卫生", "value" : "2"},
+                                    {"html":"社会安全", "value" : "3"},
+                                    {"html":"事故灾难", "value" : "4"},                                                   
+                                ],
+                                // "select":function(name){
+                                    // var url1 = config.sjxl + "parentname="+name;
+                                    // lazy.URLRequest(url1,function(data){
+                                        // var list = [];
+                                        // var data = data.rows;
+                                        // for(var i = 0;i<data.length;i++){
+                                            // var tmp = {
+                                                // "html" : data[i].name,
+                                                // "value" : data[i].name
+                                            // }
+                                            // list.push(tmp)
+                                        // }
+                                        // getData("process").setOption(list,4)
+                                    // })
+                                // }
+                            },{
+                                "id":"levelSerious",
+                                "title" : "事件小类",
+                                "placeholder" : "请选择（必填）",
+                                "type":"select",
+                                "option" : [
+                                    {"html":"自然灾害", "value" : "1"},
+                                    {"html":"公共卫生", "value" : "2"},
+                                    {"html":"社会安全", "value" : "3"},
+                                    {"html":"事故灾难", "value" : "4"},     
+                                  ],
+                            },{
+                                "id":"happenTime",
+                                "title" : "事发时间",
+                                "type" : "datetime",
+                                "placeholder" : "请选择（必填）"
+                            },{
+                                "id":"describe",
+                                "title" : "上报内容",
+                                "placeholder" : "请输入（必填）",
+                                "type" : "textarea"
+                            },{
+                                "id":"img",
+                                "title" : "图片",
+                                "type" : "image",
+                                "httpurl" : config.docUpoad
+                            },
+                            {
+                                "id":"df2",
+                                "title" : "视频",
+                                "type" : "video",
+                                "httpurl" : config.docUpoad
+                            }
+                        ]
+                    },{
+                            "type" : "button",
+                            "label" : "初报",
+                            "onclick" : function(){
+                                var arr = getData("process").getArray().table;
+                                var url = config.cb;
+                                for(var i = 0;i<arr.length;i++){
+                                    if(arr[i].type=="image"){
+                                        var img = [];
+                                        if(arr[i].value&&arr[i].value.length>0){
+                                            var imgarr = arr[i].value;
+                                            for(var i=0;i<imgarr.length;i++){
+                                                img.push(imgarr[i].annexid)
+                                            }
+                                        }
+                                        url += arr[i].id + "=" + img + "&";
+                                    }else if(arr[i].type=="video"){
+                                        if(arr[i].value.annexid){
+                                            url += arr[i].id + "=" + arr[i].value.annexid + "&";
+                                        }
+                                    }else{
+                                        if(arr[i].placeholder.indexOf("必填")&&arr[i].value==""){
+                                            lazy.alert2(arr[i].title+"不能为空");
+                                            return;
+                                        }else{
+                                            url += arr[i].id + "=" + arr[i].value + "&";
+                                        }
+                                    }
+                                }
+                                lazy.URLRequest(url,function(){
+                                    alert("上报成功");
+                                    lazy.openWin("yjzh.html");
+                                })
+                            }
+                        }
+                    ];
+         setData(json);
+    });
+    </script>
+</html>

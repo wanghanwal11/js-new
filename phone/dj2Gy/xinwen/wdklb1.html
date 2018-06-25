@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            
+           var page=1;
+           var fenlei=1;
+           lazy.setHeader({
+                            "title": "先锋微视",
+                            "rightbtn": [
+                                {
+                                    "icon": "search.png",
+                                    "text": "",
+                                    "onclick" : function() {
+                                         var url =djconfig.wdklb+ '&miclectitle=';
+                                         lazy.setParameter("sou",url)
+                                         lazy.setParameter("title","先锋微视")
+                                         lazy.openWin("wdkview.html");
+                                    }
+                                }
+                            ],
+                           
+                        });
+             var json = [{
+                 "type":"movebutton",
+                 "index":0,
+                 "table":[{
+                     "label":"先锋微视",
+                     "onclick":function(){
+                         fenlei=1;
+                         page=1
+                         getData("xinwenlb").clean();
+                         list()
+                     }
+                 },{
+                "label":"本月推荐",
+                    "onclick":function(){
+                        fenlei=4;
+                        page=1
+                        getData("xinwenlb").clean();
+                        list()
+
+                }
+            }]
+             },
+                        {
+                            "id" : "xinwenlb",
+                            "type" : "xinwenlb",
+                            "table" : []
+                            
+                        }];
+            setData(json,function(){
+                list()
+                if(lazy.getParameter("tishi")||lazy.getParameter("tishi")==null){
+                    lazy.alert("温馨提示：观看“本月推荐”栏目中的5个视频，每观看完一部可获得2个积分，回答与之配套的题目每答对一题，可获得20积分。此积分年终按7:1换算为学时，计入贵阳干部在线学习中心--白云分平台学时统计中。",{
+                        "yesfun" : function(){
+                            lazy.setParameter("tishi",false)
+                        },
+                        "close" : function() {
+                        }
+                    });
+                    $(".alertbtn").children().html("不再提示")
+                }
+                
+                
+            });
+            function list(){
+                if(fenlei==4){
+                    var url=getIP()+'/party/DJ_MicroLecturesRecord/getmobilemonthlist.ht?page='+page+'&rows=10'
+                }else{
+                    var url = djconfig.wdklb + 'titletypename='+fenlei+'&page='+page+'&rows=50'+"&_time="+new Date().getTime();
+                }
+                
+                lazy.URLRequest(url, function(data){
+                var arr = data.rows;
+               
+                for(var i = 0; i < arr.length; i++) {
+                    
+                    var d={
+                            "icon" : lazy.getImagePx(arr[i].image, 180, 120),
+                            "imgsc" :  arr[i].image, 
+                            "h1" : arr[i].miclectitle,
+                            "yue" : arr[i].readcount,
+                            "ping" : arr[i].commentcount,
+                            "user" : arr[i].createuser,
+                            "fen" :arr[i].sharecount, 
+                            "shou" :arr[i].collectcount,    
+                            "date" : arr[i].createtime?lazy.autoFormat(arr[i].createtime):"",
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                if(fenlei==4){
+                                   lazy.setParameter("dati",true)
+                                }else{
+                                    lazy.setParameter("dati",false)
+                                }
+                                lazy.setParameter("fenlei",fenlei)
+                                lazy.setParameter("img",data.imgsc)
+                                lazy.setParameter("title",data.h1)
+                                lazy.setParameter("wdkxqid",data.id)
+                                lazy.setParameter("ping",data.ping)
+                                lazy.setParameter("fen",data.fen)
+                                lazy.setParameter("shou",data.shou)
+                                lazy.openWin("wdkxq.html");
+                                
+                            }
+                           }
+                        getData("xinwenlb").add(d);
+                    
+                    
+                        }//for
+                        page++;
+                        lazy.closeBounce();
+                    }, function(e) {
+                    //lazy.
+                    lazy.closeBounce();
+                    alert(e);
+                },0);
+            }
+            lazy.bounce({
+                   "up" : function() {
+                       list();
+                   } 
+                });
+            
+        })
+        
+    </script>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>定位</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=07591c420d03d958748c20628252d46e"></script>
+    <style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+        .iconslayer{
+            width: 70px;
+            height: 90px;
+            left: 50%;
+            top: 50%;
+            position: absolute;
+            z-index: 9999;
+            background-image: url(images/center.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            
+        }
+        .add_button {
+            width: 170px;
+            height: 63px;
+            background-image: url(images/add.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            z-index: 9999;
+            text-align: center;
+            font-size: 1rem;
+            color: #fff;
+            line-height: 56px;
+            display: none;
+        }
+	</style>
+</head>
+<body>
+    <div id="allmap"></div>
+    <div class="add_button">
+        <span>点击确定定位</span>
+    </div>
+    <div class="iconslayer"></div>
+</body>
+<script type="text/javascript">
+    //
+    var select = document.getElementsByClassName('select')[0];
+    var iconslayer = document.getElementsByClassName('iconslayer')[0];
+    var add_button = document.getElementsByClassName('add_button')[0];
+    var l = (document.body.clientWidth - 70)/2;
+    var t = (document.body.clientHeight - 90)/2;
+    iconslayer.style.left = l+"px";
+    iconslayer.style.top = t+"px";
+    add_button.style.left = (document.body.clientWidth - 170)/2+"px";
+    add_button.style.top = (document.body.clientHeight/2 - 113)+"px";
+    
+    var geoc = new BMap.Geocoder(); //地址
+    add_button.onclick = function() {
+       // var _point = map.overlayPixelToPoint(new BMap.Pixel(l,t));
+       // parent["getgps"](map.getCenter());
+       // alert(map.getCenter().lng +"  "+ map.getCenter().lat)
+        geoc.getLocation(map.getCenter(), function(rs){
+			var addComp = rs.addressComponents;
+            var dz = rs.address;
+            var arr = rs.surroundingPois;
+            if(arr.length > 0) {
+                var option = "";
+                for(var i = 0; i < arr.length; i++) {
+                    option += '<option>'+arr[i].title+'</option>';
+                }
+                select.innerHTML = option;
+            }
+            //alert(JSON.stringify(rs));
+            
+		});
+    }
+    //
+	var map = new BMap.Map("allmap");
+    var myIcon = new BMap.Icon("images/center.png", new BMap.Size(70, 90), {  
+                    offset: new BMap.Size(0, 0)
+                });
+    
+    var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            //
+            var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+            map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 17);
+            add_button.style.display = "block";
+			//alert('您的位置：'+r.point.lng+','+r.point.lat);
+		}
+		else {
+            map.centerAndZoom(new BMap.Point(116.404, 39.915), 17);
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+    
+</script>
+</html>

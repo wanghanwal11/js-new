@@ -1,0 +1,20 @@
+body[type=body] div[type=logo]{
+	-webkit-box-sizing:border-box;
+	position:relative;
+	width: 100%;
+	text-align: center;
+    height: 5.2rem;
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 5.2rem;
+}
+div[type=logo] .icon {
+    width: 5.2rem;
+    height: 5.2rem;
+    background-color: #efefef;
+    margin: auto;
+    background-size: 100%;
+    border-radius: 5.2rem;
+    background-repeat: no-repeat;
+    background-position: center; 
+}

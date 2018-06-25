@@ -1,0 +1,42 @@
+div[type=jym]{
+	display: -webkit-box;
+	position:relative;
+	width: 100%;
+	height: 2.7rem;
+	line-height: 2.7rem;
+	background-color: #fff;
+	border-bottom:1px solid #cfcfcf;
+}
+div[type=jym] .title {
+    padding: 0 0.9rem;
+}
+div[type=jym] span {
+    font-size: 0.83rem;
+    color: #343434;
+}
+div[type=jym] .inputdiv {
+    height: 2.7rem;
+    line-height: 2.7rem;
+    -webkit-box-sizing:border-box;
+    padding-right: 0.8rem;
+} 
+div[type=jym] .input {
+   font-size: 0.83rem; 
+   width: 100%;
+   border: none;
+   background-color: none;
+}
+div[type=jym] .button {
+   width: 5rem;
+   height: 2.7rem;
+   line-height: 2.7rem;
+   background-color: #fff;
+   text-align: center;
+   border-left:1px solid #cfcfcf;
+}
+div[type=jym] .button1 {
+   background-color: #b5a8a8; 
+}
+div[type=jym] .button span {
+   color: #ca291f; 
+}

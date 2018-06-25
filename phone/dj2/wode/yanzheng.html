@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            #yanzheng{
+                position：fixed;
+                top:2rem;
+            }
+            #yanzheng .tr{
+                border-bottom:1px solid #efefef;
+            }
+            #yanzheng .btn{
+                border-radius: 1rem;
+               
+            }
+            #button2 a{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                top: 11rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d;
+            }
+           
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var timer;
+            var code;
+            var status = 1;
+            lazy.setHeader({"title": "修改手机号"});
+             var json=[{
+                 "id":"yanzheng",
+                 "type":"yanzheng",
+                 "table":[{
+                     "title":"手机号码",
+                     "content":"请输入手机号码",
+                 },{
+                     "title":"验证码",
+                     "content":"请填写验证码",
+                     "button":"获取验证码",
+                     "onclick":function(){
+                             var phone = document.getElementsByTagName("input")[0].value;
+                             if(phone.length!=11){
+                                 lazy.alert2("输入手机号位数错误")
+                             }else if(phone == lazy.getParameter("phone")){
+                                 
+                                  lazy.alert2("输入手机号与原手机号相同")
+                                  
+                             }else{
+                                 getYanzheng(phone)
+                             }
+                     }
+                 }]
+             },{
+                 "id":"button2",
+                 "type":"button",
+                 "label":"提交",
+                 "onclick":function(){
+                     if(code == document.getElementsByTagName("input")[1].value){
+                        var phone = document.getElementsByTagName("input")[0].value;
+                         var url = djconfig.yanzheng+"newmobile="+phone+"&type=appedj&checkcode="+code;
+                         lazy.URLRequest(url, function(data){
+                              lazy.alert(data.message,{
+                                      "yesfun" : function() {
+                                          lazy.logout()
+                                      }
+                                  });
+                              
+                         },function(e){
+                             lazy.alert2(e);
+                         },3);
+                      } 
+                      else{
+                        lazy.alert2("验证码错误")  
+                      }
+                     
+                      
+                     
+                 }
+             }];
+            setData(json)
+            function getYanzheng(phone){
+                if(status){
+                    status = 0;
+                    var url = getIP() +'/sendRandom.ht?mobile='+phone+'&type=zhuce';
+                    lazy.URLRequest(url, function(data){
+                         code = data.newPrimaryKeys.checkcode;
+                         var button = document.getElementsByClassName("btn")[0];
+                         var text = button.getElementsByTagName("span")[0];
+                         var time = 60;
+                         text.innerHTML = time + 's';
+                         button.style.backgroundColor = "#bbbbbb";
+                         time--;
+                         timer = setInterval(function(){
+                             text.innerHTML = time + 's';
+                             time--;
+                             if(time < 0){
+                                 text.innerHTML = '获取验证码';
+                                 button.style.backgroundColor = "#ff0033";
+                                 clearInterval(timer);
+                                 status = 1;
+                             }
+                         },1000)
+                     
+                     
+                         
+                         
+                     },function(e){
+                         lazy.alert2(e);
+                         status = 1;
+                     },3);
+                  }
+            }
+        });
+    </script>
+</html>

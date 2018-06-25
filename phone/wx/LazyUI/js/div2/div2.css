@@ -1,0 +1,10 @@
+body[type=body] div[type=div2]{
+	position:relative;
+	width: 100%;
+	height: auto;
+	background:white;
+	-webkit-box-sizing: border-box;
+}
+div[type=div2] .content{
+    padding: 1rem;
+}

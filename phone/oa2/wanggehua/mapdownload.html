@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script type="text/javascript" src="http://192.168.0.49:8080/DDS/framework/gis/VitoGISFramework.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://192.168.0.49:8080/DDS/framework/gis/leaflet.css"/>
+        <title>地图</title>
+        <style type="text/css">
+            html, body, #map {
+            margin: 0;
+            padding: 0;
+            }
+            #map{
+                position: absolute;
+                z-index: 0;
+                opacity: 0;
+            }
+            .mapmask{
+                display:none;
+                width:12rem;
+                height:12rem;
+                position: absolute;
+                top:50%;
+                margin-top:-6rem;
+                left:50%;
+                margin-left:-6rem;
+                z-index: 22;
+            }
+            .mapcz {
+            }
+            .mapcz div {
+                margin-top:0.5rem;
+            }
+            .mapimagetitle {
+                text-align:left;
+            }
+            .mapbar {
+                border:1px solid #ccc;
+                width:100%;
+                height:5px;
+                overflow:hidden;
+            }
+            .mapbarnei {
+                display:block;
+                margin-top:0px !important;
+                width:100%;
+                height:5px;
+                background-color:#31b0ff;
+                margin-left:-100%;
+            }
+            .mapbartitle {
+                margin-bottom:2rem;
+                text-align:left;
+                font-size:0.8rem;
+            }
+            .mapimagebtn {
+                padding:0.5rem 1rem 0.5rem 1rem;
+                border-radius:0.5rem;
+                border:1px solid #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <div class="mapmask">
+            <div class="mapcz">
+                <div class="mapimagetitle">离线地图包</div>
+                <div class="mapbar">
+                    <div class="mapbarnei"></div>
+                </div>
+                <div class="mapbartitle">Loading</div>
+                <div class="mapimagebtn">点击下载地图</div>
+            </div>
+        </div>
+    </body>
+    <script> 
+    start(function() {
+        var funname = lazy.callBack(back,"mapdownload");
+        var funname1 = lazy.callBack(back,"mapopen");
+        lazy.setHeader({
+            "title":"地图",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : []
+        });
+        lazy.URLRequest(config.MapTiledUrlForMobile,function(data){
+            var projectName = "dongying"//data.newPrimaryKeys.projectName;
+            var data=data.rows[0];
+            gisdata=data.gisdata;
+            if(getIP().indexOf("10.0.0.2")>-1){
+                var str = getIP() + "/portal/LocatMapWkt/getGisConf.ht?name=dongying_yddx";
+            }else{
+                var str = getIP() + "/portal/LocatMapWkt/getGisConf.ht?name="+projectName;//+"&type=mobile";//conf_mobile.json";
+            }
+            //var str = getIP() + "/portal/LocatMapWkt/getGisConf.ht?name="+projectName;//+"&type=mobile";//conf_mobile.json";
+            var gis = null;
+            VitoGIS.init(str,function(e){
+                gis = e;
+                var mapurl=gis.mapManager.configManager.getBaseLayerConf().defaultLayer.mapUrl;
+                    function GetQueryString(path,name){
+                         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                         var r = path.substr(1).match(reg);
+                         if(r!=null)return  unescape(r[2]); return null;
+                    }
+                    document.getElementsByClassName("mapmask")[0].style.display="block";
+                    document.getElementById("map").style.display="none";
+                    gis.Events.on("TOOLS",function(_e){
+                        var wkt = new Wkt.Wkt();
+                        wkt.read(gisdata);
+                        var feature = wkt.toObject();
+                        if(projectName=="xcaj") var arr=_e.getTileUrl(feature,[16],mapurl);
+                        else var arr=_e.getTileUrl(feature,[14],mapurl);
+                        var exist = true;
+                        var namearr = [];
+                        for(var i = 0;i<arr.length;i++){
+                            var url =  arr[i];
+                            if(GetQueryString(url,"tilematrix")!=null){
+                                var x=GetQueryString(url,"tilecol");
+                                var y=GetQueryString(url,"tilerow");
+                                var tilematrix=GetQueryString(url,"tilematrix");
+                                var z=tilematrix.substring(tilematrix.lastIndexOf(":")+1);
+                                lazy.setParameter("dowmaptype","xyz");
+                            }
+                            if(GetQueryString(url,"scale")!=null){
+                                var x=GetQueryString(url,"x");
+                                var y=GetQueryString(url,"y");
+                                var z=GetQueryString(url,"scale");
+                                lazy.setParameter("dowmaptype","xysm");
+                            }
+                            var imagename=x+","+y+","+z+".png";
+                            namearr.push(imagename);
+                            var bol = lazy.mapcheck(imagename)
+                            if(bol=="false"){
+                                exist = false;
+                                i=arr.length;
+                            }
+                        }
+                        if(exist) {
+                            window.loadRes.openMap(namearr.join("/"),funname1);
+                            window.getGps = function(){
+                                
+                            }
+                            // lazy.mapopen(namearr,function(){
+//                                 
+                            // })
+                        }else{
+                            document.getElementsByClassName("mapimagebtn")[0].onclick=function(){
+                                download(arr,function(namearr){
+                                    //lazy.refresh();
+                                    window.loadRes.openMap(namearr.join("/"),funname1);
+                                    window.getGps = function(){
+                                        
+                                    }
+                                    // lazy.mapopen(namearr,function(){
+//                                         
+                                    // })
+                                })
+                            }
+                        }
+                        function download (arr,back){
+                            var k=1;
+                            var i=0;
+                            downone()
+                            function downone(){
+                                if(i<arr.length){
+                                    var url=arr[i];
+                                    if(GetQueryString(url,"tilematrix")!=null){
+                                        var x=GetQueryString(url,"tilecol");
+                                        var y=GetQueryString(url,"tilerow");
+                                        var tilematrix=GetQueryString(url,"tilematrix");
+                                        var z=tilematrix.substring(tilematrix.lastIndexOf(":")+1);
+                                        lazy.setParameter("dowmaptype","xyz");
+                                    }
+                                    if(GetQueryString(url,"scale")!=null){
+                                        var x=GetQueryString(url,"x");
+                                        var y=GetQueryString(url,"y");
+                                        var z=GetQueryString(url,"scale");
+                                        lazy.setParameter("dowmaptype","xysm");
+                                    }
+                                    var imagename=x+","+y+","+z+".png";
+                                    window.loadRes.downloadMap(url,imagename,funname);
+                                    window.loadmap = function(){
+                                        if(i!=arr.length-1){
+                                            document.getElementsByClassName("mapbarnei")[0].style.marginLeft = (parseInt(k/arr.length*100)-100)+"%";
+                                            document.getElementsByClassName("mapbartitle")[0].innerHTML = "Loading("+k+"/"+arr.length+")";
+                                         }else{
+                                            document.getElementsByClassName("mapbartitle")[0].innerHTML = "Loading("+k+"/"+arr.length+")"+"　下载完成！";
+                                        }
+                                        i++;
+                                        k++;
+                                        downone();
+                                    }
+                                }else{
+                                    back(name);
+                                }
+                            }
+                        }
+                    })
+                
+            })
+        })
+        window.ss = function(){
+            alert(5555555555556666666666)
+        }
+    });
+    </script>
+</html>

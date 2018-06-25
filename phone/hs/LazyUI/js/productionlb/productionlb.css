@@ -1,0 +1,26 @@
+body[type=body] div[type=productionlb]{
+    position:relative;
+    width: 100%;
+    height: auto;
+    background-color:#fff;
+    -webkit-box-sizing: border-box;
+    
+}
+div[type=productionlb] .tr{
+    margin: 1rem 1rem 0.5rem 1rem;
+    background-color: #efefef;
+}
+div[type=productionlb] .icon{
+    width:8rem;
+    height:6rem;
+    margin: 1rem;
+}
+div[type=productionlb] .td{
+    margin: 0.5rem;
+}
+div[type=productionlb] .h1{
+  
+}
+div[type=productionlb] .h2 span{
+    color:#999999;
+}

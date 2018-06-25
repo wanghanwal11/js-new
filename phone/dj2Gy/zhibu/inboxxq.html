@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+		<title>信件详情</title>
+		<style type="text/css">
+			div[type=wenjian] .title span {
+               color: #aaaaaa;
+            }
+		</style>
+	</head>
+	<body>
+	    <script>
+         start(function() { 
+            lazy.setHeader({"title": "书记信箱"})
+              var json = [
+                // {
+                      // "id":"wenjian",
+                                // "type" : "wenjian",
+                                // "title":"附件",
+                                // "table" : []
+                // }
+                ]           
+                        
+                   
+                 
+                 var inboxid=lazy.geturlstr("id")?lazy.geturlstr("id"):lazy.getParameter("inboxid")
+                 var url = djconfig.inboxxq +'isSecretary=Y&id='+inboxid; 
+                 
+                 lazy.URLRequest(url, function(data){
+                    
+                      var arr = data.rows[0];
+                      var arr1 = data.rows[1];
+                      // var arr2 = data.rows[2];
+                      json.unshift({
+                            "id" : "inboxxq",
+                            "type" : "inboxxq",
+                            "icon" : lazy.getImagePx(arr.picture, 20, 20),
+                            "name" : arr.createuser,
+                            "date" : lazy.format(arr.createtime,"MM-dd"),
+                            "time" : lazy.format(arr.createtime,"HH:mm"),
+                            "moneyinfo" : arr.title,
+                            "boxcontent" : arr.content,
+                            "type1" : "图片",
+                            "tp" : [],
+                            "select":function(index,src){
+                                    src = src.replace(/\@.*/g,"");
+                                    src = lazy.getImagePx(src,720, 720, 1);
+                                    lazy.showImage(src);
+                                },
+                      })
+                     for (var j=0; j < arr1.length; j++) {
+                          var e = {
+                              "tplist" : arr1[j].path,
+                              
+                               "tp" : arr1.length
+                          }
+                          json[0].tp.push(e);
+                     };
+                  //附件    
+                  // setData(json,function(){
+//                       
+                       // var h=[{
+                                // "title":"附件",
+                            // }]
+                        // getData("wenjian").addtitle(h);
+                      // if(arr2.length>0){
+                        // for(var i=0;i<arr2.length;i++){
+                          // var src=arr2[i].path;
+                          // var f={
+                                 // "fileurl":src,
+                                 // "src":"../LazyUI/js/wenjian/"+lazy.getFlieType(src.substring(src.lastIndexOf(".")+1))+".png",
+                                 // "name":arr2[i].docname,
+                                // }
+                          // getData("wenjian").add(f);
+                       // }//for
+                     // }//if
+                  // });
+                  setData(json)
+                  
+                 })
+               })
+        </script>
+	</body>
+</html>

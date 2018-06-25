@@ -1,0 +1,30 @@
+div[type=footer]{
+    width: 100%;
+    height: 3.5rem;
+    font-size: 1rem;
+    position: fixed;
+    bottom:0;
+    -webkit-box-sizing:border-box;
+    background-color: #787878;
+    display: -webkit-box !important;
+    display: box !important;
+    overflow: hidden;
+    text-align: center;
+    padding: 0.2rem 0.4rem;
+}
+div[type=footer] .tr {
+   width:100%;
+}
+div[type=footer] .td {
+   background-position: center top 0.2rem;
+   background-repeat: no-repeat;
+   background-size: 1.8rem;
+   padding-top: 1.8rem;
+}
+div[type=footer] .td span{
+   color: #fff;
+   font-size: 0.8rem;
+}
+div[type=footer] .choose{
+   background-color: #656565;
+}

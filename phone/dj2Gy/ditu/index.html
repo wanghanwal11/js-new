@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Fully customizable and responsive CSS grids.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>地图展示</title>
+    <script src="../LazyUI/js/admin.js"></script>
+    <script src="http://116.213.144.135:8021/vitoGISApi/bkvito/vitoGISDemo/core/js/api.js"></script>
+    <style>
+        .divs{
+            width: 10rem;
+            height: 5rem;
+        }
+        .divs .bottom{
+            width: 3.5rem;
+            height: 1.3rem;
+            margin: 0 auto;
+            background: #3399ff;
+            color: white;
+            padding: 0.2rem;
+            border-radius: 0.2rem;
+            line-height: 1.3rem;
+            text-align: center;
+        }
+        .divs .top{
+            width: 100%;
+            height:3.5rem;
+        }
+        .divs .left{
+            width: 2rem;
+            height: 2rem;
+            background: url("zhibu.png") no-repeat;
+            background-size: cover;
+            float: left;
+            margin-top: 0.5rem;
+        }
+        .divs .right{
+            width: 7rem;
+            padding-left: 0.5rem;
+            line-height: 3rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body onload="init()">
+<div id="map"></div>
+
+<script>
+    var flag = window.location.host;
+    if(!flag) {
+        alert("请在服务器环境下打开！例如：Apache，Tomcat，IIS，Nginx等。或者是用http协议的IDE运行。")
+    }
+
+    var layersConf = "";
+    var confStr = 'conf.json';
+    function init() {
+        VitoGIS.init(confStr,function(e) {
+          start(function() {
+              lazy.getGps(function(point){
+                  var p=L.chinaProj.gps84_To_Gcj02(point.lat,point.lng);
+                  e.setCenter(p);
+                  var dian = new L.Marker(p).addTo(e.mapManager.map);
+                  load(p);
+             })
+              function load(p) {
+                  var icons=L.icon({
+                      iconUrl: 'zhibu.png',
+                      iconSize: [60, 60]
+                  })
+                  var pointx=lazy.geturlstr("X")?lazy.geturlstr("X"):"";
+                  var pointy=lazy.geturlstr("Y")?lazy.geturlstr("Y"):"";
+                  var dian = new L.Marker([pointx,pointy],{icon:icons}).addTo(e.mapManager.map);
+                 /* lazy.URLRequest(getIP()+"/party/DJ_Partyplatform/listForMobileMap.ht", function(data){
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++) {
+                          if (data[i].X) {
+                              var dian = new L.Marker([data[i].Y, data[i].X]).addTo(e.mapManager.map);
+                              var div = lazy.creat("div", "divs");
+                              var top = lazy.creat("div", "top");
+                              var bottom = lazy.creat("div", "bottom");
+                              bottom.index = i;
+                              bottom.innerHTML = "进入支部";
+                              top.innerHTML = '<div class="left"></div><div class="right slh">'+data[i].PARTYNAME+'</div>'
+                              div.appendChild(top);
+                              div.appendChild(bottom);
+                              dian.bindPopup(div)
+                              bottom.onclick = function () {
+                                  lazy.zbxq(data[this.index].ID+"")
+                              }
+                          }
+                      }
+                  })*/
+              }
+          })
+        });
+    }
+</script>
+
+</body>
+</html>

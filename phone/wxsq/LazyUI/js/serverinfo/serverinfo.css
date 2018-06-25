@@ -1,0 +1,92 @@
+div[type=serverinfo]{
+    width: 100%;
+    height: auto;
+    font-size: 0.9rem;
+    position: relative;
+    
+    -webkit-box-sizing: border-box;
+}
+div[type=serverinfo] .table{
+    height:auto;
+    padding:0.5rem 1rem;
+    background-color: #ffffff;
+}
+div[type=serverinfo] .icon{
+    width: 100%;
+    height:3rem;
+    width:3rem;
+    border:1px solid #efefef;
+    border-radius:50%;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+div[type=serverinfo] .tr{
+    margin-left: 0.8rem;
+   /* height:3rem;
+    line-height:3rem;*/
+}
+div[type=serverinfo] .tr0{
+    /*height:1.5rem;*/
+    line-height:1.5rem;   
+}
+div[type=serverinfo] .tr1{
+    height:auto;
+    line-height:1.5rem;   
+}
+div[type=serverinfo] .name{
+    font-size:1rem;
+    
+}
+div[type=serverinfo] .telnumber{
+    font-size:1rem;
+    text-align: right;
+}
+div[type=serverinfo] .ystar {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-image: url(ystar.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 1rem;
+}
+div[type=serverinfo] .gstar {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    background-image: url(gstar.png);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 1rem;
+   
+}
+div[type=serverinfo] .number{
+    font-size:1rem;
+    color:#b2b3b8;
+    height:1rem;
+    line-height:1rem;
+}
+div[type=serverinfo] .x{
+    width:1px;
+    height:auto;
+    background-color: #efefef;
+    margin-right:0.5rem;
+}
+
+div[type=serverinfo] .tel {
+    width: 2rem;
+    height: 3rem !important;
+    background-image: url(tel.png);
+    background-size: 1.5rem;
+    background-position: left 0.5rem center;
+    background-repeat: no-repeat;
+}
+div[type=serverinfo] .tel a{
+    width:2rem;
+    height:100%;
+    z-index: 200;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>例会详情</title>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"例会详情",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            var url = getIP() + "/firesys/F_Meetingmanagement/get.ht?id="+lazy.getParameter("meetobj").id;
+            lazy.URLRequest(url,function(_data){
+                var data = _data.rows;
+                var json = [
+                    {
+                        "type":"process_xq",
+                        "table":[
+                            {
+                                "title":"议题：",
+                                "value":data[0].issue
+                            },{
+                                "title":"会议地点：",
+                                "value":data[0].meetingplace
+                            },{
+                                "title":"参与人员：",
+                                "value":data[0].participant
+                            },{
+                                "title":"行政区域：",
+                                "value":data[0].orgname
+                            },{
+                                "title":"开始时间：",
+                                "value":lazy.format(data[0].meetingbeg,"yyyy-MM-dd HH:mm:ss")
+                            },{
+                                "title":"结束时间：",
+                                "value":lazy.format(data[0].meetingend,"yyyy-MM-dd HH:mm:ss")
+                            },{
+                                "title":"会议纪要：",
+                                "value":data[0].meetingminutes!=""?data[0].meetingminutes:"无"
+                            }
+                        ]
+                    }
+                ];
+                if(_data.newPrimaryKeys.imgurl&&_data.newPrimaryKeys.imgurl!=""){
+                    var arr = _data.newPrimaryKeys.imgurl.split(",");
+                    json[0].table.push({
+                        "title" : "图片：",
+                        "type" : "image",
+                        "value" : arr
+                    })
+                }
+                setData(json);
+            })
+        })
+    </script> 
+</html>

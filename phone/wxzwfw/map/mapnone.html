@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>定位</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=07591c420d03d958748c20628252d46e"></script>
+	<script src="chinaProj.js"></script>
+	<script src="../LazyUI/js/admin.js"></script>
+    <style type="text/css">
+	body, html{width:100%; height:100%;overflow:hidden;margin:0;font-family:"微软雅黑"; background-color: #fff; -webkit-box-sizing:border-box;}
+        .addressdiv {
+            width: 100%;
+            height: auto;
+            padding: 0.8rem;
+            -webkit-box-sizing:border-box;
+        }
+        .ub
+		{
+		    display: -webkit-box !important;
+		    display: box !important;
+		    position:relative;
+		}
+		
+		.ub-ver
+		{
+		    -webkit-box-orient:vertical;
+		}
+		.ub-f1
+		{
+		    position:relative;
+		    -webkit-box-flex: 1; 
+		    box-flex: 1;
+		}
+        .hang {
+           width: 100%;
+           height: 3rem;
+           border-bottom: 1px solid #dedede;
+        }
+        .h1 {
+            height: 1.5rem;
+            line-height: 2rem;
+        }
+        .h2 {
+            color: #888;
+            font-size: 0.6rem;
+            height: 1.5rem;
+            line-height: 1.5rem;
+        }
+        .load {
+        	
+            height: 3rem;
+            line-height: 3rem;
+            background-image: url(images/load.gif);
+            background-position: 0.8rem center;
+            background-size: 1rem 1rem;
+            background-repeat: no-repeat;
+            color: #888;
+            padding-left: 2rem;
+        }
+        .aa{
+        	position:absolute;
+        	z-index:999;
+        	top:0;
+        	left:0;
+            width: 100%;
+		    height: 2.5em;
+		    line-height: 2.5em;
+		    background-color: rgb(107, 209, 100);
+		    color:white;
+        }
+        .aa span{
+		    width:5em;
+			line-height: 2.5em;
+			padding:0 0.5rem
+         }
+        .sx {
+        	float:right;
+        	padding:0 0.5rem;
+        	text-align:center;
+        }
+        
+        .back{
+            display:none;
+            width:100%;
+            height:100%;
+            position: absolute;
+            background-color: black;
+            z-index: 20;
+            opacity: 0.1;
+        }
+        .iframe {
+        	width:100%;
+        	border:none;
+        	height:45%;
+        	border-top:1px solid #ccc;
+        }
+        #allmap {width: 100%;height: 55%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+        .rq {
+        	width:100%;
+        	height:100%;
+        	-webkit-overflow-scrolling: touch;  
+    		overflow-y: scroll;  
+        }
+	</style>
+</head>
+<body>
+    <div class="back"></div>
+	<!-- <div  class="aa"><span onclick="fanhui()">　返回</span><span class="sx" onclick="sx()">重新定位</span></div> -->
+    <div class="rq ub ub-ver">
+   		<div id="allmap"></div>
+   		<iframe class="iframe ub-f1" src="mapnonelist.html"></iframe>
+    </div>
+</body>
+<script type="text/javascript">
+//百度地图API功能
+var lng;
+var lat;
+
+function aa(obj){
+	
+	lng = obj.lng;
+	lat = obj.lat;
+	
+}
+
+
+var map = new BMap.Map("allmap");
+var point = new BMap.Point(116.331398,39.897445);
+map.centerAndZoom(point,18);
+
+map.addEventListener("click",function(r){
+	map.clearOverlays();  
+	var marker = new BMap.Marker(r.point);  // 创建标注
+	map.addOverlay(marker); 
+	sethtml(r);
+});
+
+
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r){
+	if(this.getStatus() == BMAP_STATUS_SUCCESS){
+		var mk = new BMap.Marker(r.point);
+		map.addOverlay(mk);
+		map.panTo(r.point);
+		//alert('您的位置：'+r.point.lng+','+r.point.lat);
+		sethtml(r);
+	}
+	else {
+		alert('failed'+this.getStatus());
+	}        
+},{enableHighAccuracy: true})
+
+    var iframe = document.getElementsByClassName("iframe")[0];
+    //
+    var geolocation = new BMap.Geolocation();
+    
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			//alert('您的位置：'+r.point.lng+','+r.point.lat);
+            
+		}       
+	},{enableHighAccuracy: true})
+	//
+	function sethtml(r) {
+		contentarr = [];
+		var _html = '';
+        var geoc = new BMap.Geocoder(); //地址
+        geoc.getLocation(r.point, function(rs){
+        	iframe.contentWindow['sethtml'](rs);
+        });
+        var back = document.getElementsByClassName("back")[0];
+        back.onclick = function(){
+            document.getElementsByClassName("edit")[0].style.display="none";
+            document.getElementsByClassName("back")[0].style.display="none";
+        }
+    }
+    //
+    function getgps1(obj) {
+    	parent["getgps"](obj);
+    }
+    function fanhui(name){
+    	//parent["gpsfanhui"]();
+    	parent["namemap"](name);
+    }
+    function sx() {
+    	location.reload();
+    }
+</script>
+</html>

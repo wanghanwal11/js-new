@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>评价</title>
+<style type="text/css">
+     body{
+         background-color: #f7f8fa !important;
+     }
+     div[type=group]{
+         background-color: #ffffff !important;
+         padding-bottom:1rem;
+     }
+     div[type=serverinfo] .name span{
+         color:#333333;
+     }
+     div[type=serverinfo] .address span{
+         color:#777777;
+     }
+     div[type=textarea] {
+         border:1px solid #efefef;
+         border-radius: 5px;
+         margin:0rem 0.5rem;
+         width: auto !important;
+         height:10rem;
+     }
+     textarea{
+         height:7rem;
+     }
+     #serverinfo1 .icon {
+        height: 3rem !important;
+        width: 1.2rem !important;
+        border: none !important;
+        border-radius: 0% !important;
+        background-position: center !important;
+    }
+     #ts_group{
+         margin-top:1rem;
+     }
+     #judgestar1{
+         margin-top:0.5rem;
+     }
+     #judgestar3{
+         margin-bottom:0.5rem;
+     }
+     #button{
+         /*position: fixed!important;
+         bottom: 1rem!important;*/
+         margin-left: 2% !important;
+         margin-right: 2% !important;
+         width:96% !important;
+         margin-top:1rem;
+         margin-bottom:2rem;
+     }
+     #button .button_a{
+         background-color: #ffb401;
+         border-radius: 6px !important;
+     }
+     div[type=wode]{
+           margin-top:1rem;
+       }
+
+       div[type=wode] .jf {
+           padding-left:1rem !important;
+           height:1.5rem;
+           line-height:1.5rem;
+           
+           color:#63666d;
+       }
+       div[type=wode] .tr{
+           border-bottom:none !important;
+       }
+       div[type=wode] .text{
+           padding: 0 1rem !important;
+           background-image: none !important;
+       }
+</style>
+</head>
+<body>
+    <script>
+    
+        start(function() {
+                var url = getIP()+'/order/order/supevaluate/checkEvaluate?orderid='+lazy.geturlstr('orderid');
+                
+                lazy.GET(url, function(data){
+                     if(data.rows[0]){
+                         window.location.replace('usercomplete.html')
+                     }else{
+                         var url = getIP()+"/order/SupOrder/supOrder/getOrderDetail?id="+lazy.geturlstr('orderid');
+                         lazy.GET(url,function(_data){
+                                
+                               _data = _data.rows[0];
+                         var json = [{
+                               "id":'serverinfo1',
+                               "type":'serverinfo',
+                               "table":[{
+                                   "icon":"../LazyUI/images/company.png",
+                                   "name":_data.servername,
+                                   "address":_data.providername,
+                                   "tel":'',
+                                   "isTEL":true,
+                               }]
+                               
+                           },{
+                               "id":"wode1",
+                               "type":"wode",
+                               "table":[{
+                                       "h1":"订单号",
+                                       "h2":_data.ordernum,
+                                   },{
+                                       "h1":"下单时间",
+                                       "h2":_data.ordertime?lazy.format(_data.ordertime,"yyyy-MM-dd HH:mm:ss"):'',
+                                   },{
+                                   
+                                       "h1":"服务类型",
+                                       "h2":_data.servicetype,
+                                   }/*,{
+                                       "h1":"备注",
+                                       "h2":_data.orderremark?_data.orderremark:'无',
+                                   }*/]
+                           },{
+                             id : 'ts_group',
+                             type : 'group',
+                             list : [{
+                                 "id":"judgeflower",
+                                 "type":"judgeflower",
+                                 "title":'服务评价',
+                                 "onclick":function(data,val){
+                                     //alert(val)
+                                     getData("judgestar1").changeLevel(val)
+                                     getData("judgestar2").changeLevel(val)
+                                     getData("judgestar3").changeLevel(val)
+                                 }
+                             },{
+                                   "id":"judgestar1",
+                                   "type":"judgestar",
+                                   "title":'服务质量',
+                                   "yes":'../LazyUI/js/judgestar/ystar.png',
+                                   "no":'../LazyUI/js/judgestar/gstar.png',
+                                   "content":['非常差','差','一般','好','非常好']
+                               },{
+                                   "id":"judgestar2",
+                                   "type":"judgestar",
+                                   "title":'服务效率',
+                                   "yes":'../LazyUI/js/judgestar/ystar.png',
+                                   "no":'../LazyUI/js/judgestar/gstar.png',
+                                   "content":['非常差','差','一般','好','非常好']
+                               },{
+                                   "id":"judgestar3",
+                                   "type":"judgestar",
+                                   "title":'服务态度',
+                                   "yes":'../LazyUI/js/judgestar/ystar.png',
+                                   "no":'../LazyUI/js/judgestar/gstar.png',
+                                   "content":['非常差','差','一般','好','非常好']
+                               },{
+                                    id:"textarea",
+                                    type : 'textarea',
+                                    widget : 'textarea',
+                                    placeholder : '您对本次的服务还满意吗？请留下您的宝贵意见吧...',
+                                    length:120,
+                                   
+                                }]
+                           },{
+                               "id":"button",
+                               "type":"button",
+                               "label":'提交评价',
+                               "onclick":function(){
+                                  submit()
+                               }
+                           }]; 
+                        
+                         setData(json)
+                          },function(e){
+                            lazy.alert2("错误信息!:"+e);
+                        },3)  
+                     }
+                      
+                 },function(e){
+                     
+                     lazy.alert2(e);
+                 },3);
+                
+                    
+                 function submit(){
+                     var evaluate=getData('judgeflower').getLevel()
+                     var quality=getData('judgestar1').getLevel()
+                     var efficiency=getData('judgestar2').getLevel()
+                     var attitude=getData('judgestar3').getLevel()
+                     var description=getData("textarea").getTextareaValue();
+                     var url = getIP()+'/order/order/supevaluate/save.ht?orderid='+lazy.geturlstr('orderid')+'&evaluate='+evaluate+'&quality='+quality+'&efficiency='+efficiency;
+                     url += '&attitude='+attitude+'&description='+description;
+                    lazy.GET(url, function(data){
+                          //code = data.newPrimaryKeys.checkcode;
+                          window.location.replace('usercomplete.html')
+                          
+                     },function(e){
+                         
+                         lazy.alert2(e);
+                     },3);
+                 }
+           
+            
+        });
+    </script>
+</body>
+</html>

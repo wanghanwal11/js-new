@@ -1,0 +1,77 @@
+body[type=body] div[type=alertinput]{
+	-webkit-box-sizing:border-box;
+	position:relative;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	display: none;
+}
+div[type=alertinput] .mask {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+div[type=alertinput] .center {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+div[type=alertinput] .centerdiv {
+    width: 13rem;
+    height: 9rem;
+    border-radius: 0.3rem;
+    background-color: #f2f2f2;
+    margin: auto;
+}
+div[type=alertinput] .title {
+    -webkit-box-sizing:border-box;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    border-bottom: 1px solid #dcdcdc;
+}
+div[type=alertinput] .tr {
+    padding: 0.5rem; 0.5rem;
+    height: 3rem;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+}
+div[type=alertinput] .icon {
+   width: 2rem;
+   height: 2rem;
+   line-height: 2rem;
+   background-position: left center;
+   background-repeat: no-repeat;
+   background-size: 1.5rem;     
+}
+div[type=alertinput] .tr .td {
+    border-bottom: 1px solid #2286f5;
+    -webkit-box-sizing:border-box;
+}
+div[type=alertinput] .input {
+    width: 100%;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 0.8rem;
+    color: #444;
+    background: none;
+    border: none;
+    padding-left: 0.5rem;
+}
+div[type=alertinput] .btns {
+    padding: 0 0.5rem;
+    margin-top: 1rem;
+}
+div[type=alertinput] .btn {
+    height: 1.8rem;
+    line-height: 1.8rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0.2rem;
+}
+div[type=alertinput] .queding {
+    background-color: #2286f5;
+    color: #fff;
+} 

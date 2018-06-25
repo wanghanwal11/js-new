@@ -1,0 +1,14 @@
+body[type=body] div[type=xq]{
+	position:relative;
+	width: 100%;
+	height: auto;
+	background-color:#fff;
+	-webkit-box-sizing: border-box;
+	padding: 1rem;
+}
+body[type=body] .title span{
+    font-size:1.2rem;
+}
+body[type=body] .title p{
+    
+}

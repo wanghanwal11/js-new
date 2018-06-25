@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <style>
+        body {
+                background-color: #efeef3 !important;
+            }
+        div[type=titlebtnlist1] .table {
+            padding: 0 0.5rem;
+        }
+        div[type=titlebtnlist1] .tr{
+            border-bottom: 1px solid #ebebeb;
+        }
+        div[type=titlebtnlist1] .td{
+            border-bottom: none !important;
+        }
+    </style>
+    <script> 
+    start(function() {
+        if(lazy.response("id")){
+            var id = lazy.response("id");
+            var url = config.worktaskget+"id="+id;
+        }else{
+            var rwobj = lazy.getParameter("rw");
+            var url = config.worktaskget+"id="+rwobj.id;
+        }
+        lazy.URLRequest(url,function(data){
+            var data = data.rows[0];
+            var grade = "";
+            if(data.grade=="1") grade="一级";
+            if(data.grade=="2") grade="二级";
+            if(data.grade=="3") grade="三级";
+            if(data.grade=="4") grade="四级";
+            var state = "";
+            if(data.state=="0") state="紧急";
+            if(data.state=="1") state="一般";
+            var json = [
+                {
+                    "id" : "headertoolbar",
+                    "type" : "headertoolbar",
+                    "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    "color" : "#fff",
+                    "border" : "none",
+                    "title" : '任务详情',
+                    "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    "select" : function(name, index) {
+                        if(name=="left"&&index==0){
+                            lazy.goBack();
+                        }
+                        if(name=="left"&&index==1){
+                            lazy.close();
+                        }
+                    }
+                },
+                {
+                    "id" : "titlebtnlist1",
+                    "type" : "titlebtnlist1",
+                    "table" : [{
+                        "icon" : data.def1?getIP()+data.def1.replace(/\\/g,"/"):"",
+                        "id" : data.userid,
+                        "h1" : data.username,
+                        "h2" : "截止日期："+lazy.format(data.endtime,"yyyy-MM-dd"),
+                        "onclick" : function(obj) {
+                            lazy.setParameter("personid",obj.id);
+                            lazy.openWin("../person/person.html")
+                        }
+                    }]
+                },
+                {
+                    "type" : "process_xq",
+                    "table" : [
+                        {
+                            "title" : "任务标题：",
+                            "value" : data.title
+                        },{
+                            "title" : "任务详情：",
+                            "value" : data.content
+                        },{
+                            "title" : "任务等级：",
+                            "value" : grade
+                        },{
+                            "title" : "紧急程度：",
+                            "value" : state
+                        }
+                    ]
+                }
+                    
+            ]
+            if(data.img.length>0){
+                var imgName = [];
+                var imgPath = [];
+                var imgs = data.img
+                for(var i=0;i<imgs.length;i++){
+                    imgName.push(imgs[i].name);
+                    imgPath.push(imgs[i].url);
+                }
+                json[2].table.push({
+                    "title" : "图片",
+                    "value" : imgPath,
+                    "name" : imgName,
+                    "type" : "image"
+                })
+            }
+            if(data.files.length>0){
+                var fileName = [];
+                var filePath = [];
+                var files = data.files
+                for(var i=0;i<files.length;i++){
+                    fileName.push(files[i].name);
+                    filePath.push(files[i].url);
+                }
+                json[2].table.push({
+                    "title" : "附件",
+                    "value" : filePath,
+                    "name" : fileName,
+                    "type" : "file"
+                })
+            }
+            if(data.comment.length>0){
+                var comment = data.comment;
+                var list = [];
+                for(var i=0;i<comment.length;i++){
+                    var tmp = {
+                        "icon" : comment[i].picture?getIP()+comment[i].picture.replace(/\\/,"/"):"",
+                        "h1" : comment[i].username,
+                        "h2" : comment[i].content,
+                    }
+                    if(comment[i].iscomment==false){
+                        tmp.mark=true;
+                    }else{
+                        tmp.mark=false;
+                        tmp.h3=lazy.autoFormat(comment[i].createtime)
+                    }
+                    if(comment[i].img&&comment[i].img.length>0){
+                        var img = [];
+                        var imgname = [];
+                        var imgs = comment[i].img;
+                        for(var j=0;j<imgs.length;j++){
+                            imgname.push(imgs[j].name);
+                            img.push(imgs[j].url.replace(/\\/g,"/"));
+                        }
+                        tmp.image = img;
+                    }
+                    if(comment[i].files&&comment[i].files.length>0){
+                        tmp.file = comment[i].files;
+                    }
+                    list.push(tmp)
+                }
+                var commentlist = {
+                    "id" : "commentlist",
+                    "type" : "commentlist",
+                    "title" : "共"+comment.length+"条回复", 
+                    "table" : list
+                }
+                json.push(commentlist)
+            }
+            if(rwobj.rwtype=="fq"){
+                var bottombutton = {
+                    "type" : "bottombuttons",
+                    "table" : [
+                        {
+                            "label" : "完成任务",
+                            "onclick" : function() {
+                                var url = config.worktaskend+"id="+rwobj.id;
+                                lazy.URLRequest(url,function(){
+                                    alert("完成成功");
+                                    lazy.openWin("renwu.html")
+                                })
+                            }
+                        }
+                    ]
+                }
+                json.push(bottombutton)
+            }
+            if(rwobj.rwtype=="sd"&&data.iscomment==false){
+                var bottombutton = {
+                    "type" : "bottombuttons",
+                    "table" : [
+                        {
+                            "label" : "任务转派",
+                            "onclick" : function() {
+                                //lazy.alert2(1);
+                                lazy.openWin("renwuzhuanpai.html");
+                            }
+                        },{
+                            "label" : "任务办理",
+                            "onclick" : function() {
+                                lazy.openWin("renwubanli.html");
+                            }
+                        }
+                    ]
+                }
+                json.push(bottombutton)
+            }
+            setData(json)
+        })
+    });
+    </script>
+</html>

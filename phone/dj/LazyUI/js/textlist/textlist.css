@@ -1,0 +1,60 @@
+div[type=textlist]{
+	-webkit-box-sizing:border-box;
+	display: -webkit-box !important;
+	position:relative;
+	width: 100%;
+	height: auto;
+	-webkit-box-orient:vertical;
+	background-color: #fff;
+	padding: 0 0.83rem;
+}
+div[type=textlist] .tr {
+    height: 2.6rem;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    -webkit-tap-highlight-color: rgba(201, 224, 253, 0.5);
+}
+div[type=textlist] .icon {
+    width: 1.5rem;
+    height: 2.6rem;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 0.6rem 2.6rem; 
+}
+div[type=textlist] .icon0 {
+    background-image: url(images/weidu.png);
+}
+div[type=textlist] .icon1 {
+    background-image: url(images/yidu.png);
+}
+div[type=textlist] .icon2 {
+    background-image: url(images/zhengdu.png);
+}
+div[type=textlist] .hdiv {
+    border-bottom: 1px solid #bebebe; 
+    height: 2.6rem;
+    -webkit-box-sizing:border-box;
+    color: #999;
+}
+div[type=textlist] .hdiv3 {
+    color: #444;
+}
+div[type=textlist] .tr:last-child .hdiv{
+    border-bottom: none; 
+}
+div[type=textlist] .hdiv1 {
+    color: #6cd167;
+}
+div[type=textlist] .h1 span{
+    font-size: 0.7rem;
+}
+div[type=textlist] .h1 {
+    height: 1.6rem;
+    line-height: 1.6rem;
+}
+div[type=textlist] .h2 {
+    line-height: 0.4rem;
+}
+div[type=textlist] .h2 span{
+   font-size: 0.7rem; 
+}

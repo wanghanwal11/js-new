@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>认证信息</title>
+        <style type="text/css">
+        div[type=image] .line {
+            padding: 0 0.5rem !important;
+            border-bottom: 0 !important;
+        }
+        
+        div[type=button] {
+        	padding: 0.8rem;
+        }
+       		div[type=button] .buttondiv{
+                border-radius: 1rem;
+                background-color: #3399ff !important;
+            }
+            
+            .text{
+                color:#999999;
+                margin-left: 0.5rem;
+                height:3rem;
+                line-height: 3rem;
+            }
+        div[type=process] .title{
+                display: none
+            }
+            
+            
+            
+            div[type=process] .inputdiv  textarea{
+                height: 100px;
+            }
+            div[type=div2] .content {
+                font-size: 0.9rem !important;
+            }
+            #process1 .tr{
+                padding-left: 1.3rem !important;
+            }
+            div[type=image] .pic {
+                width: 5.5rem;
+                height: 4rem;
+            }
+            div[type=image] .add {
+                width: 4rem;
+                height: 4rem;
+                -webkit-box-sizing:border-box;
+                background-image: url(../LazyUI/js/image/add.png);
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            div[type=image] .zu {
+                width: 6rem;
+                height: 4rem;
+            }
+            div[type=image] .cha {
+                width: 1rem;
+                height: 1rem;
+                border-radius: 1rem;
+                background-color: #fb3d3d;
+                position:absolute;
+                top:-0.5rem;
+                right:0.1rem;
+                background-image: url(../LazyUI/js/image/cha.png);
+                background-position: center;
+                background-size: 80% 80%;
+                background-repeat: no-repeat;
+            }
+            div[type=label] {
+                color: #3399ff;
+                height: 2rem !important;
+                line-height: 2rem !important;
+                background-color: #efefef !important;
+                position: absolute !important;
+                right: 0rem !important;
+                width: 4.5rem !important;
+            }
+            .shequIframe {  
+			    -webkit-overflow-scrolling: touch;  
+			    overflow-y: scroll;
+			     
+			    width: 100%;
+			    height: 100%;
+			    left: 100%;
+			    top: 0;
+			    z-index: 1000;
+			    position: fixed;
+			}
+            .iframe {
+			    width: 100%;
+			    height: 100%;
+			    left: 0;
+			    top: 0;
+			    border: none;
+			}
+			@-webkit-keyframes shequIframe_an {
+			    from {left: 100%;}
+			    to {left: 0%;}
+			}
+			@-webkit-keyframes shequIframe_an1 {
+			    from {left: 0%;}
+			    to {left: 100%;}
+			}
+        </style>
+    </head>
+    <body>
+        <script>
+        var nihao = "nihao zheshi id";
+        start(function() { 
+        	 var page=1;
+             var page_status = 0;
+             var count = 0;
+             var max = 3;
+             var temp = 0;
+             var chacha = 0;
+             var name='';
+             var idcard='';
+             var mobile='';
+             var community='';
+             var pre_tr1;
+             var pre_tr2;
+             var position_data='';
+             var wxinitId = lazy.geturlstr("wxinitId");
+             var wxopenid = lazy.geturlstr("wxopenid");
+             var obj={};
+             var address='';
+             var pics2 = [];
+           var json = [{
+                            "id" : "renzheng",
+                            "type" : "renzheng",
+                            "shequ" : [],
+                           
+                            "table" :[{}]
+                           
+                },{
+                    "id" : "image1",
+                    "type": "image",
+                    "label":"附件",
+                    "src":"../LazyUI/images/zhibu/default.jpg",
+                    "onclick":function(){
+                        photo();
+                        
+                    }
+                },{
+                    "id" : "image",
+                    "type": "image",
+                    "label":"附件",
+                    "src":"../LazyUI/images/zhibu/default.jpg",
+                    "onclick":function(){
+                        photo();
+                        
+                    }
+                },{
+                	"id":"div2",
+                	"type":"div2",
+                	"text":"认证失败理由：<br/>"+lazy.getParameter("rejectereason"),
+                },{
+                    "id":"button",
+                      "type":"button",
+                      "label":"提交",
+                      "onclick":function(){
+                    	     document.getElementById("button").disabled=true;
+                          	 
+                          	 var src_string = '';
+                             var list = document.getElementById("image").getElementsByClassName("zu");
+
+
+                             for(var i=0 ; i<list.length ; i++){
+                                 var upid = list[i].getElementsByTagName("img")[0].getAttribute("upid");
+                                 src_string += upid+(i==list.length-1?'':',');
+                             } 
+                             name =  document.getElementById("name").value;
+                             idcard =  document.getElementById("idcard").value;
+                             mobile =  document.getElementById("mobile").value;
+                             var communityname = lazy.getParameter("sqobj").title;
+                             var communityid = lazy.getParameter("sqobj").id;
+                             var orgpath = lazy.getParameter("sqobj").path;
+                             var id = lazy.getParameter("id")?lazy.getParameter("id"):'';
+                           
+                     		if(name == ""){alert("姓名不能为空！");return;}
+                     		if(mobile == ""){alert("手机不能为空！");return;}
+                     		if(idcard == ""){alert("身份证不能为空！");return;}
+                     		if(src_string == ""){alert("照片不能为空！");return;}
+                     		if(communityname == ""){alert("社区不能为空！");return;}
+                     		if(idcard.length != 18){alert("身份证号位数不对！");return;}
+                            var url = getIP() + '/wechat/weixinCertificate/savePersonInfo.ht?initid='+wxinitId+'&openid='+wxopenid+'&id='+id+'&username='+name+'&mobile='+mobile+'&idcard='+idcard+'&file='+src_string+'&communityname='+communityname+'&communityid='+communityid+'&orgpath='+orgpath; 	
+                     		lazy.URLRequest(url, function(data){
+                     			document.getElementById("button").disabled=false;
+                                  lazy.alert3("提交成功","信息已经提交，我们会尽快审核，请您耐心等待。",{
+                                	  "yesfun" : function() {
+                                		  //alert(lazy.geturlstr("wxinitId"));
+                                		  //alert(lazy.geturlstr("wxinitId"));
+                                		  lazy.openWin('wode.html?wxopenid='+lazy.geturlstr("wxopenid")+'&wxinitId='+lazy.geturlstr("wxinitId"));
+                                	  }
+                                  });
+                             },function(e){
+                                 lazy.alert(e);
+                             },1);
+                                
+                        }
+                
+                }]
+           var url = getIP()+"/wechat/weixinCertificate/getCommunity.ht?initid="+wxinitId;
+           lazy.URLRequest(url,function(data){
+        	   var arr = [];
+        	   lazy.for(data.rows[0].rows,function(obj){
+        		   arr.push({
+        			   "title" : obj.orgname,
+        			   "path" : obj.path,
+        			   "id" : obj.id
+        		   });
+        	   })
+        	   json[0].shequ = arr;
+        	   setData(json,function(){
+        		   var text = lazy.creat("span","text");
+                   text.innerHTML="请分别上传身份证正面、反面，本人手持身份证正面照片";
+                   document.getElementsByClassName("tr")[2].appendChild(text);
+                   
+                   document.getElementById("name").value=lazy.getParameter("name")?lazy.getParameter("name"):'';
+                   document.getElementById("idcard").value=lazy.getParameter("idcard")?lazy.getParameter("idcard"):'';
+                   document.getElementById("mobile").value=lazy.getParameter("mobile")?lazy.getParameter("mobile"):'';
+                   document.getElementById("community").value=lazy.getParameter("communityname")?lazy.getParameter("communityname"):'';
+                   
+                   document.getElementsByClassName("tr")[1].style.paddingBottom="1rem";
+                   document.getElementsByClassName("tr")[1].getElementsByTagName("span")[0].innerText="历史附件";
+                  
+                   var pics=lazy.getParameter("file")?lazy.getParameter("file"):'';
+                   var addnode = document.getElementsByClassName("add")[0];
+                   var pic_line = document.getElementsByClassName("line")[0];
+                   
+                   for(var i=0 ; i<pics.length; i++){
+                           var zu = lazy.creat("div","zu zu"+(i)+" ub");
+                           var pic = lazy.creat("img","pic ub");
+                           var src = pics[i];
+                           pic.setAttribute('src',src);
+                           zu.appendChild(pic);
+                           pic_line.insertBefore(zu,addnode);
+                       }
+                   
+                	   addnode.style.display='none';
+                    
+                   
+        	   });
+        	   
+           },function(){},1);
+           
+             function photo(){
+            	 lazy.startPhoto(function(pics2, upids){
+                     var addnode = document.getElementById("image").getElementsByClassName("add")[0];
+                     var pic_line = document.getElementById("image").getElementsByClassName("line")[0];
+                     count = count+pics2.length;
+                     if(count <= max){
+                         temp = pics2.length;
+                     }else{
+                         temp = pics2.length - (count-max);
+                     }
+                     count = count-pics2.length;
+                     
+                     for(var i=0 ; i<temp; i++){
+                    	
+                         var zu = lazy.creat("div","zu zu"+(i+count)+" ub");
+                         var pic = lazy.creat("img","pic ub");
+                         var src = pics2[i];
+                         pic.setAttribute('src',src);
+                         pic.setAttribute('upid',upids[i]);
+                        
+                         var cha = lazy.creat("div","cha", {"index":chacha});
+                         chacha++;
+                         cha.onclick = function(){
+                         	
+                         	chacha--;
+                            
+                             this.parentNode.parentNode.removeChild(this.parentNode);
+                             addnode.style.display='';
+                             count--;
+                         }
+                         
+                         zu.appendChild(pic);
+                         zu.appendChild(cha);
+                         
+                         pic_line.insertBefore(zu,addnode);
+                     }
+                     count = document.getElementById("image").getElementsByClassName("zu").length;
+                     
+                    if(count >= max){
+                        addnode.style.display='none';
+                    }
+                
+               });
+               
+           }
+           function add(){
+               var pic_line = document.getElementsByClassName("line")[0];
+               var add = lazy.creat("div","add ub");
+               pic_line.appendChild(add);
+               add.onclick = function(){
+                   photo();
+               }
+           }
+           
+          
+        })
+        
+    </script>
+    </body>
+</html>

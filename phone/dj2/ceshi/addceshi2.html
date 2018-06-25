@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        </style>
+    </head>
+    <script>
+        start(function() {
+            lazy.setHeader({
+                            "title":"开始测试"
+                        });
+             var json=[{
+                 "type":"div",
+                 "style":{"width":"100%","height":"9rem","backgroundImage":"url(he.png)","background-repeat":"no-repeat","background-size":"100% 100%"}
+             },{
+                 "id":"ceshi",
+                 "type":"ceshi",
+                 "style":{"background":"white"},
+                 "table":[]
+             }];
+            setData(json,function(){load()})
+            
+            function load(){
+                var url = getIP()+"/party/DJ_Testquestion/getTest.ht";
+                lazy.URLRequest(url,function(data){
+                 var data=data.rows[0];
+                 s=data.state;
+                if(s==0){
+                    var s={
+                     "icon":data.photo?lazy.getImagePx(data.photo, 120, 120):"../LazyUI/images/morenpeople.png",
+                     "h1":data.name,
+                     "h2":"今天还没有评测哦"
+                    }
+                    var div={
+                             "type":"div",
+                             "style":{"background-color":"#efefef","width":"7rem","height":"7rem","backgroundImage":"url(ceshi.png)","background-repeat":"no-repeat","background-size":"100% 100%","position":"absolute",
+                                      "top":"50%","left":"50%","margin-left":"-3.5rem","margin-top":"5.5rem"
+                         },
+                             "onclick":function(){
+                                 lazy.openWin("ceshi0.html")
+                             }
+                         }
+                     getData("ceshi").add(s)
+                     json.push(div)
+                }else if(s==1){
+                    var s={
+                     "icon":data.photo?lazy.getImagePx(data.photo, 120, 120):"../LazyUI/images/morenpeople.png",
+                     "h1":data.name,
+                     "h2":"今天已评测<span class='jifen' style='background-image:url(jifen.png)'></span><span style='color:#fb3d3d'>+"+data.score+"</span>"
+                    }
+                    var div={
+                             "type":"div",
+                             "style":{"background-color":"#efefef","width":"7rem","height":"7rem","backgroundImage":"url(ceshi_hui.png)","background-repeat":"no-repeat","background-size":"100% 100%","position":"absolute",
+                                      "top":"50%","left":"50%","margin-left":"-3.5rem","margin-top":"5.5rem"
+                             }
+                         }
+                     getData("ceshi").add(s)
+                     json.push(div)
+                     
+                }else{
+                    var s={
+                     "icon":data.photo?lazy.getImagePx(data.photo, 120, 120):"../LazyUI/images/morenpeople.png",
+                     "h1":data.name,
+                     "h2":"今日题库还没有更新，10:00以后再来吧！"
+                    }
+                    var div={
+                             "type":"div",
+                             "style":{"background-color":"#efefef","width":"7rem","height":"7rem","backgroundImage":"url(ceshi_hui.png)","background-repeat":"no-repeat","background-size":"100% 100%","position":"absolute",
+                                      "top":"50%","left":"50%","margin-left":"-3.5rem","margin-top":"5.5rem"
+                             }
+                         }
+                     getData("ceshi").add(s)
+                     json.push(div)
+                }
+                setData(json)
+                },function(){},1)
+            }
+        });
+    </script>
+</html>

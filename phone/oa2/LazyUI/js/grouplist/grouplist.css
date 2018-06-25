@@ -1,0 +1,41 @@
+body[type=body] div[type=grouplist]{
+    width: 100%;
+    height: auto;
+    position: relative;
+    background-color: #fff;
+}
+div[type=grouplist] .groupone{
+    height: 4rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+}
+div[type=grouplist] .icon{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+div[type=grouplist] .iconone{
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    border: 1px solid white;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+div[type=grouplist] .left{
+    padding-left: 0.5rem;
+}
+div[type=grouplist] .right{
+    padding-left: 0.5rem;
+}
+div[type=grouplist] .h1,.h2{
+    height: 2rem;
+    line-height: 2rem;
+    padding-left: 1rem;
+}
+div[type=grouplist] .h2{
+    color: #7B7B7B
+}

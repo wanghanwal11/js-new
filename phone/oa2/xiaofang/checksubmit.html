@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>消防检查</title>
+        <style type="text/css">
+            body{
+                background-color: white!important;
+            }
+            div[type=process]{
+                padding-top: 0.5rem;
+            }
+            div[type=process] .tr{
+                border: 1px solid #c1c1c1;
+                margin-left: 0.5rem;
+                margin-right: 0.5rem;
+            }
+        </style>
+    </head>
+    <script> 
+        start(function() {
+            lazy.setHeader({
+                "title":"消防检查",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : [
+                    {
+                     "icon" : "dui.png",
+                     "onclick" : function() {
+                         var arr1 = getData("fire_process").getArray();
+                         
+                         var arr2 = getData("fire_process2").getArray();
+                         
+                         var arr3 = getData("select").getOption();
+                         
+                         if(!arr1[0].h1){
+                             lazy.alert2("请选择法人");
+                             return;
+                         }
+                         var id =  arr1[0].id;
+                         var name = arr1[0].h1;
+                         var orgid = arr1[0].orgid;
+                         var orgname = arr1[0].orgname;
+                         var corpid = arr1[0].corpid;
+                         var url = getIP() + "/firesys/F_Firesafeinsrecord/save.ht?";
+                         url += 'orgid='+orgid+"&orgname="+orgname+"&nameid="+id+"&name="+name+"&corpid="+corpid;
+                         url += '&df9='+arr1[0].df9;
+                         if(arr1[1]==""){
+                             lazy.alert2("请选择日期");
+                             return;
+                         }
+                         url += '&checktime='+arr1[1];
+                         
+                         url += '&remark='+arr2[0];
+                         
+                         if(arr2[1].length>0){
+                             var imgids = [];
+                             var imgsarr = arr2[1];
+                             for(var i=0;i<imgsarr.length;i++){
+                                 imgids.push(imgsarr[i].id)
+                             }
+                             url += '&imgurl='+imgids;
+                         }
+                         
+                         if(arr3[0].length==0){
+                             lazy.alert2("请选择隐患摘要");
+                             return;
+                         }
+                         var Hiddendanger = "";
+                         for(var i=0;i<arr3[0].length;i++){
+                             for(var j=0;j<arr3[0].length;j++){
+                                 Hiddendanger+='{'+arr3[0][j].id+'},'
+                             }
+                         }
+                         url += '&hiddendanger='+Hiddendanger;
+                         if(arr3[1].length==0){
+                             lazy.alert2("请选择整改意见");
+                             return;
+                         }
+                         var Recopinions = "";
+                         for(var i=0;i<arr3[1].length;i++){
+                             for(var j=0;j<arr3[1].length;j++){
+                                 Recopinions+='{'+arr3[1][j].id+'},'
+                             }
+                         }
+                         url += '&recopinions='+Recopinions;
+                         
+                         lazy.personmessage(function(obj){
+                             url+="&gridmember="+obj.rows[0].username;
+                             lazy.URLRequest(url,function(){
+                                 alert("提交成功");
+                                 window.history.go(-1);
+                             })
+                         })
+                     }
+                 }
+                ]
+            });
+            var json = [
+                {
+                    "id":"fire_process",
+                    "type":"fire_process",
+                    "table":[
+                        {
+                            "title":"法人",
+                            "type":"overtime",
+                            "url":"corplist1.html",
+                        },
+                        {
+                            "type":"date",
+                            "h1":"我社区(村)网格员于",
+                            "h2":"对您的单位进行了检查,发现:"
+                        },
+                    ]
+                },{
+                    "id":"select",
+                    "type":"select",
+                    "option":[{
+                        "title":"安全隐患摘要:",
+                        "arr":[
+                            {"value":"1.用电,用火违章","id":"weizhang"},
+                            {"value":"2.占用防火间距,阻塞消防通道","id":"zhanyong"},
+                            {"value":"3.安全疏散标志损坏","id":"bssh"},
+                            {"value":"4.灭火器材缺失或损坏","id":"mhqss"},
+                            {"value":"5.未落实消防安全管理制度","id":"wlsglzd"},
+                            {"value":"6.未按照规定开展活动","id":"wkzhd"},
+                            {"value":"7.建筑物周围堆放易燃物,可燃物","id":"yrwdf"},
+                            {"value":"8.三合一场所","id":"shycs"},
+                            {"value":"9.其他消防安全情况","id":"otherqk"},
+                            {"value":"10.情况正常","id":"zhengchang"}
+                        ]
+                    },{
+                        "title":"整改意见:",
+                        "arr":[
+                            {"value":"1.上述存在问题,已整改完毕","id":"over"},
+                            {"value":"2.经我社区网格员检查不合格,现移交中网格进行处理","id":"buhege"}
+                        ]
+                    }]
+                },{
+                    "id":"fire_process2",
+                    "type":"fire_process",
+                    "table":[
+                        {
+                                "type":"textarea",
+                                "title":"备注"
+                        },
+                         {
+                            "type":"image",
+                        }
+                    ]
+                }
+            ]
+            setData(json);
+        })
+    </script> 
+</html>

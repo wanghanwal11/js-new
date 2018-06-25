@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>积分查询</title>
+    <script src="../../LazyUI/js/admin.js"></script>
+    <style>
+    body{
+        background-color: #ebebeb !important;
+    }
+    #jifen{
+        margin-top:30%;
+    }
+    </style>
+</head>
+<script>
+    start(function() {
+    	
+        
+       
+        var id1=lazy.geturlstr("wxinitId");
+        var id2=lazy.geturlstr("wxopenid");
+        var obj1={};
+        	
+            
+        var json = [{
+            
+            "type" : "sousuoinput",
+            "select" : function(val1){
+                //alert(val1)
+                if(val1.length != 11){
+                    lazy.alert2('输入手机号错误')
+                    return;
+                }else{
+                    getJf(val1)
+                }
+                
+            },
+            "onfocus":function(){
+            }
+        },{
+            "id":"jifen",
+            "type":"jifen",
+            "phone":"",
+            "jifen":""
+        }]
+        setData(json,function(){
+        	var input = document.getElementsByTagName("input")[0].setAttribute("placeholder","请输入您要查询的手机号")
+            
+            getData('jifen').hide()
+            
+        });
+        
+        function getJf(phone){
+            if(document.getElementsByClassName('zwsjXT')[0]){
+                var zwsjXT = document.getElementsByClassName('zwsjXT')[0];
+                document.body.removeChild(zwsjXT)
+            }
+            
+            var url = getIP()+"/wechat/weixinyjwjifen/list.ht?phone="+phone
+            lazy.GET(url,function(data){
+                if(data.rows.length == 0){
+                    getData('jifen').hide()
+                    if(!document.getElementsByClassName("zwsjXT")[0]){
+                        lazy.datanull2(document.getElementsByClassName("table")[0],'../../LazyUI/images/datanull4.png')
+                        document.getElementsByClassName('zwsjXT')[0].style.backgroundSize="15rem"
+                    }
+                }else{
+                    getData('jifen').show()
+                    getData("jifen").addPhone(phone);
+                    var jifen = data.rows[0].jifen
+                    getData("jifen").addValue(jifen);
+                }
+                
+            },function(e){
+                lazy.alert2(e)
+            })
+        }
+        
+        
+        
+    });
+</script>
+</html>

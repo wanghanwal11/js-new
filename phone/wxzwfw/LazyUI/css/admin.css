@@ -1,0 +1,536 @@
+html,body {
+    padding: 0;
+    margin: 0;
+    -webkit-text-size-adjust: none;
+    -webkit-user-select:none;
+    height: 100%;
+}
+body {
+    font-family: '微软雅黑', Helvetica, Arial, sans-serif;    
+    -webkit-user-select: none;
+    min-height: 100%;
+    width: 100%;
+    -webkit-box-sizing:border-box;
+    background-color: #efefef;
+    color: #444;
+}
+.ub {
+    display: -webkit-box;
+    position: relative;
+}
+.ub-f1 {
+    -webkit-box-flex: 1;
+    position: relative;
+}
+.ub-ver {
+    -webkit-box-orient:vertical;
+}
+.slh {
+    text-overflow:ellipsis ;
+    white-space:nowrap ;
+    overflow: hidden;
+
+}
+.hh {
+    height :auto;
+    word-wrap: break-word;
+    word-break: normal; 
+}
+.hide {
+    display: none;
+}
+.show {
+    display: block;
+}
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+span {
+    font-size: 0.9rem;
+}
+.span1 {
+    font-size: 0.8rem;
+}
+.span2 {
+    font-size: 0.9rem;
+}
+.span3 {
+    font-size: 1rem;
+}
+a {
+    text-decoration: none;
+    display:block;
+    -webkit-tap-highlight-color: rgba(142, 142, 142, 0.1);
+    color: #444;
+}
+input {
+     font-size: 1rem;
+     outline:none;
+     font-family:'微软雅黑';
+     }
+input::-webkit-input-placeholder {
+    font-family:'微软雅黑';
+    color: #888;
+}
+textarea {
+    font-size: 1rem;
+    outline:none;
+    font-family:'微软雅黑';
+}
+textarea::-webkit-input-placeholder {
+    font-family:'微软雅黑';
+    color: #888;
+}
+.iframeparent {
+    -webkit-overflow-scrolling: touch;  
+    overflow-y: scroll;  
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 99;
+    left: 0%;
+    top:0;
+    background-color: #fff;
+}
+@-webkit-keyframes iframeshow {
+    from {left: 100%;}
+    to {left: 0%;}
+}
+@-webkit-keyframes iframehide {
+    from {left: 0%;}
+    to {left: 100%;}
+}
+.iframeparent iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+img {
+    max-width: 100%;
+}
+.faceimg {
+    width: 1rem;
+    height: 1rem;
+    padding: 0 0.3rem;
+}
+/*框架自带的 z-index都大于100*/
+/*alertDiv*/
+.alertDiv {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}    
+.alertDiv .alertcon {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.alertDiv span {
+    font-size: 0.9rem;
+}
+.alertDiv .alertcontent {
+    margin: auto;
+    width: 16rem;
+    height: auto;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    -webkit-box-sizing: border-box;
+    position: relative;
+}
+.alertDiv .alertbutton {
+    margin-top: 0.8rem;
+    height: 2rem;
+    -webkit-box-sizing: border-box;
+}
+.alertDiv .alertbtn {
+    height: 2rem;
+    line-height: 2rem;
+    width: 0;
+    -webkit-box-sizing: border-box;
+    border: 1px solid #FB3D3D;
+    background-color: #FB3D3D;
+    color: #fff;
+    border-radius: 1rem;
+}
+.alertDiv .nobtn {
+    background-color: #fff;
+    color: #f20;
+}
+.alertDiv .closebtn {
+    background-image: url(../images/hc.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 0.83rem;
+    height: 0.83rem;
+    background-size: 100% 100%;
+    position: absolute;
+    z-index: 2;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+ /* backgroundcolor*/
+.bcolor0 {
+    background-color: #5fc9f7;
+}
+.bcolor1 {
+    background-color: #f75e5d;
+}
+.bcolor2 {
+    background-color: #77bf70;
+}
+.bcolor3 {
+    background-color: #ff943d;
+}
+.bcolor4 {
+    background-color: #f6bf27;
+}
+.bcolor5 {
+    background-color: #5c98f5;
+}
+.bcolor6 {
+    background-color: #9a89ba;
+}
+/*loading*/
+#loading {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    display: none;
+}
+#loading .loading {
+    width: 100%;
+    height: 100%;
+}
+#loading .loadingcondiv {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+#loading .loadingtitle {
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+    margin: auto;
+    -webkit-box-sizing:border-box;
+    background-repeat: no-repeat;
+}
+#loading .lt0 {
+    color: #fff;
+    line-height: 7.5rem;
+    border-radius: 0.5rem;
+    background-color: rgba(127,127,127,0.9);
+    background-image: url(../images/loading0.gif);
+    background-size: 1.7rem 1.7rem;
+    background-position: center 1rem;
+}
+#loading .lt1 {
+    background-image: url(../images/loading1.gif);
+    background-size: 6rem 4.5rem;
+    line-height: 7rem;
+    background-position: center 0;
+}
+/*bounceLoading*/
+#bounceLoading {
+    position: relative;
+    width: 100%;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    color: #999;
+}
+/*alert2*/
+.alert2 {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9999;
+    padding: 42% 1rem;
+    top: 0;
+    left: 0;
+    -webkit-box-sizing:border-box;
+    -webkit-animation: tan 1s;
+    -webkit-animation-timing-function: ease-out;
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+}
+@-webkit-keyframes tan {
+    0% {padding: 42% 1rem; opacity: 0}
+    50% {padding: 40% 1rem; opacity: 1}
+    100% {padding: 42% 1rem; opacity: 1}
+}
+.alert2content {
+    -webkit-box-sizing:border-box;
+    width: 100%;
+    padding: 0.5rem 0.9rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    line-height: 1.5rem;
+    color: #fff;
+    border-radius: 0.5rem;
+}
+.alert2content span {
+    font-size: 0.8rem;
+}
+/*icon*/
+.morenpeople {
+    background-image: url(../images/morenpeople.png);
+}
+.iconimg {
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    color: #fff;
+}
+.iconimg span {
+    font-size: 0.7rem;
+}
+/*showimage*/
+#showImageDiv {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+}
+#showImageDiv canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.showImagekuang {
+   width: 100%;
+   height: 100%;
+   z-index: 999; 
+   left: 0;
+   top: 0;
+   position: absolute;
+}
+.showImageMask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.2);
+}
+/*alertlist*/
+.alertlistmask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 110;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.4);
+    text-align: center;
+}
+.alertlistmask .alertlistdiv {
+    width: 100%;
+    height: auto;
+    padding: 2rem;
+    text-align: center;
+    -webkit-box-sizing:border-box;
+}
+.alertlistmask .alertlisttr{
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing:border-box;
+    background-color: #f5f5f5;
+    box-shadow: 0.1rem 0.1rem 0.3rem 0.1rem #333;
+    border-radius: 0.2rem;
+}
+.alertlistmask .tr {
+    padding: 0 0.5rem;
+    height: 3rem;
+    line-height: 3rem;
+    border-bottom: 1px solid #e4e4e4;
+    text-align: left;
+}
+.alertlistmask .tr span{
+    font-size: 1rem;
+}
+.alertlistmask .tr:last-child {
+    border-bottom: none;
+}
+/*alert3*/
+.alertDiv3 {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}    
+.alertDiv3 .alertcon {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.alertDiv3 span {
+    font-size: 0.8rem;
+}
+.alertsucc{
+     height: 6rem;
+     background: url(../images/success.png) center no-repeat;
+     background-size: 5.2rem 5.2rem;
+}
+.alertDiv3 .alertcontent1 {
+    margin: auto;
+    width: 16rem;
+    height: auto;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    -webkit-box-sizing: border-box;
+    position: relative;
+}
+.alertDiv3 .alertbutton {
+    margin-top: 0.8rem;
+    height: 2rem;
+    -webkit-box-sizing: border-box;
+}
+.alertDiv3 .alertbtn {
+    height: 2rem;
+    line-height: 2rem;
+    width: 0;
+    -webkit-box-sizing: border-box;
+    border: 1px solid #FB3D3D;
+    background-color: #FB3D3D;
+    color: #fff;
+    border-radius: 1rem;
+}
+
+.alertDiv3 .comcirm{
+    text-align: center;
+}
+.alertDiv3 .alertbtn1 {
+    height: 2rem;
+    line-height: 2rem;
+    width: 0;
+    -webkit-box-sizing: border-box;
+    background-color: #3399fd;
+    color: #fff;
+    border-radius: 1rem;
+}
+.alerttip{
+    text-align: center;
+    color: #3399fd;
+    margin-top: 0.5rem;
+}
+.alerttip2{
+    text-align: center;
+    color: #BBBBBB;
+}
+.alertDiv .alertcontent1 {
+    margin: auto;
+    width: 16rem;
+    height: auto;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 0 1.5rem;
+    -webkit-box-sizing: border-box;
+    position: relative;
+.tanchu{
+    
+}
+/*centerdiv*/
+.centermask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 110;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.4);
+}
+.centermask .centerdiv {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+/*aynDiv*/
+#aynDiv {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.2);
+    display: none;
+}
+#aynDiv .aynkuang {
+    width: 15rem;
+    height: 7.5rem;
+    padding: 0.8rem;
+    -webkit-box-sizing:border-box;
+    border-radius: 0.2rem;
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+#aynDiv .btns {
+    height: auto;
+    width: 100%;
+}
+#aynDiv .aynyes {
+    background-color: #31aaff;
+    width: 6.2rem;
+    text-align: center;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    color: #fff;
+}
+#aynDiv .aynno {
+    background-color: #c7c7c7;
+    width: 6.2rem;
+    text-align: center;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    color: #fff;
+}
+#aynDiv .ayntitle {
+    height: 3rem;
+    width: 100%;
+}
+/*zwsjXT*/
+.zwsjXT {
+    width: 100%;
+    height: 6rem;
+    color: #f20;
+    background-image: url(../images/zwsj.png);
+    background-position: center 8rem;
+    background-size: 10rem 7.5rem;
+    background-repeat: no-repeat;
+    text-align: center;
+    padding-top: 18rem;
+}
+@font-face { 
+  font-family: fz; 
+  src: url('../images/FZZQJW.TTF')
+}
+.fz{
+  font-family: fz;  
+}
+/*箭头开始*/
+.arrow_r{display: inline-block; width: 10px;  height: 10px;  overflow: hidden;margin-left:0.8rem;}
+.arrow_r:before {content: '';display: block; width: 6px; height: 6px; border-left: 1px solid #bbb;border-top: 1px solid #bbb;margin: 2px 0 0 -2px; -webkit-transform: rotate(135deg); -moz-transform: rotate(135deg);-ms-transform: rotate(135deg); -o-transform: rotate(135deg);transform: rotate(135deg);}
+.arrow_l{display: inline-block; width: 10px;  height: 10px;  overflow: hidden;margin-left:0.8rem;}
+.arrow_l:before {content: '';display: block; width: 6px; height: 6px; border-left: 1px solid #fff;border-top: 1px solid #fff;margin: 2px 0 0 -2px; -webkit-transform: rotate(135deg); -moz-transform: rotate(135deg);-ms-transform: rotate(135deg); -o-transform: rotate(135deg);transform: rotate(135deg);}
+.arrow_t{display: inline-block; width: 13px;  height: 10px;  overflow: hidden;margin-left:0.5rem;}
+.arrow_t:before {content: '';display: block; width: 6px; height: 6px; border-left: 1px solid #bebebe;border-top: 1px solid #bebebe;margin-top:4px; margin-left: 1px; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg);-ms-transform: rotate(45deg); -o-transform: rotate(45deg);transform: rotate(45deg);}
+.arrow_d{display: inline-block; width: 9px;  height: 10px;  overflow: hidden;margin-left:0.8rem;}
+.arrow_d:before {content: '';display: block; width: 7px; height: 6px; border-left: 1px solid #bebebe;border-top: 1px solid #bebebe; -webkit-transform: rotate(225deg); -moz-transform: rotate(225deg);-ms-transform: rotate(225deg); -o-transform: rotate(225deg);transform: rotate(225deg);}

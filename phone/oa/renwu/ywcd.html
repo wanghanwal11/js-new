@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>已完成的</title>
+        <style>
+            #titlebtnlist1 .jzsj{
+                float: right;
+                color: #f20;
+                padding-left: 1rem;
+                background-position: left center;
+                background-repeat: no-repeat;
+                background-size: 0.8rem;
+                background-image: url(../LazyUI/images/renwu/shijian.png);
+            }
+            #titlebtnlist1 .point {
+                display: none;
+            }
+            .hong {
+                color: #f20;
+            }
+            .cheng {
+                color: #f60;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+               var page = 1;
+            var search = "";
+            var json = [{
+                    "type" : "sousuoinput_move",
+                    "select" : function(val){
+                        page = 1;
+                        getData("titlebtnlist1").clean();
+                        search = val;
+                        load(search);
+                    }
+                },{
+                    "id" : "titlebtnlist1",
+                    "type" : "titlebtnlist1",
+                    "table" : []
+                }];
+            setData(json,function(){
+                lazy.bounce({
+                    "up" : function(){
+                        load(search);
+                    }
+                 }); 
+                load(search)
+            });
+            function load(val){
+                var url = config.worktasklist+"type=wancheng&rows=50&page="+page;
+                if(val!="") url+="&title="+val;
+                lazy.URLRequest(url,function(data){
+                    var data = data.rows;
+                    if(data.length<50) lazy.stopBounce();
+                    for(var i=0;i<data.length;i++){
+                        var tmp = {
+                            "id" : data[i].id,
+                            "h1" : data[i].title,
+                            "h3" : lazy.format(data[i].createtime,"yyyy-MM-dd"),
+                            "h2" : "负责人："+data[i].recename+jzsj(new Date(data[i].endtime)),
+                            "rwtype" : "wc",
+                            "onclick" : function(obj){
+                                lazy.setParameter("rw",obj);
+                                parent.lazy.openWin("renwuxq.html");
+                            }
+                        }
+                        getData("titlebtnlist1").add(tmp)
+                    }
+                    page++;
+                },function(){
+                    lazy.stopBounce();
+                })
+            }
+            //截至日期
+            function jzsj(time) {
+                return '<span class="jzsj">截至时间：'+lazy.autoFormat(time)+'</span>';
+            }
+        });
+    </script>
+</html>

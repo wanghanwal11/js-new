@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="LazyUI/js/admin.js"></script>
+        
+    </head>
+    <style>
+        img{
+           width: 100% !important;
+       }
+    </style>
+    <body>
+       
+    </body>
+    <script>
+        start(function() {
+               var type = lazy.geturlstr("type");
+               var img_src = '';
+               var download_src = '';
+               var u = navigator.userAgent;
+               var app = navigator.appVersion;
+               
+               var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+               var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+              
+               switch(type){
+                   case 'edj':
+                   
+                        if(isIOS){
+                             download_src = "https://itunes.apple.com/cn/app/e-dang-jian/id1138138046?mt=8";
+                        }else{
+                            download_src = "https://vitoyun.cn/app/apk/eDangJian.apk";
+                           
+                        }
+                        img_src = "image/edj.jpg";
+                        break;
+                   case 'ezw':
+                        if(isIOS){
+                             download_src = "https://itunes.apple.com/cn/app/e-zheng-wu/id1129042853?mt=8";
+                        }else{
+                            download_src = "https://vitoyun.cn/app/apk/eZhengWu.apk";
+                           
+                        }
+                        img_src = "image/ezw.jpg";
+                        break;
+               }
+              
+               setData([
+                   {
+                       "id":"pic",
+                       "type" : "imgmapdiv",
+                       "src" : img_src,
+                       "rect" : [
+                            {
+                                "coords" : "0,820,720,1280",
+                                "href" :download_src,
+                                    
+                                
+                            }
+                       ]
+                   },{
+                       "id":"ios",
+                       "type" : "imgmapdiv",
+                       "showHide" : 'hide',
+                       "src" : "image/ios.jpg",
+                       "rect" : []
+                   },{
+                       "id":"android",
+                       "type" : "imgmapdiv",
+                       "showHide" : 'hide',
+                       "src" : "image/android.jpg",
+                       "rect" : []
+                   }
+                   
+               ],function(){
+                    
+                   if(lazy.browserType == 'weixin'){
+                       getData("pic").hide();
+                       if(isIOS){
+                           getData("ios").show();
+                       }else if(isAndroid){
+                           
+                           getData("android").show();
+                       }
+                   }
+               })
+               
+        });
+    </script>
+</html>

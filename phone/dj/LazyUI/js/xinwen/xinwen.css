@@ -1,0 +1,41 @@
+div[type=xinwen]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	position:relative;
+	-webkit-box-orient:vertical;
+}
+div[type=xinwen] .tr {
+    min-height: 2.2rem;
+    width: 100%;
+    margin-top: 0.3rem;
+} 
+div[type=xinwen] .tr:last-child {
+    margin-bottom:0;
+}
+div[type=xinwen] .icon {
+    height:2.8rem;
+    width:2.8rem;
+    border-radius:0.3rem;
+    background-image: url("../../images/gy_panel1_mr.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin-left: 0.3rem;
+}
+div[type=xinwen] .h {
+    line-height: 0.9rem;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    background: rgb(220, 228, 231);
+    margin-left: 0.3rem
+} 
+div[type=xinwen] .h1{
+    word-break:break-all;
+}
+div[type=xinwen] .h1 span,div[type=xinwen] .h2 span,div[type=xinwen] .h3 span {
+    color: #514a49;
+    font-size: 0.6rem;
+    display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+} 

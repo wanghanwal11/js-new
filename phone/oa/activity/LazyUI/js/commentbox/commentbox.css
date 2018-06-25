@@ -1,0 +1,140 @@
+body[type=body] div[type=commentbox]{
+	position:fixed;
+	width: 100%;
+	height: height;
+	bottom: 0;
+	left: 0;
+	font-size: 1rem;
+	z-index: 99;
+	background-color: #fff;
+	-webkit-box-sizing: border-box;
+}
+.commentboxzw {
+    position:relative;
+    width: 100%;
+    height: 2.5rem;
+}
+.commentboxzw2 {
+    position:relative;
+    width: 100%;
+    height: 8rem;
+    display: none;
+}
+div[type=commentbox] .showdiv {
+    height: 2.5rem;
+    line-height: 2.5rem;
+    width: 100%;
+    position:relative;
+    border-top: 1px solid #dfdfdf;
+}
+div[type=commentbox] .btn {
+    width: 4rem;
+    height: 100%;
+    border-left: 1px solid #dfdfdf;
+}
+div[type=commentbox] .iconbtn {
+    width: 100%;
+    height: 100%;
+}
+div[type=commentbox] .iconbtntitle {
+    color: #999;
+    text-align: left;
+}
+div[type=commentbox] .iconbtn1 {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 0.9rem;
+    width: 1.5rem;
+    height: 100%;
+}
+div[type=commentbox] .pingbtn {
+    background-image: url(images/ping.png);
+}
+div[type=commentbox] .fenbtn {
+    background-image: url(images/fen.png);
+}
+div[type=commentbox] .shoubtn {
+    background-image: url(images/shou.png);
+}
+div[type=commentbox] .pingtitle {
+    color: #999;
+    text-align: left;
+    padding-left: 3rem;
+    background-position: 1.8rem center;
+    background-repeat: no-repeat;
+    background-size: 0.9rem;
+    background-image: url(images/title.png);
+}
+/*///////////////////////////*/
+div[type=commentbox] .inputdiv {
+    min-height: 2.5rem;
+    height: auto;
+    width: 100%;
+    position:relative;
+    border-top: 1px solid #dfdfdf;
+    -webkit-box-sizing: border-box;
+    padding: 0 1rem;
+    background-color: #efefef;
+}
+div[type=commentbox] .biaoqing {
+    height: 2.5rem;
+    width: 2rem;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 1.5rem;
+    background-image: url(images/bq.png);
+    position: absolute;
+    left: 1rem;
+    bottom: 0;
+}
+div[type=commentbox] .biaoqingzw {
+    height: 2.5rem;
+    width: 2rem;
+}
+div[type=commentbox] .btnzw {
+    height: 2.5rem;
+    width: 2rem;
+}
+div[type=commentbox] .textdiv {
+    font-size: 0.8rem;
+    border: 1px solid #dedede;
+    border-radius: 0.2rem;
+    background-color: #f9f9f9;
+    overflow:visible;
+    height: 1.5rem;
+    line-height: 1.5rem; 
+    display: block;
+    margin-top: 0.4rem;
+}
+div[type=commentbox] .sendbtn {
+    width: 2rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: right;
+    position: absolute;
+    right: 1rem;
+    bottom: 0;
+}
+/*face*/
+div[type=commentbox] .facediv {
+    height: 8rem;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    background-color: #efefef;
+    border-top: 1px solid #dfdfdf;
+}
+div[type=commentbox] .facediv > a {
+    width: 25%;
+    height: 4rem;
+    line-height: 4rem;
+    float: left;
+    text-align: center;
+}
+
+div[type=commentbox] .facediv img {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin: auto;
+}
+
+

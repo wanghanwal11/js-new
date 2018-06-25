@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        #bounceLoading{
+            display: none;
+        }
+        div[type=movebutton] .tr span{
+                color: #9c9c9c;
+                font-size: 1rem;
+            }
+       div[type=wenjian] .title:nth-child(1){
+           border-bottom: 1px solid #f2f2f2;
+       }
+        div[type=wenjian] .title:nth-child(2){
+           line-height: 2rem!important;
+       }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var hyobj=lazy.getParameter("hyobj");
+            var id=lazy.getParameter("hyid");
+            var sum=0;
+             lazy.setHeader({
+                            "title":"主题党日＋"
+                        });
+            var json = [{
+                            "id":"shyk",
+                            "type" : "shyk",
+                            "table" : [{
+                                "icon" : hyobj.icon,
+                                "h1" : hyobj.h1,
+                                "h2" : hyobj.h2,
+                                "h4" : hyobj.h4,
+                                "h3":hyobj.h3
+                            }]
+                            
+                        },{
+                             "type":"movebutton",
+                             "index":0,
+                             "table":[{
+                                 "label":"活动详情",
+                                 "onclick":function(){
+                                     page=1;
+                                     sum=0;
+                                     getData("div").show()
+                                     getData("hyry").clean()
+                                     getData("wenjian1").clean()
+                                     hyxq()
+                                 }
+                             },{
+                                 "label":"活动人员",
+                                 "onclick":function(){
+                                     page=1
+                                     sum=1;
+                                     getData("div").hide()
+                                     getData("wenjian1").clean()
+                                     hyry()
+                                 }
+                             },{
+                                 "label":"活动相关",
+                                 "onclick":function(){
+                                     page=1
+                                     sum=2;
+                                     getData("hyry").clean()
+                                     getData("div").hide()
+                                     hyxg()
+                                 }
+                             }]
+                         },{
+                            "id":"div",
+                            "type":"div",
+                            "text":""
+                        },{
+                            "id":"hyry",
+                            "type" : "hyry",
+                            "table" : []
+                            
+                        },{
+                            "id":"wenjian1",
+                            "type" : "wenjian",
+                            "table" : []
+                        }];
+            setData(json,function(){hyxq()})
+            function hyxq(){
+                lazy.URLRequest(djconfig.shykxq+"id="+id, function(data) {
+                getData("div").addtext(data.rows[0].mcontent);
+            },function(){lazy.closeBounce()}, 0)
+            }
+             function hyry(){
+                lazy.URLRequest(djconfig.hyry+"id="+id+"&rows=20&page="+page, function(data) {
+                    var data=data.rows;
+                        for(var i=0;i<data.length;i++){
+                        var people=data[i].innerpostname?("-"+data[i].innerpostname):""
+                        var f={
+                            "src":data[i].picture?lazy.getImagePx(data[i].picture, 60, 60):"../LazyUI/images/morenpeople.png",
+                            "name":data[i].name+people,
+                        }
+                        getData("hyry").add(f);
+                        }
+                    page++;
+                },function(){lazy.closeBounce();}, 0)
+            }
+             function hyxg(){
+                 lazy.URLRequest(getIP()+'/party/DJ_SanHuiYiKe/getAppendix.ht?'+"id="+id+"&rows=20&page="+page, function(data) {
+                    var dd=data.newPrimaryKeys.maddress
+                    var data=data.rows[0].file;
+                    if(page==1){
+                        var h=[{
+                                "title":"地址："+dd,
+                            },{
+                                "title":"附件",
+                            }]
+                        getData("wenjian1").addtitle(h);
+                    }
+                    if(data.length>0){
+                        for(var i=0;i<data.length;i++){
+                        var src=data[i].fileurl;
+                        var f={
+                            "fileurl":src,
+                            "src":"../LazyUI/js/wenjian/"+lazy.getFlieType(src.substring(src.lastIndexOf(".")+1))+".png",
+                            "name":data[i].filename,
+                        }
+                        getData("wenjian1").add(f);
+                        }
+                    }
+                    page++;
+                },function(){lazy.closeBounce();}, 0)
+            }
+            
+            lazy.bounce({"up":function(){
+                if(sum==1){
+                   hyry() 
+                }
+               }}); 
+        })
+    </script>
+</html>

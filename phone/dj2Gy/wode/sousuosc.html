@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+            var val="";
+            lazy.setHeader({
+                            "title":"收藏",
+                        });
+            var json=[{
+                            "type" : "sousuoinput1",
+                            "select" : function(val1){
+                                if(val1!=""){
+                                   val=val1;
+                                   page=1;
+                                   getData("wodesc").clean();
+                                   load(val);
+                                }
+                            }
+                        },{
+                        "id" : "wodesc",
+                        "type" : "wodesc",
+                        "table" : []
+                    },{
+                        "id":"fudong",
+                        "type":"ewm1",
+                        "select":function(){
+                               getData("fudong").setHide();
+                            },
+                            "con":["删除","取消"],
+                            "onclick":function(index){
+                                if(index==0){
+                                    lazy.URLRequest(djconfig.scsc+"id="+id, function(data) {
+                                        alert("删除成功");
+                                        lazy.refresh()
+                                    })
+                                }else{
+                                   getData("fudong").setHide(); 
+                                }
+                            }
+                    }]
+            setData(json)
+            function load(value){
+                lazy.URLRequest(djconfig.wdsc+"rows=20&page="+page+"&title="+value, function(data) {
+                    lazy.closeBounce();
+                    var data=data.rows;
+                    if(data.length==0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                         }
+                     }
+                    for(var i=0;i<data.length;i++){
+                        var time="";
+                            if(data[i].createtime){
+                                time=lazy.format(data[i].createtime,"MM-dd")
+                            }
+                        var s={
+                                "id":data[i].id,
+                                "ids":data[i].relaid,
+                                "src" : data[i].def1?lazy.getImagePx(data[i].def1, 45, 45):"../LazyUI/images/morenpeople.png",
+                                "name" : data[i].source,
+                                "time" : time,
+                                "title":data[i].title,
+                                "img":data[i].image?lazy.getImagePx(data[i].image, 180, 150):"../LazyUI/images/mr.jpg",
+                                "url":data[i].url,
+                                "sorce":data[i].type,
+                                "clk":function(tr,obj){
+                                    lazy.onclick(tr,function(){
+                                        lazy.setParameter("title",obj.sorce)
+                                        lazy.openWin(obj.url)
+                                    },function(){
+                                        id=obj.id;
+                                        getData("fudong").setShow();
+                                    })
+                                }
+                            }
+                       getData("wodesc").one(s);
+                    }
+                    page++
+                },function(){lazy.closeBounce();})
+            }
+            lazy.bounce({"up":function(){
+                load(val)
+               }}); 
+        })
+    </script>
+</html>

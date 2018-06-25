@@ -1,0 +1,86 @@
+body[type=body] div[type=table10]{
+	-webkit-box-sizing:border-box;
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+    margin-bottom: 1rem;
+    overflow:hidden;
+    background-color: #fff;
+}
+div[type=table10] .title{
+    width: 100%;
+    padding: 1rem;
+}
+div[type=table10] .icons{
+    width: 2rem;
+    height:2rem;
+    vertical-align: middle;
+    float: left;
+    margin-right: 0.5rem;
+}
+div[type=table10] .table {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid #f1f1f1;
+}
+div[type=table10] .tr {
+    width: 100%;
+    height: auto;
+}
+div[type=table10] .td {
+    text-align: center;
+    width: 0;
+    display: block;
+    color: #000;
+    -webkit-box-sizing:border-box;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    position:relative;
+}
+div[type=table10] .td:last-child {
+    border-right: none;
+}
+div[type=table10] .icon {
+   
+    height: 3rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 2.5rem;
+    margin-bottom: 0.2rem;
+}
+div[type=table10] .label span{
+    font-size: 1rem;
+}
+div[type=table10] .label {
+    height: 1.3rem;
+    line-height: 1.3rem;
+}
+div[type=table10] .td0{
+     margin: auto;
+    width: 2.6rem; 
+    position: relative;
+}
+div[type=table10] .icon2 {
+    width: 1.2rem; 
+    height: 1.2rem;
+    background-image:url('yy.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1.2rem;
+    position:absolute;
+    top: 0rem;
+    right: 0;
+}
+div[type=table10] .icon3 {
+    width: 1.2rem; 
+    height: 1.2rem;
+    background-image:url('ys.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1.2rem;
+    position:absolute;
+    top: 0rem;
+    right: 0;
+}

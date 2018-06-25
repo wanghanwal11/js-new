@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=a0efffe14f35b048afbd62d95e342d28&plugin=AMap.Geocoder"></script>
+        <title>一键报警</title>
+        <style type="text/css">
+            body{
+                background-color: white!important;
+            }
+            div[type=process]{
+                padding-top: 0.5rem;
+            }
+            div[type=process] .tr{
+                border: 1px solid #c1c1c1;
+                margin-left: 0.5rem;
+                margin-right: 0.5rem;
+            }
+        </style>
+    </head>
+    <script> 
+        start(function() {
+            //var address = "";
+            lazy.personmessage(function(obj){
+                lazy.setHeader({
+                    "title":"一键报警",
+                    "color":lazy.getParameter("Bgcolor"),
+                    "rightbtn" : []
+                });
+                var userAreaId = obj.rows[0].userAreaId?obj.rows[0].userAreaId:"1234";
+                var userAreaPath = obj.rows[0].userAreaPath?obj.rows[0].userAreaPath:"1234";
+                var orgName = obj.rows[0].orgName?obj.rows[0].orgName:"123412341";
+                var name = obj.rows[0].fullname?obj.rows[0].fullname:"1234123";
+                var json = [
+                    {
+                        "id":"fire_process",
+                        "type":"fire_process",
+                        "table":[
+                            {
+                                "title":"上报网格",
+                                "type":"input",
+                                "edit":"false",
+                                "value":orgName
+                                //"url":"corplist.html",
+                            },
+                            {
+                                "title":"负责人",
+                                "type":"input",
+                                "edit":"false",
+                                "value":name
+                            },{
+                                "type":"input",
+                                "title":"联系电话",
+                            },{
+                                "type":"input",
+                                "title":"上报位置",
+                            },{
+                                "type":"alarm",
+                                "title":"位置上报并拨打119",
+                                "onclick":function(){
+                                    var arr = getData("fire_process").getArray();
+                                    var url = getIP() + "/firesys/F_Onebuttonalarm/save.ht?orgid="+userAreaId+"&orgname="+orgName;
+                                    url+="&orgpath="+userAreaPath+"&head="+name;
+                                    if(arr[2]==""){
+                                        lazy.alert2("请输入联系方式");
+                                        return;
+                                    }
+                                    url+="&tel="+arr[2];
+                                    if(arr[4].length>0){
+                                         var imgids = [];
+                                         var imgsarr = arr[4];
+                                         for(var i=0;i<imgsarr.length;i++){
+                                             imgids.push(imgsarr[i].id)
+                                         }
+                                         url += '&imgurl='+imgids;
+                                     }
+                                     if(arr[3]==""){
+                                         lazy.alert2("请输入上报位置");
+                                         return;
+                                     }
+                                     url+="&position="+arr[3];
+                                     var gps = {};
+                                     lazy.getGps(function(point) {
+                                         gps = point;
+                                     })
+                                     url+="&df4="+JSON.stringify(gps);
+                                     lazy.URLRequest(url,function(){
+                                         // alert("")
+                                         // window.history.go(-2);
+                                         lazy.alert2("上报成功");
+                                         lazy.Call("119");
+                                     })
+                                }
+                            },{
+                                "type":"image",
+                            }
+                        ]
+                    }
+                    // ,{
+                        // "type":"button",
+                        // "label" : "定位中...",
+                    // }
+                ]
+                setData(json,function(){
+                    // lazy.getGps(function(point) {
+                        // lazy.gpsToAmap(point, function(_point) {
+                            // lazy.getGpsName(_point, function(data) {
+                                // var qddd = document.getElementsByClassName("buttondiv")[0];
+                                // address = data.regeocode.formattedAddress;
+                                // qddd.innerHTML = '<span>'+(data.regeocode.formattedAddress)+'</span>';
+                            // });
+                        // });
+                    // });
+                });
+            })
+        })
+    </script> 
+</html>

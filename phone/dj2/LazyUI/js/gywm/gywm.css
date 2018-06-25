@@ -1,0 +1,29 @@
+div[type=gywm] .table {
+    background-color: #efefef;
+
+}
+div[type=gywm] .banner{
+    width:100%;
+}
+div[type=gywm] .tu{
+    width:49.8%;
+    margin: 0 auto;
+    background: url(images/banner.png) center  no-repeat;
+    background-size: 100%;
+     height: 16rem;
+}
+div[type=gywm] .row1{
+    background-color: #FFFFFF;
+    padding: 0.5rem 3%;
+}
+div[type=gywm] .content{
+    background-color: #FFFFFF;
+    padding: 0.5rem 3%;
+    margin-bottom: 0.5rem;
+}
+div[type=gywm] .footer{
+    width:100%;
+    position: absolute;
+    bottom: 1rem;
+    text-align: center;
+}

@@ -1,0 +1,51 @@
+body[type=body] div[type=headerbutton]{
+	-webkit-box-sizing:border-box ;
+	position:relative ;
+	width: 100% ;
+	height: auto ;
+    font-size: 1rem ;
+    color: #fff ;
+    overflow: hidden ;
+}
+div[type=headerbutton] .tr {
+    height: auto;
+    background-color: #fe943e;
+}
+div[type=headerbutton] .td {
+    -webkit-box-sizing:border-box;
+    width: 0;
+    height: 7rem;
+    padding-top: 1.5rem;
+}
+div[type=headerbutton] .icon {
+    height: 3.5rem;
+    width: 3.5rem;
+    margin: auto;
+    position: relative;
+    
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 3rem;
+}
+div[type=headerbutton] .title {
+    width: 100%;
+    height: 1.5rem;
+    text-align: center;
+}
+div[type=headerbutton] .title span{
+    font-size: 0.75em;
+}
+div[type=headerbutton] .point {
+    height: 0.9rem;
+    line-height: 0.6rem;
+    width: 0.9rem;
+    text-align: center;
+    border-radius: 0.9rem;
+    background-color: #f20;
+    position: absolute;
+    right: 0.15rem;
+    top: 0.15rem;
+}
+div[type=headerbutton] .point span {
+    font-size: 0.45rem;
+}

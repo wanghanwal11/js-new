@@ -1,0 +1,54 @@
+body[type=body] div[type=event_select]{
+    width: 100%;
+    height: auto;
+    font-size: 1rem;
+    position: relative;
+    -webkit-box-sizing:border-box;
+    background-color: #fff;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+div[type=event_select] .h1{
+    height: 1.5rem;
+    line-height: 1.5rem;
+    color: #ccc;
+    margin-bottom: 0.5rem;
+}
+div[type=event_select] .h1 span {
+    font-size: 0.8rem;
+}
+div[type=event_select] .hang {
+    padding-bottom: 0.5rem;
+} 
+div[type=event_select] .btn {
+    height:2rem;
+    width: 100%;
+    color: #fff;
+    background-color: #CAE0EF;
+    overflow: hidden;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    text-align: center;
+    line-height: 2rem;
+    border-radius: 0.2rem;
+}
+div[type=event_select] .ov {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    font-size: 0.8rem;
+}
+div[type=event_select] .btnsel {
+    background-color: #40BDF1;
+}
+div[type=event_select] .btn2 {
+   height:2rem;
+   width: 100%;
+   overflow: hidden;
+   margin-left: 0.25rem;
+   margin-right: 0.25rem;
+   text-align: center;
+   line-height: 2rem;
+   border-radius: 0.2rem;
+}

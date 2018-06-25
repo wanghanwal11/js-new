@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>呼叫中心</title>
+        <style>
+            body {
+                background-color: white !important;
+            }
+            div[type=button] .buttondiv {
+                background-color: white!important;
+                color:#186ae7!important;
+                margin-top:0.5rem;
+            }
+            div[type=process_xq]{
+                border-bottom: none!important;
+                padding: 0!important;
+                padding-left:0.5rem!important;
+            }
+            div[type=peopleprocess] .table{
+                border-top:none!important;
+            }
+            
+            div[type=titlebtnlist2_no] .tr{
+                height: 2.2rem!important;
+            }
+            div[type=titlebtnlist2_no] .td1,div[type=titlebtnlist2_no] .td2{
+                line-height: 1.1rem!important;
+            }
+            div[type=titlebtnlist2_no] .h2{
+                color:#444!important;
+            }
+            div[type=titlebtnlist2_no] .h1 span,div[type=titlebtnlist2_no] .h2 span{
+                font-size: 0.85rem!important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var hjzxobj = lazy.getParameter("hjzx");
+            var url=config.getHjzxMobile+"taskid="+hjzxobj.id+"&eventcode="+hjzxobj.eventcode;
+            lazy.setHeader({
+                "title":"呼叫中心",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            lazy.URLRequest(url, function(data){
+                var json =[];
+                var data = data.rows;
+                lazy.setParameter("eventname",data[0].eventname);
+                var json = [
+                    // {
+                        // "id" : "headertoolbar",
+                        // "type" : "headertoolbar",
+                        // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        // "color" : "#fff",
+                        // "border" : "none",
+                        // "title" : '呼叫中心',
+                        // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        // "select" : function(name, index) {
+                            // if(name=="left"&&index==0){
+                                // lazy.goBack();
+                            // }
+                            // if(name=="left"&&index==1){
+                                // lazy.close();
+                            // }
+                        // }
+                    // },
+                    {
+                        "type" : "titlebtnlist2_no",
+                        "table" : [{
+                            "h1" : "<i style='font-style:normal;color:#a3a7aa'>事件标题 : </i>"+data[0].eventname,
+                            "h2" : "<i style='font-style:normal;color:#a3a7aa'>事件编号 : </i>"+data[0].eventcode,
+                        }]
+                    },
+                    {
+                        "type" : "process_xq",
+                        "style" : {
+                            "padding-bottom":"none",
+                        },
+                        "table" : [
+                            {
+                                "title" : "紧急程度：",
+                                "value" : data[0].levelname
+                            },
+                            {
+                                "title" : '事件状态：',
+                                "value" : data[0].statecode
+                            },
+                            {
+                                "title" : "事件地址：",
+                                "value" : data[0].eventaddr?data[0].eventaddr:"无"
+                            },
+                            {
+                                "title" : "事件详情：",
+                                "value" : data[0].content?data[0].content:"无"
+                            },
+                        ]
+                    },
+                    {
+                        "id" : "zhankai",
+                        "type" : "button",
+                        "label" : "展开",
+                        "onclick" : function(){
+                            document.getElementById("process").style.display = "block";
+                            document.getElementById("shouqi").style.display = "inline";
+                            document.getElementById("zhankai").style.display = "none";
+                        }
+                    },
+                    {
+                        "id" : "process",
+                        "style" : {
+                            "display":"none",
+                        },
+                        "type" : "process_xq",
+                        "table" : [
+                            {
+                                "title" : "记录时间：",
+                                "value" : data[0].eventtime?lazy.format(data[0].eventtime,"yyyy-MM-dd HH:mm:ss"):"无"
+                            },
+                            {
+                                "title" : '联系电话：',
+                                "value" : data[0].mobile?data[0].mobile:"无"
+                            },
+                            {
+                                "title" : "诉求人：",
+                                "value" : data[0].cname?data[0].cname:"无"
+                            },
+                            {
+                                "title" : "事件来源：",
+                                "value" : data[0].channelname?data[0].channelname:"无"
+                            },
+                            {
+                                "title" : "事件类型：",
+                                "value" : data[0].typeeventname?data[0].typeeventname:"无"
+                            },
+                            {
+                                "title" : "事件大类：",
+                                "value" : data[0].categoryname?data[0].categoryname:"无"
+                            },
+                            {
+                                "title" : "事件小类：",
+                                "value" : data[0].categorysmallname?data[0].categorysmallname:"无"
+                            },
+                            {
+                                "title" : "诉求区域：",
+                                "value" : data[0].regionname?data[0].regionname:"无"
+                            },
+                        ]
+                    },
+                    {
+                        "id" : "shouqi",
+                        "style" : {
+                            "display":"none",
+                        },
+                        "type" : "button",
+                        "label" : "收起",
+                        "onclick" : function(){
+                            document.getElementById("process").style.display = "none";
+                            document.getElementById("shouqi").style.display = "none";
+                            document.getElementById("zhankai").style.display = "inline";
+                        }
+                    },
+                ]
+                if(data[1].taskOpinionLst){
+                    var taskOpinionLst = data[1].taskOpinionLst;
+                    var opinionlist = [];
+                    for(var i=taskOpinionLst.length-1;i>=0;i--){
+                        
+                        if(taskOpinionLst[i].fromtable == 'retreat'){
+                            // if(taskOpinionLst[i].replay==""){
+                                // var tmp2 = {
+                                    // "icon" : "",
+                                    // "h1" : taskOpinionLst[i].oldexefullname?taskOpinionLst[i].oldexefullname:taskOpinionLst[i].orgName,
+                                    // "h2" : taskOpinionLst[i].appopinion?taskOpinionLst[i].appopinion:""+"&nbsp;"+taskOpinionLst[i].opinion?taskOpinionLst[i].opinion:"",
+                                    // "h3" : taskOpinionLst[i].starttime?lazy.format(taskOpinionLst[i].starttime,"yyyy-MM-dd HH:mm:ss"):"",
+                                    // "result":"dd"
+                                // }
+                            // }else{
+                                var tmp2 = {
+                                    "icon" : "",
+                                    "h1" : taskOpinionLst[i].oldexefullname?taskOpinionLst[i].oldexefullname:taskOpinionLst[i].orgName,
+                                    "h2" : taskOpinionLst[i].appopinion?taskOpinionLst[i].appopinion:""+"&nbsp;"+taskOpinionLst[i].opinion?taskOpinionLst[i].opinion:"",
+                                    "h3" : taskOpinionLst[i].starttime?lazy.format(taskOpinionLst[i].starttime,"yyyy-MM-dd HH:mm:ss"):"",
+                                }
+                            //}
+                            opinionlist.push(tmp2)
+                        }
+                        if(taskOpinionLst[i].checkstatus==-1){
+                            var tmp = {
+                                "icon" : "",
+                                "h1" : taskOpinionLst[i].exefullname?taskOpinionLst[i].exefullname:taskOpinionLst[i].orgName,
+                                //"h2" : taskOpinionLst[i].state?taskOpinionLst[i].state:""+"&nbsp;"+taskOpinionLst[i].opinion?taskOpinionLst[i].opinion:"",
+                                "h3" : taskOpinionLst[i].endtime?lazy.format(taskOpinionLst[i].endtime,"yyyy-MM-dd HH:mm:ss"):"",
+                                "result":"dd"
+                            }
+                        }else if(taskOpinionLst[i].checkstatus==""&&taskOpinionLst[i].fromtable == 'retreat'&&taskOpinionLst[i].replay==''){
+                             var tmp = {
+                                "icon" : "",
+                                "h1" : taskOpinionLst[i].exefullname?taskOpinionLst[i].exefullname:taskOpinionLst[i].orgName,
+                                //"h2" : taskOpinionLst[i].state?taskOpinionLst[i].state:""+"&nbsp;"+taskOpinionLst[i].opinion?taskOpinionLst[i].opinion:"",
+                                "h3" : taskOpinionLst[i].endtime?lazy.format(taskOpinionLst[i].endtime,"yyyy-MM-dd HH:mm:ss"):"",
+                                "result":"dd"
+                            }
+                        }else{
+                            var tmp = {
+                                "icon" : "",
+                                "h1" : taskOpinionLst[i].exefullname?taskOpinionLst[i].exefullname:taskOpinionLst[i].orgName,
+                                //"h2" : taskOpinionLst[i].state?taskOpinionLst[i].state:""+"&nbsp;"+taskOpinionLst[i].opinion?taskOpinionLst[i].opinion:"",
+                                "h3" : taskOpinionLst[i].endtime?lazy.format(taskOpinionLst[i].endtime,"yyyy-MM-dd HH:mm:ss"):"",
+                                "result":((taskOpinionLst[i].fromtable == 'retreat'&&taskOpinionLst[i].replay=='0')||taskOpinionLst[i].checkstatus==3)?"no":"yes"
+                            }
+                        }
+                        
+                        var _h2 = taskOpinionLst[i].state?taskOpinionLst[i].state:"";
+                        if(taskOpinionLst[i].opinion&&taskOpinionLst[i].opinion!="") _h2+="&nbsp;&nbsp;&nbsp;"+taskOpinionLst[i].opinion;
+                        if(taskOpinionLst[i].limit&&taskOpinionLst[i].limit!="") _h2+="&nbsp;&nbsp;&nbsp;办理期限:"+lazy.format(taskOpinionLst[i].limit,"yyyy-MM-dd HH:mm:ss");
+                        if(taskOpinionLst[i].satisfaction=="0") _h2 += "&nbsp;&nbsp;&nbsp;<span style='color:red'>不满意</span>"
+                        else if(taskOpinionLst[i].satisfaction=="1") _h2 += "&nbsp;&nbsp;&nbsp;<span style='color:yellowgreen'>基本满意</span>"
+                        else if(taskOpinionLst[i].satisfaction=="2") _h2 += "&nbsp;&nbsp;&nbsp;<span style='color:blue'>满意</span>"
+                        else if(taskOpinionLst[i].satisfaction=="3") _h2 += "&nbsp;&nbsp;&nbsp;<span style='color:burlywood'>联系不到来电人</span>"
+                        tmp.h2 = _h2; 
+                        opinionlist.push(tmp)
+                    }
+                    var peopleprocess = {
+                        "type" : "peopleprocess",
+                        "result" : "yes",
+                        "table" : opinionlist
+                    }
+                    // if(taskOpinionLst.length>0&&taskOpinionLst[0].checkstatus){
+                    if(taskOpinionLst.length>0){
+                        var check = taskOpinionLst[0].checkstatus;
+                        if(check=="-1"||check=="")peopleprocess.result = null;
+                        if(check=="3") peopleprocess.result = "no";
+                        if(check=="1") peopleprocess.result = "yes";
+                    }
+                    json.push(peopleprocess);
+                }
+                if (lazy.getParameter("htype")=="待办") {
+                    var bottombuttons = {
+                        "type" : "bottombuttons",
+                        "table" : [
+                                       {
+                                           "label" : "办理",
+                                           "onclick" : function() {
+                                               lazy.openWin("shijianchuli.html");
+                                           }
+                                       }
+                                    ]
+                    }
+                    // if(data[0].button.indexOf("1")>-1||data[0].button.indexOf(1)>-1){
+                        // bottombuttons.table.push({
+                            // "label" : "申请退回",
+                            // "onclick" : function() {
+                                // lazy.openWin("hjtuihui.html");
+                            // }
+                        // })
+                    // }
+                    json.push(bottombuttons)
+                }
+                setData(json)
+            })
+        });
+    </script>
+</html>

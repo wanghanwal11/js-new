@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body{
+                background: white!important;
+            }
+            div[type=listbar] .tr{
+                line-height: 2rem;
+            }
+            div[type=listbar] .icon{
+                width: 2rem!important;
+                height: 2rem!important;
+                vertical-align: middle;
+            }
+            div[type=listbar] .titlespan{
+                font-size: 1rem!important;
+            }
+            div[type=listbar] .table{
+                padding: 1rem!important;
+            }
+        </style>
+    </head>
+    <script>
+         start(function() { 
+              lazy.URLRequest(getIP()+'/party/DJ_PartyPayDues/judgeadmin.ht', function(data) {
+                  var data=data.newPrimaryKeys.isAdmin;
+                  if(data=='Y'){
+                      lazy.setHeader({"title": "党费缴纳查询",
+                             "rightbtn":[{
+                                 'text':'审核',
+                                 'onclick':function(){
+                                     lazy.openWin('dfsh.html')
+                                 }
+                             }]
+                     });
+                  }else{
+                       lazy.setHeader({"title": "党费缴纳查询"});
+                  }
+              })
+             
+             var json = [{
+                 type:"listbar",
+                 table:[{
+                     icon:"../LazyUI/images/zhibu/jf.png",
+                     title:"个人交费记录",
+                     onclick:function(){
+                         lazy.openWin("dfjn.html")
+                     }
+                 },{
+                     icon:"../LazyUI/images/zhibu/qz.png",
+                     title:"支部交费记录",
+                     onclick:function(){
+                          lazy.openWin("dflb.html")
+                     }
+                 }]
+             }]
+           setData(json)   
+        })
+        
+    </script>
+</html>

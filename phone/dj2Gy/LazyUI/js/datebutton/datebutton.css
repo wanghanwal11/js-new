@@ -1,0 +1,27 @@
+body[type=body] div[type=datebutton]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=datebutton] .tr{
+    padding: 0.5rem 1rem 0rem 1rem;
+}
+div[type=datebutton] .tr input{
+    width: 6rem;
+    height: 1rem;
+}
+div[type=datebutton] .tr span{
+    padding: 0.5rem 1rem;
+    background: url(rili.png) no-repeat;
+    background-size: 1.1rem;
+    background-position: 0.2rem 0.5rem;
+}
+div[type=datebutton] .tr div{
+    -webkit-box-flex: 1;
+    text-align: center;
+}
+div[type=datebutton] .tr input{
+    font-size: 0.8rem
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../common/property.js"></script>
+        <script src="../common/config.js"></script>
+        <script src="../LazyUI/js/admin.js"></script>
+    </head>
+    <script>
+     start(function() {
+            var page=1;
+             var json = [{
+                   "id" : "panel1",
+                   "type" : "panel1",
+                   "content" : []
+               }];
+               if(lazy.browserType!="weixin"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : "#fe943e",
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '系列讲话',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"){
+                              if(lazy.browserType=="ios"){
+                                lazy.openWin("AJ://backMainViewController");
+                                //lazy.goBack()
+                              }
+                            }
+                        }
+                    })
+                }
+               setData(json,function(){
+                   dzlist()
+               });
+               function dzlist(){
+                   lazy.URLRequest(getIP()+"/party/DJ_ThreeOpen/getSeriesspeechlist.ht?rows=10&parentid=0&modeltype=5&page="+page, function(data) {
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                          var d={
+                                "icon" : (getIP()+data[i].photo).replace(/\\/g,"/"),
+                                "h1" : data[i].title,
+                                "h2" : "时间："+data[i].time,
+                                "ids":data[i].id,
+                                "onclick" : function(data) {
+                                    lazy.setParameter("xljh0id",data.ids)
+                                    lazy.openWin("xljh.html")
+                                }
+                            }
+                          getData("panel1").add(d);
+                      }
+                      page++;
+                  })     
+               }
+            lazy.bounce({"up":function(){
+                dzlist();
+            }});  
+            
+        });
+    </script>
+</html>

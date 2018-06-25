@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=process] .title{
+                 padding-left: 0.7rem!important;
+            }
+            div[type=button] .buttondiv{
+                width: 90%!important;
+                border-radius: 3rem;
+                position: fixed;
+                top: 30rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d!important;
+            }
+            div[type=process] .tr{
+                border: none!important;
+            }
+            div[type=process] .LazyAuto2 .tr_input{
+                min-height: 3rem!important;
+                line-height: 3rem!important;
+            }
+             div[type=process] .LazyAuto1 .tr_input{
+                height: 7rem!important;
+            }
+            div[type=process] .textarea{
+                height: 6rem;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+             lazy.setHeader({
+                            "title":"提问"
+                        });
+            var json=[{
+                "id" : "process",
+                "type" : "process",
+                "table" : [{
+                    "type":"select",
+                    "title":'咨询类别:',
+                    "placeholder":"请选择",
+                    "option":[{
+                        "html":"政策",
+                        "value":0
+                    },{
+                        "html":"就业",
+                        "value":1
+                    },{
+                        "html":"申报",
+                        "value":2
+                    }]
+                },{
+                    "type":"textarea",
+                    "placeholder":"问题内容"
+                }]
+            },{
+                "type":"button",
+                "label":"提交",
+                "onclick":function(){
+                     var arr=getData("process").getArray().table;
+                     var content=arr[0].value;
+                     if(content==""){
+                         lazy.alert2("请选择类别");
+                         return;
+                     }
+                     var arr1=arr[1].value;
+                     if(arr1==""){
+                         lazy.alert2("请添加问题内容");
+                         return;
+                     }
+                     lazy.URLRequest(getIP()+'/party/consultserver/save.ht?type='+content+'&questiontitle='+arr1, function(data) {
+                        lazy.alert("<img src='../LazyUI/images/katong.png' style='width:8rem' /></br><span style=\"color:#fb3d3d;\">提问成功</span>",{
+                                                        "yesfun":function(){
+                                                             lazy.goBack1();
+                                                        },
+                                                        "close" : function() {
+                                                            lazy.goBack1();
+                                                        }
+                                                    });
+                     })
+                }
+            }]
+            setData(json,function(){
+                document.getElementsByClassName("title")[1].style.display="none"
+            })
+        })
+    </script>
+</html>

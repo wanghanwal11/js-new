@@ -1,0 +1,30 @@
+body[type=body] div[type=yanzheng]{
+	width:100%;
+	height:auto;
+	display: -webkit-box;
+	-webkit-box-sizing:border-box;
+	position:relative;
+	font-size:1rem;
+}
+div[type=yanzheng] .table {
+    width:100%;
+    height:auto;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+div[type=yanzheng] .tr {
+    width:100%;
+    padding: 0.5rem 1rem;
+    border-bottom：1px solid #efefef;
+}
+div[type=yanzheng] .title {
+    width:20%;
+    height:2.5rem;
+    line-height: 2.5rem;
+    
+}
+div[type=yanzheng] .content {
+    border: none;
+    height: 2.3rem;
+   
+}

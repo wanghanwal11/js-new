@@ -1,0 +1,29 @@
+/*××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+
+ */
+div[type=qiehuan] .tr{
+	-webkit-box-sizing:border-box;
+	display: -webkit-box;
+	position:relative;
+	height:1.8rem;
+}
+div[type=qiehuan] .tr .li{
+    height:100%;
+    -webkit-box-flex: 1;
+    background: white;
+    padding: 0.2rem 0.1rem;;
+}
+div[type=qiehuan] .tr .li span{
+    display:block;
+    width:4.2rem;
+    height:100%;
+    text-align: center;
+    background: rgb(220, 228, 231);
+    line-height: 1.8rem;
+    font-size: 0.9rem;
+    color: #1d2087;
+}
+div[type=qiehuan] .tr .li:nth-child(1)  span{
+    background: rgb(29, 32, 135);
+    color: white;
+}

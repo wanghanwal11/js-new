@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var sou=lazy.getParameter("sou");
+            var title=lazy.getParameter("title");
+            var page=1;
+            var search = "";
+            lazy.setHeader({
+                            "title": title,
+                        });
+            var json = [
+            /*
+            {
+                            "id" : "header",
+                            "type" : "header",
+                            "backgroundColor" : "#fb3d3d",
+                            "color" : "#fff",
+                            "border" : "none",
+                            "left" : [
+                                            {
+                                              "content" : lazy.url + "LazyUI/js/header/images/left.png",
+                                              "onclick" : function(name, index) {
+                                                  lazy.goBack()
+                                              }   
+                                            },
+                                            
+                                          ],
+                            
+                            "button" : [
+                                              {
+                                                  "content" : title,
+                                                  "onclick" : function() {
+                                                        // iframe.src = "./xinwen/dangzhanglb.html";
+                                                  }   
+                                                }
+                                              
+                                            ]
+                        },*/
+                        {
+                            "id" : "sousuoinput1",
+                            "type" : "sousuoinput1",
+                            "select" : function(val){
+                                        page = 1;
+                                        getData("view").clean();
+                                        search = val;
+                                        load(search);
+                                        
+                            }
+                            },
+                          {
+                              "id" : "view",
+                              "type" : "view",
+                              "table" : []
+                        }];
+            setData(json,function(){
+                load(search);
+                
+            });
+           function load (val) {
+            var url = sou+val+'&page='+page+'&rows=50';
+            lazy.URLRequest(url,function(data){
+            var arr = data.rows;
+            if(arr.length==0&&page==1){
+                          if(!document.getElementsByClassName("zwsjXT")[0]){
+                             lazy.datanull("暂无数据",document.getElementsByClassName("table")[0])
+                         }
+                     }
+                for(var i = 0; i < arr.length; i++) {
+                    
+                   var d={
+                         
+                         "icon" : lazy.getImagePx(arr[i].image, 180, 120),
+                            "h1" : arr[i].miclectitle,
+                            "yue" : arr[i].readcount,
+                            "ping" : arr[i].commentcount,
+                            "user" : arr[i].createuser,
+                            "fen" :arr[i].sharecount, 
+                            "shou" :arr[i].collectcount,    
+                            "date" : arr[i].createtime?lazy.autoFormat(arr[i].createtime):"",
+                            "id" : arr[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("img",data.icon)
+                                lazy.setParameter("title",data.h1)
+                                lazy.setParameter("wdkxqid",data.id)
+                                lazy.setParameter("ping",data.ping)
+                                lazy.setParameter("fen",data.fen)
+                                lazy.setParameter("shou",data.shou)
+                                lazy.openWin("wdkxq.html");
+                                
+                            }
+                           }
+                        getData("view").add(d);
+                        }//for
+                        page++;
+                        lazy.closeBounce();
+                    }, function(e) {
+                    lazy.closeBounce();
+                    alert(e);
+                },1);
+           } 
+           lazy.bounce({
+                   "up" : function() {
+                       load(search);
+                   } 
+                });
+             
+        })
+        
+    </script>
+</html>

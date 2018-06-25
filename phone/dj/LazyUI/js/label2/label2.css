@@ -1,0 +1,22 @@
+div[type=label2]{
+	-webkit-box-sizing:border-box;
+	display: -webkit-box !important;
+	position:relative;
+	width: 100%;
+	height: 1.4rem;
+	line-height: 1.4rem;
+	padding: 0 0.83rem;
+}
+div[type=label2] .tr {
+    width: 100%;
+    height: 100%;
+}
+div[type=label2] .h1 span {
+    font-size: 0.85rem;
+}
+div[type=label2] .h2 {
+    min-width: 4rem;
+}
+div[type=label2] .h2 span {
+    font-size: 0.7rem;
+}

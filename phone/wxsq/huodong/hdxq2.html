@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+<title>社区活动</title>
+<style type="text/css">
+        body{
+            background-color: #f7f8fa !important;
+        }
+       img{
+           width: 100% !important;
+       } 
+      
+       #hdname{
+           padding:0.8rem !important;
+           /*border-bottom: 1px solid #efefef;*/
+           background-color: #ffffff;
+       }
+       #hdname span{
+           color:#202227;
+           font-size:1rem;
+       }
+       #hdtime{
+           padding:0 0.8rem 0.8rem 0.8rem!important;
+           /*border-bottom: 1px solid #efefef;*/
+           background-color: #ffffff;
+       }
+       #hdtime span{
+           color:#999999;
+           font-size:1rem;
+       }  
+       #hdtr1 .tr{
+           border-bottom: 0px !important;
+           padding-left:1rem !important;
+       }
+       #hdtr1 .jf{
+           width: auto !important;
+           background-size: 1rem !important;
+           padding-left: 2rem !important;
+       }
+       #hdtr1 .jf span{
+           color: #63676e !important;
+           font-size: 1rem;
+       }
+       #hdtr1 .text {
+           display: none;
+       }
+       #hdaddress .table{
+           margin-bottom: 0 !important
+       }
+       #hdaddress .tr{
+           border-bottom: 0 !important;
+           padding:1rem !important;
+       }
+       #hdaddress .jf {
+            width: auto !important;
+            padding-left: 0rem !important;
+        }
+        #hdaddress .jf span{
+           color: #202227 !important;
+           font-size:1rem;
+       }
+       #hdaddress .text {
+           background-size: 1.2rem !important;
+       }
+       #hdaddress{
+           margin-top: 1rem;
+       }
+       #hdtel{
+           border-top:1px solid #efefef;
+       }
+       #hdtel .table{
+           margin-bottom: 0 !important
+       }
+       #hdtel .tr{
+           border-bottom: 0 !important;
+           padding:1rem !important;
+       }
+       #hdtel .jf {
+            width: auto !important;
+            padding-left: 0rem !important;
+        }
+        #hdtel .jf span{
+           color: #202227 !important;
+           font-size:1rem;
+       }
+       #hdtel .text {
+           background-size: 1.2rem !important;
+       }
+       #hdcontent{
+           margin-top: 1rem;
+       }
+       #button{
+           position:fixed !important;
+           bottom:0.5rem !important;
+       }
+       #button .button_a{
+           background-color: #ffb401;
+           border-radius: 4px !important;
+       }
+       #commentlist{
+           margin-top: 1rem;
+           margin-bottom: 3rem;
+       }
+       #datanull {
+            text-align: center;
+            padding: 1rem;
+            color: #666666;
+        }
+        
+       
+        #label{
+           background-color: #ffffff;
+           color:#202227;
+           
+           line-height:2rem;
+           position: fixed;
+           top:0rem;
+           z-index: 10;
+           /*opacity:0;*/
+          display: none;
+       }
+        #label{
+          font-size:1rem !important;
+       }
+       .top{
+           width:3rem;
+           height:3rem;
+       }
+       .backtoTop{
+           position:fixed;
+           bottom:3rem;
+           right:1rem;
+           width:3rem;
+           height:4rem;
+           border-radius: 2rem;
+           background-image: url('../LazyUI/images/huodong/backtoTop.png');
+           background-repeat: no-repeat;
+           background-size: 3rem;
+           display: none;
+       }
+</style>
+</head>
+<body>
+    <div class ="backtoTop">
+       
+    </div>
+    <script>
+    
+        start(function() {
+            lazy.clearCache()
+            var json = [];
+            var id = lazy.geturlstr("id")?lazy.geturlstr("id"):lazy.getParameter("id");
+            var openid = lazy.geturlstr("openid")?lazy.geturlstr("openid"):"";
+            var initid = lazy.geturlstr("initid")?lazy.geturlstr("initid"):'';
+            lazy.setParameter("id",id)
+            if(!openid){
+               login()
+            }else{
+                lazy.loading(0,'加载中...')
+                getUserInfo()
+            }
+            //getUserInfo()
+            GoBackEvent = function() {
+                           
+               wx.closeWindow();
+            }
+            lazy.setGoBack();
+            var communityid = "";
+            var communitytype = "";
+            
+            var username,headpicture;
+            function loadData(){
+                
+            
+                lazy.loadWxJs(function(){
+                   var url = getIP()+"/cmy/activity/cmyactivity/getByWeixin?id="+id+"&openid="+openid+"&initid="+initid;
+                   lazy.GET(url,function(data){
+                       data = data.rows[0];
+                       lazy.closeLoading()
+                       /*时间处理*/
+                        var time1 = lazy.format(data.starttime,'yyyy-MM-dd HH:mm');
+                        var timestr1 = time1.split(' ');
+                        if(timestr1[1].substring(0,2)=='00') time1 = timestr1[0];
+                        
+                        var time2 = lazy.format(data.endtime,'yyyy-MM-dd HH:mm');
+                        var timestr2 = time2.split(' ');
+                        if(timestr2[1].substring(0,2)=='00') time2 = timestr2[0];
+                        
+                        var time = ""
+                        if(time1 == time2){
+                            time = time1
+                        }else{
+                            time = time1+" 至   "+time2
+                        }
+                        var objshare = {
+                            title:data.title,
+                            url:window.location.href.split('?')[0]+'?isShare=1&id='+id+'&initid='+initid,
+                            img:data.cover,
+                            summary:data.summary
+                        }
+                        lazy.share(objshare)
+                       json = [{
+                               "id":"banner1",
+                               "type" : "imgmapdiv2",
+                               "src" : lazy.getImagePx(data.cover, 480),
+                               "rect" : []
+                           },{
+                                id:'label',
+                                type : 'label',
+                                text : data.title,
+                           },{
+                               "id":"hdname",
+                               "type":"label",
+                               "text":data.title
+                           },{
+                               "id":"hdtime",
+                               "type":"label",
+                               "text":"活动日期："+time
+                           }/*,{
+                               "id":"hdtr1",
+                               "type" : "wode",
+                               "style":{"margin-top":"0.8rem"},
+                               "table" : [{
+                                    "h1":"发布人：王雪菲",
+                                    "icon":"../LazyUI/images/huodong/people.png",
+                                    "onclick" : function(data) {
+                                      alert(2)
+                                    }
+                                },{
+                                    "h1":"2017-08-01",
+                                    "icon":"../LazyUI/images/huodong/time.png",
+                                    "onclick" : function(data) {
+                                     alert(1)
+                                    }
+                                }]
+                           }*/,{
+                               "id":"hdaddress",
+                               "type" : "wode",
+                               "table" : [{
+                                    "h1":data.address,
+                                    "right":"../LazyUI/images/huodong/address1.png",
+                                    "gps":data.coordinate,
+                                    "onclick" : function(data) {
+                                        lazy.openWin(encodeURI("hddw.html?gps="+data.gps))
+                                    }
+                                }]
+                           },{
+                               "id":"hdtel",
+                               "type" : "wode",
+                               "table" : [{
+                                    "h1":"活动联系人："+data.contact+" "+data.tel,
+                                    "right":"../LazyUI/images/huodong/phone.png",
+                                    "tel":data.tel,
+                                    "onclick" : function(data) {
+                                     //alert(1)
+                                     window.location.href = 'tel://'+data.tel;
+                                    }
+                                }]
+                           
+                           },{
+                                "id" : "hdcontent",
+                                "type" : "div2",
+                                "text":data.content,
+                                //"text" : lazy.clearStr(data.content,3),
+                                //"text":'<p style=\'white-space:normal;\'>\r\n   <strong>一、诉求件处理流程：</strong>\r\n</p>\r\n<span style=\'white-space:normal;\'>市民发送诉求件→“民情通呼叫中心”转发诉求件至承办单位→承办单位接收诉求件后及时核实处理→承办单位回复办理意见答复市民→“民情通呼叫中心”回访市民</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'><strong>二、诉求件办理时限：</strong></span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>1.紧急事件办理时限：正常工作日24小时内。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>2.一般事件办理时限：正常工作日5个工作日内。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'><strong>三、注意事项：</strong></span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>1.投诉举报类诉求请市民留下真实联系方式，以便进一步了解情况，市民的电话号码和IP地址联系方式将受到保护。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>2.市民需承担因您的诉求件内容而直接或间接引起的法律责任。</span><br style=\'white-space:normal;\' />\r\n<span style=\'white-space:normal;\'>3.请您在发表诉求时使用文明用语，含有不文明用语的诉求件，系统不予受理。</span>'
+                           }];
+                        if(lazy.geturlstr("isShare") != 1){
+                             json.push({
+                                 id:'shadow',
+                                 type : 'shadow',
+                                 height:'3.5rem',
+                                 color:'rgba(255,255,255,0.8)'
+                             })
+                            json.push({
+                                 id:'button',
+                                 type : 'button',
+                                 label : '签到',
+                                 onclick : function() {
+                                    signIn()
+                                    //window.location.replace('hdqd2.html?initid='+initid+'&openid='+openid)
+                                 }
+                            })
+                        }
+                        setData(json,function(){
+                        	var top = document.getElementsByClassName("backtoTop")[0];
+                            top.onclick = function(){
+                                document.documentElement.scrollTop = document.body.scrollTop =0;
+                            }
+                            var label = document.getElementById("label")
+                                var fontsize = lazy.fontSize;
+                                var height = fontsize*14
+                                var backtoTop = document.getElementsByClassName("backtoTop")[0];
+                                window.onscroll = function () { 
+                                    
+                                     backtoTop.style.display = 'block'                          
+                                     console.log(document.body.scrollTop)
+                                     if(document.body.scrollTop<(window.screen.height/2)){
+                                             backtoTop.style.display = 'none'
+                                         }
+                                        if(document.body.scrollTop>height){
+                                             label.style.display="block"
+                                         }else{
+                                             label.style.display="none"
+                                         }
+                                     
+                                 }
+                        })
+                },function(e){
+                   lazy.alert2("错误信息!:"+e);
+                },null)
+          
+            })
+          }
+          /*签到*/
+          function signIn(){
+             var url = getIP()+"/cmy/activity/cmyactivitysign/signWeixin?initid="+initid+"&openid="+openid+"&activityid="+id;
+                lazy.GET(url,function(data){
+                    getPersonInfo()
+                    
+                },function(e){
+                    lazy.alert2(e);
+                },0)    
+          }
+           ////查询用户信息
+           function getPersonInfo(){
+             var url1 = getIP()+"/wx/api/wx/getweixinuserinfo?openid="+openid+"&initid="+initid;
+                lazy.GET(url1,function(_data){
+                    
+                     if(_data.rows.length>0){
+                       
+                        realname = _data.rows[0].realname
+                        phone = _data.rows[0].mobile
+                        if(phone&&realname){
+                            //lazy.openWin('qdsuccess2.html?initid='+initid)
+                            window.location.replace('qdsuccess2.html?initid='+initid)
+                        }else{
+                            //lazy.openWin('hdqd2.html?initid='+initid+'&openid='+openid)
+                            window.location.replace('hdqd2.html?initid='+initid+'&openid='+openid)
+                        }
+                         
+                    }else{
+                        loadData(0)
+                    }
+               
+                },function(e){
+                    lazy.alert2("错误信息!:"+e);
+                },null)
+            }
+          /*获取用户名头像*/
+          function getUserInfo(){
+               var url = getIP()+"/wx/api/wx/getwxuserinfo?initid="+initid+"&openid="+openid;
+               lazy.GET(url,function(data){
+                   username = data.rows[0].nickname;
+                   headpicture = data.rows[0].headimgurl;
+                   loadData()
+               },function(e){
+                   lazy.alert2(e);
+               },0)   
+               
+           }
+          /////登陆
+          function login(){
+             
+                var url = getIP()+'/wx/api/wx/getWxOAuth?initid='+initid+'&backurl=huodong/hdxq2'
+                lazy.GET(url,function(data){
+                    //alert(document.location)
+                    var urlback = data.rows[0];
+                     lazy.setParameter("gb",1)
+                     lazy.openWin(urlback+'#LazyAuto0')
+                    // window.location.replace(urlback)
+                },function(e){
+                    alert('login:'+e)
+                },0)
+           }
+        });
+    </script>
+</body>
+</html>

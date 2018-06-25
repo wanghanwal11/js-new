@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=process] .title{
+                display: none
+            }
+            div[type=button] .buttondiv{
+                width: 90%!important;
+                border-radius: 3rem;
+                position: fixed;
+                top: 30rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d!important;
+            }
+            div[type=process] .tr{
+                border: none!important;
+            }
+            div[type=process] .LazyAuto2 .tr_input{
+                min-height: 3rem!important;
+                line-height: 3rem!important;
+            }
+            div[type=process] .LazyAuto1 .tr_input{
+                height: 7rem!important;
+            }
+            div[type=process] .textarea{
+                height: 6rem;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() {
+            var page=1;
+             lazy.setHeader({
+                            "title":"新增"
+                        });
+            var json=[{
+                "id" : "process",
+                "type" : "process",
+                "table" : [{
+                    "type":"textarea",
+                    "placeholder":"输入你想说的(5到100字之间)"
+                },{
+                    "type":"image",
+                    "title":"图片",
+                    "httpurl":config.docUpoad
+                }]
+            },{
+                "type":"button",
+                "label":"提交",
+                "onclick":function(){
+                     var arr=getData("process").getArray().table;
+                     var content=arr[0].value;
+                     if(content.length<5||content.length>100){
+                         alert("字数不正确,请重新填写");
+                         return;
+                     }
+                     var arr1=arr[1].value;
+                     var picid=[];
+                     var picpath=[];
+                     for(var p=0;p<arr1.length;p++){
+                         picid.push(arr1[p].annexid)
+                         picpath.push(arr1[p].annexpath)
+                     }
+                     lazy.URLRequest(djconfig.tjquanzi+"type=0&content="+content+"&fileid="+picid+"&filepath="+picpath, function(data) {
+                          lazy.alert("<img src='../LazyUI/images/katong.png' style='width:8rem' /></br><span style=\"color:#fb3d3d;\">新增成功</span>",{
+                                                        "yesfun":function(){
+                                                             lazy.goBack1();
+                                                        },
+                                                        "close" : function() {
+                                                            lazy.goBack1();
+                                                        }
+                                                    });
+                     })
+                }
+            }]
+            setData(json)
+        })
+    </script>
+</html>

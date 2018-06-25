@@ -1,0 +1,124 @@
+body[type=body] div[type=banner] {
+    width:100%;
+	-webkit-box-sizing:border-box;
+    font-size: 1rem;
+    position: relative;
+}
+div[type=banner] .ul {
+    height: 10rem;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+div[type=banner] .mask {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    height: 10rem;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+}
+div[type=banner] .title {
+    height: 2rem;
+    line-height: 2rem;
+    padding: 0 0.5rem;
+    -webkit-box-sizing:border-box;
+    border-bottom: 1px solid #ccc;
+}
+div[type=banner] .li {
+    height: 10rem;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+div[type=banner] .ddiv {
+    width: 100%;
+    position: absolute;
+    bottom: 2.5rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=banner] .dul {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    width: auto;
+    height: auto;
+}
+div[type=banner] .dli {
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #c2c2c2;
+    border-radius: 0.5rem;
+    margin: 0 0.2rem;
+}
+div[type=banner] .q {
+    background-color: #12ca1a;
+}
+div[type=banner] .c_r {
+    animation: banner_c_r 0.3s;
+    -webkit-animation: banner_c_r 0.3s;
+    transform: translate(100%, 0);
+}
+div[type=banner] .c_l {
+    animation: banner_c_l 0.3s;
+    -webkit-animation: banner_c_l 0.3s;
+    transform: translate(-100%, 0);
+}
+div[type=banner] .r_c {
+    animation: banner_r_c 0.3s;
+    -webkit-animation: banner_r_c 0.3s;
+    transform: translate(0, 0);
+}
+div[type=banner] .l_c {
+    animation: banner_l_c 0.3s;
+    -webkit-animation: banner_l_c 0.3s;
+    transform: translate(0, 0);
+}
+div[type=banner] .r {
+    transform: translate(100%, 0);
+}
+div[type=banner] .l {
+    transform: translate(-100%, 0);
+}
+@-webkit-keyframes banner_c_r {
+    from {transform: translate(0, 0);}
+    to {transform: translate(100%, 0);}
+}
+@-webkit-keyframes banner_c_l {
+    from {transform: translate(0, 0);}
+    to {transform: translate(-100%, 0);}
+}
+@-webkit-keyframes banner_r_c {
+    from {transform: translate(100%, 0);}
+    to {transform: translate(0, 0);}
+}
+@-webkit-keyframes banner_l_c {
+    from {transform: translate(-100%, 0);}
+    to {transform: translate(0, 0);}
+}
+
+
+@keyframes banner_c_r {
+    from {transform: translate(0, 0);}
+    to {transform: translate(100%, 0);}
+}
+@keyframes banner_c_l {
+    from {transform: translate(0, 0);}
+    to {transform: translate(-100%, 0);}
+}
+@keyframes banner_r_c {
+    from {transform: translate(100%, 0);}
+    to {transform: translate(0, 0);}
+}
+@keyframes banner_l_c {
+    from {transform: translate(-100%, 0);}
+    to {transform: translate(0, 0);}
+}
+
+div[type=banner] img {
+    width: 100%;
+    height: 100%;
+}
+

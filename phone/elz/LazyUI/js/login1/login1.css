@@ -1,0 +1,63 @@
+body{
+    background-color: #52ced6;
+}
+body[type=body] div[type=login1]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+}
+div[type=login1] .table {
+    width:100%;
+    height:auto;
+}
+div[type=login1]  .top {
+    text-align: center;
+    margin-top: 7.5rem;
+}
+div[type=login1]  .top span{
+    font-size: 2rem;
+    color: #FFFFFF;
+}
+div[type=login1] .login {
+    width: 80%;
+    margin: 4.26rem auto 0 auto;
+}
+div[type=login1] .row1{
+    margin-bottom: 1rem;
+}
+div[type=login1] .row1 span{
+    display:inline-block;
+    width: 1.4rem;
+    height: 1.4rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+div[type=login1] .row2 span{
+    display:inline-block;
+    width: 1.4rem;
+    height: 1.4rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+div[type=login1] .row1 input{
+    background-color: #52ced6;
+    border: none;
+    border-bottom: solid 1px #FFFFFF;
+    vertical-align: middle;
+    width: 88%;
+    color: #FFFFFF;
+}
+div[type=login1] .row2 input{
+    background-color: #52ced6;
+    border: none;
+    vertical-align: middle;
+    border-bottom: solid 1px #FFFFFF;
+    width: 88%;
+    color: #FFFFFF;
+}
+div[type=login1] .row1 input::-webkit-input-placeholder {
+    color: #FFFFFF;
+}
+div[type=login1] .row2 input::-webkit-input-placeholder {
+    color: #FFFFFF;
+}

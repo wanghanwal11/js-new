@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <title>身边服务</title>
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            div[type=label]{
+                display: none;
+            }
+            #bounceLoading{
+                display: none;
+            }
+        </style>
+    </head>
+    
+    <body></body>
+    <script>
+        start(function() {
+            var val="";
+            var ids=lazy.geturlstr("wxinitId");
+            var id=lazy.geturlstr("id");
+            //var id = 10000138750006;
+           var id2=lazy.geturlstr("wxopenid");
+            lazy.setParameter("ids",ids)
+            var json=[{
+                            "type" : "sousuoinput",
+                            "select" : function(val1){
+                            },
+                            "onfocus":function(){
+                                lazy.openWin("chaxunxq.html?biaoshi=biaoshi")
+                            }
+                        },{
+                            "type" : "table11",
+                            "id":id,
+                            "title":[{"text":"身边服务","icon": "../LazyUI/js/table10/leibie.png"}],
+                            "col" : 4,
+                            "table" : []
+                        }]
+                     
+                    setData(json, function() {
+                    		load(id)
+                    })
+                    function load(id){
+                        lazy.GET(getIP()+"/wechat/weixinTzyjw/getZSKCategory.ht?typeName=wx_ctfl&parentid="+id+"&initid="+ids+"&openid="+id2, function(datas) {
+                         var datas=datas.rows;
+                         for(var j=0;j<datas.length;j++){
+                             var s={
+                                "icon" : datas[j].iconCls?(datas[j].iconCls.replace(/\\/g,"/")):(lazy.url + "LazyUI/js/table10/moren.png"),
+                                "label" : datas[j].text,
+                                "id":datas[j].id,
+                                "onclick" : function(obj) {
+                                    lazy.GET(getIP()+"/wechat/weixinTzyjw/getZSKCategory.ht?parentid="+obj.id+"&initid="+ids+"&openid="+id2, function(datas) {
+                                         var datas=datas.rows;
+                                         if(datas.length == 0){
+                                             lazy.openWin("chaxunxq1.html?id="+obj.id+"&wxinitId="+ids+"&wxopenid="+id2)
+                                         }else{
+                                             
+                                             lazy.openWin("tree.html?wxinitId="+ids+"&id="+obj.id+"&wxopenid="+id2)
+                                         }
+                                         
+                                     },function(){}, null)
+                                    
+                                }
+                             }
+                           
+                            getData(id).adds(s);
+                         }
+                         
+                     },function(){}, 0)
+                    }
+             
+        })
+    </script>
+</html>

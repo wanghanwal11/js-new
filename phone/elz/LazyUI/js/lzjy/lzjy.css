@@ -1,0 +1,33 @@
+body[type=body] div[type=lzjy]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    
+}
+body{
+    background-color: #FFFFFF;
+}
+div[type=lzjy] .table {
+    width:100%;
+    height:auto;
+   
+}
+div[type=lzjy] .content{
+    
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    padding-top: 2rem;
+    
+}
+div[type=lzjy] .title{
+    width: 50%;
+    margin: 0 auto;
+    height: 100%;
+    padding-top: 5rem;
+}
+div[type=lzjy] .icon{
+    display:block;
+    width: 3.86rem;
+    margin: 0 auto;
+}

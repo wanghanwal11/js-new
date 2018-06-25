@@ -1,0 +1,170 @@
+body[type=body] div[type=dangzhanglb]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+}
+div[type=dangzhanglb] .table {
+    width:100%;
+    height:auto;
+    padding: 1rem 0;
+}
+div[type=dangguilb] .tr {
+    height:auto;
+    padding: 0 1rem 0 1rem;
+}
+div[type=dangzhanglb] .tr1 {
+  height: 5.5rem;
+  padding: 0 1rem;
+  -webkit-border-sizing: border-box;
+  position: relative;
+}
+div[type=dangzhanglb] .a {
+   width: 100%;
+   height: 5.5rem;
+   padding: 0 1rem;
+   -webkit-border-sizing: border-box;
+   position: relative;
+}
+div[type=dangzhanglb] .b {
+   background-color: #fff;
+   height: 4.5rem;
+   width: 100%;
+   position: relative;
+   padding: 0.5rem 1rem 0 1rem;
+}
+div[type=dangzhanglb] .a1 {
+    height: 100%;
+    width: 1.5rem;
+    position: relative;
+}
+div[type=dangzhanglb] .x {
+    width: 1px;
+    height: 100%;
+    background-color: #008c00;
+    position: absolute;
+    left: 0.4rem;
+    top: 0;
+}
+div[type=dangzhanglb] .x2 {
+    width: 1px;
+    height: 50%;
+    background-color: #ccc;
+    position: absolute;
+    left: 0.4rem;
+    top: 50%;
+}
+div[type=dangzhanglb] .x3 {
+    width: 1px;
+    height: 50%;
+    background-color: #ccc;
+    position: absolute;
+    left: 0.4rem;
+    
+}
+div[type=dangzhanglb] .x4 {
+    width: 1px;
+    height: 50%;
+    background-color: #008c00;
+    position: absolute;
+    left: 0.4rem;
+    
+}
+div[type=dangzhanglb] .x5 {
+    width: 1px;
+    height: 5rem;
+    background-color: #ccc;
+    position: absolute;
+    left: 0.4rem;
+   
+    
+}
+div[type=dangzhanglb] .q {
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 0.2rem solid #77bd77;
+    border-radius: 1rem;
+    background-clip: padding-box;
+    background-color: #008c00;
+    position: absolute;
+    left: 0;
+    top: 2.05rem;
+}
+div[type=dangzhanglb] .q2 {
+    width: 0.7rem;
+    height: 0.7rem;
+    border: 0.1rem solid #008c00;
+    border-radius: 1rem;
+    background-clip: padding-box;
+    background-color: #eee;
+    position: absolute;
+    left: 0;
+    top: 2.2rem;
+}
+div[type=dangzhanglb] .q3 {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 0.5rem;
+    background-clip: padding-box;
+    background-color: #aaa;
+    position: absolute;
+    left: 0.1rem;
+    top: 2.05rem;
+}
+div[type=dangzhanglb] .text {
+    padding-left: 1rem;
+    line-height: 1.3rem;
+}
+div[type=dangzhanglb] .text span{
+   color: #aaaaaa;
+}
+div[type=dangzhanglb] .status {
+    background-position: 0.1rem center;
+    background-repeat: no-repeat;
+    background-size: 0.8rem;
+    background-image: url(images/jifen.png);
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+    height: 1.4rem;
+    line-height: 1.3rem;
+}
+div[type=dangzhanglb] .status span{
+   color: #fea519;
+}
+div[type=dangzhanglb] .yx {
+    background:url(images/people.png) 0.1rem 0.36rem no-repeat;
+    background-size: 0.8rem;
+    -webkit-box-sizing:border-box;
+    padding-left: 1.2rem;
+    margin-top: 0.7rem;
+}
+div[type=dangzhanglb] .yx span{
+   color: #aaaaaa;
+}
+div[type=dangzhanglb] .ping {
+    background:url(images/ping.png) 0.1rem 0.42rem no-repeat;
+    background-size: 0.8rem;
+    -webkit-box-sizing:border-box;
+    padding-left: 1.2rem;
+    margin-top: 0.7rem;
+    margin-left:0.5rem;
+}
+div[type=dangzhanglb] .ping span{
+   color: #aaaaaa;
+}
+div[type=dangzhanglb] .time {
+    background-position: 0.1rem center;
+    background-repeat: no-repeat;
+    background-size: 0.8rem;
+    background-image: url(images/time.png);
+    -webkit-box-sizing:border-box;
+    padding-left: 1rem;
+    margin-top: 0.7rem;
+    height: 1.4rem;
+    line-height: 1.3rem;
+}
+div[type=dangzhanglb] .time span{
+   color: #aaaaaa;
+
+}

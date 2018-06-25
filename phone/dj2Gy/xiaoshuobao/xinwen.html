@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+             html,body {
+                background: url(../LazyUI/images/lxyz/qitabg.png) no-repeat!important;
+                background-size: 100%!important; 
+                height:auto!important;
+                background-color:#C8E0F1!important;
+            }
+            div[type=label] span{
+                font-size: 0.9rem!important;
+            }
+        </style>
+    </head>
+    <script>
+     start(function() {
+          lazy.setHeader({
+                            "title":"时政要闻"
+                        });
+             var page=1;
+             var fenlei=0;
+             var partyname="";
+             var json=[{
+                    "type" : "sousuoinput",
+                    "iconcolor" : "#ccc",
+                    "placeholder":"请输入关键字",
+                    "borderBottom" : "1px solid #ccc",
+                    "select" : function(val){
+                        page=1;
+                        partyname=val;
+                        getData("xinwen").clear();
+                        list()
+                    }
+                       },{
+                 "type":"label",
+                 "text":"时政要闻",
+                     "style":{"padding":"0rem","text-align":"center","margin-top":"0.8rem","background":"#dce4e7","height":"1.6rem","line-height":"1.6rem"}
+               },{
+                   "type":"qiehuan",
+                   "title":["中央","省","市",project=="dyqdjxt"?"区":"县"],
+                   "onclick":function(index){
+                       fenlei=index;
+                       page=1;
+                       getData("xinwen").clear();
+                       list();
+                   }
+               },{
+                   "id":"xinwen",
+                   "type":"xinwen",
+                   "style":{"margin-top":"0.5rem"},
+                   "content":[]
+               }]
+               setData(json,function(){
+                   list()
+                   });
+               function list(){
+                   lazy.URLRequest(getIP()+"/party/DJ_ThreeOpen/getsmallbag.ht?type=1"+"&page="+page+"&rows=10&nameshort=szyw&fenlei="+fenlei+"&title="+partyname, function(data) {
+                      lazy.closeBounce();
+                      var data=data.rows;
+                      for(var i=0;i<data.length;i++){
+                          var d={
+                            "icon" : (data[i].photo).replace(/\\/g,"/"),
+                            "h1" : "新闻:"+data[i].title,
+                            "h2" : "来源:"+data[i].author,
+                            "h3":"发布时间:"+data[i].strtime,
+                            "ids":data[i].id,
+                            "onclick" : function(data) {
+                                lazy.setParameter("szywid",data.ids)
+                                lazy.openWin("xinwenxq.html")
+                            }
+                        }
+                          getData("xinwen").add(d);
+                      }
+                      page++;
+                  },function() {
+                      lazy.closeBounce();
+                  })     
+               }
+            lazy.bounce({"up":function(){
+                list();
+            }}); 
+        });
+    </script>
+</html>

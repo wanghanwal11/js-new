@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <title>公文</title>
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var gwxqobj = lazy.getParameter("gwxq");
+            var url=config.mobilefiledetail+"id="+gwxqobj.id;
+            if(gwxqobj.gwtype=="sp") url+="&pid="+gwxqobj.pid;
+            lazy.URLRequest(url, function(data){
+                var json =[];
+                var data = data.rows;
+                var files=[];
+                if(data[0].file&&data[0].file.length>0){
+                   files=data[0].file;
+                }
+                var json = [{
+                    "type" : "process_xq",
+                    "table" : [
+                        {
+                            "title" : "收件人：",
+                            "value" : data[0].receusername
+                        },
+                        {
+                            "title" : '紧急程度：',
+                            "value" : data[0].type=="1"?"紧急":"一般"
+                        },
+                        {
+                            "title" : "文件号：",
+                            "value" : data[0].fileid?data[0].fileid:"无"
+                        },
+                        {
+                            "title" : "办理人：",
+                            "value" : data[0].banliren?data[0].banliren:"无"
+                        },
+                        {
+                            "title" : "文件标题：",
+                            "value" : data[0].filetitle
+                        },
+                        {
+                            "title" : "来文单位：",
+                            "value" : data[0].fromunit
+                        },
+                        {
+                            "title" : "来文时间：",
+                            "value" : data[0].fromtime
+                        },
+                        {
+                            "title" : "完结时间：",
+                            "value" : data[0].endtime
+                        },
+                        {
+                            "title" : "描述：",
+                            "value" : data[0].content
+                        }
+                    ]
+                }]
+                if(files.length>0){
+                    json[0].table.push({
+                        "title" : "文件",
+                        "type" : "file",
+                        "value" : files
+                    })
+                }
+                if(data[0].lingdaops&&data[0].lingdaops.length>0){
+                    var detail=data[0].lingdaops;
+                    var table = [];
+                    for(var j=0;j<detail.length;j++){
+                        var tmp = {
+                            "icon" : getIP()+detail[j].picture.replace(/\\/g,"/"),
+                            "h1" : detail[j].name,
+                            "h2" : detail[j].content,
+                            "h3" : detail[j].time
+                        }
+                        table.push(tmp)
+                    }
+                    var peopleprocess = {
+                        "type" : "peopleprocess",
+                        "result" : "yes",
+                        "table" : table
+                    }
+                    json.push(peopleprocess)
+                }
+                if(gwxqobj.gwtype=="bj"){
+                    json.unshift({
+                        "id" : "headertoolbar",
+                        "type" : "headertoolbar",
+                        "backgroundColor" : lazy.getParameter("Bgcolor"),
+                        "color" : "#fff",
+                        "border" : "none",
+                        "title" : '公文',
+                        "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                        "select" : function(name, index) {
+                            if(name=="left"&&index==0){
+                                lazy.goBack();
+                            }
+                            if(name=="left"&&index==1){
+                                lazy.close();
+                            }
+                        }
+                    })
+                }else if(gwxqobj.gwtype=="fq"){
+                    var finish = gwxqobj.finish;
+                    if(finish=="0"){
+                        json.unshift({
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '公文',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "right" : [lazy.url + "LazyUI/js/headertoolbar/jia.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close();
+                                }
+                                if(name=="right"){
+                                    lazy.openWin("../renwu/rwadd.html");
+                                }
+                            }
+                        })
+                    }else{
+                        json.unshift({
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '公文',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close();
+                                }
+                            }
+                        })
+                    }
+                }else{
+                    var state = gwxqobj.state;
+                    if(state!="1"){
+                        json.unshift({
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '公文',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "right" : ["批注"],
+                            "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close();
+                                }
+                                if(name=="right"){
+                                    lazy.openWin("gwpz.html");
+                                }
+                            }
+                        })
+                    }else{
+                        json.unshift({
+                            "id" : "headertoolbar",
+                            "type" : "headertoolbar",
+                            "backgroundColor" : lazy.getParameter("Bgcolor"),
+                            "color" : "#fff",
+                            "border" : "none",
+                            "title" : '公文',
+                            "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                            "select" : function(name, index) {
+                                if(name=="left"&&index==0){
+                                    lazy.goBack();
+                                }
+                                if(name=="left"&&index==1){
+                                    lazy.close();
+                                }
+                            }
+                        })
+                    }
+                }
+                setData(json)
+            })
+        });
+    </script>
+</html>

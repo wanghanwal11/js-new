@@ -1,0 +1,53 @@
+body[type=body] .commentsend_zw {
+    position: relative;
+    width:100%;
+    height: 3rem;
+}
+body[type=body] div[type=commentsend]{
+	width:100%;
+	height:auto;
+	-webkit-box-sizing:border-box;
+	position:absolute;
+	bottom:0;
+	left:0;
+	font-size:1rem;
+	background-color: #efeef3;
+	z-index: 30;
+}
+div[type=commentsend] .tr {
+    width:100%;
+    height: auto;
+    -webkit-box-sizing:border-box;
+    padding: 0.5rem;
+}
+div[type=commentsend] .inputdiv {
+    width: 100%;
+    height: auto;
+    margin-right: 0.5rem;
+    -webkit-box-sizing:border-box;
+}
+div[type=commentsend] .input {
+    width: 100%;
+    font-size: 0.8rem;
+    -webkit-box-sizing:border-box;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+    height: 2rem;
+    line-height: 1rem;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 0.2rem;
+    /*
+    border: none;
+    background: none;
+    */
+}
+div[type=commentsend] .button {
+    -webkit-box-sizing:border-box;
+    width: 3rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 0.2rem;
+}

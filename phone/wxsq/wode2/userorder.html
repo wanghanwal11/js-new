@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../LazyUI/js/admin.js"></script>
+
+ 
+<title>订单详情</title>
+<style type="text/css">
+       body{
+           background-color: #EFEFEF !important;
+       } 
+       div[type=wode]{
+           margin-top:1rem;
+       }
+
+       div[type=wode] .jf {
+           padding-left:1rem !important;
+           height:1.5rem;
+           line-height:1.5rem;
+           
+           color:#63666d;
+       }
+       div[type=wode] .tr{
+           border-bottom:none !important;
+       }
+       div[type=wode] .text{
+           padding: 0 1rem !important;
+           background-image: none !important;
+       }
+       #button{
+         
+         margin-left: 2% !important;
+         margin-right: 2% !important;
+         width:96% !important;
+         margin-top:4rem;
+     }
+     #button .button_a{
+         background-color: #ffb401;
+         border-radius: 6px !important;
+     }
+     .kf{
+         position:absolute;
+         margin-top:2rem;
+         padding-bottom:2rem;
+         color:#92929a;
+         left: 50%;
+        width: 4rem;
+        margin-left: -2rem;
+        font-size: 0.9rem;
+        text-align: center;
+     }
+     #serverinfo1 .icon {
+        height: 3rem !important;
+        width: 1.2rem !important;
+        border: none !important;
+        border-radius: 0% !important;
+        background-position: center !important;
+    }
+    #serverinfo1 .name span{
+        color:#202227;
+    }
+    #serverinfo1 .address{
+        color:#777777;
+    }
+    #serverinfo2 .icon {
+        height: 3rem !important;
+        width: 1.2rem !important;
+        border: none !important;
+        border-radius: 0% !important;
+        background-position: center !important;
+    }
+    #serverinfo2{
+        border-top:1px solid #efefef;
+    }
+    #serverinfo2 .address{
+        color:#585858;
+    }
+     #serverinfo2 span{
+        color:#585858;
+    }
+</style>
+
+</head>
+<script src="../LazyUI/js/tingyun-rum.js"></script>
+<body>
+    <script>
+     
+        start(function() {
+             var providerid = lazy.geturlstr("providerid")?lazy.geturlstr("providerid"):'';
+             var orderid = lazy.geturlstr("orderid")?lazy.geturlstr("orderid"):'';
+             var openid;
+             var initid;
+             var providerphoto;
+             var providername;
+             //var url = "http://192.168.0.103:8098/SupOrder/supOrder/getOrderDetail?id="+orderid;
+             var url = getIP()+"/order/SupOrder/supOrder/getOrderDetail?id="+orderid;
+            lazy.GET(url,function(data){
+                
+                 var _data = data.rows[0];
+                 openid = _data.useropenid;
+                 initid = _data.userinitId;
+                 providerphoto = _data.providerphoto?_data.providerphoto:'../LazyUI/images/icon2.jpg';
+                 providername = _data.providername;
+                 
+                   var json = [{
+                       "id":"flow",
+                       "type" : "flow",
+                       "status":_data.orderflag,
+                       "date1":_data.ordertime?lazy.format(_data.ordertime,"yyyy-MM-dd"):'',
+                       "time1":_data.ordertime?lazy.format(_data.ordertime,"HH:mm:ss"):'',
+                       "date2":_data.orderconfirmtime?lazy.format(_data.orderconfirmtime,"yyyy-MM-dd"):'',
+                       "time2":_data.orderconfirmtime?lazy.format(_data.orderconfirmtime,"HH:mm:ss"):'',
+                       "date3":_data.ordercompletetime?lazy.format(_data.ordercompletetime,"yyyy-MM-dd"):'',
+                       "time3":_data.ordercompletetime?lazy.format(_data.ordercompletetime,"HH:mm:ss"):'',
+                   },
+                  {
+                       "id":'serverinfo1',
+                       "type":'serverinfo',
+                       "table":[]
+                       
+                   },{
+                       "id":'serverinfo2',
+                       "type":'serverinfo',
+                       "table":[]
+                       
+                   },{
+                       "id":"wode1",
+                       "type":"wode",
+                       "table":[{
+                               "h1":"订单号",
+                               "h2":_data.ordernum,
+                           },{
+                               "h1":"下单时间",
+                               "h2":_data.ordertime?lazy.format(_data.ordertime,"yyyy-MM-dd"):'',
+                           },{
+                           
+                               "h1":"服务类型",
+                               "h2":_data.servicetype,
+                           },{
+                               "h1":"备注",
+                               "h2":_data.orderremark?_data.orderremark:'无',
+                           }]
+                   },{
+                       "id":"wode2",
+                       "type":"wode",
+                       "table":[{
+                               "h1":"定单金额",
+                               "h2":_data.orderprice?"￥"+_data.orderprice+".00":"￥0.00",
+                           },{
+                               "h1":"优惠金额",
+                               "h2":_data.favourableprice?"￥"+_data.favourableprice+".00":"￥0.00",
+                           },{
+                               "h1":"订单总额",
+                               "h2":"￥"+(_data.orderprice-_data.favourableprice)+".00",
+                           }]
+                   }];
+                   /*if(_data.orderflag == 1){
+                       var button = {
+                           "id":"button",
+                           "type":"button",
+                           "label":'确认服务',
+                           "onclick":function(){
+                               //lazy.openWin('pingjia.html')
+                               confirmOrder()
+                           }
+                       }
+                       json.push(button)
+                   }
+                   */
+                    setData(json,function(){
+                         changeStyle()
+                         if(_data.orderflag == 1 || _data.orderflag == 2 || _data.orderflag == 3){
+                               /*var s = {
+                                   "icon":_data.providerphoto?_data.providerphoto:'../LazyUI/images/icon2.jpg',
+                                   "level":'5',
+                                   "name":_data.providername?_data.providername:'维修师傅',
+                                   "number":_data.ordercount?_data.ordercount:'0',
+                                   "tel":_data.providerphone,
+                                }*/
+                               var s1 ={
+                                   "icon":"../LazyUI/images/people.png",
+                                   "name":_data.servername,
+                                   "address":_data.servertel,
+                                   "tel":_data.servertel,
+                               }
+                               var s2 ={
+                                   "icon":"../LazyUI/images/address1.png",
+                                   "name":_data.username,
+                                   "address":_data.useraddress?'地址：'+_data.useraddress+_data.userhomeaddress:'地址：暂无',
+                                   "tel":_data.userphone,
+                                   "isTEL":true,
+                               }
+                                getData('serverinfo1').add(s1)
+                                getData('serverinfo2').add(s2)
+                         }
+                    })    
+        
+                 
+                 
+            },function(e){
+                lazy.alert2("错误信息!:"+e);
+            },3)  
+            function confirmOrder(){
+                 //var url = "http://192.168.0.27:8092/api/wx/checkinitidphone?openid="+openid+"&initid="+initid;
+                 var url = getIP()+"/order/SupOrder/supOrder/userCompleteOrder?orderid="+orderid;
+                 lazy.GET(url,function(data){
+                     lazy.refresh()
+                      //window.location.replace('usercomplete.html')
+                        /*if(data.code){
+                           
+                            //lazy.openWin('pingjia.html?providerphoto='+providerphoto+'&providername='+providername)
+                        }else{
+                            lazy.openWin('yanzhzeng.html?openid='+openid+'&initid='+initid)
+                        }*/
+                 })
+            }
+            
+            function changeStyle(){
+                 var tr = document.getElementById("wode2").getElementsByClassName("tr")[2];
+                console.log(tr)
+                tr.style.borderTop ="1px solid #efefef";
+                var title = tr.getElementsByClassName("jf")[0];
+                title.style.height="2rem";
+                title.style.lineHeight="2rem";
+                var text = tr.getElementsByClassName("text")[0];
+                text.style.color="#ffb401";
+                text.getElementsByTagName("span")[0].style.fontSize="1.2rem";
+                text.style.height="2rem";
+                text.style.lineHeight="2rem";
+                /*var yuan = lazy.create("span","yuan");
+                yuan.innerHTML = "元";
+                yuan.style.fontSize="0.8rem";
+                text.appendChild(yuan)*/
+                
+                var kf = lazy.create("a","kf");
+                kf.setAttribute("href","tel:12345");
+                kf.innerHTML="联系客服"
+                document.body.appendChild(kf)
+            }
+        });
+        
+      
+    </script>
+</body>
+</html>

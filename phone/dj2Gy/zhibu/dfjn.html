@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style type="text/css">
+        body{
+            background-color: #fff !important;
+        }
+        #lazyinput {
+                position: fixed;
+                top: 3rem;
+                padding: 0 3rem;
+            }
+        #button a{
+                width: 90%!important;
+                border-radius: 1rem;
+                position: fixed;
+                top: 30rem;
+                left: 50%;
+                margin-left: -45%;
+                background-color: #fb3d3d;
+            }
+            div[type=lazyinput] .input{
+                width : 10rem !important;
+            }
+            div[type=lazyinput] .qita{
+                width : 12rem !important;
+            }
+            div[type=lazyinput] .input input{
+                width : 8rem !important;
+            }
+            div[type=lazyinput] .qita input{
+                width : 10rem !important;
+            }
+        </style>
+    </head>
+    <body></body>
+    <script>
+        start(function() { 
+           lazy.setHeader({"title": "党费缴纳"});
+           var time=new Date().toLocaleDateString();
+           time=time.replace(/\//g,'-');
+           var json = [{
+                            "id" : "lazyinput",
+                            "type" : "lazyinput",
+                            "table" : [{
+                                "title":"日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期",
+                                "widget":"text",
+                                "content":time
+                            },{
+                                "title":"缴费情况",
+                                "widget":"radiobutton",
+                                "content":["是","否"]
+                            }]
+                            
+                        },{
+                            "id" : "button",
+                            "type": "button",
+                            "label":"提交",
+                            "onclick" : function(){
+                                    var arr = getData("lazyinput").getArray();
+                                    lazy.URLRequest(getIP()+'/party/DJ_PartyPayDues/bysave.ht?'+"paymonth="+arr.table[0].content+"&paysuit="+(arr.table[1].content[0]=="true"?"是":"否"), function(data) {
+                                             
+                                             lazy.alert("提交成功",{
+                                                  "yesfun" : function() {
+                                                      //lazy.openWin("dflb.html")
+                                                      lazy.goBack1();
+                                                  }
+                                              });
+                                             
+                                         })
+                                
+                            }
+                        }];
+           setData(json)
+           
+            
+        })
+        
+    </script>
+</html>

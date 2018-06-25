@@ -1,0 +1,167 @@
+body[type=body] div[type=doclist]{
+    width:120px;
+    height:100%;
+    font-size:8px;
+    position: absolute;
+    top:50px;
+    left:50px;
+    padding-top:10px;
+}
+div[type=doclist] .left{
+    width:100%;
+    height:auto;
+    background-color: #ddd;
+}
+div[type=doclist] .choose{
+    
+    background-color: #999;
+    color:#fff;
+}
+div[type=doclist] .li{
+    padding: 5px 5px 5px 10px;
+    border-bottom: 1px solid #fff;
+}
+div[type=doclist] .lidiv{
+    position:relative;
+}
+div[type=doclist] .lirename{
+    border:1px solid #fff;
+}
+div[type=doclist] .li input{
+    font-size: 8px;
+    width:75px;
+}
+div[type=doclist] .setting{
+    width:10px;
+    height:auto;
+    background-image: url(setting.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 10px;
+}
+div[type=doclist] .settinglist{
+    width:60px;
+    height:auto;
+    position: absolute;
+    top:20px;
+    right:0px;
+    background-color: #fff;
+    z-index: 60;
+    border: 1px solid #bbb;
+    border-radius:5px;
+}
+div[type=doclist] .settinglist::after {
+    position: absolute;
+    top: -4px;
+    right: 5px;
+    content: '';
+    display: inline-block;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #fff;
+}
+div[type=doclist] .settinglist .li{
+    
+    border-radius:5px;
+    color:#333;
+}
+div[type=doclist] .settinglist .li_xian{
+    border:1px solid #ddd;
+}
+div[type=doclist] .settinglist span:hover{
+    cursor:pointer;
+} 
+div[type=doclist] .yes{
+    width:10px;
+    height:auto;
+    background-image: url(yes.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 10px;
+}
+div[type=doclist] .cancel{
+    width:10px;
+    height:auto;
+    background-image: url(cancel.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 10px;
+}
+div[type=doclist] .add_type{
+    height:auto;
+    background-image: url(add2.png);
+    background-position: left 5px center;
+    background-repeat: no-repeat;
+    background-size: 10px;
+    padding-left:18px;
+    margin-top: 10px;
+    color:#0099ff;
+}
+div[type=doclist] .yes:hover{
+    cursor:pointer;
+} 
+div[type=doclist] .cancel:hover{
+    cursor:pointer;
+} 
+div[type=doclist] .add_type span:hover{
+    cursor:pointer;
+} 
+div[type=doclist] .addtype_div{
+    width:100%;
+    margin-top:5px;
+}
+div[type=doclist] .inputdiv{
+    border:1px solid #999999;
+    border-radius: 5px;
+    padding:2px 5px;
+    width:70px;
+} 
+div[type=doclist] .inputdiv input{
+    width:100%;
+    font-size:6px;
+} 
+div[type=doclist] .shadow{
+    position:fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    z-index: 79;
+    background-color: rgba(0,0,0,0.3)
+} 
+div[type=doclist] .delete_alert{
+    position:fixed;
+    margin:auto;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    width:120px;
+    height:50px;
+    padding:10px;
+    z-index: 80;
+    background-color: #fff;
+    border-radius: 5px;
+} 
+div[type=doclist] .button{
+    margin-top: 10px;
+} 
+div[type=doclist] .button span:hover{
+    cursor: pointer;
+}
+div[type=doclist] .btn_yes{
+    border:1px solid #7ed321;
+    border-radius: 5px;
+    padding:2px 5px;
+} 
+div[type=doclist] .btn_yes span{
+    color:#7ed321;
+} 
+div[type=doclist] .btn_no{
+    border:1px solid #999;
+    border-radius: 5px;
+    padding:2px 5px;
+}
+div[type=doclist] .btn_no span{
+    color:#999;
+} 

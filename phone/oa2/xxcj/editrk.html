@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <script src="../LazyUI/js/xxcj.js"></script>
+        <script src="../LazyUI/js/xxcj2.js"></script>
+        <title>编辑人口</title>
+        <style>
+            body {
+                background-color: #efeff4 !important;
+            }
+            div[type=geren]{
+                background-color: white!important;
+                padding:none!important;
+                height:auto!important;
+            }
+            div[type=geren] .iconhang{
+                height:auto!important
+            }
+            div[type=geren] .icon{
+                width:5rem!important;
+                height:5rem!important;
+                margin-bottom:2rem;
+            }
+            div[type=geren] .title span{
+                color: black;
+            }
+            div[type=button] {
+                padding: 0 0.8rem;
+                margin: 1rem 0 0.8rem 0;
+            }
+            div[type=button] .buttondiv {
+                border: none !important;
+                background-color: #0db09b !important;
+            }
+            div[type=button] span {
+                font-size: 0.8rem !important;
+            }
+        </style>
+    </head>
+    <script>
+        start(function() {
+            var rkxq = lazy.getParameter("rkxq");
+            var peopleid = rkxq.peopleid;
+            var build = lazy.getParameter("build");
+            var livehouseid = lazy.getParameter('livehouseid');
+            var pj = lazy.getParameter('pj');
+            
+            lazy.setHeader({
+                "title":"编辑人口",
+                "color":lazy.getParameter("Bgcolor"),
+                "rightbtn" : []
+            });
+            
+            
+            var url =config.rkxq+'id='+ peopleid;
+                    lazy.URLRequest(url,function(data){
+                        console.log(data)
+                    var data = data.rows[0];
+            
+                    var json = [
+                            {
+                                "id" : "process",
+                                "type" : "process",
+                                "table" : [
+                                {
+                                    "id" : "name",
+                                    "title" : "姓名(必填)",
+                                    "value" : data.name,
+                                    "placeholder" : "请输入"
+                                },
+                                {
+                                    "id":"cardtypeid",
+                                    "name" : "cardtypename",
+                                    "title" : "证件类型",
+                                    "type" : "select",
+                                    "option" : base_datas.cardtype,
+                                    "placeholder" : "请选择",
+                                    "value" : {"html":data.cardtypename,"value":data.cardtypeid},
+                                },
+                                {
+                                    "id" : "nationid",
+                                    "name" : "nationname",
+                                    "title" : "民族(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.nation,
+                                    "placeholder" : "请选择",
+                                    "value": {"html":data.nationname,"value":data.nationid}
+                                },
+                                {
+                                    "id" : "certificateid",
+                                    "title" : "证件号码",
+                                    "placeholder" : "请输入",
+                                    "value": data.cardno||data.certificatename
+                                },
+                                {
+                                    //"id" : "gender",
+                                    "name" : "gender",
+                                    "title" : "性别(必填)",
+                                    "type" : "select",
+                                    "option" : base_datas.genderStore,
+                                    "placeholder" : "请选择",
+                                    "value": {"html":data.gender,"value":data.gender}
+                                },
+                                {
+                                    "id" : "birthday",
+                                    "title" : "出生日期",
+                                    "type" : "date",
+                                    "value" : data.birthday?lazy.format(data.birthday,"yyyy-MM-dd"):"无记录"
+                                },
+                                {
+                                    "id" : "regionid",
+                                    "name" : "regionname",
+                                    "title" : "国家",
+                                    "type" : "select",
+                                    "option" : base_datas.region,
+                                    "value" : {"html":data.regionname,"value":data.regionid},
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue=="0") list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,7)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplaceprovince",
+                                    "title" : "户籍省", 
+                                    "type" : "select",
+                                    //"option" : base_datas.city,
+                                    "value" : {"html":data.nativeplaceprovince,"value":data.nativeplaceprovince},
+                                    "placeholder" : "请选择",
+                                    "select" : function(name,id){
+                                        if(name!="北京"){
+                                             document.getElementsByClassName("tr")[12].style.display="block"
+                                        }else{
+                                             document.getElementsByClassName("tr")[12].style.display="none"
+                                        }
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue==id) list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,8)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplacecity",
+                                    "title" : "户籍市",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "value" : {"html":data.nativeplacecity,"value":data.nativeplacecity},
+                                    "select" : function(name,id){
+                                        var list = [];
+                                        var citys = base_datas.city
+                                        for(var i=0;i<citys.length;i++){
+                                            if(citys[i].pvalue==id) list.push(citys[i]);
+                                        }
+                                        getData("process").setOption(list,9)
+                                    }
+                                },
+                                {
+                                    "name" : "nativeplacecounty",
+                                    "title" : "户籍区县",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "value": {"html":data.nativeplacecounty,"value":data.nativeplacecounty},
+                                    "select" : function(name,id){
+                                        if(name=="西城区"){
+                                             document.getElementsByClassName("tr")[10].style.display="block"
+                                        }else{
+                                             document.getElementsByClassName("tr")[10].style.display="none"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name" : "wheretohere",
+                                    "id" : "wheretohere",
+                                    "title" : "所属街道",
+                                    "type" : "select",
+                                    "placeholder" : "请选择",
+                                    "value": {"html":data.wheretohere,"value":data.wheretohere}
+                                },
+                                {
+                                    "id" : "nativeplaceaddress",
+                                    "title" : "户籍地址",
+                                    "placeholder" : "请输入",
+                                    "value":data.nativeplaceaddress
+                                },{
+                                    "id" : "movetotime",
+                                    "title" : "离开户口登记地时间",
+                                    "type" : "date",
+                                    "placeholder" : "请选择",
+                                },{
+                                    "id" : "helpid",
+                                    "name" : "helpname",
+                                    "title" : "居住情况",
+                                    "option" : base_datas.jzqk,
+                                    "type" : "select",
+                                    "placeholder" : "请选择", 
+                                    "value": {"html":data.helpname,"value":data.helpid}
+                                }
+                                ]
+                            },{
+                            "type" : "button",
+                            "label" : "保存",
+                            "onclick" : function() {
+                                var url = config.bcrk+'id='+peopleid+'&orgpath='+build.orgpath+'&orgname='+build.orgname+'&orgid='+build.orgid+'&isdeath=1008611'+'&df10='+pj+'&df11='+livehouseid;
+                                var arr = getData("process").getArray().table;
+                                if(arr[1].value=='身份证'){
+                                    isCardNo(arr[3].value);
+                                }
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].value==""&&arr[i].title.indexOf("必填")>-1){
+                                        lazy.alert2(arr[i].title.replace("(必填)","")+"不能为空");
+                                        return;
+                                    }
+                                    if(arr[i].value!=""){
+                                        if(arr[i].type=="select"){
+                                            if(arr[i].name) url += "&"+arr[i].name+"="+arr[i].returnObj.html;
+                                            if(arr[i].id) url += "&"+arr[i].id +"="+arr[i].returnObj.value;
+                                            //url+="&"+arr[i].id+"="+arr[i].returnObj.value;
+                                        }else{
+                                          url+="&"+arr[i].id+"="+arr[i].value;
+                                        }
+                                    }
+                                }
+                                if(url.indexOf('身份证')>-1){
+                                    
+                                    url = url.replace('certificatename','cardno');
+                                }
+                                lazy.URLRequest(url,function(data){
+                                    lazy.alert2('保存成功');
+                                    lazy.setParameter('click',1);
+                                    window.history.go(-2);
+                                })
+                            }
+                                }
+                    ];
+                    
+                    function isCardNo(card){ 
+                        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+                        if(reg.test(card) === false) 
+                        { 
+                            lazy.alert2("身份证输入不合法"); 
+                            return false; 
+                        } 
+                       };
+                    setData(json,function(){
+                        document.getElementsByClassName("tr")[10].style.display="none";
+                        document.getElementsByClassName("tr")[12].style.display="none";
+                    })
+                    })
+        });
+    </script>
+</html>

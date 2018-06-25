@@ -1,0 +1,42 @@
+body[type=body] div[type=mqrz]{
+    width:100%;
+    height:auto;
+    -webkit-box-sizing:border-box;
+    position:relative;
+    font-size:1rem;
+    background-color: white;
+}
+div[type=mqrz] .hang{
+    border :1px solid #DCDCDC;
+}
+div[type=mqrz] .greendiv{
+    color:#7CD9B9;
+    font-size: 0.7rem;
+    height:1.5rem;
+    line-height: 1.5rem;
+    border-bottom :1px solid #DCDCDC;
+    margin-left:0.5rem;
+    margin-right:0.5rem;
+}
+div[type=mqrz] .greenleft{
+    width:70%;
+}
+div[type=mqrz] .greenright{
+    overflow:hidden;
+    min-width: 30%;
+}
+div[type=mqrz] .h1{
+    height:2rem;
+    line-height: 2rem;
+    margin-left:0.5rem;
+    overflow:hidden;
+}
+div[type=mqrz] .h2, div[type=mqrz] .h3{
+    color : #787878;
+    height:1.5rem;
+    line-height: 1.5rem;
+    margin-left:0.5rem;
+    font-size: 0.8rem;
+    overflow:hidden;
+    padding-right: .5rem;
+}

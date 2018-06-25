@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <script src="../LazyUI/js/admin.js"></script>
+        <style>
+            body,html {
+                background-color: #efeef3 !important;
+            }
+            div[type=kaoqinlist] {
+                margin-top: 0.5rem;
+            }
+            #calendar .btn{
+                display: none;
+            }
+        </style>
+    </head>
+    <script> 
+    start(function() {
+        var url = config.mqxq+"id="+lazy.getParameter("mq").id;
+        var rightbtn = lazy.getParameter("mq").isBj != 1?  [
+                {
+                    "text":"编辑",
+                    "onclick":function(){
+                        lazy.openWin("editmqrz.html");
+                    }
+                }
+            ]:[];
+        lazy.setHeader({
+            "title":"民情日志",
+            "color":lazy.getParameter("Bgcolor"),
+            "rightbtn" : rightbtn
+        });
+        lazy.URLRequest(url,function(data){
+            var data = data.rows[0];
+            lazy.setParameter('mqrzxq',data);
+            var json = [
+                // {
+                    // "id" : "headertoolbar",
+                    // "type" : "headertoolbar",
+                    // "backgroundColor" : lazy.getParameter("Bgcolor"),
+                    // "color" : "#fff",
+                    // "border" : "none",
+                    // "title" : '民情日志',
+                    // "left" : [lazy.url + "LazyUI/js/headertoolbar/jian1.png",lazy.url + "LazyUI/js/headertoolbar/cha1.png"],
+                    // "select" : function(name, index) {
+                        // if(name=="left"&&index==0){
+                            // lazy.goBack();
+                        // }
+                        // if(name=="left"&&index==1){
+                            // lazy.close();
+                        // }
+                    // }
+                // },
+                {
+                    "type" : "process_xq",
+                    "table" : [
+                        {"title":"社区名称：","value":data.orgname},
+                        {"title":"责任区：","value":(data.zerenqu?data.zerenqu:"")},
+                        {"title":"上报人：","value":data.fullname},
+                        {"title":"上报日期：","value":data.createtime},
+                        {"title":"大类：","value":data.bigtypename},
+                        {"title":"小类：","value":data.smalltypename},
+                        {"title":"日志内容：","value":data.content},
+                    ]
+                }
+            ]
+            if(data.fujian&&data.fujian.length>0){
+                json[0].table.push({
+                    "title":"图片",
+                    "type":"image",
+                    "value" :data.fujian
+                })
+            }
+            setData(json)
+        })
+    });
+    </script>
+</html>

@@ -1,0 +1,14 @@
+body[type=body] div[type=imgmapdiv]{
+	width:100%;
+	height:auto;
+	position:relative;
+	font-size:1rem;
+}
+div[type=imgmapdiv] .img {
+    width: 100%;
+    border: none;
+}
+div[type=imgmapdiv] .area {
+    position: absolute;
+    z-index: 10;
+}
